@@ -1,0 +1,44 @@
+<!-- TOOLBAR START-->
+<StackPanel Dock="Top" ux:Class="Toolbar">
+
+    
+    <Router ux:Dependency="router" />
+
+<JavaScript>
+
+    var Observable = require("FuseJS/Observable");
+
+    function goBack(){
+        router.goBack();
+    };
+
+    module.exports = {
+        goBack: goBack
+    };
+
+</JavaScript>
+
+    <string ux:Property="Title" />
+    <string ux:Property="Icon" />
+    <float4 ux:Property="Color" />
+
+    <Panel Height="56" Color="{Property this.Color}" Padding="16, 0">
+        <Panel>
+            <!-- MENU ICON -->
+          <Icon FontSize="24" Margin="0,16" Value="{Property this.Icon}" Clicked="{goBack}">
+          </Icon>
+            <!-- BACK ICON -->
+          <!-- <Icon FontSize="24" Margin="0,16">&#xE5C4;</Icon> -->
+        </Panel>
+        <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="56,0" TextColor="#fff" />
+        <StackPanel Orientation="Horizontal" Alignment="Right" >
+        <Icon FontSize="24"  Margin="16,16">&#xE8B6;</Icon>
+        <Icon FontSize="24"  Margin="0,16">&#xE5D4;</Icon>
+        </StackPanel>
+    </Panel>
+    
+    <!-- Flat or Raised?-->
+    <!-- <DropShadow /> -->
+
+</StackPanel>
+<!-- TOOLBAR END -->

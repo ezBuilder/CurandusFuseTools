@@ -1,0 +1,80 @@
+<DefaultPage ux:Class="AlertsView">
+
+<JavaScript>
+    var Observable = require("FuseJS/Observable");
+
+    var contacts = Observable();
+    var errorMessage = Observable();
+
+    fetch("http://www.filltext.com/?rows=10&fname={firstName}&lname={lastName}&lorem={lorem|6}&minutes={numberRange|1,%209}&pretty=true")
+        .then(function(result) {
+            if (result.status !== 200) {
+                debug_log("Something went wrong, status code: " + result.status);
+                errorMessage.value = "Oh noes! :(";
+                return;
+            }
+
+            //throw "Some error";
+
+            return result.json();
+        }).then(function(data) {
+            debug_log("Success!");
+            
+            for (var i = data.length - 1; i >= 0; i--) {
+                data[i].minutes = (data[i].minutes + " minutes ago");
+                data[i].fname = (data[i].fname + " " + data[i].lname);
+                contacts.add(data[i]);
+            }
+
+        
+        }).catch(function(error) {
+            debug_log("Fetch error " + error);
+            errorMessage.value = "Oh noes! :(";
+        });
+
+
+	    function goToAlert(e){
+	        router.push("alert", { user: e.data });
+	    }
+
+
+    module.exports = {
+        contacts: contacts,
+        errorMessage: errorMessage,
+        goToAlert: goToAlert
+    };
+</JavaScript>
+	<Router ux:Dependency="router" />
+
+<ScrollView ClipToBounds="true">
+    <StackPanel Orientation="Vertical">
+        <Each Items="{contacts}">
+            <DockPanel Margin="7,1,7,0" Clicked="{goToAlert}" ux:Name="alertitem">
+                <WhileHovering>
+                    <Change alertitem.Color="divider" />
+                </WhileHovering>
+                <Circle Height="60" Width="60" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                    <ImageFill File="Assets/placeholder.png" />
+                </Circle>
+
+                <StackPanel Margin="12,12,7,7">
+                    <Text Font="medium" Value="{fname}" FontSize="17" TextColor="primary" />
+                    <Text TextWrapping="Wrap" Font="medium" Value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius." FontSize="13" TextColor="#212121" />
+                    <Text Font="medium" Value="{minutes}" FontSize="10" TextColor="secondary_text" />
+                </StackPanel>
+
+                <StackPanel Dock="Right" Margin="0,12,10,0">
+                    <Circle Height="20" Width="20" Dock="Left" Margin="0,10,0,10" Color="offline" Alignment="TopRight">
+                        <Icon Alignment="Center"></Icon>
+                    </Circle>
+                    <Circle Height="20" Width="20" Dock="Left" Color="online" Alignment="TopRight">
+                        <Icon Alignment="Center"></Icon>
+                    </Circle>
+                </StackPanel>
+            </DockPanel>
+                <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
+         </Each>
+    </StackPanel>
+</ScrollView>
+
+</DefaultPage>

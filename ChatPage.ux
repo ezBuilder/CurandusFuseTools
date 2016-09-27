@@ -1,0 +1,65 @@
+<DefaultPage ux:Class="ChatPage">
+	<JavaScript>
+
+		var Observable = require("FuseJS/Observable");
+		
+		var user = Observable();
+
+		this.onParameterChanged(function(param) {
+		    console.log("We should now display user with id: " + JSON.stringify(param.user));
+
+		    user.value = param.user;
+		})
+
+	    module.exports = {
+	        user: user
+	    };
+
+	</JavaScript>
+
+	<Router ux:Dependency="router" />
+
+		<DockPanel>
+			<Toolbar Color="primary" Title="{user.fname}" Icon="&#xE5C4;" router="router">
+				<DropShadow />
+			</Toolbar>
+			<Rectangle Color="background_color" Layer="Background"/>
+			
+			<ScrollView>
+				<StackPanel Alignment="Bottom">
+					<DockPanel Margin="10">
+						<Circle Height="40" Width="40" Dock="Left" Margin="0,0,10,0">
+							<ImageFill File="Assets/placeholder.png" />
+						</Circle>
+						<Panel Padding="20" Margin="10,0,10,0">
+							<Rectangle Layer="Background" CornerRadius="10" Color="divider"/>
+							<Text Value="Test" TextWrapping="Wrap" Alignment="CenterLeft" />
+						</Panel>
+					</DockPanel>
+					<DockPanel Margin="10">
+						<Circle Height="40" Width="40" Dock="Right" Margin="0,0,10,0">
+							<ImageFill File="Assets/placeholder.png" />
+						</Circle>
+						<Panel Padding="20" Margin="10,0,10,0">
+							<Rectangle Layer="Background" CornerRadius="10" Color="primary"/>
+							<Text Value="Test" TextWrapping="Wrap" Alignment="CenterLeft" />
+						</Panel>
+					</DockPanel>
+				</StackPanel>
+			</ScrollView>
+
+		<DockPanel Dock="Bottom" MinHeight="60" Padding="10">
+			<Rectangle Layer="Background" Height="1" Alignment="Top" Color="primary_dark" Opacity=".1" />
+			<Rectangle Layer="Background" Height="1" Alignment="Bottom" Color="primary_dark" Opacity=".1" />
+
+			<Button Dock="Right" Margin="10,0,0,0" Clicked="{sendMessage}" IsEnabled="{canSendMessage}">
+				<Icon FontSize="24" Color="primary" Alignment="Center">&#xE163;</Icon>
+			</Button>
+			<Button Dock="Left" Margin="0,0,10,0" Clicked="{attach}" IsEnabled="{canSendMessage}">
+				<Icon FontSize="24" Color="primary" Alignment="Center">&#xE145;</Icon>
+			</Button>
+			<TextInput Value="{message}" PlaceholderText="Send a message!" PlaceholderColor="secondary_text" CaretColor="primary" TextColor="primary_text" ActionStyle="Send" ActionTriggered="{sendMessage}" />
+		</DockPanel>
+
+		</DockPanel>
+</DefaultPage>

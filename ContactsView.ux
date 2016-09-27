@@ -1,0 +1,104 @@
+<DefaultPage ux:Class="ContactsView">
+
+<JavaScript>
+    var Observable = require("FuseJS/Observable");
+
+    var contacts = Observable();
+    var errorMessage = Observable();
+
+    fetch("http://www.filltext.com/?rows=10&fname={firstName}&lname={lastName}&lorem={lorem|6}&minutes={numberRange|1,%209}&pretty=true")
+        .then(function(result) {
+            if (result.status !== 200) {
+                debug_log("Something went wrong, status code: " + result.status);
+                errorMessage.value = "Oh noes! :(";
+                return;
+            }
+
+            //throw "Some error";
+
+            return result.json();
+        }).then(function(data) {
+            debug_log("Success!");
+            
+            for (var i = data.length - 1; i >= 0; i--) {
+                data[i].minutes = (data[i].minutes + " minutes ago");
+                data[i].fname = (data[i].fname + " " + data[i].lname);
+                contacts.add(data[i]);
+            }
+        
+        }).catch(function(error) {
+            debug_log("Fetch error " + error);
+            errorMessage.value = "Oh noes! :(";
+        });
+
+
+	    function goToAlert(e){
+	        router.push("alert", { user: e.data });
+	    }
+
+		  function goToAddContact(){
+	        router.push("addContact", {});
+	    }
+
+		  function goToChat(e){
+	        router.push("chat", { user: e.data });
+	    }
+
+
+    module.exports = {
+        contacts: contacts,
+        errorMessage: errorMessage,
+        goToAlert: goToAlert,
+        goToChat: goToChat,
+        goToAddContact: goToAddContact
+    };
+</JavaScript>
+	<Router ux:Dependency="router" />
+<DockPanel>
+
+<FloatingButton Dock="Bottom" Alignment="Right" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+
+<ScrollView ClipToBounds="true" Dock="Top">
+    <StackPanel Orientation="Vertical">
+    	
+    	<Rectangle Color="primary_dark" Height="32">
+			<Text Value="A" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+    	</Rectangle>
+		
+        <Each Items="{contacts}">
+			<DockPanel Margin="7,1,7,0" ux:Name="contactItem">
+
+                <WhileHovering>
+                    <Change contactItem.Color="divider" />
+                </WhileHovering>
+                
+                <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                    <ImageFill File="Assets/placeholder.png" />
+                </Circle>
+
+                <Text Font="medium" Alignment="CenterLeft" Value="{fname}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+
+                <StackPanel Dock="Right" Orientation="Horizontal">
+	                <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
+	                	<Stroke Width="2">
+					        <SolidColor Color="primary" />
+					    </Stroke>
+	                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
+	                </Circle>
+	                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+	                	<Stroke Width="2">
+					        <SolidColor Color="primary" />
+					    </Stroke>
+	                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
+	                </Circle>
+	            </StackPanel>
+
+			</DockPanel>
+			<Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
+		</Each>
+
+    </StackPanel>
+</ScrollView>
+
+</DockPanel>
+</DefaultPage>

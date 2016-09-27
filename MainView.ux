@@ -1,0 +1,36 @@
+<App>
+	<!-- INCLUDE THE COLOR PALLETE -->
+	<ColorPalette/>
+	<!-- Declare the Icon font (place in ./fonts folder) -->
+    <Font File="fonts/MaterialIcons-Regular.ttf" ux:Global="materialIcon" />
+    <!-- Declare the Icon class -->
+    <Text Font="materialIcon" ux:Class="Icon" Color="icons"></Text>
+
+	<!-- Declare the Roboto font (place in ./fonts folder) -->
+    <Font File="fonts/Roboto-Medium.ttf" ux:Global="medium" />
+    <Font File="fonts/Roboto-Regular.ttf" ux:Global="regular" />
+	
+	<!-- MAIN ROUTER NAVIGATION -->
+    <Router ux:Name="router" />
+
+	<!-- MAIN PANEL START-->
+    <DockPanel Color="background_color"> 
+
+        <StatusBarBackground Dock="Top" Background="#0097A7"/>
+        
+    			
+		<!-- MAIN NAVIGATION START-->
+	    <Navigator DefaultTemplate="login">
+	        <LoginPage ux:Template="login" router="router" />
+	        <MainPage ux:Template="main" router="router" />
+	        <AlertPage ux:Template="alert" router="router" />
+	        <ChatPage ux:Template="chat" router="router" />
+	        <AddContactPage ux:Template="addContact" router="router" />
+	    </Navigator>
+	    <!-- MAIN NAVIGATION END -->
+        
+        <BottomBarBackground Dock="Bottom"/>
+    </DockPanel>
+    <!-- MAIN PANEL END -->
+
+</App>

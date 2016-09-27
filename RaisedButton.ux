@@ -1,0 +1,21 @@
+<WrapPanel ux:Class="RaisedButton">
+	
+	<string ux:Property="BtnText" />
+	<float4 ux:Property="BtnTextColor" />
+	<float4 ux:Property="BtnColor" />
+
+	<Rectangle ux:Name="btn" Height="36" Color="{Property this.BtnColor}" CornerRadius="2" Padding="16,0" Margin="16">
+
+		<WhileHovering>
+			<Change btn.Color="#0097A7" />
+		</WhileHovering>
+
+		<Text Value="{Property this.BtnText}" Font="medium" Color="{Property this.BtnTextColor}" FontSize="14"  Alignment="CenterLeft"/>
+	
+	</Rectangle>
+	<DropShadow />
+
+</WrapPanel>
+
+
+

@@ -1,0 +1,145 @@
+<DefaultPage ux:Class="AlertPage" >
+	<Router ux:Dependency="router" />
+<DockPanel >
+
+	<JavaScript>
+		
+		var Observable = require("FuseJS/Observable");
+		
+		var user = Observable();
+
+		this.onParameterChanged(function(param) {
+		    console.log("We should now display user with id: " + JSON.stringify(param.user));
+
+		    user.value = param.user;
+		})
+
+	    module.exports = {
+	        user: user
+	    };
+
+	</JavaScript>
+
+<Toolbar Color="primary" Title="{user.fname}" Icon="&#xE5C4;" router="router">
+	<DropShadow />
+</Toolbar>
+
+		<StackPanel>
+			<DockPanel Width="100%" Height="100" Color="#FF5722CC" Padding="20">
+                    <Circle Height="40" Width="40" Dock="Left" Color="offline" Alignment="TopRight">
+                        <Icon Alignment="Center" FontSize="28">&#xE88F;</Icon>
+                    </Circle>
+                    <Panel>
+	                    <Text TextWrapping="Wrap" Font="medium" Margin="20,0,0,0" Value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, explicabo dicta quo perspiciatis quae nulla id, voluptates vero asperiores enim debitis " FontSize="13" TextColor="icons" />
+                    </Panel>
+			</DockPanel>
+				<DockPanel Padding="10">
+					<Rectangle Color="background_color" Layer="Background"/>
+					<Panel Dock="Left">
+		                <Circle Height="60" Width="60"  Alignment="Center">
+		                    <ImageFill File="Assets/placeholder.png" />
+		                </Circle>
+		            </Panel>
+		            <StackPanel Margin="10" Alignment="Center">
+		                <Text Font="medium" Value="{user.fname}" FontSize="18" TextColor="primary" />
+		                <Rectangle Width="100%" Height="1" Color="divider"/>
+		                <StackPanel Orientation="Horizontal">
+			                <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>
+			                <Text Font="medium" Value="Diabetes" FontSize="12" TextColor="offline" />
+		                </StackPanel>
+		            </StackPanel>
+		            <StackPanel Dock="Right" Orientation="Horizontal">
+		                <Circle Height="30" Width="30" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
+		                	<Stroke Width="2">
+						        <SolidColor Color="primary" />
+						    </Stroke>
+		                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE2C9;</Icon>
+		                </Circle>
+		                <Circle Height="30" Width="30" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
+		                	<Stroke Width="2">
+						        <SolidColor Color="primary" />
+						    </Stroke>
+		                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
+		                </Circle>
+		                <Circle Height="30" Width="30" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
+		                	<Stroke Width="2">
+						        <SolidColor Color="primary" />
+						    </Stroke>
+		                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0D8;</Icon>
+		                </Circle>
+		            </StackPanel>
+	        	</DockPanel>
+		</StackPanel>
+		<ScrollView ClipToBounds="true" Margin="0,186,0,0">
+			<StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Name:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="{user.fname}" />
+				</StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Sex:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="{user.sex}}" />
+				</StackPanel>
+				
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="DOB:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="18.2.1976" />
+				</StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Blood Type:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="A+" />
+				</StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Height:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="5.8" />
+				</StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Weight:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="130 lbs" />
+				</StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Address:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="2431 Express way" />
+				</StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="City/State:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="Santa Clara, CA" />
+				</StackPanel>
+
+				<Divider />
+				<StackPanel Orientation="Horizontal" Margin="20, 5">
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Home:" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="408-406-9622" />
+				</StackPanel>
+
+
+				<Divider />
+
+				<Panel Color="primary_dark" Width="100%" Height="25">
+					<Text Alignment="Center" Font="medium" Value="TREATMENT TIMELINE" Color="White"/>
+				</Panel>
+
+				<StackPanel Color="primary" Width="100%" Height="200">
+
+				</StackPanel>
+
+			</StackPanel>
+		</ScrollView>
+
+</DockPanel>
+</DefaultPage>

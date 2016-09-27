@@ -1,0 +1,11 @@
+{
+  "RootNamespace":"",
+  "Packages": [
+    "Fuse",
+    "FuseJS"
+  ],
+  "Icon": "Assets/myicon.png",
+  "Includes": [
+    "*"
+  ]
+}

@@ -1,0 +1,21 @@
+<DefaultPage ux:Class="AddContactPage">
+	<Router ux:Dependency="router" />
+
+		<DockPanel>
+			<Toolbar Color="primary" Title="Add contact" Icon="&#xE5C4;" router="router">
+				<DropShadow />
+			</Toolbar>
+			<Rectangle Color="background_color" Layer="Background"/>
+			
+			<StackPanel>
+
+				<FloatingLabel PlaceholderText="Phone number" Margin="32, 16, 32, 0" />
+				<FloatingLabel PlaceholderText="Name" Margin="32, 16, 32, 0" />
+				<FloatingLabel PlaceholderText="Surname" Margin="32, 16, 32, 0" />
+
+				<RaisedButton BtnText="SAVE" BtnColor="primary" BtnTextColor="icons" Alignment="Center" Margin="0,32,0,0"/>
+
+			</StackPanel>
+
+		</DockPanel>
+</DefaultPage>

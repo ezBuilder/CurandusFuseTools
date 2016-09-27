@@ -1,0 +1,26 @@
+<DefaultPage ux:Class="LoginPage">
+	<Router ux:Dependency="router" />
+<StackPanel>
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+
+        // router.goto("login");
+		function login(username, pass) {
+		    router.goto("main");
+		};
+
+		module.exports = {
+			login: login,
+		}
+
+    </JavaScript>
+	
+	<Text TextAlignment="Center" Color="primary" Font="regular" FontSize="36" Margin="0,100,0,0">Wellcome to</Text>
+	<Text TextAlignment="Center" Color="primary" Font="medium" FontSize="36">CURANDUS</Text>
+
+	<Button Text="Login" Color="White" Width="200" Height="32" Clicked="{login}" Margin="0,100,0,0">
+		<DropShadow />
+	</Button>
+
+</StackPanel>
+</DefaultPage>
