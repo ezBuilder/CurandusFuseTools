@@ -32,26 +32,27 @@
         });
 
 
-	    function goToAlert(e){
-	        router.push("alert", { user: e.data });
-	    }
+	    function goToSelectType(e){
+	        router.push("SelectType", { user: e.data });
+        }	    
 
-		  function goToAddContact(){
+		function goToAddContact(){
 	        router.push("addContact", {});
 	    }
 
-		  function goToChat(e){
+		function goToChat(e){
 	        router.push("chat", { user: e.data });
 	    }
-
+    
 
     module.exports = {
         contacts: contacts,
         errorMessage: errorMessage,
-        goToAlert: goToAlert,
+        goToSelectType: goToSelectType,
         goToChat: goToChat,
         goToAddContact: goToAddContact
     };
+
 </JavaScript>
 	<Router ux:Dependency="router" />
 <DockPanel>
@@ -66,7 +67,7 @@
     	</Rectangle>
 		
         <Each Items="{contacts}">
-			<DockPanel Margin="7,1,7,0" ux:Name="contactItem">
+			<DockPanel Margin="7,1,7,0" ux:Name="contactItem" >
 
                 <WhileHovering>
                     <Change contactItem.Color="divider" />
@@ -76,10 +77,15 @@
                     <ImageFill File="Assets/placeholder.png" />
                 </Circle>
 
-                <Text Font="medium" Alignment="CenterLeft" Value="{fname}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
-
+                <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
+                    <Text Font="medium" Alignment="CenterLeft"  Value="{fname}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+                </Rectangle>
+                
                 <StackPanel Dock="Right" Orientation="Horizontal">
 	                <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
+<!--                         <Clicked>
+                            <Call Number="0038971248256" />
+                        </Clicked> -->
 	                	<Stroke Width="2">
 					        <SolidColor Color="primary" />
 					    </Stroke>

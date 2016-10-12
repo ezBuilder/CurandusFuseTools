@@ -1,5 +1,6 @@
 <DefaultPage ux:Class="ChatsView">
 	<JavaScript>
+    
     var Observable = require("FuseJS/Observable");
 
     var contacts = Observable();
@@ -30,14 +31,14 @@
             errorMessage.value = "Oh noes! :(";
         });
 
-	    function goToAlert(e){
+	    function goToChat(e){
 	        router.push("chat", { user: e.data });
 	    }
 
 	    module.exports = {
 	        contacts: contacts,
 	        errorMessage: errorMessage,
-	        goToAlert: goToAlert
+	        goToChat: goToChat
 	    };
 
 </JavaScript>
@@ -46,7 +47,7 @@
 <ScrollView ClipToBounds="true">
     <StackPanel Orientation="Vertical">
         <Each Items="{contacts}">
-            <DockPanel Margin="7,1,7,0" Clicked="{goToAlert}" ux:Name="alertitem">
+            <DockPanel Margin="7,1,7,0" Clicked="{goToChat}" ux:Name="alertitem">
                 <WhileHovering>
                     <Change alertitem.Color="divider" />
                 </WhileHovering>
@@ -60,12 +61,12 @@
                     <Text Font="medium" Value="{minutes}" FontSize="10" TextColor="secondary_text" />
                 </StackPanel>
 
-                <StackPanel Dock="Right" Margin="0,12,10,0">
-                    <Circle Height="20" Width="20" Dock="Left" Margin="0,10,0,10" Color="offline" Alignment="TopRight">
-                        <Icon Alignment="Center">&#xE88F;</Icon>
-                    </Circle>
-                    <Circle Height="20" Width="20" Dock="Left" Color="online" Alignment="TopRight">
-                        <Icon Alignment="Center">&#xE88F;</Icon>
+                <StackPanel Dock="Right"  Alignment="Center">
+                    <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                        <Stroke Width="2">
+                            <SolidColor Color="primary" />
+                        </Stroke>
+                        <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                     </Circle>
                 </StackPanel>
             </DockPanel>

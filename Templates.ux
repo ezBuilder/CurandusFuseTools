@@ -1,0 +1,64 @@
+<DefaultPage ux:Class="Templates">
+<JavaScript>
+    	var Observable = require("FuseJS/Observable");
+
+		var user = Observable();
+
+		this.onParameterChanged(function(param) {
+		    user.value = param.user;
+		})
+
+		function goToSelectItems(e){
+	        router.push("SelectItems", { user: e.data });
+	    }
+
+		module.exports = {
+			user: user,
+			goToSelectItems: goToSelectItems
+		}
+
+</JavaScript>
+	<Router ux:Dependency="router" />
+
+	<DockPanel>
+		<Toolbar Color="primary" Title="Templates" Icon="&#xE5C4;" router="router">
+			<DropShadow />
+		</Toolbar>
+
+		<Rectangle Color="background_color">
+	
+		<!-- <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> -->
+		
+		<ScrollView Dock="Top">
+
+			<StackPanel>
+				
+				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Clicked="{goToSelectItems}" MinHeight="80" Margin="0,16,0,0">
+					<StackPanel Padding="16" Alignment="Center">
+					<Text Color="primary" Font="medium" FontSize="20" Value="Template 1" Alignment="Left"/>
+					<Text Color="secondary_text" Font="regular" FontSize="14" Value="Lorem ipsum dolor sit amet, consectetur." Alignment="Left"/>
+					</StackPanel>
+					<DropShadow />
+				</Rectangle>
+				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Clicked="{goToSelectItems}"  Height="80" Margin="0,16,0,0">
+					<StackPanel Padding="16" Alignment="Center">
+					<Text Color="primary" Font="medium" FontSize="20" Value="Template 2" Alignment="Left"/>
+					<Text Color="secondary_text" Font="regular" FontSize="14" Value="Lorem ipsum dolor sit amet, consectetur." Alignment="Left"/>
+					</StackPanel>
+					<DropShadow />
+				</Rectangle>
+				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Clicked="{goToSelectItems}"  Height="80" Margin="0,16,0,0">
+					<StackPanel Padding="16" Alignment="Center">
+					<Text Color="primary" Font="medium" FontSize="20" Value="Template 3" Alignment="Left"/>
+					<Text Color="secondary_text" Font="regular" FontSize="14" Value="Lorem ipsum dolor sit amet, consectetur." Alignment="Left"/>
+					</StackPanel>
+					<DropShadow />
+				</Rectangle>
+				
+			</StackPanel>
+
+		</ScrollView>
+	</Rectangle>
+	</DockPanel>
+
+</DefaultPage>

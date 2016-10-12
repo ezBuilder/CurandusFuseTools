@@ -1,0 +1,76 @@
+<DefaultPage ux:Class="SelectType">
+<JavaScript>
+    	var Observable = require("FuseJS/Observable");
+
+		var user = Observable();
+
+		this.onParameterChanged(function(param) {
+		    user.value = param.user;
+		})
+
+		function goToSelectItems(e){
+	        router.push("SelectItems", { user: e.data });
+	    }
+
+		function goToTemplates(e){
+	        router.push("Templates", { user: e.data });
+	    }
+
+		module.exports = {
+			user: user,
+			goToTemplates: goToTemplates,
+			goToSelectItems: goToSelectItems
+		}
+
+</JavaScript>
+	<Router ux:Dependency="router" />
+
+	<DockPanel>
+		<Toolbar Color="primary" Title="Create Treatment" Icon="&#xE5C4;" router="router">
+			<DropShadow />
+		</Toolbar>
+
+		<Rectangle Color="background_color">
+	
+		<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
+		
+		<ScrollView Dock="Top">
+
+			<StackPanel>
+				
+				<FlatButton BtnText="TEMPLATES" BtnTextColor="accent" Alignment="Right" Clicked="{goToTemplates}"/>
+
+				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Temperature" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle CornerRadius="2" Width="90%" Color="primary_light" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Stroke Width="2" Color="primary" />
+					<Text Color="primary" Font="regular" FontSize="24" Value="Selected" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>
+
+				<Rectangle CornerRadius="2" Width="90%" Color="primary_light" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Stroke Width="2" Color="primary" />
+					<Text Color="primary" Font="regular" FontSize="24" Value="Selected" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>
+
+				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Temperature" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Temperature" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+				
+			</StackPanel>
+
+		</ScrollView>
+	</Rectangle>
+	</DockPanel>
+
+</DefaultPage>

@@ -127,13 +127,8 @@
                     <WhileActive Threshold="0.5">
                         <Set tabBar.LayoutElement="page2Tab" />
                     </WhileActive>
-
-                    <!-- contactsView -->
-<!-- <DockPanel>
-                    <FloatingButton Dock="Bottom" Alignment="Right" BtnColor="accent" BtnIcon="&#xE145;" BtnTextColor="icons" />
-</DockPanel> -->
-
-<ContactsView router="router" />
+                    
+                    <ContactsView router="router" />
                     
                 </Page>
 

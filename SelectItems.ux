@@ -1,0 +1,107 @@
+<DefaultPage ux:Class="SelectItems">
+
+	<JavaScript>
+	    	var Observable = require("FuseJS/Observable");
+
+			var user = Observable();
+
+			this.onParameterChanged(function(param) {
+			    user.value = param.user;
+			})
+
+
+
+	function Page(name, image, long, lat, location, no, stars, people){
+		this.name = name;
+		this.image = image;
+		this.long = "EAST LNG " + long;
+		this.lat = "NORTH LAT " + lat;
+		this.location = location;
+		this.no = "NO. " + no;
+		this.stars = stars;
+		this.starsRest = 5 - stars;
+		this.people = people;
+	}
+
+	var pages = Observable();
+
+	pages.add(new Page("Temperature", "Canada", 56, -108, "A silver lake in the north of Canada.", 10238, 3, ["Jamie", "Marcus", "John"]));
+	pages.add(new Page("Pain", "Iceland", 64, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
+	pages.add(new Page("Blood Pressure", "Norway", 60, 6, "Green mountain forest in Norway.", 10241, 4, ["Tony", "Marie", "Kristina"]));
+	pages.add(new Page("Picture", "Taiwan", 23, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+
+
+	var pagesView = pages.map(function(item, index){
+		return {
+			item: item,
+			index: index
+		};
+	});
+
+	function goToTemplates(e){
+        router.push("Templates", { user: e.data });
+    }
+
+		module.exports = {
+			user: user,
+			goToTemplates: goToTemplates,
+			pagesView: pagesView
+		}
+
+	</JavaScript>
+	<Router ux:Dependency="router" />
+
+<Panel ux:Class="Card" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="topPanel" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">
+				</Rectangle>
+				<Text Value="{item.name}" FontSize="24" TextColor="primary_text" Alignment="HorizontalCenter" Margin="10">
+				</Text>
+
+				<DropShadow/>
+			</Panel>
+
+		</Panel>
+
+
+	<DockPanel>
+		<Toolbar Color="primary" Title="Create Template" Icon="&#xE5C4;" router="router">
+			<DropShadow />
+		</Toolbar>
+
+		<Rectangle Color="background_color">
+	
+			<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE163;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+			
+			<FlatButton Alignment="BottomLeft" BtnText="SAVE AS TEMPLATE" BtnTextColor="accent" Clicked="{goToTemplates}"/>
+
+
+				<StackPanel >
+					<Panel Margin="0, 80, 0, 0">
+						<LinearNavigation ux:Name="nav">
+							<NavigationMotion GotoEasing="QuadraticOut" GotoDuration="0.3" />
+						</LinearNavigation>
+						<SwipeNavigate SwipeDirection="Left"/>
+
+						<Each Items="{pagesView}">
+							<Card />
+						</Each>
+					</Panel>
+				</StackPanel>
+
+		</Rectangle>
+	</DockPanel>
+</DefaultPage>
