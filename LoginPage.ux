@@ -1,6 +1,6 @@
 <DefaultPage ux:Class="LoginPage">
 	<Router ux:Dependency="router" />
-<StackPanel>
+
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
 
@@ -12,15 +12,22 @@
 		module.exports = {
 			login: login,
 		}
+</JavaScript>
 
-    </JavaScript>
-	
-	<Text TextAlignment="Center" Color="primary" Font="regular" FontSize="36" Margin="0,100,0,0">Wellcome to</Text>
-	<Text TextAlignment="Center" Color="primary" Font="medium" FontSize="36">CURANDUS</Text>
+<DockPanel>         
+				
+       			<FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary"  BtnIcon="&#xE315;" BtnTextColor="icons" />
 
-	<Button Text="Login" Color="White" Width="200" Height="32" Clicked="{login}" Margin="0,100,0,0">
-		<DropShadow />
-	</Button>
+    <StackPanel >
 
-</StackPanel>
+    			<Image File="Assets/CurandusLogo.png" Alignment="Center" Height="130" Width="130" Margin="0,100,0,0" />
+     			<Text  TextWrapping="Wrap" TextAlignment="Center" Color="primary" Font="regular" FontSize="30" Margin="0,50,0,10">REGISTER</Text>
+				<FloatingLabel PlaceholderText="Phone number" Margin="32, 16, 32, 0" />
+				<FloatingLabel PlaceholderText="Name" Margin="32, 16, 32, 0" />
+				<FloatingLabel PlaceholderText="Surname" Margin="32, 16, 32, 0" />
+
+	</StackPanel>    
+		
+</DockPanel>
+
 </DefaultPage>
