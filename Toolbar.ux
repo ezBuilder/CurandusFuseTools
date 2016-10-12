@@ -21,22 +21,26 @@
     <string ux:Property="Title" />
     <string ux:Property="Icon" />
     <float4 ux:Property="Color" />
-<Panel>
-    <Panel Height="56" Color="{Property this.Color}" Padding="16, 0" >
-        <Panel>
+
+
+    <DockPanel Height="56" Color="{Property this.Color}" Padding="16, 0">
+        <Panel Dock="Left">
+
+
             <!-- MENU ICON -->
           <Icon FontSize="24" Margin="0,16" Value="{Property this.Icon}" Clicked="{goBack}">
           </Icon>
             <!-- BACK ICON -->
           <!-- <Icon FontSize="24" Margin="0,16">&#xE5C4;</Icon> -->
         </Panel>
-        <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="56,0" TextColor="#fff" />
+        <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" />
         <StackPanel Orientation="Horizontal" Alignment="Right" >
         <!-- <Icon FontSize="24"  Margin="16,16">&#xE8B6;</Icon> -->
         <!-- <Icon FontSize="24"  Margin="0,16">&#xE5D4;</Icon> -->
         </StackPanel>
-    </Panel>
-    </Panel>
+
+
+    </DockPanel>
     
     <!-- Flat or Raised?-->
     <!-- <DropShadow /> -->
