@@ -29,7 +29,9 @@
 		
 				<StackPanel Dock="Bottom" Margin="0,16,0,0" Orientation="Horizontal" Alignment="TopCenter">
 					<Text>Don't have code? </Text>
-					<Button Text="Resend."  Margin="10,0,0,0"/>
+					<Text Margin="10,0,0,0" TextColor="primary" Clicked="{}">
+						Resend.
+					</Text>
 				</StackPanel>
 			</StackPanel>
 			
