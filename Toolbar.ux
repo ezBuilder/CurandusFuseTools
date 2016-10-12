@@ -22,8 +22,11 @@
     <string ux:Property="Icon" />
     <float4 ux:Property="Color" />
 
+
     <DockPanel Height="56" Color="{Property this.Color}" Padding="16, 0">
         <Panel Dock="Left">
+
+
             <!-- MENU ICON -->
           <Icon FontSize="24" Margin="0,16" Value="{Property this.Icon}" Clicked="{goBack}">
           </Icon>
@@ -35,6 +38,8 @@
         <!-- <Icon FontSize="24"  Margin="16,16">&#xE8B6;</Icon> -->
         <!-- <Icon FontSize="24"  Margin="0,16">&#xE5D4;</Icon> -->
         </StackPanel>
+
+
     </DockPanel>
     
     <!-- Flat or Raised?-->
