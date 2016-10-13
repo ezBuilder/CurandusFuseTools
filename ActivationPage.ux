@@ -5,7 +5,7 @@
 		var Observable = require("FuseJS/Observable");
 		
 		function goToMain(e){
-	        router.push("main", { user: e.data });
+	        router.push("main", {});
 	    }
 
 	     module.exports = {

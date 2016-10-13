@@ -5,7 +5,7 @@
 		var Observable = require("FuseJS/Observable");
 
      	function login(e){
-	        router.push("ActivationPage", { user: e.data });
+	        router.push("ActivationPage", {});
 	    }
 
 	     module.exports = {
