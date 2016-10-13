@@ -4,19 +4,19 @@
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
 
-     	function login(e){
+     	function login(){
 	        router.push("ActivationPage", {});
 	    }
 
 	     module.exports = {
 	    	login:login    
-    	
 		};
+
 </JavaScript>
 
 <DockPanel>         
 				
-       			<FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary" Clicked="{login}" BtnIcon="&#xE315;" BtnTextColor="icons" />
+    <FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary" Clicked="{login}" BtnIcon="&#xE315;" BtnTextColor="icons" />
 
     <StackPanel >
 
