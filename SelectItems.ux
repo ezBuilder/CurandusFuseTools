@@ -4,11 +4,13 @@
 	    	var Observable = require("FuseJS/Observable");
 
 			var user = Observable();
+			var FirstMedicine=Observable("Select medicine");
+
+			var MedicalItems = Observable({name: "Select medicine"},{name: "Autos"}, {name: "Juniors"});
 
 			this.onParameterChanged(function(param) {
 			    user.value = param.user;
 			})
-
 
 
 	function Page(name, image, long, lat, location, no, stars, people){
@@ -25,11 +27,20 @@
 
 	var pages = Observable();
 
-	pages.add(new Page("Temperature", "Canada", 56, -108, "A silver lake in the north of Canada.", 10238, 3, ["Jamie", "Marcus", "John"]));
-	pages.add(new Page("Pain", "Iceland", 64, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
-	pages.add(new Page("Blood Pressure", "Norway", 60, 6, "Green mountain forest in Norway.", 10241, 4, ["Tony", "Marie", "Kristina"]));
-	pages.add(new Page("Picture", "Taiwan", 23, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
 
+	pages.add(new Page("Temperature Check", "Canada", 5, -108, "A silver lake in the north of Canada.", 10238, 3, ["Jamie", "Marcus", "John"]));
+	pages.add(new Page("Pulse Check", "Iceland", 5, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
+	pages.add(new Page("Pain Level", "Iceland", 5, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
+	pages.add(new Page("Blood Pressure Check", "Norway", 5, 6, "Green mountain forest in Norway.", 10241, 4, ["Tony", "Marie", "Kristina"]));
+	pages.add(new Page("Medicines", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	pages.add(new Page("Comparision with picture", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));		
+	pages.add(new Page("Send Image", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	pages.add(new Page("Picture", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	pages.add(new Page("Diet", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	pages.add(new Page("Activity", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	pages.add(new Page("Hygiene", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	pages.add(new Page("Other Instructions", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	
 
 	var pagesView = pages.map(function(item, index){
 		return {
@@ -44,6 +55,7 @@
 
 		module.exports = {
 			user: user,
+			MedicalItems: MedicalItems,
 			goToTemplates: goToTemplates,
 			pagesView: pagesView
 		}
@@ -51,9 +63,9 @@
 	</JavaScript>
 	<Router ux:Dependency="router" />
 
-<Panel ux:Class="Card" ux:Name="self" Opacity="0.4">
-			<Scaling ux:Name="pageScaling" Factor="0.95" />
 
+	<Panel ux:Class="OtherInstructions" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
 			<ActivatingAnimation>
 				<Change self.Opacity="1" Duration="0.5"/>
 				<Change pageScaling.Factor="1" Duration="0.5" />
@@ -65,19 +77,395 @@
 				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="topPanel" Width="75%" Height="350" Margin="30,0">
-				<Rectangle CornerRadius="5" Layer="Background" Color="icons">
-				</Rectangle>
-				<Text Value="{item.name}" FontSize="24" TextColor="primary_text" Alignment="HorizontalCenter" Margin="10">
-				</Text>
-
+			<Panel ux:Name="OtherInstructionsPanel" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+								<TextView TextWrapping="Wrap" Value="Advice for other instructions: " BoxSizing="Limit" Height="250"
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        </StackPanel>			        
+				</StackPanel>
+				</DockPanel>
 				<DropShadow/>
+				</Rectangle>
 			</Panel>
-
 		</Panel>
 
 
-	<DockPanel>
+	<Panel ux:Class="Hygiene" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="HygienePanel" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+								<TextView TextWrapping="Wrap" Value="Advice for hygiene: " BoxSizing="Limit" Height="250"
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        </StackPanel>			        
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>
+
+	<Panel ux:Class="Activity" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="ActivityPanel" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+								<TextView TextWrapping="Wrap" Value="Advice for activity: " BoxSizing="Limit" Height="250"
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        </StackPanel>			        
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>
+
+	<Panel ux:Class="Diet" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="Diet" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+								<TextView TextWrapping="Wrap" Value="Advice for diet: " BoxSizing="Limit" Height="250"
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        </StackPanel>			        
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>
+
+
+		<Panel ux:Class="BloodPressureCheck" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="BloodPressure" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="CenterLeft" 
+								/>
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<Text Value="days" Alignment="Bottom" Color="primary"/>
+				        </StackPanel>
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>
+
+	   <Panel ux:Class="PulseCheck" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="Pulse" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
+								/>
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<Text Value="days" Alignment="Bottom" Color="primary"/>
+				        </StackPanel>
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>	
+
+		<Panel ux:Class="TemperatureCheck" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="Temperature" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
+								/>
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<Text Value="days" Alignment="Bottom" Color="primary"/>
+				        </StackPanel>
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>		
+	
+
+		<Panel ux:Class="PainLevel" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="Pulse" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="10, 5">
+							<FloatingLabel PlaceholderText="Enter pain level of:" Margin="32, 10, 10, 0" Alignment="Center" 
+								/>
+						</StackPanel>
+
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
+								/>
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<Text Value="days" Alignment="Bottom" Color="primary"/>
+				        </StackPanel>
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>	
+
+
+		<Panel ux:Class="ImageCard" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="ImagePanel" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel  PlaceholderText="Image from your:" Margin="15, 10, 10, 0" Alignment="Left" 
+								/>
+						</StackPanel>
+
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
+								/>
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<Text Value="days" Alignment="Bottom" Color="primary"/>
+				        </StackPanel>
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>	
+
+
+		<Panel ux:Class="MedicineCard" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="MedicinePanel" Width="85%" Height="400" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
+							<Text Value="Select medicine" Alignment="Bottom" Color="primary" Margin="25, 10, 10, 0" />
+						</StackPanel>
+						<StackPanel Alignment="Center" Orientation="Horizontal" Margin="10, 1">
+							<DropdownMenu ux:Name="dropOne" ListItems="{MedicalItems}" TextColor="primary" Selected="{FirstValue}" BackgroundColor="#FDFDFD" BorderColor="#BFBFBF" />
+						</StackPanel>						
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
+							<FloatingLabel PlaceholderText="Quantuty" Margin="32, 1, 1, 0" InputHint="Number" Alignment="Center" 
+								/>
+						</StackPanel>						
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
+								/>
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 10">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<Text Value="days" Alignment="Bottom" Color="primary"/>
+				        </StackPanel>
+			     	<StackPanel Alignment="TopLeft">
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="5, 5">
+								<TextView TextWrapping="Wrap" Value="Additional comment: " BoxSizing="Limit" Height="250"
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        </StackPanel>			        
+					</StackPanel>				        
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>	
+
+
+		<Panel ux:Class="ComparisionCard" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="ComparisionPanel" Width="75%" Height="350" Margin="30,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+					<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+
+
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
+							<Text Value="Choose photo" Alignment="Top" Color="primary"/>
+			                <Rectangle Height="80" Width="80"  Alignment="Center">
+			                    <ImageFill File="Assets/placeholder.png" />
+			                </Rectangle>							
+						</StackPanel>
+
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="10, 10">
+							<FloatingLabel PlaceholderText="Enter question: " Margin="32, 10, 10, 0" Alignment="Center" 
+								/>
+						</StackPanel>						
+
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
+								/>
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 10">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<Text Value="days" Alignment="Bottom" Color="primary"/>
+				        </StackPanel>			        
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>						
+
+
+<DockPanel>
 		<Toolbar Color="primary" Title="Create Template" Icon="&#xE5C4;" router="router">
 			<DropShadow />
 		</Toolbar>
@@ -88,8 +476,7 @@
 			
 			<FlatButton Alignment="BottomLeft" BtnText="SAVE AS TEMPLATE" BtnTextColor="accent" Clicked="{goToTemplates}"/>
 
-
-				<StackPanel >
+				<StackPanel>
 					<Panel Margin="0, 80, 0, 0">
 						<LinearNavigation ux:Name="nav">
 							<NavigationMotion GotoEasing="QuadraticOut" GotoDuration="0.3" />
@@ -97,7 +484,41 @@
 						<SwipeNavigate SwipeDirection="Left"/>
 
 						<Each Items="{pagesView}">
-							<Card />
+							<Match Value="{item.name}">
+								<Case String="Temperature Check">
+									<TemperatureCheck />
+								</Case>
+								<Case String="Blood Pressure Check">
+									<BloodPressureCheck />
+								</Case>	
+								<Case String="Pulse Check">
+									<PulseCheck />
+								</Case>	
+								<Case String="Send Image">
+									<ImageCard />
+								</Case>										
+								<Case String="Pain Level">
+									<PainLevel />
+								</Case>	
+								<Case String="Diet">
+									<Diet />
+								</Case>		
+								<Case String="Activity">
+									<Activity />
+								</Case>	
+								<Case String="Hygiene">
+									<Hygiene />
+								</Case>
+								<Case String="Other Instructions">
+									<OtherInstructions />
+								</Case>	
+								<Case String="Medicines">
+									<MedicineCard />
+								</Case>	
+								<Case String="Comparision with picture">
+									<ComparisionCard />
+								</Case>																																	
+							</Match>
 						</Each>
 					</Panel>
 				</StackPanel>

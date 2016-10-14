@@ -60,7 +60,7 @@
 
 
 	<!-- PANEL CONTAINING EVERYTHING -->
-	<Panel Width="200" Height="40">
+	<Panel Width="200" Height="30">
 		<Rectangle>
 			<Stroke Brush="{Property menu.BorderColor}" Width="1" />
 		</Rectangle>

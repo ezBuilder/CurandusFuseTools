@@ -9,7 +9,7 @@
 	</Panel>
 <Panel Dock="Bottom">
 	
-	<TextInput ux:Name="input" Background="#FAFAFA" Value="{Property this.Value}" Width="100%" MaxLength="{Property this.MaxLength}" InputHint="{Property this.InputHint}" FontSize="22" >
+	<TextInput ux:Name="input" Background="#FAFAFA" Value="{Property this.Value}" Width="100%" MaxLength="{Property this.MaxLength}" InputHint="{Property this.InputHint}" FontSize="22" TextAlignment="Center" >
 
 		<Text ux:Name="label" Value="{Property PlaceholderText}" Color="#BDBDBD" FontSize="20" />
 		<Rectangle ux:Name="bottomLine" Fill="#9E9E9E" Height="5%" Alignment="Bottom" Layer="Background"/> 

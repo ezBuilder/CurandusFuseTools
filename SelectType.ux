@@ -9,11 +9,11 @@
 		})
 
 		function goToSelectItems(e){
-	        router.push("SelectItems", { user: e.data });
+	        router.push("SelectItems", {});
 	    }
 
 		function goToTemplates(e){
-	        router.push("Templates", { user: e.data });
+	        router.push("Templates", {});
 	    }
 
 		module.exports = {
