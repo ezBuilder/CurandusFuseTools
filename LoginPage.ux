@@ -4,27 +4,83 @@
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
 
-     	function login(e){
-	        router.push("ActivationPage", { user: e.data });
-	    }
 
-	     module.exports = {
-	    	login:login    
-    	
+		var alerts = Observable();
+		var errorMessage = Observable();
+		var register = Observable();
+		var firstName = Observable();
+		var phone = Observable();
+		var lastName = Observable();
+
+
+		function registerFunc() {
+
+		    var aCode = Math.floor(Math.random() * 900000) + 100000;
+
+		    register = {
+		        "firstName": firstName.value,
+		        "lastName": lastName.value,
+		        "phone": phone.value,
+		        "deviceId": "deviceId",
+		        "activationCode": aCode,
+		        "status": 0
+		    }
+
+		    fetch("http://localhost:8080/curandusproject/webapi/api/insertprovider", {
+		        method: 'POST',
+		        headers: {
+		            "Content-type": "application/json"
+		        },
+		        dataType: 'json',
+		        body: JSON.stringify(register)
+		    }).then(function(response) {
+		        status = response.status; // Get the HTTP status code
+		        response_ok = response.ok; // Is response.status in the 200-range?
+		        return response.json(); // This returns a promise
+		    }).then(function(responseObject) {
+		        console.log("Success");
+
+		        //Da se isprati sms, potoa na success da se prenasoci
+
+		        router.push("ActivationPage", register);
+
+
+		    }).catch(function(err) {
+		        console.log("lol Error");
+		        console.log(err.message);
+		    });
+
+		}
+
+
+		module.exports = {
+		    alerts: alerts,
+		    errorMessage: errorMessage,
+		    register: register,
+		    firstName: firstName,
+		    phone: phone,
+		    lastName: lastName,
+		    registerFunc: registerFunc
+
 		};
+
+
 </JavaScript>
+
+
+
 
 <DockPanel>         
 				
-       			<FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary" Clicked="{login}" BtnIcon="&#xE315;" BtnTextColor="icons" />
+       			<FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary" Clicked="{registerFunc}" BtnIcon="&#xE315;" BtnTextColor="icons" />
 
     <StackPanel >
 
     			<Image File="Assets/CurandusLogo.png" Alignment="Center" Height="130" Width="130" Margin="0,100,0,0" />
      			<Text  TextWrapping="Wrap" TextAlignment="Center" Color="primary" Font="regular" FontSize="30" Margin="0,50,0,10">REGISTER</Text>
-				<FloatingLabel PlaceholderText="Phone number" InputHint="Number" Margin="32, 16, 32, 0" />
-				<FloatingLabel PlaceholderText="Name" Margin="32, 16, 32, 0" />
-				<FloatingLabel PlaceholderText="Surname" Margin="32, 16, 32, 0" />
+				<FloatingLabel Value="{phone}" PlaceholderText="Phone number" InputHint="Number" Margin="32, 16, 32, 0" />
+				<FloatingLabel Value="{firstName}" PlaceholderText="Name" Margin="32, 16, 32, 0" />
+				<FloatingLabel  Value="{lastName}" PlaceholderText="Surname" Margin="32, 16, 32, 0" />
 
 	</StackPanel>    
 		
