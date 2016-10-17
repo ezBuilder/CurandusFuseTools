@@ -1,10 +1,9 @@
 <DefaultPage ux:Class="LoginPage">
-	<Router ux:Dependency="router" />
+<Router ux:Dependency="router" />
 
-	<JavaScript>
+<JavaScript>
+
 		var Observable = require("FuseJS/Observable");
-
-
 		var alerts = Observable();
 		var errorMessage = Observable();
 		var register = Observable();
@@ -64,10 +63,7 @@
 
 		};
 
-
 </JavaScript>
-
-
 
 
 <DockPanel>         
