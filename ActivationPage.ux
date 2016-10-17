@@ -4,19 +4,20 @@
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
 		
-		function goToMain(e){
-	        router.push("main", { user: e.data });
+		function goToMain(){
+	        router.push("main", {});
+	    }
+
+	    function goBack(){
+			router.goBack();
 	    }
 
 	     module.exports = {
-	    	goToMain:goToMain    
+	    	goToMain:goToMain,    
+	    	goBack:goBack    
     	};
 	</JavaScript>
 
-	
-	
-
-		<!-- <TextInput Value='message' PlaceholderText="Send a message!" PlaceholderColor="secondary_text" CaretColor="primary" TextColor="primary_text" ActionStyle="Send" ActionTriggered="{sendMessage}" /> -->
 
 	<DockPanel>
 			<FloatingButton Alignment="Right" Dock="Bottom" Clicked="{goToMain}" BtnColor="primary" BtnIcon="&#xE315;" BtnTextColor="icons"/>
@@ -24,12 +25,12 @@
 				<Image Alignment="VerticalCenter" Margin="0,100,0,0" ContentAlignment="Top" Width="130" Height="130"  File="Assets/CurandusLogo.png"/>
 				<!-- <Text TextAlignment="Center" Color="primary" Font="regular" FontSize="30">CURANDUS</Text> -->
 				<Text TextAlignment="Center" TextWrapping="Wrap" Color="primary" Font="regular" Margin="0,50,0,10" FontSize="30">ACTIVATION</Text>	
-				<Text TextWrapping="Wrap" Margin="0,30,0,0" TextAlignment="Left" Width="83%" FontSize="14">An activation code was sent to your mobile device, enter the code below: </Text>
+				<Text TextWrapping="Wrap" Margin="32,30,32,0" TextAlignment="Left" FontSize="14">An activation code was sent to your mobile device, enter the code below: </Text>
 				<FloatingLabel PlaceholderText="Activation Code" InputHint="Number" Margin="32, 0, 32, 0" />
 		
 				<StackPanel Dock="Bottom" Margin="0,16,0,0" Orientation="Horizontal" Alignment="TopCenter">
 					<Text>Don't have code? </Text>
-					<Text Margin="10,0,0,0" TextColor="primary" Clicked="{}">
+					<Text Margin="10,0,0,0" TextColor="primary" Clicked="{goBack}">
 						Resend.
 					</Text>
 				</StackPanel>
