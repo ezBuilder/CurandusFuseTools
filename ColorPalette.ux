@@ -1,12 +1,12 @@
 <Panel ux:Class="ColorPalette">
 	<float4 ux:Global="primary"   	      ux:Value="#00BCD4"   />
-	<float4 ux:Global="primary_dark"	  ux:Value="#0097A7" />
+	<float4 ux:Global="primary_dark"	  ux:Value="#0097A7"   />
 	<float4 ux:Global="primary_light"  	  ux:Value="#B2EBF2"   />
 	<float4 ux:Global="accent"       	  ux:Value="#FF4081"   />
 	<float4 ux:Global="primary_text"      ux:Value="#212121"   />
-	<float4 ux:Global="secondary_text"	  ux:Value="#727272"  />
+	<float4 ux:Global="secondary_text"	  ux:Value="#727272"   />
 	<float4 ux:Global="icons" 		      ux:Value="#FFFFFF"   />
-	<float4 ux:Global="divider"			  ux:Value="#00000011"   />
+	<float4 ux:Global="divider"			  ux:Value="#00000011" />
 	<float4 ux:Global="background_color"  ux:Value="#FAFAFA"   />
 	<float4 ux:Global="online"			  ux:Value="#40F762"   />
 	<float4 ux:Global="offline"			  ux:Value="#F74040"   />
