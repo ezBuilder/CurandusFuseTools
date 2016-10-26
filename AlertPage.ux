@@ -134,7 +134,91 @@
 					<Text Alignment="Center" Font="medium" Value="TREATMENT TIMELINE" Color="White"/>
 				</Panel>
 
-				<StackPanel Color="primary" Width="100%" Height="200">
+				<StackPanel Color="primary" Width="100%" Height="500">
+
+
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
+						<DockPanel >
+
+							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="4,0,0,4"/>
+							
+								<StackPanel Dock="Left">
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Date: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="03-12-2013" Color="primary" Margin="0,10,0,0" />
+								</StackPanel>
+
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Time: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="12:00 AM" Color="primary" Margin="0,10,0,0" />
+								</StackPanel>
+
+								</StackPanel>
+								<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
+
+
+								<StackPanel Dock="Right" Height="100%" Width="32"  Color="White">
+
+								<Icon FontSize="24" Color="Red"  Margin="0,10,0,0" >&#xE92B;</Icon>
+
+								<Icon FontSize="24" Color="Red"  Margin="0,10,0,0" >&#xE879;</Icon>
+								
+								</StackPanel>
+
+								<StackPanel  Dock="Left" Height="100%"  Color="White">
+									
+								
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Blood Presure: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="90/130" Color="lightgreen" Margin="0,10,0,0" />
+								</StackPanel>	
+
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Body temperature: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="37.4°C" Color="lightorange" Margin="0,10,0,0" />
+								</StackPanel>	
+
+						
+
+
+
+								</StackPanel>
+
+							
+
+						</DockPanel>
+					</Rectangle>
+
+
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+						<DockPanel>
+
+						</DockPanel>
+					</Rectangle>
+
+
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+						<DockPanel>
+
+						</DockPanel>
+					</Rectangle>
+
+
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+						<DockPanel>
+
+						</DockPanel>
+					</Rectangle>
+
+
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+						<DockPanel>
+
+						</DockPanel>
+					</Rectangle>
+
+
+
 
 				</StackPanel>
 
