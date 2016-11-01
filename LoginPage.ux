@@ -4,28 +4,40 @@
 <JavaScript>
 
 		var Observable = require("FuseJS/Observable");
+		var Storage = require("FuseJS/Storage");
+		
+		var SAVENAME = "Register";
 
-		var alerts = Observable();
-		var errorMessage = Observable();
 		var register = Observable();
 		var firstName = Observable();
 		var phone = Observable();
 		var lastName = Observable();
+		
+		Storage.read(SAVENAME).then(function(content) {
+		    var data = JSON.parse(content);
+			debug_log("Registered");
+		    isRegistered = true;
+		    goToMain(data);
+		}, function(error) {
+			debug_log("Not Registered");
+		    isRegistered = false;
+		});
 
 		function registerFunc() {
 
-		    var aCode = Math.floor(Math.random() * 900000) + 100000;
+			//Replace this when sms-service is defined
+		    //var aCode = Math.floor(Math.random() * 900000) + 100000;
 
 		    register = {
 		        "firstName": firstName.value,
 		        "lastName": lastName.value,
 		        "phone": phone.value,
-		        "deviceId": "deviceId",
-		        "activationCode": aCode,
+		        "deviceId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+		        "activationCode": 111111,
 		        "status": 0
 		    }
 
-		    fetch("http://localhost:8080/curandusproject/webapi/api/insertprovider", {
+		    fetch("http://localhost:8888/curandusproject/webapi/api/insertprovider", {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"
@@ -39,21 +51,19 @@
 		    }).then(function(responseObject) {
 		        console.log("Success");
 		        //Da se isprati sms, potoa na success da se prenasoci
-		        router.push("ActivationPage", register);
+		        router.push("ActivationPage", {register: register});
 
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
 
 				//SAMO ZA TESTING
-				router.push("ActivationPage", register);
+				//router.push("ActivationPage", register);
 
 		    });
 
 		}
 
 		module.exports = {
-		    alerts: alerts,
-		    errorMessage: errorMessage,
 		    register: register,
 		    firstName: firstName,
 		    phone: phone,
