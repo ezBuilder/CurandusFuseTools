@@ -3,20 +3,39 @@
 	<Router ux:Dependency="router" />
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
-		 var errorMessage = Observable();
-		 var inputCode = Observable();
-		
-		function goToMain(){
-	        router.push("main", {});
-	    }
+		var Storage = require("FuseJS/Storage");
 
-	    function goBack(){
-			router.goBack();
-	    }
-	    function checkData(){
-	    	console.log("Aktivaciski kod: "+inputCode.value);
-	    	  fetch("http://localhost:8080/curandusproject/webapi/api/CheckProviderActivationKey/2&&"+inputCode.value,
+		var SAVENAME = "Register";
+
+		var register = Observable();
+
+		var inputCode = Observable();
+
+
+		this.onParameterChanged(function(param) {
+		    console.log("We should now display user with id: " + JSON.stringify(param.register));
+
+		    register.value = param.register;
+
+
+		});
+
+		function goToMain() {
+		    router.goto("main");
+		}
+
+		function goBack() {
+		    router.goBack();
+		}
+
+		function checkData() {
+		    console.log("Aktivaciski kod: " + inputCode.value);
+		    var url = "http://localhost:8888/curandusproject/webapi/api/CheckProviderActivationKey/" +
+		        		register.value.deviceId + "&&" + register.value.phone + "&&" + inputCode.value;
+		    console.log(url);
+		    	    	  fetch(url,
                 {
+
                     method: 'PUT',
                     headers: { "Content-type": "application/json"},
                     dataType: 'json'
@@ -28,24 +47,28 @@
                     return response.json();    // This returns a promise
                 }).then(function(responseObject) {
                 	if(responseObject == true){
-                		goToMain();
+						
+						    Storage.write(SAVENAME, JSON.stringify(register));
+
+                			goToMain();
                 	}
                     console.log("Success");
-                    console.log("rezultat: "+responseObject);
-                    
+                    console.log("rezultat: " + responseObject);
                     
                 }).catch(function(err) {
                     console.log("lol Error");
                     console.log(err.message);
                 });
 		}
-	    
-	     module.exports = {
-	     	checkData:checkData,
-	    	goToMain:goToMain,    
-	    	goBack:goBack,
-	    	inputCode:inputCode    
-    	};
+
+		
+
+		module.exports = {
+		    checkData: checkData,
+		    goToMain: goToMain,
+		    goBack: goBack,
+		    inputCode: inputCode
+		};
     	
 	</JavaScript>
 
