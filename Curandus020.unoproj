@@ -1,5 +1,5 @@
 {
-  "RootNamespace":"",
+  "RootNamespace": "",
   "Packages": [
     "Fuse",
     "FuseJS",
@@ -7,5 +7,16 @@
   ],
   "Includes": [
     "*"
-  ]
+  ],
+  "Projects": [
+    "fuse_modules\\bolav\\fuse-homescreen\\homescreen_include.unoproj"
+  ],
+  "Excludes": [
+    "fuse_modules/"
+  ],
+  "FusePM": {
+    "Dependencies": [
+      "https://github.com/bolav/fuse-homescreen"
+    ]
+  }
 }

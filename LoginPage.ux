@@ -43,6 +43,10 @@
 
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
+
+				//SAMO ZA TESTING
+				router.push("ActivationPage", register);
+
 		    });
 
 		}
