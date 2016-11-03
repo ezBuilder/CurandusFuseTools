@@ -3,32 +3,30 @@
 
 	<JavaScript>
 
-		var Observable = require("FuseJS/Observable");
 		var Storage = require("FuseJS/Storage");
-		
-		var SAVENAME = "Register";
 
-		var isRegistered = Observable(false);
+		function isLogged() {
 
-		Storage.read(SAVENAME).then(function(content) {
-		    var data = JSON.parse(content);
-			
-			debug_log("Registered");
-		    isRegistered = true;
-		    goToMain(data);
-		}, function(error) {
-			debug_log("Not Registered");
-		    isRegistered = false;
-		    goToLogin();
-		});
+			Storage.read("userInfo").then(function(content) {
+			    debug_log("Registered");
+			    debug_log(content);
+			    goToMain();
+			}, function(error) {
+			    debug_log("Not Registered");
+			    goToLogin();
+			});
 
-		function goToLogin(){
-	        router.push("login");
-	    }		
+		}
 
-	    function goToMain(data){
-	        router.goto("main", {data});
-	    }
+		function goToLogin() {
+		    router.push("login");
+		}
+
+		function goToMain() {
+		    router.push("main");
+		}
+
+		setTimeout(function(){ isLogged(); }, 1500);
 
 	</JavaScript>
 

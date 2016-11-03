@@ -4,28 +4,15 @@
 <JavaScript>
 
 		var Observable = require("FuseJS/Observable");
-		var Storage = require("FuseJS/Storage");
-		
-		var SAVENAME = "Register";
 
 		var register = Observable();
 		var firstName = Observable();
 		var phone = Observable();
 		var lastName = Observable();
-		
-		Storage.read(SAVENAME).then(function(content) {
-		    var data = JSON.parse(content);
-			debug_log("Registered");
-		    isRegistered = true;
-		    goToMain(data);
-		}, function(error) {
-			debug_log("Not Registered");
-		    isRegistered = false;
-		});
 
 		function registerFunc() {
 
-			//Replace this when sms-service is defined
+		    //Replace this when sms-service is defined
 		    //var aCode = Math.floor(Math.random() * 900000) + 100000;
 
 		    register = {
@@ -51,13 +38,13 @@
 		    }).then(function(responseObject) {
 		        console.log("Success");
 		        //Da se isprati sms, potoa na success da se prenasoci
-		        router.push("ActivationPage", {register: register});
+		        router.push("ActivationPage", {
+		            register: register
+		        });
 
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
 
-				//SAMO ZA TESTING
-				//router.push("ActivationPage", register);
 
 		    });
 
