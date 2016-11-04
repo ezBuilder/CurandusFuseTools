@@ -3,6 +3,10 @@
 <JavaScript>
     var Observable = require("FuseJS/Observable");
 
+    var camera = require('FuseJS/Camera');
+
+    var cameraRoll = require('FuseJS/CameraRoll');
+
     var contacts = Observable();
     var errorMessage = Observable();
 
@@ -34,13 +38,34 @@
 
 
 	    function goToAlert(e){
+
+            console.log(e.data.fname);
 	        router.push("alert", { user: e.data });
 	    }
+
+        function TakePicture(e){
+            camera.takePicture(640,480).then(function(image)
+            {
+                //Do things with image here
+            }).catch(function(error) {
+                //Something went wrong, see error for details
+            });
+
+            cameraRoll.getImage()
+                .then(function(image) {
+                    // Will be called if the user successfully selected an image.
+                }, function(error) {
+                    // Will be called if the user aborted the selection or if an error occurred.
+                });
+
+
+         }   
 
 
     module.exports = {
         contacts: contacts,
         errorMessage: errorMessage,
+        TakePicture: TakePicture,
         goToAlert: goToAlert
     };
 </JavaScript>

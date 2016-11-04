@@ -2,44 +2,522 @@
 
 	<JavaScript>
 	    	var Observable = require("FuseJS/Observable");
+		    var camera = require('FuseJS/Camera');
+		    var cameraRoll = require('FuseJS/CameraRoll');	
+		    var ImageTools = require("FuseJS/ImageTools");   
+
+
+		var imagePath = Observable();
+		var imageName = Observable();
+		var imageSize = Observable();
+
+	    var pages = Observable();
+	    var pagesPar= Observable();
+
+	    var pagesCount=Observable();
+
+	    var providerId=2;
+	    var p_subtreatment="3";
+
+
+
+
+	    var TemperatureInterval=Observable();
+	    var BloodPressureInterval=Observable();
+	    var PulseInterval=Observable();
+	    var PainLevelInterval=Observable();
+	    var MedicinesInterval=Observable();
+	    var ComparisionInterval=Observable();
+	    var ImageInterval=Observable();
+
+	    var TemperatureDuration=Observable();
+	    var BloodPressureDuration=Observable();
+	    var PulseDuration=Observable();
+	    var PainLeveDuration=Observable();
+	    var MedicinesDuration=Observable();
+	    var ComparisionDuration=Observable();
+	    var ImageDuration=Observable();	 
+	    var PainLevelLabel=Observable();
+	    var ImageLabel=Observable();  
+	    var PainLevelDuration=Observable();
+	    var DietDescription=Observable(); 
+	    //DietDescription="Advice for diet ";
+	    var HygieneDescription=Observable(); 
+	    //HygieneDescription="Advice for hygiene: ";
+	    var ActivityDescription=Observable(); 
+	    //ActivityDescription="Advice for activity: ";
+	    var OtherDescription=Observable(); 
+	    //OtherDescription="Advice for other instructions: ";
+	    var ComparisionLabel=Observable();
+
+	    var server="http://192.168.1.110:8080/curandusproject/webapi/api/";
+
+
+	    var pagesObicna;
+
+		var P_TreatmentItem=				    
+			{
+			  "subtreatment": null,
+			  "name": null,
+			  "typeT": null,
+			  "repeatT": null,
+			  "duration": null,
+			  "renderingInfo": null,
+			  "created": null,
+			  "createdBy": null,
+			  "modified": null,
+			  "modifiedBy": null
+			};
+
+		var P_Saved_TreatmentItem=				    
+			{
+			  "savedtreatmenttemplate": null,
+			  "name": null,
+			  "typeT": null,
+			  "repeatT": null,
+			  "duration": null,
+			  "renderingInfo": null,
+			  "created": null,
+			  "createdBy": null,
+			  "modified": null,
+			  "modifiedBy": null
+			};			
+
+
+
+	function addTreatment(ParTreatment){
+			   fetch(server+"addtreatment",
+	                {
+	                    method: 'POST',
+	                    headers: { "Content-type": "application/json"},
+	                    dataType: 'json',
+	                    body: JSON.stringify(ParTreatment)
+	                }
+	                ).then(function(response) {
+	                    status = response.status;  // Get the HTTP status code
+	                    response_ok = response.ok; // Is response.status in the 200-range?
+	                    return response.json();    // This returns a promise
+	                }).then(function(responseObject) {
+	                    console.log("Success Insert")
+
+	                }).catch(function(err) {
+	                    console.log("lol Error");
+	                    console.log(err.message);
+	                    console.log(err.status);
+	                });
+	}
+
+	function addSavedTreatment(ParTreatment){
+			   fetch(server+"insertsavedtreatmentitem",
+	                {
+	                    method: 'POST',
+	                    headers: { "Content-type": "application/json"},
+	                    dataType: 'json',
+	                    body: JSON.stringify(ParTreatment)
+	                }
+	                ).then(function(response) {
+	                    status = response.status;  // Get the HTTP status code
+	                    response_ok = response.ok; // Is response.status in the 200-range?
+	                    return response.json();    // This returns a promise
+	                }).then(function(responseObject) {
+	                    console.log("Success Insert")
+
+	                }).catch(function(err) {
+	                    console.log("lol Error");
+	                    console.log(err.message);
+	                    console.log(err.status);
+	                });
+	}	
+
+
+	function SaveSavedTreatment(e){
+
+			var P_SavedTreatmentTemplate=				    
+			{
+			  "nameTreatment": "SavedTreatment",
+			  "providerDetail": providerId
+			};
+
+			   fetch(server+"insertsavedtreatmenttepmlate",
+	                {
+	                    method: 'POST',
+	                    headers: { "Content-type": "application/json"},
+	                    dataType: 'json',
+	                    body: JSON.stringify(P_SavedTreatmentTemplate)
+	                }
+	                ).then(function(response) {
+	                    status = response.status;  // Get the HTTP status code
+	                    response_ok = response.ok; // Is response.status in the 200-range?
+	                    return response.json();    // This returns a promise
+	                }).then(function(responseObject) {
+	                    console.log("Success Insert");
+	                    console.log(responseObject.savedTreatmentTemplateId);
+
+
+	                    if (pagesObicna.TemperatureCheck=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Temperature Check";
+							P_Saved_TreatmentItem.renderingInfo="{\"defaultValue\":"+"37.5"+" }";
+							P_Saved_TreatmentItem.repeatT=TemperatureInterval.value;
+							P_Saved_TreatmentItem.duration=TemperatureDuration.value;
+
+							console.log(JSON.stringify(P_Saved_TreatmentItem));
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}
+					    if (pagesObicna.BloodPressureCheck=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Blood Pressure Check";
+							P_Saved_TreatmentItem.repeatT=BloodPressureInterval.value;
+							P_Saved_TreatmentItem.renderingInfo="{\"defaultValue\":"+"\"120 80"+"\" }";
+							P_Saved_TreatmentItem.duration=BloodPressureDuration.value;
+
+							console.log(JSON.stringify(P_Saved_TreatmentItem));
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}
+						if (pagesObicna.PulseCheck=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Pulse check";
+							P_Saved_TreatmentItem.renderingInfo="{\"defaultValue\":"+"\"75"+"\" }";
+							P_Saved_TreatmentItem.repeatT=PulseInterval.value;
+							P_Saved_TreatmentItem.duration=PulseDuration.value;
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}							
+						if (pagesObicna.PainLevel=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Pain level check";
+							P_Saved_TreatmentItem.renderingInfo="{\"defaultValue\":"+", "+"\"label\":\""+PainLevelLabel.value+"\"}"
+							P_Saved_TreatmentItem.repeatT=PainLevelInterval.value;
+							P_Saved_TreatmentItem.duration=PainLevelDuration.value;
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}	
+						if (pagesObicna.Medicines=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Medicines";
+							//P_Saved_TreatmentItem.renderingInfo="{\"Medicine\":"+", "+"\"MedicineType\":"+" }";
+							P_Saved_TreatmentItem.repeatT=MedicinesInterval.value;
+							P_Saved_TreatmentItem.duration=MedicinesDuration.value;
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}	
+						if (pagesObicna.SendImage=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Send Image";
+							P_Saved_TreatmentItem.renderingInfo="{\"label\": \""+ImageLabel.value+"\"}";
+							P_Saved_TreatmentItem.repeatT=ImageInterval.value;
+							P_Saved_TreatmentItem.duration=ImageDuration.value;
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}
+						if (pagesObicna.Comparision=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Comparision with a picture";
+							P_Saved_TreatmentItem.renderingInfo="{\"ImagePath\":\""+imageName.value+"\","+"\"label\":\""+ComparisionLabel.value+"\""+"}";
+							P_Saved_TreatmentItem.repeatT=ComparisionInterval.value;
+							P_Saved_TreatmentItem.duration=ComparisionDuration.value;
+
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}	
+						if (pagesObicna.Diet=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Diet";
+							P_Saved_TreatmentItem.renderingInfo="{\"description\": \""+DietDescription.value+"\"}";
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}	
+						if (pagesObicna.Activity=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Activity";
+							P_Saved_TreatmentItem.renderingInfo="{\"description\": \""+ActivityDescription.value+"\"}";
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}	
+						if (pagesObicna.Hygiene=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Hygiene";
+							P_Saved_TreatmentItem.renderingInfo="{\"description\": \""+HygieneDescription.value+"\"}";
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}	
+						if (pagesObicna.Other=='1') {
+							P_Saved_TreatmentItem.clear;
+							P_Saved_TreatmentItem.savedtreatmenttemplate=responseObject.savedTreatmentTemplateId;
+							P_Saved_TreatmentItem.name="Other instructions";
+							P_Saved_TreatmentItem.renderingInfo="{\"description\": \""+OtherDescription.value+"\"}";
+				            addSavedTreatment(P_Saved_TreatmentItem);
+						}												
+
+
+
+
+	                }).catch(function(err) {
+	                    console.log("lol Error");
+	                    console.log(err.message);
+	                    console.log(err.status);
+	                });	
+	                	
+
+			
+    }	
+    function goToTemplates(e){
+    }
+
+	function SaveRealTreatment(e){
+
+			if (pagesObicna.TemperatureCheck=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Temperature Check";
+				P_TreatmentItem.renderingInfo="{\"defaultValue\":"+"37.5"+" }";
+				P_TreatmentItem.repeatT=TemperatureInterval.value;
+				P_TreatmentItem.duration=TemperatureDuration.value;
+
+				console.log(JSON.stringify(P_TreatmentItem));
+	            addTreatment(P_TreatmentItem);
+			}
+		    if (pagesObicna.BloodPressureCheck=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Blood Pressure Check";
+				P_TreatmentItem.repeatT=BloodPressureInterval.value;
+				P_TreatmentItem.renderingInfo="{\"defaultValue\":"+"\"120 80"+"\" }";
+				P_TreatmentItem.duration=BloodPressureDuration.value;
+
+				console.log(JSON.stringify(P_TreatmentItem));
+	            addTreatment(P_TreatmentItem);
+			}
+			if (pagesObicna.PulseCheck=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Pulse check";
+				P_TreatmentItem.renderingInfo="{\"defaultValue\":"+"\"75"+"\" }";
+				P_TreatmentItem.repeatT=PulseInterval.value;
+				P_TreatmentItem.duration=PulseDuration.value;
+	            addTreatment(P_TreatmentItem);
+			}							
+			if (pagesObicna.PainLevel=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Pain level check";
+				P_TreatmentItem.renderingInfo="{\"label\": \""+PainLevelLabel.value+"\"}";
+				P_TreatmentItem.repeatT=PainLevelInterval.value;
+				P_TreatmentItem.duration=PainLevelDuration.value;
+	            addTreatment(P_TreatmentItem);
+			}	
+			if (pagesObicna.Medicines=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Medicines";
+				//P_TreatmentItem.renderingInfo="{\"Medicine\":"+", "+"\"MedicineType\":"+" }";
+				P_TreatmentItem.repeatT=MedicinesInterval.value;
+				P_TreatmentItem.duration=MedicinesDuration.value;
+	            addTreatment(P_TreatmentItem);
+			}	
+			if (pagesObicna.SendImage=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Send Image";
+				P_TreatmentItem.renderingInfo="{\"label\": \""+ImageLabel.value+"\"}";
+				P_TreatmentItem.repeatT=ImageInterval.value;
+				P_TreatmentItem.duration=ImageDuration.value;
+	            addTreatment(P_TreatmentItem);
+			}
+			if (pagesObicna.Comparision=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Comparision with a picture";
+				P_TreatmentItem.renderingInfo="{\"ImagePath\":\""+imageName.value+"\","+"\"label\":\""+ComparisionLabel.value+"\""+"}";
+				P_TreatmentItem.repeatT=ComparisionInterval.value;
+				P_TreatmentItem.duration=ComparisionDuration.value;
+
+	            addTreatment(P_TreatmentItem);
+			}	
+			if (pagesObicna.Diet=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Diet";
+				P_TreatmentItem.renderingInfo="{\"description\": \""+DietDescription.value+"\"}";
+	            addTreatment(P_TreatmentItem);
+			}	
+			if (pagesObicna.Activity=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Activity";
+				P_TreatmentItem.renderingInfo="{\"description\": \""+ActivityDescription.value+"\"}";
+	            addTreatment(P_TreatmentItem);
+			}	
+			if (pagesObicna.Hygiene=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Hygiene";
+				P_TreatmentItem.renderingInfo="{\"description\": \""+HygieneDescription.value+"\"}";
+	            addTreatment(P_TreatmentItem);
+			}	
+			if (pagesObicna.Other=='1') {
+				P_TreatmentItem.clear;
+				P_TreatmentItem.subtreatment=p_subtreatment;
+				P_TreatmentItem.name="Other instructions";
+				P_TreatmentItem.renderingInfo="{\"description\": \""+OtherDescription.value+"\"}";
+	            addTreatment(P_TreatmentItem);
+			}												
+
+
+
+
+       // router.push("Templates", { user: e.data });
+    }
+
 
 			var user = Observable();
 			var FirstMedicine=Observable("Select medicine");
 
-			var MedicalItems = Observable({name: "Select medicine"},{name: "Autos"}, {name: "Juniors"});
+			var MedicalItems = Observable({name: "Analgin"}, {name: "Paracetamol"});
+
+		
+		var displayImage = function(image)
+		{
+		  imagePath.value = image.path;
+		  imageName.value = image.name;
+		  imageSize.value = image.width+"x"+image.height;
+		  ImageTools.getImageFromBase64(image).then(
+		    function(b64)
+		    {
+		      lastImage = b64;
+		    }
+		  );
+		}
+
+
+		function Page(SubTreatmentDetail, name, TypeT, RepeatT, RenderingInfo, Created, CreatedBy, Modified, ModifiedBy){
+			this.SubTreatmentDetail = SubTreatmentDetail;
+			this.name = name;			
+			this.TypeT = TypeT;
+			this.RepeatT = RepeatT;
+			this.RenderingInfo = RenderingInfo;
+			this.Created = Created;
+			this.CreatedBy = CreatedBy;
+			this.Modified = Modified;
+			this.ModifiedBy = ModifiedBy;
+		}
+
+
 
 			this.onParameterChanged(function(param) {
-			    user.value = param.user;
+
+				// console.log("parameter " + param.selectedPages);
+
+				// console.log("parameter JSON.stringify" + JSON.stringify(param.selectedPages));
+
+				// console.log("parameter " + (JSON.stringify(param.selectedPages)).TemperatureCheck);
+
+				//pagesObicna=JSON.stringify(param.selectedPages);
+				pages.clear();
+
+
+				pagesObicna=param.selectedPages;
+
+				// console.log("Promenliva " + pagesObicna);
+
+				// console.log("Temperatura "+pagesObicna.TemperatureCheck);
+
+				if(pagesObicna.TemperatureCheck=="1")
+				{
+					pages.add(new Page("", "Temperature Check","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}	
+				if(pagesObicna.BloodPressureCheck=="1")
+				{
+					pages.add(new Page("", "Blood Pressure Check","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}
+				if(pagesObicna.PulseCheck=="1")
+				{
+					pages.add(new Page("", "Pulse Check","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}
+				if(pagesObicna.PainLevel=="1")
+				{
+					pages.add(new Page("", "Pain Level","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}	
+				if(pagesObicna.Medicines=="1")
+				{
+					pages.add(new Page("", "Medicines","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}
+				if(pagesObicna.Comparision=="1")
+				{
+					pages.add(new Page("", "Comparision with picture","","","","","","",""));
+					//pagesCount=pagesCount+1; 
+				}
+				if(pagesObicna.SendImage=="1")
+				{
+					pages.add(new Page("", "Send Image","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}	
+				if(pagesObicna.Diet=="1")
+				{
+					pages.add(new Page("", "Diet","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}
+				if(pagesObicna.Activity=="1")
+				{
+					pages.add(new Page("", "Activity","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}
+				if(pagesObicna.Hygiene=="1")
+				{
+					pages.add(new Page("", "Hygiene","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}
+				if(pagesObicna.Other=="1")
+				{
+					pages.add(new Page("", "Other Instructions","","","","","","","")); 
+					//pagesCount=pagesCount+1;
+				}	
+
+				pages.add(new Page("", "Last page","","","","","","","")); 
+				//pagesCount=pagesCount-1;	
+
+					pagesCount=pages.length-2;	
+
+					pagesCount=pagesView.length;
+
+					console.log("pagecount "+pagesCount);
+
 			})
 
-
-	function Page(name, image, long, lat, location, no, stars, people){
-		this.name = name;
-		this.image = image;
-		this.long = "EAST LNG " + long;
-		this.lat = "NORTH LAT " + lat;
-		this.location = location;
-		this.no = "NO. " + no;
-		this.stars = stars;
-		this.starsRest = 5 - stars;
-		this.people = people;
-	}
-
-	var pages = Observable();
+		function Page(SubTreatmentDetail, name, TypeT, RepeatT, RenderingInfo, Created, CreatedBy, Modified, ModifiedBy){
+			this.SubTreatmentDetail = SubTreatmentDetail;
+			this.name = name;			
+			this.TypeT = TypeT;
+			this.RepeatT = RepeatT;
+			this.RenderingInfo = RenderingInfo;
+			this.Created = Created;
+			this.CreatedBy = CreatedBy;
+			this.Modified = Modified;
+			this.ModifiedBy = ModifiedBy;
+		}
 
 
-	pages.add(new Page("Temperature Check", "Canada", 5, -108, "A silver lake in the north of Canada.", 10238, 3, ["Jamie", "Marcus", "John"]));
-	pages.add(new Page("Pulse Check", "Iceland", 5, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
-	pages.add(new Page("Pain Level", "Iceland", 5, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
-	pages.add(new Page("Blood Pressure Check", "Norway", 5, 6, "Green mountain forest in Norway.", 10241, 4, ["Tony", "Marie", "Kristina"]));
-	pages.add(new Page("Medicines", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
-	pages.add(new Page("Comparision with picture", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));		
-	pages.add(new Page("Send Image", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
-	pages.add(new Page("Picture", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
-	pages.add(new Page("Diet", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
-	pages.add(new Page("Activity", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
-	pages.add(new Page("Hygiene", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
-	pages.add(new Page("Other Instructions", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+
+
+	// pages.add(new Page("Temperature Check", "Canada", 5, -108, "A silver lake in the north of Canada.", 10238, 3, ["Jamie", "Marcus", "John"]));
+	// pages.add(new Page("Pulse Check", "Iceland", 5, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
+	// pages.add(new Page("Pain Level", "Iceland", 5, -18, "The rocky landscape of Iceland.", 10239, 4, ["Jake", "Natalie", "Fred"]));
+	// pages.add(new Page("Blood Pressure Check", "Norway", 5, 6, "Green mountain forest in Norway.", 10241, 4, ["Tony", "Marie", "Kristina"]));
+	// pages.add(new Page("Medicines", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	// pages.add(new Page("Comparision with picture", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));		
+	// pages.add(new Page("Send Image", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	// pages.add(new Page("Picture", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	// pages.add(new Page("Diet", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	// pages.add(new Page("Activity", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	// pages.add(new Page("Hygiene", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
+	// pages.add(new Page("Other Instructions", "Taiwan", 5, 120, "Dusk over the fields of Taiwan.", 10241, 3, ["Alec", "Natalie", "John", "Fred"]));
 	
 
 	var pagesView = pages.map(function(item, index){
@@ -49,19 +527,97 @@
 		};
 	});
 
-	function goToTemplates(e){
-        router.push("Templates", { user: e.data });
-    }
+
+        function TakePicture(e){
+            cameraRoll.getImage()
+                .then(function(image) {
+                    // Will be called if the user successfully selected an image.
+                    displayImage(image);
+                }, function(error) {
+                    // Will be called if the user aborted the selection or if an error occurred.
+                });
+         }   	
 
 		module.exports = {
 			user: user,
 			MedicalItems: MedicalItems,
 			goToTemplates: goToTemplates,
-			pagesView: pagesView
+			TakePicture: TakePicture,
+			displayImage: displayImage,
+			imagePath: imagePath,
+		    imageName: imageName,
+		    imageSize: imageSize,
+		    pagesPar: pagesPar,
+			pagesView: pagesView,
+	        TemperatureInterval: TemperatureInterval,
+	        BloodPressureInterval: BloodPressureInterval,
+	        PulseInterval: PulseInterval,
+	        PainLevelInterval: PainLevelInterval,
+	        MedicinesInterval: MedicinesInterval,
+	        ComparisionInterval: ComparisionInterval,
+	        ImageInterval: ImageInterval,
+
+	        TemperatureDuration: TemperatureDuration,
+	        BloodPressureDuration: BloodPressureDuration,
+	        PulseDuration: PulseDuration,
+	        PainLeveDuration: PainLeveDuration,
+	        MedicinesDuration: MedicinesDuration,
+	        ComparisionDuration: ComparisionDuration,
+	        ImageDuration: ImageDuration, 
+			addTreatment: addTreatment,
+			PainLevelLabel: PainLevelLabel,
+			ImageLabel: ImageLabel,
+			DietDescription: DietDescription,
+			HygieneDescription: HygieneDescription,
+	        ActivityDescription: ActivityDescription,
+	        OtherDescription: OtherDescription,
+	        ComparisionLabel: ComparisionLabel,
+	        addSavedTreatment: addSavedTreatment,
+	        SaveSavedTreatment: SaveSavedTreatment,
+	        P_Saved_TreatmentItem: P_Saved_TreatmentItem,
+	        SaveRealTreatment: SaveRealTreatment,
+	        pagesCount: pagesCount,
+	        PainLevelDuration: PainLevelDuration 
 		}
 
 	</JavaScript>
 	<Router ux:Dependency="router" />
+
+
+		<Panel ux:Class="TemperatureCheck" ux:Name="self" Opacity="0.4">
+			<Scaling ux:Name="pageScaling" Factor="0.95" />
+			<ActivatingAnimation>
+				<Change self.Opacity="1" Duration="0.5"/>
+				<Change pageScaling.Factor="1" Duration="0.5" />
+			</ActivatingAnimation>
+			<EnteringAnimation Scale="0.5">
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
+			</EnteringAnimation>
+			<ExitingAnimation Scale="0.5">
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
+			</ExitingAnimation>
+
+			<Panel ux:Name="Temperature" Width="90%" Height="450" Margin="16,0">
+				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
+				<DockPanel>
+				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
+			     	<StackPanel Alignment="TopLeft">
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5"> 
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
+								TextAlignment="Center" Value="{TemperatureInterval}" />
+							<Text Value="hours" Alignment="Bottom" Color="primary"/>
+						</StackPanel>
+				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
+							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center"  
+								TextAlignment="Center" Value="{TemperatureDuration}" />
+							<Text Value="days" Alignment="Bottom" Color="primary" />
+				        </StackPanel>
+				</StackPanel>
+				</DockPanel>
+				<DropShadow/>
+				</Rectangle>
+			</Panel>
+		</Panel>	
 
 
 	<Panel ux:Class="OtherInstructions" ux:Name="self" Opacity="0.4">
@@ -71,20 +627,24 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="OtherInstructionsPanel" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="OtherInstructionsPanel" Width="90%" Height="450" Margin="16,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
-				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-								<TextView TextWrapping="Wrap" Value="Advice for other instructions: " BoxSizing="Limit" Height="250"
-									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        <StackPanel Alignment="CenterLeft" Margin="20, 5" >
+				        	<Text Value="Other instructions: " Alignment="Bottom" Color="primary"/>
+								<Rectangle CornerRadius="2" Alignment="Center" Width="250"  Height="250" Margin="0,16,0,0">
+								<Stroke Width="2" Color="primary" />				        	
+								<TextView TextWrapping="Wrap" Value="{OtherDescription}" BoxSizing="Limit" Height="250" 
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary" InputHint="Email" Width="250" />	
+								</Rectangle>												
 				        </StackPanel>			        
 				</StackPanel>
 				</DockPanel>
@@ -101,20 +661,24 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="HygienePanel" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="HygienePanel" Width="90%" Height="450" Margin="30,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
-				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-								<TextView TextWrapping="Wrap" Value="Advice for hygiene: " BoxSizing="Limit" Height="250"
-									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        <StackPanel Alignment="CenterLeft" Margin="20, 5" >
+				        	<Text Value="Advice for hygiene: " Alignment="Bottom" Color="primary"/>
+								<Rectangle CornerRadius="2" Alignment="Center" Width="250"  Height="250" Margin="0,16,0,0">
+								<Stroke Width="2" Color="primary" />				        	
+								<TextView TextWrapping="Wrap" Value="{HygieneDescription}" BoxSizing="Limit" Height="250" 
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary" InputHint="Email" Width="250" />	
+								</Rectangle>												
 				        </StackPanel>			        
 				</StackPanel>
 				</DockPanel>
@@ -130,21 +694,25 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="ActivityPanel" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="ActivityPanel" Width="90%" Height="450" Margin="16,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
-				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-								<TextView TextWrapping="Wrap" Value="Advice for activity: " BoxSizing="Limit" Height="250"
-									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
-				        </StackPanel>			        
+				        <StackPanel Alignment="CenterLeft" Margin="20, 5" >
+				        	<Text Value="Advice for activity: " Alignment="Bottom" Color="primary"/>
+								<Rectangle CornerRadius="2" Alignment="Center" Width="250"  Height="250" Margin="0,16,0,0">
+								<Stroke Width="2" Color="primary" />				        	
+								<TextView TextWrapping="Wrap" Value="{ActivityDescription}" BoxSizing="Limit" Height="250" 
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary" Width="250" />	
+								</Rectangle>												
+				        </StackPanel>				        
 				</StackPanel>
 				</DockPanel>
 				<DropShadow/>
@@ -159,22 +727,26 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="Diet" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="Diet" Width="90%" Height="450" Margin="16,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
-				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-								<TextView TextWrapping="Wrap" Value="Advice for diet: " BoxSizing="Limit" Height="250"
-									Margin="10,0,10,0" LimitWidth="200" TextColor="primary"/>								
+				        <StackPanel Alignment="CenterLeft" Margin="20, 5" >
+				        	<Text Value="Advice for diet: " Alignment="Bottom" Color="primary"/>
+								<Rectangle CornerRadius="2" Alignment="Center" Width="250"  Height="250" Margin="0,16,0,0">
+								<Stroke Width="2" Color="primary" />				        	
+								<TextView TextWrapping="Wrap" Value="{DietDescription}" BoxSizing="Limit" Height="250" 
+									Margin="10,0,10,0" LimitWidth="200" TextColor="primary" InputHint="Email" Width="250" />	
+								</Rectangle>												
 				        </StackPanel>			        
-				</StackPanel>
+					</StackPanel>
 				</DockPanel>
 				<DropShadow/>
 				</Rectangle>
@@ -189,24 +761,23 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="BloodPressure" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="BloodPressure" Width="90%" Height="450" Margin="16,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="CenterLeft" 
-								/>
+							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="CenterLeft" TextAlignment="Center" Value="{BloodPressureInterval}" />
 							<Text Value="hours" Alignment="Bottom" Color="primary"/>
 						</StackPanel>
 				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" Value="{BloodPressureDuration}" />
 							<Text Value="days" Alignment="Bottom" Color="primary"/>
 				        </StackPanel>
 				</StackPanel>
@@ -223,58 +794,23 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="Pulse" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="Pulse" Width="90%" Height="450" Margin="16,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
-								/>
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center"  Value="{PulseInterval}" />
 							<Text Value="hours" Alignment="Bottom" Color="primary"/>
 						</StackPanel>
 				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
-							<Text Value="days" Alignment="Bottom" Color="primary"/>
-				        </StackPanel>
-				</StackPanel>
-				</DockPanel>
-				<DropShadow/>
-				</Rectangle>
-			</Panel>
-		</Panel>	
-
-		<Panel ux:Class="TemperatureCheck" ux:Name="self" Opacity="0.4">
-			<Scaling ux:Name="pageScaling" Factor="0.95" />
-			<ActivatingAnimation>
-				<Change self.Opacity="1" Duration="0.5"/>
-				<Change pageScaling.Factor="1" Duration="0.5" />
-			</ActivatingAnimation>
-			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
-			</EnteringAnimation>
-			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
-			</ExitingAnimation>
-
-			<Panel ux:Name="Temperature" Width="75%" Height="350" Margin="30,0">
-				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
-					<DockPanel>
-				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
-			     	<StackPanel Alignment="TopLeft">
-						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
-								/>
-							<Text Value="hours" Alignment="Bottom" Color="primary"/>
-						</StackPanel>
-				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" Value="{PulseDuration}" />
 							<Text Value="days" Alignment="Bottom" Color="primary"/>
 				        </StackPanel>
 				</StackPanel>
@@ -292,29 +828,28 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="Pulse" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="Pulse" Width="90%" Height="450" Margin="16,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="10, 5">
-							<FloatingLabel PlaceholderText="Enter pain level of:" Margin="32, 10, 10, 0" Alignment="Center" 
-								/>
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Enter pain level of:" Margin="32, 10, 10, 0" Alignment="Center" 
+								Value="{PainLevelLabel}"/>
 						</StackPanel>
 
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
-								/>
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" Value="{PainLevelInterval}"/>
 							<Text Value="hours" Alignment="Bottom" Color="primary"/>
 						</StackPanel>
 				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" Value="{PainLevelDuration}"/>
 							<Text Value="days" Alignment="Bottom" Color="primary"/>
 				        </StackPanel>
 				</StackPanel>
@@ -332,29 +867,28 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="ImagePanel" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="ImagePanel" Width="90%" Height="450" Margin="16,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel  PlaceholderText="Image from your:" Margin="15, 10, 10, 0" Alignment="Left" 
-								/>
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Image from your:" Margin="15, 10, 10, 0" Alignment="Left" 
+								Value="{ImageLabel}" />
 						</StackPanel>
 
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
-								/>
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" Value="{ImageInterval}"/>
 							<Text Value="hours" Alignment="Bottom" Color="primary"/>
 						</StackPanel>
 				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="20, 5">
-							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" Value="{ImageDuration}" />
 							<Text Value="days" Alignment="Bottom" Color="primary"/>
 				        </StackPanel>
 				</StackPanel>
@@ -372,13 +906,13 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="MedicinePanel" Width="85%" Height="400" Margin="30,0">
+			<Panel ux:Name="MedicinePanel" Width="90%" Height="450" Margin="30,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
@@ -390,16 +924,15 @@
 							<DropdownMenu ux:Name="dropOne" ListItems="{MedicalItems}" TextColor="primary" Selected="{FirstValue}" BackgroundColor="#FDFDFD" BorderColor="#BFBFBF" />
 						</StackPanel>						
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
-							<FloatingLabel PlaceholderText="Quantuty" Margin="32, 1, 1, 0" InputHint="Number" Alignment="Center" 
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Quantuty" Margin="32, 1, 1, 0" InputHint="Number" Alignment="Center" 
 								/>
 						</StackPanel>						
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
-							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
-								/>
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" Value="{MedicinesInterval}"/>
 							<Text Value="hours" Alignment="Bottom" Color="primary"/>
 						</StackPanel>
 				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 10">
-							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" Value="{MedicinesDuration}"/>
 							<Text Value="days" Alignment="Bottom" Color="primary"/>
 				        </StackPanel>
 			     	<StackPanel Alignment="TopLeft">
@@ -423,38 +956,48 @@
 				<Change pageScaling.Factor="1" Duration="0.5" />
 			</ActivatingAnimation>
 			<EnteringAnimation Scale="0.5">
-				<Move X="-1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="-1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</EnteringAnimation>
 			<ExitingAnimation Scale="0.5">
-				<Move X="1.4" RelativeTo="ParentSize" Duration="0.5"/>
+				<Move X="1.8" RelativeTo="ParentSize" Duration="0.5"/>
 			</ExitingAnimation>
 
-			<Panel ux:Name="ComparisionPanel" Width="75%" Height="350" Margin="30,0">
+			<Panel ux:Name="ComparisionPanel" Width="90%" Height="450" Margin="30,0">
 				<Rectangle CornerRadius="5" Layer="Background" Color="icons">	
 					<DockPanel>
 				<Text Dock="Top" Value="{item.name}" FontSize="24" TextColor="primary" Alignment="HorizontalCenter" Margin="10" Color="primary"></Text>
 			     	<StackPanel Alignment="TopLeft">
 
 
-						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
-							<Text Value="Choose photo" Alignment="Top" Color="primary"/>
-			                <Rectangle Height="80" Width="80"  Alignment="Center">
-			                    <ImageFill File="Assets/placeholder.png" />
+						<StackPanel Alignment="Center" Orientation="Horizontal" Margin="1, 1" Clicked="{TakePicture}" >
+			                <Rectangle Height="120" Width="120"  Alignment="Center">
+									<WhileEmpty Items="{imagePath}">
+											<Image File="Assets/SELECTSELECT.png" />
+<!-- 											<Text Value="Select image" TextAlignment="CenterLeft" FontSize="30" Color="primary"
+												TextColor="primary" /> -->
+											<!-- <Image File="assets/placeholder.png" StretchMode="PixelPrecise"/> -->
+									</WhileEmpty>
+									<WhileNotEmpty Items="{imagePath}">
+										<DockPanel Dock="Fill">
+											<!-- <Text Value="{imageName}" Dock="Top" Alignment="Center"/> -->
+											<Image File="{imagePath}" StretchMode="Uniform" />
+											<!-- <Text Value="{imageSize}" Dock="Bottom" Alignment="Center"/> -->
+										</DockPanel>
+									</WhileNotEmpty>			                    
 			                </Rectangle>							
 						</StackPanel>
 
-						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="10, 10">
-							<FloatingLabel PlaceholderText="Enter question: " Margin="32, 10, 10, 0" Alignment="Center" 
-								/>
+						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Enter question: " Margin="32, 10, 10, 0" Alignment="Center" 
+								Value="{ComparisionLabel}" />
 						</StackPanel>						
 
 						<StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 1">
-							<FloatingLabel PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center" 
-								/>
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Interval on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Center"  Value="{ComparisionInterval}"/>
 							<Text Value="hours" Alignment="Bottom" Color="primary"/>
 						</StackPanel>
 				        <StackPanel Alignment="CenterLeft" Orientation="Horizontal" Margin="1, 10">
-							<FloatingLabel PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom" />
+							<FloatingLabel TextAlignment="Center" PlaceholderText="Repeat on" Margin="32, 10, 10, 0" InputHint="Number" Alignment="Bottom"  Value="{ComparisionDuration}"/>
 							<Text Value="days" Alignment="Bottom" Color="primary"/>
 				        </StackPanel>			        
 				</StackPanel>
@@ -472,22 +1015,34 @@
 
 		<Rectangle Color="background_color">
 	
-			<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE163;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+			<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE163;" Clicked="{SaveRealTreatment}" BtnTextColor="icons" />
 			
-			<FlatButton Alignment="BottomLeft" BtnText="SAVE AS TEMPLATE" BtnTextColor="accent" Clicked="{goToTemplates}"/>
+			<!-- <FlatButton Alignment="BottomLeft" BtnText="SAVE AS TEMPLATE" BtnTextColor="accent" Clicked="{SaveSavedTreatment}"/> -->
 
 				<StackPanel>
-					<Panel Margin="0, 80, 0, 0">
+					<Panel Margin="0, 24, 0, 0">
 						<LinearNavigation ux:Name="nav">
 							<NavigationMotion GotoEasing="QuadraticOut" GotoDuration="0.3" />
 						</LinearNavigation>
 						<SwipeNavigate SwipeDirection="Left"/>
-
 						<Each Items="{pagesView}">
 							<Match Value="{item.name}">
+
 								<Case String="Temperature Check">
-									<TemperatureCheck />
-								</Case>
+<!-- 									<Match Value="{index}">
+										<Case Number="1">
+											<FlatButton Alignment="BottomLeft" BtnText="SAVE AS TEMPLATE" BtnTextColor="accent" Clicked="{SaveSavedTreatment}"/>
+										</Case>
+									</Match> -->
+									<!-- <Text Value="{pagesCount.value}" Color="primary"/> -->								
+									<TemperatureCheck  /> 
+									<!-- ux:Name="T1" -->
+								</Case>  							
+<!-- 							<Match Value="{index}">
+								<Case Number="0">
+									<FlatButton Alignment="BottomLeft" BtnText="SAVE AS TEMPLATE" BtnTextColor="accent" Clicked="{SaveSavedTreatment}"/>
+									<TemperatureCheck  />
+								</Case>	 -->
 								<Case String="Blood Pressure Check">
 									<BloodPressureCheck />
 								</Case>	
@@ -517,8 +1072,13 @@
 								</Case>	
 								<Case String="Comparision with picture">
 									<ComparisionCard />
-								</Case>																																	
-							</Match>
+								</Case>	
+<!-- 								<Case String="Last page">
+			<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE163;" Clicked="{SaveRealTreatment}" BtnTextColor="icons" />
+			
+			<FlatButton Alignment="BottomLeft" BtnText="SAVE AS TEMPLATE" BtnTextColor="accent" Clicked="{SaveSavedTreatment}"/>
+								</Case>	 -->																																			
+							</Match>						
 						</Each>
 					</Panel>
 				</StackPanel>

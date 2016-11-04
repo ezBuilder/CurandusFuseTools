@@ -72,7 +72,7 @@
 		<WhileTrue ux:Name="expandDropdown">
 			<StackPanel Offset="0,40" >
 				<Each Items="{Property menu.ListItems}" >
-					<DropdownOption FontSize="{Property menu.FontSize}" TextColor="{Property menu.TextColor}" Text="{name}" BackgroundColor="{Property menu.BackgroundColor}" Clicked="{onSelected}" BorderColor="{Property menu.BorderColor}" />
+					<DropdownOption FontSize="{Property menu.FontSize}" TextColor="{Property menu.TextColor}" Text="{name}" BackgroundColor="{Property menu.BackgroundColor}" Clicked="{onSelected}" BorderColor="{Property menu.BorderColor}" Alignment="Center"/>
 				</Each>
 			</StackPanel>
 		</WhileTrue>
