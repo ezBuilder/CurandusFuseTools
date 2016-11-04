@@ -2,6 +2,7 @@
 
 <JavaScript>
     var Observable = require("FuseJS/Observable");
+    var Storage = require("FuseJS/Storage");
 
     var contactsFromDatabase = Observable();
     var errorMessage = Observable();
@@ -13,14 +14,19 @@
    // kontakti[ipId]={"name":"","lastname":""};
     var contacts = []; 
     var data5 = [];  
+    var final = [];
     konechnaKontakti=[];
-
-
-   ////////////////////////// Del koj go pravi grupiranjeto i setira vrednosti za dali - Kontakt ili Tab  ///
     
-   //////////////////// kod kontakti //////////////////////////////////////////////
+    var userInfo = Storage.readSync("userInfo");
+
+    var providerId = 1;
+    // var providerId = userInfo.providerId;
+
+// Del koj go pravi grupiranjeto i setira vrednosti za dali - Kontakt ili Tab  ///
+
+        // kod kontakti
         function fetchData() {
-            var url = "http://localhost:8080/curandusproject/webapi/api/getpatientsall/1"
+            var url = "http://localhost:8888/curandusproject/webapi/api/getpatientsall/" + providerId
             console.log(url);
                           fetch(url,
                 {
@@ -33,96 +39,40 @@
                     status = response.status;  // Get the HTTP status code
                     response_ok = response.ok; // Is response.status in the 200-range?
                     return response.json();    // This returns a promise
-                }).then(function(responseObject) {
-                    if(responseObject != null){
-                        //Storage.write(SAVENAME, JSON.stringify(register));
-                            for(var i = 0 ;responseObject.length > i; i++ ){
-                                var tmp = {};
-                                tmp.name = responseObject[i].firstName;
-                                data5.push(tmp);
+                }).then(function(contacts) {
+                
+                var flag = false;
+
+                    for (var i = contacts.length - 1; i >= 0; i--) {
+                        contacts[i].firstLetter = contacts[i].firstName.charAt(0);
+                        contacts[i].fullName = contacts[i].firstName + " " + contacts[i].lastName;
+                        contacts[i].isLetter = 0;
+                    }
+
+                        for (var i = 0; i < letters.length; i++) {
+                            flag = false;
+                            var tmp = {
+                                "firstName" : letters[i],
+                                "isLetter" : 1
                             }
+                            final.push(tmp);
+                            for (var j = 0; j < contacts.length; j++) {
+                                if(letters[i] == contacts[j].firstLetter){
+                                    final.push(contacts[j]);
+                                    flag = true;
+                                } else {
+                                    continue;
+                                }
+                            }
+                            if (flag == false) {
+                                final.pop();
+                            }
+                        }
 
-        ///////////////////////// Inserting letter after name in array ////////////////////////////////////// 
-                            var j=1; // declaration very important!!!!
-                            for(var i = 0 ; i < data5.length, j < data5.length ; i++){
-                                    
-                                    if(i == 0){
-                                            var tmp = {"name":""};
-                                            tmp.name = data5[i].name.charAt(0).toUpperCase();
-                                            konechnaKontakti.push(tmp);
+                    for (var i = 0; i < final.length; i++) {
+                        data.add(final[i]);
+                    }
 
-                                            var tmp = {"name":""};
-                                            tmp.name = data5[i].name;
-                                            konechnaKontakti.push(tmp);
-                                            // if beginning insert letter after first
-                                            if(data5[i].name.charAt(0).toUpperCase() != data5[j].name.charAt(0).toUpperCase()){
-                                                 var tmp = {"name":""};
-                                                tmp.name = data5[j].name.charAt(0).toUpperCase();
-                                                konechnaKontakti.push(tmp);
-                                            }                                    }
-
-                                    else{
-                                        
-                                        if(data5[i].name.charAt(0).toUpperCase() != data5[j].name.charAt(0).toUpperCase()){
-                                           //put name
-                                            var tmp = {"name":""};
-                                            tmp.name = data5[i].name;
-                                            konechnaKontakti.push(tmp);
-
-                                            var tmp = {"name":""};
-                                            tmp.name = data5[j].name.charAt(0).toUpperCase();
-                                            konechnaKontakti.push(tmp);
-                                    //if end of array and last element is different then el. before
-                                            if(j == data5.length-1){
-                                                var tmp = {"name":""};
-                                                tmp.name = data5[j].name;
-                                                konechnaKontakti.push(tmp);
-                                                //console.log("Posledno ime:"+data5[j].name);
-                                            }
-                                        }
-
-                                        else{
-                                    // if is the end of array and both elements have same first letter
-                                                if(j == data5.length-1){
-                                                    var tmp = {"name":""};
-                                                    tmp.name = data5[j].name;
-                                                    konechnaKontakti.push(tmp);
-                                                }
-                                            
-                                                var tmp = {"name":""};
-                                                tmp.name = data5[i].name;
-                                                konechnaKontakti.push(tmp);
-                                        }
-                                   
-                                    }//end of else
-                                j = j+1; //// very important increment!!!!                    
-                            }//end of FOR
-
-////////////////////////////////  prepare json format for front end with length ///////////////////////////////////////////////////
-                                for (var i = 0; i < konechnaKontakti.length; i++) {
-                                                   
-                                    if(konechnaKontakti[i].name.length > 1){
-                                         //console.log("KONTAKT OD IF: ");
-                                            var tmp12 =     {
-                                                "name": konechnaKontakti[i].name,
-                                                "length" : 0
-                                            }; 
-                                            data.add(tmp12);
-                                    }
-                                    else{
-                                         //console.log("KONTAKT OD ELSE: ");
-                                            var tmp13 =     {
-                                                "name": konechnaKontakti[i].name,
-                                                "length" : 1
-                                            }; 
-
-                                            data.add(tmp13);
-                                    }
-                                }/// end of for where i put the length 
-                                
-                            Storage.write(SAVENAME, JSON.stringify(konechnaKontakti));
-                           
-                    } // end if() response object
                     console.log("Success");
                 }).catch(function(err) {
                     console.log("Fetch data error");
@@ -157,66 +107,64 @@
          router.push("chat", { user: e.data });
         }
 
-
-
-
 </JavaScript>
     <Router ux:Dependency="router" />
 <DockPanel>
 
-<FloatingButton Dock="Bottom" Alignment="Right" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+    <Rectangle Color="background_color">
+<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
 
         <ScrollView ClipToBounds="true">
             <StackPanel Orientation="Vertical">
-                        <Each Items="{data}">
-                            <Match Value="{length}" >
-                                <Case Number="0" >
-                                    <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
-                                        <WhileHovering>
-                                            <Change contactItem.Color="divider" />
-                                        </WhileHovering>
-                                        
-                                        <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                                            <ImageFill File="Assets/placeholder.png" />
-                                        </Circle>
+                <Each Items="{data}">
+                    <Match Value="{isLetter}" >
+                        <Case Number="0" >
+                            <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
+                                <WhileHovering>
+                                    <Change contactItem.Color="divider" />
+                                </WhileHovering>
+                                
+                                <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                    <ImageFill File="Assets/placeholder.png" />
+                                </Circle>
 
-                                        <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
-                                            <Text Font="medium" Alignment="CenterLeft"  Value="{name}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
-                                        </Rectangle>
-                                        
-                                        <StackPanel Dock="Right" Orientation="Horizontal">
-                                            <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
-                                                <Stroke Width="2">
-                                                    <SolidColor Color="primary" />
-                                                </Stroke>
-                                                <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
-                                            </Circle>
-                                            <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
-                                                <Stroke Width="2">
-                                                    <SolidColor Color="primary" />
-                                                </Stroke>
-                                                <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
-                                            </Circle>
-                                        </StackPanel>
-                                    </DockPanel>
+                                <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
+                                    <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+                                </Rectangle>
+                                
+                                <StackPanel Dock="Right" Orientation="Horizontal">
+                                    <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
+                                        <Stroke Width="2">
+                                            <SolidColor Color="primary" />
+                                        </Stroke>
+                                        <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
+                                    </Circle>
+                                    <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                                        <Stroke Width="2">
+                                            <SolidColor Color="primary" />
+                                        </Stroke>
+                                        <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
+                                    </Circle>
+                                </StackPanel>
+                            </DockPanel>
 
-                                </Case>
-                             </Match>
+                        </Case>
+                     </Match>
 
-                            <Match Value="{length}" >
-                                 <Case Number="1" >
-                                    <Rectangle Color="primary_dark" Height="32">
-                                        <Text Value="{name}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
-                                    </Rectangle>
-                                 </Case>
-                            </Match>
-                           
-                        </Each>        
-
-                    <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
+                    <Match Value="{isLetter}" >
+                         <Case Number="1" >
+                            <Rectangle Color="primary_dark" Height="32">
+                                <Text Value="{firstName}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            </Rectangle>
+                         </Case>
+                    </Match>
+                   
+                </Each>        
+                <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
             </StackPanel>
 
         </ScrollView>
+    </Rectangle>
 
 </DockPanel>
 </DefaultPage>

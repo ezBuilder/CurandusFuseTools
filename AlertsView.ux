@@ -18,7 +18,6 @@
                 return;
             }
 
-            //throw "Some error";
 
             return result.json();
         }).then(function(data) {
