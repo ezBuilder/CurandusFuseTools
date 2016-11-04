@@ -8,6 +8,9 @@
 		
 		var user = Observable();
 		var status = Observable();
+		var patientInfo = Observable();
+		var stateCity = Observable();
+		var nameLastname = Observable();
 
 
 		function statusFunc()
@@ -37,14 +40,53 @@
 		        console.log("Success");
 
 
+
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
 
 		    });
 
 
-
 		};
+
+		fetch("http://localhost:8080/curandusproject/webapi/api/getpatientdata/5/", {
+		        method: 'GET',
+		        headers: {
+		            "Content-type": "application/json"
+		        },
+		        dataType: 'json'
+		    }).then(function(response) {
+		        status = response.status; // Get the HTTP status code
+		        response_ok = response.ok; // Is response.status in the 200-range?
+		        return response.json(); // This returns a promise
+		    }).then(function(responseObject) {
+		        
+		        console.log("Success");
+
+		        patientInfo.value = responseObject;
+
+		        
+		        console.log(patientInfo.value.StreetAddress);
+		        console.log(patientInfo.value.city);
+		      
+
+
+		       	stateCity.value = patientInfo.value.city + " /  " + patientInfo.value.state;
+		       	nameLastname.value=patientInfo.value.firstName + " " + patientInfo.value.lastName;
+
+		       	console.log(stateCity);
+		       	console.log(nameLastname);
+
+
+
+
+
+		    }).catch(function(err) {
+		        console.log("Error", err.message);
+
+		    });
+
+
 
 		this.onParameterChanged(function(param) {
 		    console.log("We should now display user with id: " + JSON.stringify(param.user));
@@ -54,7 +96,10 @@
 
 	    module.exports = {
 	        user: user,
-	        statusFunc: statusFunc
+	        statusFunc: statusFunc,
+	        patientInfo: patientInfo,
+	        stateCity: stateCity,
+	        nameLastname: nameLastname
 	    };
 
 	</JavaScript>
@@ -114,8 +159,8 @@
 
 				<Divider />
 				<StackPanel Orientation="Horizontal" Margin="20, 5">
-					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Name:" />
-					<Text Color="primary" Font="medium" FontSize="16" Value="{user.fname}" />
+					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Name:"  />
+					<Text Color="primary" Font="medium" FontSize="16" Value="{nameLastname}" />
 				</StackPanel>
 
 				<Divider />
@@ -151,13 +196,13 @@
 				<Divider />
 				<StackPanel Orientation="Horizontal" Margin="20, 5">
 					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="Address:" />
-					<Text Color="primary" Font="medium" FontSize="16" Value="2431 Express way" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="{patientInfo.streetAddress}"/>
 				</StackPanel>
 
 				<Divider />
 				<StackPanel Orientation="Horizontal" Margin="20, 5">
 					<Text Color="primary" Width="120" Font="regular" FontSize="16" Value="City/State:" />
-					<Text Color="primary" Font="medium" FontSize="16" Value="Santa Clara, CA" />
+					<Text Color="primary" Font="medium" FontSize="16" Value="{stateCity}" />
 				</StackPanel>
 
 				<Divider />
