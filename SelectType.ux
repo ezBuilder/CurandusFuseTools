@@ -5,20 +5,304 @@
 		var user = Observable();
 
 		this.onParameterChanged(function(param) {
+		    console.log("We should now display user with id: " + JSON.stringify(param.user));
+			
+			param.user.fullName = param.user.firstName + " " + param.user.lastName;
+
 		    user.value = param.user;
 		})
 
-		function goToSelectItems(e){
-	        router.push("SelectItems", { user: e.data });
+
+	    var temperatureSelected=Observable("#FFF");
+		var bloodPressureSelected=Observable("#FFF");
+	    var pulseSelected=Observable("#FFF");
+		var painLevelSelected=Observable("#FFF");	
+	    var medicinesSelected=Observable("#FFF");
+		var comparisionSelected=Observable("#FFF");
+	    var imageSelected=Observable("#FFF");
+		var dietSelected=Observable("#FFF");
+		var activitySelected=Observable("#FFF");
+	    var higyeneSelected=Observable("#FFF");
+		var otherSelected=Observable("#FFF");	
+
+		var o={"name": "Temperature Check"};
+
+		var ParamSend={"TemperatureCheck": "0", "BloodPressureCheck":"0", "PulseCheck":"0", "PainLevel": "0", "Medicines":"0", "Comparision":"0",
+					"SendImage":"0", "Diet":"0", "Activity":"0", "Hygiene":"0", "Other":"0"};
+
+		var CardsPom = Observable(o);
+
+
+		function Card(SubTreatmentDetail, name, TypeT, RepeatT, RenderingInfo, Created, CreatedBy, Modified, ModifiedBy){
+			this.SubTreatmentDetail = SubTreatmentDetail;
+			this.name = name;			
+			this.TypeT = TypeT;
+			this.RepeatT = RepeatT;
+			this.RenderingInfo = RenderingInfo;
+			this.Created = Created;
+			this.CreatedBy = CreatedBy;
+			this.Modified = Modified;
+			this.ModifiedBy = ModifiedBy;
+		}
+
+		//var Cards=[];// = Observable();
+
+		var Cards = Observable();
+
+
+	// var cardsView = Cards.map(function(item, index){
+	// 	return {
+	// 		item: item,
+	// 		index: index
+	// 	};
+	// });		
+
+
+		function otherSelectedChange(e){
+			if (otherSelected.value=="#FFF")
+			{
+	         	otherSelected.value="#B2EBF2";
+			}
+			else
+			{
+				otherSelected.value="#FFF";
+			}
 	    }
 
+
+		function higyeneSelectedChange(e){
+			if (higyeneSelected.value=="#FFF")
+			{
+	         	higyeneSelected.value="#B2EBF2";
+			}
+			else
+			{
+				higyeneSelected.value="#FFF";
+			}
+	    }
+
+		function activitySelectedChange(e){
+			if (activitySelected.value=="#FFF")
+			{
+	         	activitySelected.value="#B2EBF2";
+			}
+			else
+			{
+				activitySelected.value="#FFF";
+			}
+	    }
+
+		function dietSelectedChange(e){
+			if (dietSelected.value=="#FFF")
+			{
+	         	dietSelected.value="#B2EBF2";
+			}
+			else
+			{
+				dietSelected.value="#FFF";
+			}
+	    }
+
+		function imageSelectedChange(e){
+			if (imageSelected.value=="#FFF")
+			{
+	         	imageSelected.value="#B2EBF2";
+			}
+			else
+			{
+				imageSelected.value="#FFF";
+			}
+	    }
+
+		function bloodPressureSelectedChange(e){
+			if (bloodPressureSelected.value=="#FFF")
+			{
+	         	bloodPressureSelected.value="#B2EBF2";
+			}
+			else
+			{
+				bloodPressureSelected.value="#FFF";
+			}
+	    }	
+	    							
+		function pulseSelectedChange(e){
+			if (pulseSelected.value=="#FFF")
+			{
+	         	pulseSelected.value="#B2EBF2";
+			}
+			else
+			{
+				pulseSelected.value="#FFF";
+			}
+	    }
+
+		function painLevelSelectedChange(e){
+			if (painLevelSelected.value=="#FFF")
+			{
+	         	painLevelSelected.value="#B2EBF2";
+			}
+			else
+			{
+				painLevelSelected.value="#FFF";
+			}
+	    }	
+	    
+		function painLevelSelectedChange(e){
+			if (painLevelSelected.value=="#FFF")
+			{
+	         	painLevelSelected.value="#B2EBF2";
+			}
+			else
+			{
+				painLevelSelected.value="#FFF";
+			}
+	    }	        
+
+		function medicinesSelectedChange(e){
+			if (medicinesSelected.value=="#FFF")
+			{
+	         	medicinesSelected.value="#B2EBF2";
+			}
+			else
+			{
+				medicinesSelected.value="#FFF";
+			}
+	    }
+
+		function comparisionSelectedChange(e){
+			if (comparisionSelected.value=="#FFF")
+			{
+	         	comparisionSelected.value="#B2EBF2";
+			}
+			else
+			{
+				comparisionSelected.value="#FFF";
+			}
+	    }
+
+		function TeperatureSelectedChange(e){
+			if (temperatureSelected.value=="#FFF")
+			{
+	         	temperatureSelected.value="#B2EBF2";
+			}
+			else
+			{
+				temperatureSelected.value="#FFF";
+			}
+	    }		    	    
+
 		function goToTemplates(e){
-	        router.push("Templates", { user: e.data });
+
+
+	        router.push("SelectItems", {});
+	    }
+
+		function goToSelectItems(e){
+
+		ParamSend={"TemperatureCheck": "0", "BloodPressureCheck":"0", "PulseCheck":"0", "PainLevel": "0", "Medicines":"0", "Comparision":"0",
+					"SendImage":"0", "Diet":"0", "Activity":"0", "Hygiene":"0", "Other":"0"};
+
+			if(temperatureSelected.value=="#B2EBF2")
+			{
+				ParamSend.TemperatureCheck="1";
+				Cards.add(new Card("", "Temperature Check","","","","","","","")); 
+			}
+
+			if(bloodPressureSelected.value=="#B2EBF2")
+			{
+				//o.name="Blood Pressure Check";
+				ParamSend.BloodPressureCheck ="1";
+				Cards.add(new Card("", "Blood Pressure Check","","","","","","","")); 
+			//	Cards.add(o);
+			}
+
+			if(pulseSelected.value=="#B2EBF2")
+			{
+				ParamSend.PulseCheck ="1";
+				Cards.add(new Card("", "Pulse Check","","","","","","","")); 
+			}
+
+			if(painLevelSelected.value=="#B2EBF2")
+			{
+				ParamSend.PainLevel ="1";
+				Cards.add(new Card("", "Pain Level","","","","","","","")); 
+			}
+
+			if(medicinesSelected.value=="#B2EBF2")
+			{
+				ParamSend.Medicines ="1";
+				Cards.add(new Card("", "Medicines","","","","","","","")); 
+			}
+
+			if(comparisionSelected.value=="#B2EBF2")
+			{
+				ParamSend.Comparision ="1";
+				Cards.add(new Card("", "Comparision with picture","","","","","","","")); 
+			}	
+
+			if(imageSelected.value=="#B2EBF2")
+			{
+				ParamSend.SendImage ="1";
+				Cards.add(new Card("", "Send Image","","","","","","","")); 
+			}							
+					
+			if(dietSelected.value=="#B2EBF2")
+			{
+				ParamSend.Diet ="1";
+				Cards.add(new Card("", "Diet","","","","","","","")); 
+			}
+
+			if(activitySelected.value=="#B2EBF2")
+			{
+				ParamSend.Activity ="1";
+				Cards.add(new Card("", "Activity","","","","","","","")); 
+			}
+
+			if(higyeneSelected.value=="#B2EBF2")
+			{
+				ParamSend.Hygiene ="1";
+				Cards.add(new Card("", "Hygiene","","","","","","","")); 
+			}	
+			
+			if(otherSelected.value=="#B2EBF2")
+			{
+				ParamSend.Other ="1";
+				Cards.add(new Card("", "Other Instructions","","","","","","","")); 
+			}	
+
+	        router.push("SelectItems", { selectedPages: ParamSend });
 	    }
 
 		module.exports = {
 			user: user,
+			temperatureSelected: temperatureSelected,
+			 bloodPressureSelected: bloodPressureSelected,
+	    	 pulseSelected: pulseSelected,
+			 painLevelSelected: painLevelSelected,	
+	    	 medicinesSelected: medicinesSelected,
+			 comparisionSelected: comparisionSelected,
+	    	 imageSelected: imageSelected,
+			 dietSelected: dietSelected,
+			 activitySelected: activitySelected,
+	    	 higyeneSelected: higyeneSelected,
+			 otherSelected: otherSelected,	
+
+			TeperatureSelectedChange: TeperatureSelectedChange,
+			 bloodPressureSelectedChange: bloodPressureSelectedChange,
+	    	 pulseSelectedChange: pulseSelectedChange,
+			 painLevelSelectedChange: painLevelSelectedChange,	
+	    	 medicinesSelectedChange: medicinesSelectedChange,
+			 comparisionSelectedChange: comparisionSelectedChange,
+	    	 imageSelectedChange: imageSelectedChange,
+			 dietSelectedChange: dietSelectedChange,
+			 activitySelectedChange: activitySelectedChange,
+	    	 higyeneSelectedChange: higyeneSelectedChange,
+			 otherSelectedChange: otherSelectedChange,	
+
 			goToTemplates: goToTemplates,
+			Card: Card,
+			Cards: Cards,
+			// cardsView: cardsView,
 			goToSelectItems: goToSelectItems
 		}
 
@@ -26,7 +310,7 @@
 	<Router ux:Dependency="router" />
 
 	<DockPanel>
-		<Toolbar Color="primary" Title="Create Treatment" Icon="&#xE5C4;" router="router">
+		<Toolbar Color="primary" Title="{user.fullName}" Icon="&#xE5C4;" router="router">
 			<DropShadow />
 		</Toolbar>
 
@@ -40,12 +324,62 @@
 				
 				<FlatButton BtnText="TEMPLATES" BtnTextColor="accent" Alignment="Right" Clicked="{goToTemplates}"/>
 
-				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Height="80" Margin="0,16,0,0">
-					<Text Color="primary" Font="regular" FontSize="24" Value="Temperature" Alignment="Center"/>
+				<Rectangle Clicked="{TeperatureSelectedChange}" CornerRadius="2" Width="90%" Color="{temperatureSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Temperature check" Alignment="Center"/>
 					<DropShadow />
 				</Rectangle>	
 
-				<Rectangle CornerRadius="2" Width="90%" Color="primary_light" Alignment="Center" Height="80" Margin="0,16,0,0">
+				<Rectangle Clicked="{bloodPressureSelectedChange}" CornerRadius="2" Width="90%" Color="{bloodPressureSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Blood pressure check" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{pulseSelectedChange}" CornerRadius="2" Width="90%" Color="{pulseSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Pulse check" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{painLevelSelectedChange}" CornerRadius="2" Width="90%" Color="{painLevelSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Pain level" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{medicinesSelectedChange}" CornerRadius="2" Width="90%" Color="{medicinesSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Medicines" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{imageSelectedChange}" CornerRadius="2" Width="90%" Color="{imageSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Send Image" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{comparisionSelectedChange}" CornerRadius="2" Width="90%" Color="{comparisionSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Comparision with a picture" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{dietSelectedChange}" CornerRadius="2" Width="90%" Color="{dietSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Diet" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{activitySelectedChange}" CornerRadius="2" Width="90%" Color="{activitySelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Activity" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>	
+
+				<Rectangle Clicked="{higyeneSelectedChange}" CornerRadius="2" Width="90%" Color="{higyeneSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Hygiene" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>
+
+				<Rectangle Clicked="{otherSelectedChange}" CornerRadius="2" Width="90%" Color="{otherSelected}" Alignment="Center" Height="80" Margin="0,16,0,0">
+					<Text Color="primary" Font="regular" FontSize="24" Value="Other instructions" Alignment="Center"/>
+					<DropShadow />
+				</Rectangle>																																		
+
+<!-- 			 	<Rectangle CornerRadius="2" Width="90%" Color="primary_light" Alignment="Center" Height="80" Margin="0,16,0,0">
 					<Stroke Width="2" Color="primary" />
 					<Text Color="primary" Font="regular" FontSize="24" Value="Selected" Alignment="Center"/>
 					<DropShadow />
@@ -65,8 +399,8 @@
 				<Rectangle CornerRadius="2" Width="90%" Color="White" Alignment="Center" Height="80" Margin="0,16,0,0">
 					<Text Color="primary" Font="regular" FontSize="24" Value="Temperature" Alignment="Center"/>
 					<DropShadow />
-				</Rectangle>	
-				
+				</Rectangle>	 -->
+ 				
 			</StackPanel>
 
 		</ScrollView>

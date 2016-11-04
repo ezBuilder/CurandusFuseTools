@@ -2,109 +2,169 @@
 
 <JavaScript>
     var Observable = require("FuseJS/Observable");
+    var Storage = require("FuseJS/Storage");
 
-    var contacts = Observable();
+    var contactsFromDatabase = Observable();
     var errorMessage = Observable();
-
-    fetch("http://www.filltext.com/?rows=10&fname={firstName}&lname={lastName}&lorem={lorem|6}&minutes={numberRange|1,%209}&pretty=true")
-        .then(function(result) {
-            if (result.status !== 200) {
-                debug_log("Something went wrong, status code: " + result.status);
-                errorMessage.value = "Oh noes! :(";
-                return;
-            }
-
-            //throw "Some error";
-
-            return result.json();
-        }).then(function(data) {
-            debug_log("Success!");
-            
-            for (var i = data.length - 1; i >= 0; i--) {
-                data[i].minutes = (data[i].minutes + " minutes ago");
-                data[i].fname = (data[i].fname + " " + data[i].lname);
-                contacts.add(data[i]);
-            }
-        
-        }).catch(function(error) {
-            debug_log("Fetch error " + error);
-            errorMessage.value = "Oh noes! :(";
-        });
-
-
-	    function goToSelectType(e){
-	        router.push("SelectType", { user: e.data });
-        }	    
-
-		function goToAddContact(){
-	        router.push("addContact", {});
-	    }
-
-		function goToChat(e){
-	        router.push("chat", { user: e.data });
-	    }
+    var data = Observable();
+    var konechniKontakti = Observable();
+    var letters =["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+    //var data5 = Observable();
+    var group = { "letter" : "", "kontakti":[]};
+   // kontakti[ipId]={"name":"","lastname":""};
+    var contacts = []; 
+    var data5 = [];  
+    var final = [];
+    konechnaKontakti=[];
     
+    var userInfo = Storage.readSync("userInfo");
 
-    module.exports = {
-        contacts: contacts,
-        errorMessage: errorMessage,
-        goToSelectType: goToSelectType,
-        goToChat: goToChat,
-        goToAddContact: goToAddContact
-    };
+    var providerId = 1;
+    // var providerId = userInfo.providerId;
+
+// Del koj go pravi grupiranjeto i setira vrednosti za dali - Kontakt ili Tab  ///
+
+        // kod kontakti
+        function fetchData() {
+            var url = "http://localhost:8888/curandusproject/webapi/api/getpatientsall/" + providerId
+            console.log(url);
+                          fetch(url,
+                {
+
+                    method: 'GET',
+                    headers: { "Content-type": "application/json"},
+                    dataType: 'json'
+                }
+                ).then(function(response) {
+                    status = response.status;  // Get the HTTP status code
+                    response_ok = response.ok; // Is response.status in the 200-range?
+                    return response.json();    // This returns a promise
+                }).then(function(contacts) {
+                
+                var flag = false;
+
+                    for (var i = contacts.length - 1; i >= 0; i--) {
+                        contacts[i].firstLetter = contacts[i].firstName.charAt(0);
+                        contacts[i].fullName = contacts[i].firstName + " " + contacts[i].lastName;
+                        contacts[i].isLetter = 0;
+                    }
+
+                        for (var i = 0; i < letters.length; i++) {
+                            flag = false;
+                            var tmp = {
+                                "firstName" : letters[i],
+                                "isLetter" : 1
+                            }
+                            final.push(tmp);
+                            for (var j = 0; j < contacts.length; j++) {
+                                if(letters[i] == contacts[j].firstLetter){
+                                    final.push(contacts[j]);
+                                    flag = true;
+                                } else {
+                                    continue;
+                                }
+                            }
+                            if (flag == false) {
+                                final.pop();
+                            }
+                        }
+
+                    for (var i = 0; i < final.length; i++) {
+                        data.add(final[i]);
+                    }
+
+                    console.log("Success");
+                }).catch(function(err) {
+                    console.log("Fetch data error");
+                    console.log(err.message);
+                });
+        }// end function checkData
+
+////////////////////////////////////////////////////////////////////////////////
+
+        fetchData();
+
+        function goToSelectType(e){
+            router.push("SelectType", { user: e.data });
+        }       
+
+        function goToAddContact(){
+            router.push("addContact", {});
+        }
+
+
+        module.exports = {
+            fetchData:fetchData,
+            data : data,
+            contacts: contacts,
+            errorMessage: errorMessage,
+            goToSelectType: goToSelectType,
+            goToAddContact: goToAddContact,
+            goToChat:goToChat
+        };
+
+        function goToChat(e){
+         router.push("chat", { user: e.data });
+        }
 
 </JavaScript>
-	<Router ux:Dependency="router" />
+    <Router ux:Dependency="router" />
 <DockPanel>
 
-<FloatingButton Dock="Bottom" Alignment="Right" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+    <Rectangle Color="background_color">
+<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
 
-<ScrollView ClipToBounds="true" Dock="Top">
-    <StackPanel Orientation="Vertical">
-    	
-    	<Rectangle Color="primary_dark" Height="32">
-			<Text Value="A" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
-    	</Rectangle>
-		
-        <Each Items="{contacts}">
-			<DockPanel Margin="7,1,7,0" ux:Name="contactItem" >
+        <ScrollView ClipToBounds="true">
+            <StackPanel Orientation="Vertical">
+                <Each Items="{data}">
+                    <Match Value="{isLetter}" >
+                        <Case Number="0" >
+                            <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
+                                <WhileHovering>
+                                    <Change contactItem.Color="divider" />
+                                </WhileHovering>
+                                
+                                <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                    <ImageFill File="Assets/placeholder.png" />
+                                </Circle>
 
-                <WhileHovering>
-                    <Change contactItem.Color="divider" />
-                </WhileHovering>
-                
-                <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                    <ImageFill File="Assets/placeholder.png" />
-                </Circle>
+                                <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
+                                    <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+                                </Rectangle>
+                                
+                                <StackPanel Dock="Right" Orientation="Horizontal">
+                                    <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
+                                        <Stroke Width="2">
+                                            <SolidColor Color="primary" />
+                                        </Stroke>
+                                        <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
+                                    </Circle>
+                                    <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                                        <Stroke Width="2">
+                                            <SolidColor Color="primary" />
+                                        </Stroke>
+                                        <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
+                                    </Circle>
+                                </StackPanel>
+                            </DockPanel>
 
-                <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
-                    <Text Font="medium" Alignment="CenterLeft"  Value="{fname}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
-                </Rectangle>
-                
-                <StackPanel Dock="Right" Orientation="Horizontal">
-	                <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
-<!--                         <Clicked>
-                            <Call Number="0038971248256" />
-                        </Clicked> -->
-	                	<Stroke Width="2">
-					        <SolidColor Color="primary" />
-					    </Stroke>
-	                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
-	                </Circle>
-	                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
-	                	<Stroke Width="2">
-					        <SolidColor Color="primary" />
-					    </Stroke>
-	                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
-	                </Circle>
-	            </StackPanel>
+                        </Case>
+                     </Match>
 
-			</DockPanel>
-			<Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
-		</Each>
+                    <Match Value="{isLetter}" >
+                         <Case Number="1" >
+                            <Rectangle Color="primary_dark" Height="32">
+                                <Text Value="{firstName}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            </Rectangle>
+                         </Case>
+                    </Match>
+                   
+                </Each>        
+                <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
+            </StackPanel>
 
-    </StackPanel>
-</ScrollView>
+        </ScrollView>
+    </Rectangle>
 
 </DockPanel>
 </DefaultPage>
