@@ -1,0 +1,45 @@
+<DefaultPage ux:Class="WelcomePage">
+<Router ux:Dependency="router" />
+
+	<JavaScript>
+
+		var Storage = require("FuseJS/Storage");
+
+		function isLogged() {
+
+			Storage.read("userInfo").then(function(content) {
+			    debug_log("Registered");
+			    debug_log(content);
+			    goToMain();
+			}, function(error) {
+			    debug_log("Not Registered");
+			    goToLogin();
+			});
+
+		}
+
+		function goToLogin() {
+		    router.push("login");
+		}
+
+		function goToMain() {
+		    router.push("main");
+		}
+
+		setTimeout(function(){ isLogged(); }, 1500);
+
+	</JavaScript>
+
+	<DockPanel>         
+		
+	    <StackPanel >
+
+			<Image File="Assets/CurandusLogo.png" Alignment="Center" Height="130" Width="130" Margin="0,100,0,0" />
+ 			<Text  TextWrapping="Wrap" TextAlignment="Center" Color="primary" Font="regular" FontSize="30" Margin="0,50,0,10">Welcome to </Text>
+ 			<Text  TextWrapping="Wrap" TextAlignment="Center" Color="primary" Font="medium" FontSize="35" > CURANDUS</Text>
+
+		</StackPanel>    
+			
+	</DockPanel>
+
+</DefaultPage>
