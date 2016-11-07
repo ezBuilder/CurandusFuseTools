@@ -224,7 +224,7 @@
 					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
 						<DockPanel >
 
-							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="4,0,0,4"/>
+							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="8,0,0,8"/>
 							
 								<StackPanel Dock="Left">
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
@@ -240,14 +240,15 @@
 								</StackPanel>
 								<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
 
-
-								<StackPanel Dock="Right" Height="100%" Width="32"  Color="White" >
+							
+								<StackPanel Dock="Right" Height="100%" Width="32" >
 
 								<Icon Dock="Right" FontSize="18" Color="Red"  Margin="7,8,0,6" Clicked="{statusFunc}" >&#xE92B;</Icon>
 
 								<Icon Dock="Right" FontSize="18" Color="Red"  Margin="7,6,0,8" >&#xE879;</Icon>
 								
 								</StackPanel>
+					
 
 								<StackPanel  Dock="Left" Height="100%"  Color="White">
 									
@@ -268,10 +269,10 @@
 					</Rectangle>
 
 
-					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
 						<DockPanel >
 
-							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="4,0,0,4"/>
+							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="8,0,0,8"/>
 							
 								<StackPanel Dock="Left">
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
@@ -288,7 +289,7 @@
 								<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
 
 
-								<StackPanel Dock="Right" Height="100%" Width="32"  Color="White" >
+								<StackPanel Dock="Right" Height="100%" Width="32"   >
 
 								<Icon Dock="Right" FontSize="18" Color="Red"  Margin="7,8,0,6" Clicked="{statusFunc}" >&#xE92B;</Icon>
 
@@ -315,10 +316,10 @@
 					</Rectangle>
 
 
-					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
 							<DockPanel >
 
-							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="4,0,0,4"/>
+							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="8,0,0,8"/>
 							
 								<StackPanel Dock="Left">
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
@@ -335,7 +336,7 @@
 								<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
 
 
-								<StackPanel Dock="Right" Height="100%" Width="32"  Color="White" >
+								<StackPanel Dock="Right" Height="100%" Width="32"  >
 
 								<Icon Dock="Right" FontSize="18" Color="Red"  Margin="7,8,0,6" Clicked="{statusFunc}" >&#xE92B;</Icon>
 
@@ -362,10 +363,10 @@
 					</Rectangle>
 
 
-					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
 									<DockPanel >
 
-							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="4,0,0,4"/>
+							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="8,0,0,8"/>
 							
 								<StackPanel Dock="Left">
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
@@ -382,7 +383,7 @@
 								<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
 
 
-								<StackPanel Dock="Right" Height="100%" Width="32"  Color="White" >
+								<StackPanel Dock="Right" Height="100%" Width="32">
 
 								<Icon Dock="Right" FontSize="18" Color="Red"  Margin="7,8,0,6" Clicked="{statusFunc}" >&#xE92B;</Icon>
 
@@ -409,10 +410,10 @@
 					</Rectangle>
 
 
-					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="4">
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
 									<DockPanel >
 
-							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="4,0,0,4"/>
+							<Rectangle Dock="Left" Height="100%" Width="10" Color="online" CornerRadius="8,0,0,8"/>
 							
 								<StackPanel Dock="Left">
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
@@ -429,7 +430,7 @@
 								<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
 
 
-								<StackPanel Dock="Right" Height="100%" Width="32"  Color="White" >
+								<StackPanel Dock="Right" Height="100%" Width="32">
 
 								<Icon Dock="Right" FontSize="18" Color="Red"  Margin="7,8,0,6" Clicked="{statusFunc}" >&#xE92B;</Icon>
 
