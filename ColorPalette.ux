@@ -12,6 +12,6 @@
 	<float4 ux:Global="offline"			  ux:Value="#F74040"   />
 	<float4 ux:Global="lightgreen"		  ux:Value="#00A571"	/>
 	<float4 ux:Global="lightorange"		  ux:Value="#FBA72C"	/>
-	
-
+	<float4 ux:Global="done"		      ux:Value="#d3d3d3"	/>
+	<float4 ux:Global="future"		      ux:Value="#FF5722CC"	/>
 </Panel>

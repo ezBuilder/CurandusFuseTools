@@ -21,7 +21,7 @@
 	<Router ux:Dependency="router" />
 
 	<DockPanel>
-		<Toolbar Color="primary" Title="Templates" Icon="&#xE5C4;" router="router">
+		<Toolbar Color="primary" Title="Templates" HasBackButton="True" router="router">
 			<DropShadow />
 		</Toolbar>
 

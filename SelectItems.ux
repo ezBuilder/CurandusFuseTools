@@ -50,7 +50,8 @@
 	    //OtherDescription="Advice for other instructions: ";
 	    var ComparisionLabel=Observable();
 
-	    var server="http://192.168.1.110:8080/curandusproject/webapi/api/";
+	    // var server="http://192.168.1.110:8080/curandusproject/webapi/api/";
+	    var server="http://89.205.28.221/curandusproject/webapi/api/";
 
 
 	    var pagesObicna;
@@ -1009,7 +1010,7 @@
 
 
 <DockPanel>
-		<Toolbar Color="primary" Title="Create Template" Icon="&#xE5C4;" router="router">
+		<Toolbar Color="primary" Title="Create Template" HasBackButton="True" router="router">
 			<DropShadow />
 		</Toolbar>
 

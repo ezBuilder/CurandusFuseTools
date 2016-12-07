@@ -72,7 +72,8 @@
     <Rectangle ux:Name="spacer" Height="1" Alignment="Bottom" Color="divider" Margin="10,0" />
 </Panel>
 
-        <Toolbar Color="primary" Title="Curandus" Icon="&#xE5D2;" router="router"/>
+        <Toolbar Color="primary" Title="Curandus" Icon="&#xE5D2;" router="router" HasSearchButton="true"/>
+        <!-- <Toolbar2 Color="primary" Title="Curandus"  router="router" HasSearchButton="true"/> -->
 
 <DockPanel>
             

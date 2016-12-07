@@ -20,7 +20,7 @@
 	<Router ux:Dependency="router" />
 
 		<DockPanel>
-			<Toolbar Color="primary" Title="{user.fname}" Icon="&#xE5C4;" router="router">
+			<Toolbar Color="primary" Title="{user.fname}" HasBackButton="True" router="router">
 				<DropShadow />
 			</Toolbar>
 			<Rectangle Color="background_color" Layer="Background"/>

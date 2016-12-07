@@ -24,7 +24,7 @@
 		        "status": 0
 		    }
 
-		    fetch("http://localhost:8888/curandusproject/webapi/api/insertprovider", {
+		    fetch("http://89.205.28.221/curandusproject/webapi/api/insertprovider", {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"
@@ -33,8 +33,10 @@
 		        body: JSON.stringify(register)
 		    }).then(function(response) {
 		        status = response.status; // Get the HTTP status code
+		        console.log('status', status);
 		        response_ok = response.ok; // Is response.status in the 200-range?
 		        return response.json(); // This returns a promise
+
 		    }).then(function(responseObject) {
 		        console.log("Success");
 		        //Da se isprati sms, potoa na success da se prenasoci
@@ -44,7 +46,6 @@
 
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
-
 
 		    });
 

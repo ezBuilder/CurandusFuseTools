@@ -2,7 +2,7 @@
 	<Router ux:Dependency="router" />
 
 		<DockPanel>
-			<Toolbar Color="primary" Title="Add contact" Icon="&#xE5C4;" router="router">
+			<Toolbar Color="primary" Title="Add contact" HasBackButton="True" router="router">
 				<DropShadow />
 			</Toolbar>
 			<Rectangle Color="background_color" Layer="Background"/>

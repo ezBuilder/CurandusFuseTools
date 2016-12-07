@@ -1,49 +1,75 @@
 <!-- TOOLBAR START-->
 <StackPanel Dock="Top" ux:Class="Toolbar">
 
-    
     <Router ux:Dependency="router" />
 
-<JavaScript>
+	<JavaScript>
+	    var Observable = require("FuseJS/Observable");
 
-    var Observable = require("FuseJS/Observable");
+	    var IsSearch = Observable(false);
+		
+		function toogleSearch(){
+	        IsSearch.value = !IsSearch.value;
+	    }
 
-    function goBack(){
-        router.goBack();
-    };
+        function goBack(){
+	        router.goBack();
+	    };
 
-    module.exports = {
-        goBack: goBack
-    };
+		module.exports = {
+	        toogleSearch: toogleSearch,
+	        goBack: goBack,
+	        IsSearch: IsSearch
+	    };
 
-</JavaScript>
+	</JavaScript>
 
     <string ux:Property="Title" />
     <string ux:Property="Icon" />
     <float4 ux:Property="Color" />
+    <bool ux:Property="HasSearchButton" />
+    <bool ux:Property="HasBackButton" />
+    <bool ux:Property="IsSearch" />
 
+	<DockPanel ux:Name="mainDock" Height="56" Padding="16, 0" Color="primary">
+			
+<!-- 		<WhileTrue Value="{IsSearch}">
+			<Change mainDock.Color = "background_color" />
+		</WhileTrue> -->
 
-    <DockPanel Height="56" Color="{Property this.Color}" Padding="16, 0">
-        <Panel Dock="Left">
+		<Match Value="{IsSearch}">
+		    <Case Bool="True">
 
+				<Panel Dock="Left">
+              		<Icon FontSize="24" Margin="0,16" Clicked="{toogleSearch}" Color="icons">&#xE5C4;</Icon>
+				</Panel>
+			        <!-- <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" /> -->
 
-            <!-- MENU ICON -->
-          <Icon FontSize="24" Margin="0,16" Value="{Property this.Icon}" Clicked="{goBack}">
-          </Icon>
-            <!-- BACK ICON -->
-          <!-- <Icon FontSize="24" Margin="0,16">&#xE5C4;</Icon> -->
-        </Panel>
-        <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" />
-        <StackPanel Orientation="Horizontal" Alignment="Right" >
-        <!-- <Icon FontSize="24"  Margin="16,16">&#xE8B6;</Icon> -->
-        <!-- <Icon FontSize="24"  Margin="0,16">&#xE5D4;</Icon> -->
-        </StackPanel>
+				<TextInput Alignment="CenterLeft" ux:Name="text" PlaceholderText="Search" CaretColor="icons" FontSize="20" PlaceholderColor="primary_light"  Margin="40,0,0,0" Font="regular" TextColor="icons">
+					
+				</TextInput>
 
+		    </Case>
+		    <Case Bool="False">
+				<Panel Dock="Left">
+					<Match Value="{ReadProperty this.HasBackButton}">
+		    			<Case Bool="True">
+              				<Icon FontSize="24" Margin="0,16" Clicked="{goBack}">&#xE5C4;</Icon>
+              			</Case>
+		    			<Case Bool="False">
+              				<Icon FontSize="24" Margin="0,16" Clicked="{openMenu}">&#xE5D2;</Icon>
+              			</Case>
+              		</Match>
+				</Panel>
+			        <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" />
+			        <StackPanel Orientation="Horizontal" Alignment="Right" >
+			        <WhileTrue Value="{ReadProperty this.HasSearchButton}">
+			            <Icon FontSize="24"  Margin="0,16" Clicked="{toogleSearch}">&#xE8B6;</Icon>
+			        </WhileTrue>
+			        </StackPanel>
+		    </Case>
+		</Match>
 
-    </DockPanel>
-    
-    <!-- Flat or Raised?-->
-    <!-- <DropShadow /> -->
+	</DockPanel>
 
 </StackPanel>
-<!-- TOOLBAR END -->
