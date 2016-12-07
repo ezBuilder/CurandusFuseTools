@@ -3,7 +3,10 @@
   "Packages": [
     "Fuse",
     "FuseJS",
-    "Fuse.Launcher"
+    "Fuse.Launcher",
+    "Fuse.Camera",
+    "Fuse.CameraRoll",
+    "Fuse.ImageTools"
   ],
   "Includes": [
     "*"

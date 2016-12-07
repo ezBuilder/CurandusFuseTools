@@ -5,18 +5,14 @@
 		var Observable = require("FuseJS/Observable");
 		var Storage = require("FuseJS/Storage");
 
-		var SAVENAME = "Register";
-
 		var register = Observable();
 
 		var inputCode = Observable();
-
 
 		this.onParameterChanged(function(param) {
 		    console.log("We should now display user with id: " + JSON.stringify(param.register));
 
 		    register.value = param.register;
-
 
 		});
 
@@ -29,39 +25,35 @@
 		}
 
 		function checkData() {
-		    console.log("Aktivaciski kod: " + inputCode.value);
-		    var url = "http://localhost:8888/curandusproject/webapi/api/CheckProviderActivationKey/" +
-		        		register.value.deviceId + "&&" + register.value.phone + "&&" + inputCode.value;
-		    console.log(url);
-		    	    	  fetch(url,
-                {
 
-                    method: 'PUT',
-                    headers: { "Content-type": "application/json"},
-                    dataType: 'json'
-                    
-                }
-                ).then(function(response) {
-                    status = response.status;  // Get the HTTP status code
-                    response_ok = response.ok; // Is response.status in the 200-range?
-                    return response.json();    // This returns a promise
-                }).then(function(responseObject) {
-                	if(responseObject == true){
-						
-						    Storage.write(SAVENAME, JSON.stringify(register));
+		    var url = "http://localhost:8888/curandusproject/webapi/api/CheckProviderActivationKey/" + register.value.deviceId + "&&" + register.value.phone + "&&" + inputCode.value;
 
-                			goToMain();
-                	}
-                    console.log("Success");
-                    console.log("rezultat: " + responseObject);
-                    
-                }).catch(function(err) {
-                    console.log("lol Error");
-                    console.log(err.message);
-                });
+		    fetch(url, {
+		        method: 'PUT',
+		        headers: {
+		            "Content-type": "application/json"
+		        },
+		        dataType: 'json'
+		    }).then(function(response) {
+		        status = response.status; // Get the HTTP status code
+		        response_ok = response.ok; // Is response.status in the 200-range?
+		        return response.json(); // This returns a promise
+		    }).then(function(responseObject) {
+		        if (responseObject.providerId) {
+		            var userInfo = Observable();
+		            userInfo.value = responseObject;
+
+		            Storage.write("userInfo", JSON.stringify(userInfo.value));
+
+		            goToMain();
+		        }
+		        console.log("Success");
+
+		    }).catch(function(err) {
+		        console.log("lol Error");
+		        console.log(err.message);
+		    });
 		}
-
-		
 
 		module.exports = {
 		    checkData: checkData,
