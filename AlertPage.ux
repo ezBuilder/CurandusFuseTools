@@ -39,13 +39,11 @@
 
 		    });
 
-		function statusFunc()
+		function statusFunc(treatmentItemID)
 		{
 
-			//get this from the clicked item not fixed like this
-			var treatmentItemID = 3;
+			treatmentItemID = 3;
 
-			console.log("POVIKANA");
 
 			status = {
 				"status": "SKIPPED",
@@ -65,24 +63,22 @@
 		    }).then(function(responseObject) {
 		        console.log("Success");
 
-
-
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
 
 		    });
-
-
 		};
 
 		function skip (item) {
-			console.log("TEST",JSON.stringify(item.data));
             Modal.showModal(
                 "Skip " + JSON.stringify(item.data.label),
                 "Are you sure you want to skip this item?",
                 ["Yes", "No"],
                 function (s) {
                     debug_log("Got callback with " + s);
+						if (s == "Yes") {
+							console.log("Clicked item - " + JSON.stringify(item.data.treatmentItemListId));
+						}
                 });
         }
 

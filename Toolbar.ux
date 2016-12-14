@@ -19,7 +19,6 @@
 		module.exports = {
 	        toogleSearch: toogleSearch,
 	        goBack: goBack,
-	        searchText: searchText,
 	        IsSearch: IsSearch
 	    };
 
