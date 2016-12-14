@@ -13,6 +13,63 @@
 	<!-- MAIN ROUTER NAVIGATION -->
     <Router ux:Name="router" />
 
+    <JavaScript>
+	
+		var Observable = require("FuseJS/Observable");
+
+		function goToAbout() {
+		    router.push("AboutPage", {});
+		    EdgeNavigator.dismiss();
+		}
+
+		function goToShare() {
+		    router.push("SharePage", {});
+		    EdgeNavigator.dismiss();
+		}
+
+	
+		module.exports = {
+		    goToAbout: goToAbout,
+		    goToShare: goToShare
+		};
+    	
+	</JavaScript>
+
+	<EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren">
+	<!-- Add a panel handled by the EdgeNavigator -->
+		
+		<DockPanel EdgeNavigation.Edge="Left">
+
+	       <Rectangle ux:Name="menu" Width="280" Height="100%" Color="White">
+
+				<StackPanel>
+
+					<Rectangle Color="#FAFAFA" Width="100%" Height="158" >
+						<StackPanel>
+						   <Circle Height="80" Width="80" Dock="Left" Margin="12,26,0,12" Alignment="TopLeft">
+                                <ImageFill File="Assets/placeholder.png" />
+                            </Circle>
+                            <Panel Height="48">
+                            	<Text Value="Name Surname" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
+                        	</Panel>
+                        </StackPanel>
+                                  
+						<Image File="Assets/Menu.jpg" />
+					</Rectangle>
+				
+					<MenuItem Text="About" Icon="&#xE853;"  Clicked="{goToAbout}"/>			
+					<MenuItem Text="Share app / Invite" Icon="&#xE80D;" Clicked="{goToShare}" />			
+					<MenuItem Text="Exit" Icon="&#xE879;"/>			
+							
+	
+					
+				</StackPanel>
+
+        	<DropShadow />
+        </Rectangle>
+</DockPanel>
+
+
 	<!-- MAIN PANEL START-->
     <DockPanel Color="background_color"> 
 
@@ -30,11 +87,16 @@
 	        <Templates ux:Template="Templates" router="router" />
 	        <ActivationPage ux:Template="ActivationPage" router="router" />
 	        <WelcomePage ux:Template="WelcomePage" router="router" />
+	        <AboutPage ux:Template="AboutPage" router="router" />
+	        <SharePage ux:Template="SharePage" router="router" />
+
 	    </Navigator>
 	    <!-- MAIN NAVIGATION END -->
         
         <BottomBarBackground Dock="Bottom"/>
     </DockPanel>
     <!-- MAIN PANEL END -->
+
+</EdgeNavigator>
 
 </App>
