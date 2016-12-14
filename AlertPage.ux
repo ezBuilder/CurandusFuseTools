@@ -14,7 +14,7 @@
 
 		var treatmentItems = Observable();
 
-		fetch("http://89.205.28.221/curandusproject/webapi/api/gettreatmentitemlist/3", {
+		fetch("http://192.168.1.110:8080//curandusproject/webapi/api/gettreatmentitemlist/3", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
@@ -50,7 +50,7 @@
 				"status": "SKIPPED",
 			};
 
-			  fetch("http://89.205.28.221/curandusproject/webapi/api/updatetreatmentitemlist/" + treatmentItemID, {
+			  fetch("http://192.168.1.110:8080//curandusproject/webapi/api/updatetreatmentitemlist/" + treatmentItemID, {
 		        method: 'PUT',
 		        headers: {
 		            "Content-type": "application/json"
@@ -74,7 +74,7 @@
 
 		};
 
-		fetch("http://89.205.28.221/curandusproject/webapi/api/getpatientdata/5/", {
+		fetch("http://192.168.1.110:8080//curandusproject/webapi/api/getpatientdata/5/", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
