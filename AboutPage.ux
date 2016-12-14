@@ -1,0 +1,8 @@
+<DefaultPage ux:Class="AboutPage">
+	<Router ux:Dependency="router" />
+	<DockPanel >
+		<Toolbar Color="primary" Title="About" HasBackButton="True" router="router">
+			<DropShadow />
+		</Toolbar>
+	</DockPanel>
+</DefaultPage>

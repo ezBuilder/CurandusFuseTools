@@ -78,6 +78,7 @@
                     debug_log("Got callback with " + s);
 						if (s == "Yes") {
 							console.log("Clicked item - " + JSON.stringify(item.data.treatmentItemListId));
+							statusFunc(item.data.treatmentItemListId);
 						}
                 });
         }

@@ -1,10 +1,11 @@
 <DefaultPage ux:Class="SelectItems">
 
 	<JavaScript>
-	    	var Observable = require("FuseJS/Observable");
-		    var camera = require('FuseJS/Camera');
-		    var cameraRoll = require('FuseJS/CameraRoll');	
-		    var ImageTools = require("FuseJS/ImageTools");   
+	
+    	var Observable = require("FuseJS/Observable");
+	    var camera = require('FuseJS/Camera');
+	    var cameraRoll = require('FuseJS/CameraRoll');	
+	    var ImageTools = require("FuseJS/ImageTools");   
 
 
 		var imagePath = Observable();
@@ -52,7 +53,6 @@
 
 	    // var server="http://192.168.1.110:8080/curandusproject/webapi/api/";
 	    var server="http://192.168.1.110:8080/curandusproject/webapi/api/";
-
 
 	    var pagesObicna;
 
