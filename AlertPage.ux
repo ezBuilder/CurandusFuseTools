@@ -14,7 +14,7 @@
 
 		var treatmentItems = Observable();
 
-		fetch("http://192.168.1.110:8080//curandusproject/webapi/api/gettreatmentitemlist/3", {
+		fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemlist/3", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
