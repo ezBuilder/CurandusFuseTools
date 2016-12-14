@@ -15,7 +15,7 @@
         function goBack(){
 	        router.goBack();
 	    };
-
+	    
 		module.exports = {
 	        toogleSearch: toogleSearch,
 	        goBack: goBack,
@@ -45,9 +45,13 @@
 				</Panel>
 			        <!-- <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" /> -->
 
-				<TextInput Alignment="CenterLeft" ux:Name="text" PlaceholderText="Search" CaretColor="icons" FontSize="20" PlaceholderColor="primary_light"  Margin="40,0,0,0" Font="regular" TextColor="icons">
+				<TextInput Alignment="CenterLeft" ux:Name="text" Value="{searchText}" PlaceholderText="Search" CaretColor="icons" FontSize="20" PlaceholderColor="primary_light"  Margin="40,0,0,0" Font="regular" TextColor="icons">
 					
 				</TextInput>
+
+				<Panel Dock="Right">
+              		<Icon FontSize="24" Margin="0,16" Clicked="{toolbarSearch}" Color="icons">&#xE8B6;</Icon>
+				</Panel>
 
 		    </Case>
 		    <Case Bool="False">

@@ -9,6 +9,9 @@
 	<!-- Declare the Roboto font (place in ./fonts folder) -->
     <Font File="fonts/Roboto-Medium.ttf" ux:Global="medium" />
     <Font File="fonts/Roboto-Regular.ttf" ux:Global="regular" />
+
+	<!-- Declare the modal(popUp) package -->
+    <ModalJS ux:Global="Modal" />
 	
 	<!-- MAIN ROUTER NAVIGATION -->
     <Router ux:Name="router" />

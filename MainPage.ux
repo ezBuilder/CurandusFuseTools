@@ -15,6 +15,10 @@
         isLoading.value = false;
     }
 
+    function toolbarSearch(){
+        console.log('da');
+    }
+
     function reloadHandler(){
 
         contacts = Observable();
@@ -59,7 +63,8 @@
         contacts: contacts,
         errorMessage: errorMessage,
         isLoading: isLoading,
-        reloadHandler: reloadHandler
+        reloadHandler: reloadHandler,
+        toolbarSearch: toolbarSearch
     };
 
 </JavaScript>
