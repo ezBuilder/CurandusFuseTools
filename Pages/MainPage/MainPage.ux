@@ -4,10 +4,6 @@
 	
 <JavaScript File="MainPage.js" />
 
-<!--     <OnBackButton>
-        <HomeScreen Type="CallIntent" />
-    </OnBackButton> -->
-
 <Panel ux:Class="Divider">
     <Rectangle ux:Name="spacer" Height="1" Alignment="Bottom" Color="divider" Margin="10,0" />
 </Panel>
