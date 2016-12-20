@@ -1,8 +1,3 @@
-<DefaultPage ux:Class="LoginPage">
-<Router ux:Dependency="router" />
-
-<JavaScript>
-
 		var Observable = require("FuseJS/Observable");
 
 		var register = Observable();
@@ -24,7 +19,7 @@
 		        "status": 0
 		    }
 
-		    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/insertprovider", {
+		    fetch("http://89.205.28.221/curandusproject/webapi/api/insertprovider", {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"
@@ -58,22 +53,3 @@
 		    lastName: lastName,
 		    registerFunc: registerFunc
 		};
-
-</JavaScript>
-
-<DockPanel>         
-    <FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary" Clicked="{registerFunc}" BtnIcon="&#xE315;" BtnTextColor="icons" />
-
-   	<StackPanel >
-
-    			<Image File="Assets/CurandusLogo.png" Alignment="Center" Height="130" Width="130" Margin="0,100,0,0" />
-     			<Text  TextWrapping="Wrap" TextAlignment="Center" Color="primary" Font="regular" FontSize="30" Margin="0,50,0,10">REGISTER</Text>
-				<FloatingLabel Value="{phone}" PlaceholderText="Phone number" InputHint="Number" Margin="32, 16, 32, 0" />
-				<FloatingLabel Value="{firstName}" PlaceholderText="Name" Margin="32, 16, 32, 0" />
-				<FloatingLabel  Value="{lastName}" PlaceholderText="Surname" Margin="32, 16, 32, 0" />
-
-	</StackPanel>    
-		
-</DockPanel>
-
-</DefaultPage>
