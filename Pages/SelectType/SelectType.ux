@@ -37,27 +37,9 @@
     </WhileSelected> 
 </Rectangle>
 
-<JavaScript>
-// {"name":"BloodPressureCheck"},{"name":"PulseCheck"},{"name":"PainLevel"},{"name":"TemperatureCheck"}
-    var Observable = require("FuseJS/Observable")
-    exports.values = Observable()
-
-    exports.list = Observable("")
-    exports.values.onValueChanged( module, function() {
-        
-        exports.list.value = exports.values.toArray().join(",")
-    	console.log("kako se kreira listata: "+exports.values.toArray().join(","));
-
-        //console.log("lista: "+JSON.stringify(exports.list))
-        
-    })
-    console.log("values: "+JSON.stringify(exports.values));
-
-</JavaScript>
-
+<JavaScript File="SelectType.js" />
     <DockPanel>
-        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router"> 
-            
+        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router">
         </Toolbar>
         <Rectangle Alignment="Top" Height="45" Width="100%">
             <Grid Columns="1*,1*" >
@@ -69,7 +51,6 @@
             <DropShadow/> 
         </Rectangle> 
         
-
         <Rectangle Color="background_color"> 
             <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
             <ScrollView Margin="0,60,0,0">
@@ -92,7 +73,5 @@
         </Rectangle>
 
     </DockPanel>
-
-
 
 </DefaultPage>

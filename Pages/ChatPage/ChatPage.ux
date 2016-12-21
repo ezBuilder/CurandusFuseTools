@@ -1,24 +1,6 @@
 <DefaultPage ux:Class="ChatPage">
-	<JavaScript>
-
-		var Observable = require("FuseJS/Observable");
-		
-		var user = Observable();
-
-		this.onParameterChanged(function(param) {
-		    console.log("We should now display user with id: " + JSON.stringify(param.user));
-
-		    user.value = param.user;
-		})
-
-	    module.exports = {
-	        user: user
-	    };
-
-	</JavaScript>
-
+	<JavaScript File="ChatPage.js" />
 	<Router ux:Dependency="router" />
-
 		<DockPanel>
 			<Toolbar Color="primary" Title="{user.fname}" HasBackButton="True" router="router">
 				<DropShadow />
@@ -28,8 +10,8 @@
 			<ScrollView>
 				<StackPanel Alignment="Bottom">
 					<DockPanel Margin="10">
-						<Circle Height="40" Width="40" Dock="Left" Margin="0,0,10,0">
-							<ImageFill File="Assets/placeholder.png" />
+						<Circle Height="40" Width="40" Dock="Left" Margin="0,0,10,0" Clicked="{goToUser}">
+							<ImageFill File="../../Assets/placeholder.png" />
 						</Circle>
 						<Panel Padding="20" Margin="10,0,10,0">
 							<Rectangle Layer="Background" CornerRadius="10" Color="divider"/>
@@ -38,7 +20,7 @@
 					</DockPanel>
 					<DockPanel Margin="10">
 						<Circle Height="40" Width="40" Dock="Right" Margin="0,0,10,0">
-							<ImageFill File="Assets/placeholder.png" />
+							<ImageFill File="../../Assets/placeholder.png" />
 						</Circle>
 						<Panel Padding="20" Margin="10,0,10,0">
 							<Rectangle Layer="Background" CornerRadius="10" Color="primary"/>
