@@ -27,16 +27,15 @@
 <Rectangle ux:Class="TabName" Color="primary" Width="100%" > 
     <string ux:Property="Label"/>
     <Selectable Value="{ReadProperty this.Label}"/>
-    <Stroke Color="White"  Width="0.2"  ></Stroke>
-    <Text Alignment="Center" Color="White" Value="{ReadProperty this.Label}" />
+    <Stroke Color="divider"  Width="0.2"  ></Stroke>
+    <Text Alignment="Center" Font="regular" Color="White" Value="{ReadProperty this.Label}" />
     <WhilePressed>
-        <Scale Factor="1.1" Duration="0.2"/>
+        <Scale Factor="1.1" Duration="0.1"/>
     </WhilePressed>
     <WhileSelected>  
         <Change this.Color="#0097A7" Duration="0.2"/> 
     </WhileSelected> 
 </Rectangle>
-
 
 <JavaScript>
 // {"name":"BloodPressureCheck"},{"name":"PulseCheck"},{"name":"PainLevel"},{"name":"TemperatureCheck"}

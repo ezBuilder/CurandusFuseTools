@@ -12,14 +12,16 @@
     "*"
   ],
   "Projects": [
-    "fuse_modules\\bolav\\fuse-homescreen\\homescreen_include.unoproj"
+    "fuse_modules\\bolav\\fuse-homescreen\\homescreen_include.unoproj",
+    "fuse_modules\\bolav\\fuse-modalview\\modal_include.unoproj"
   ],
   "Excludes": [
     "fuse_modules/"
   ],
   "FusePM": {
     "Dependencies": [
-      "https://github.com/bolav/fuse-homescreen"
+      "https://github.com/bolav/fuse-homescreen",
+      "https://github.com/bolav/fuse-modalview"
     ]
   }
 }
