@@ -12,12 +12,14 @@
     "*"
   ],
   "Projects": [
+    "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj"
   ],
   "Excludes": [
     "fuse_modules/"
   ],
   "FusePM": {
     "Dependencies": [
+      "https://github.com/bolav/fuse-contacts"
     ]
   }
 }

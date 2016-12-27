@@ -21,7 +21,7 @@ function goBack() {
 
 function checkData() {
 
-    var url = "http://89.205.28.221/curandusproject/webapi/api/CheckProviderActivationKey/" + register.value.deviceId + "&&" + register.value.phone + "&&" + inputCode.value;
+    var url = "http://192.168.1.165:8081/curandusproject/webapi/api/CheckProviderActivationKey/" + register.value.deviceId + "&&" + register.value.phone + "&&" + inputCode.value;
 
     fetch(url, {
         method: 'PUT',

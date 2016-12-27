@@ -19,7 +19,7 @@
 		        "status": 0
 		    }
 
-		    fetch("http://89.205.28.221/curandusproject/webapi/api/insertprovider", {
+		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/insertprovider", {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"

@@ -6,15 +6,86 @@
 
 <Rectangle Dock="Top" Height="52" Color="background_color">
     <StackPanel Orientation="Horizontal" Alignment="Center">
-        <Text Value="Patients" TextColor="primary" Margin="0,0,12,0" />
-        <Text Value="Doctors" TextColor="primary_dark" Margin="12,0,0,0"/>
+        <Text ux:Name="Patients" Value="Patients" TextColor="primary_dark" Margin="0,0,12,0" Clicked="{setPatients}">
+            <Clicked>
+                <Set Patients.TextColor="primary_dark" />
+                <Set Doctors.TextColor="secondary_text" />
+            </Clicked>
+        </Text>
+        <Text ux:Name="Doctors" Value="Doctors" TextColor="secondary_text" Margin="12,0,0,0" Clicked="{setDoctors}">
+            <Clicked>
+                <Set Doctors.TextColor="primary_dark" />
+                <Set Patients.TextColor="secondary_text" />
+            </Clicked>
+        </Text>
     </StackPanel>
 </Rectangle>
 
     <Rectangle Color="background_color">
-<FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
 
+        <Match Value="{isDoctors}" >
+            <Case Bool="true">
+                <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddDoctors}" BtnTextColor="icons" />
+            </Case>
+            <Case Bool="false">
+                <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+            </Case>
+        </Match>
+
+        <Match Value="{isDoctors}" >
+            <Case Bool="true">
         <ScrollView ClipToBounds="true">
+            <StackPanel Orientation="Vertical">
+                <Each Items="{dataDoctors}">
+                    <Match Value="{isLetter}" >
+                        <Case Number="0" >
+                            <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
+                                <WhileHovering>
+                                    <Change contactItem.Color="divider" />
+                                </WhileHovering>
+                                
+                                <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                    <ImageFill File="../../Assets/placeholder.png" />
+                                </Circle>
+
+                                <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
+                                    <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+                                </Rectangle>
+                                
+                                <StackPanel Dock="Right" Orientation="Horizontal">
+                                    <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
+                                        <Stroke Width="2">
+                                            <SolidColor Color="primary" />
+                                        </Stroke>
+                                        <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
+                                    </Circle>
+                                    <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                                        <Stroke Width="2">
+                                            <SolidColor Color="primary" />
+                                        </Stroke>
+                                        <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
+                                    </Circle>
+                                </StackPanel>
+                            </DockPanel>
+                        </Case>
+                     </Match>
+
+                    <Match Value="{isLetter}" >
+                         <Case Number="1" >
+                            <Rectangle Color="primary_dark" Height="32">
+                                <Text Value="{firstName}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            </Rectangle>
+                         </Case>
+                    </Match>
+                   
+                </Each>        
+                <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
+            </StackPanel>
+
+        </ScrollView>
+            </Case>
+            <Case Bool="false">
+                <ScrollView ClipToBounds="true">
             <StackPanel Orientation="Vertical">
                 <Each Items="{data}">
                     <Match Value="{isLetter}" >
@@ -64,6 +135,11 @@
             </StackPanel>
 
         </ScrollView>
+            </Case>
+        </Match>
+
+        
+        
     </Rectangle>
 
 </DockPanel>
