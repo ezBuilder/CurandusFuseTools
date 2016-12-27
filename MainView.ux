@@ -15,6 +15,7 @@
 	
 	<!-- MAIN ROUTER NAVIGATION -->
     <Router ux:Name="router" />
+    
 
     <JavaScript>
 		var Observable = require("FuseJS/Observable");
@@ -43,9 +44,9 @@
 
 	       <Rectangle ux:Name="menu" Width="280" Height="100%" Color="White">
 
-				<StackPanel>
+				<DockPanel>
 
-					<Rectangle Color="#FAFAFA" Width="100%" Height="158" >
+					<Rectangle Color="#FAFAFA" Width="100%" Height="158" Dock="Top">
 						<StackPanel>
 						   <Circle Height="80" Width="80" Dock="Left" Margin="12,26,0,12" Alignment="TopLeft">
                                 <ImageFill File="Assets/placeholder.png" />
@@ -57,14 +58,13 @@
                                   
 						<Image File="Assets/Menu.jpg" />
 					</Rectangle>
-				
-					<MenuItem Text="About" Icon="&#xE853;"  Clicked="{goToAbout}"/>			
-					<MenuItem Text="Share app / Invite" Icon="&#xE80D;" Clicked="{goToShare}" />			
-					<MenuItem Text="Exit" Icon="&#xE879;"/>			
+					<MenuItem Text="About" Dock="Top" Icon="&#xE853;"  Clicked="{goToAbout}"/>			
+					<MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{goToShare}" />			
+					<MenuItem Text="Exit" Icon="&#xE879;" Dock="Bottom"/>			
 							
+				</DockPanel>
 	
 					
-				</StackPanel>
 
         	<DropShadow />
         </Rectangle>
@@ -78,11 +78,13 @@
     			
 		<!-- MAIN NAVIGATION START-->
 	    <Navigator DefaultTemplate="WelcomePage">
+	    	
 	        <LoginPage ux:Template="login" router="router" />
 	        <MainPage ux:Template="main" router="router" />
 	        <AlertPage ux:Template="alert" router="router" />
 	        <ChatPage ux:Template="chat" router="router" />
 	        <AddContactPage ux:Template="addContact" router="router" />
+	        <AddDoctorPage ux:Template="addDoctor" router="router" />
 	        <SelectType ux:Template="SelectType" router="router" />
 	        <!-- <SelectItems ux:Template="SelectItems" router="router" /> -->
 	        <Templates ux:Template="Templates" router="router" />

@@ -1,9 +1,10 @@
-<DefaultPage ux:Class="AddContactPage">
-<JavaScript File="AddContactPage.js" />
+<DefaultPage ux:Class="AddDoctorPage">
+<JavaScript File="AddDoctorPage.js" />
 	<Router ux:Dependency="router" />
 
+
 		<DockPanel>
-			<Toolbar Color="primary" Title="Add contact" HasBackButton="True" router="router">
+			<Toolbar Color="primary" Title="Add doctor" HasBackButton="True" router="router">
 				<DropShadow />
 			</Toolbar>
 			<Rectangle Color="background_color" Layer="Background"/>

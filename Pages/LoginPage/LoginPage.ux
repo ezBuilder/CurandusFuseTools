@@ -14,8 +14,8 @@
 				<FloatingLabel Value="{firstName}" PlaceholderText="Name" Margin="32, 16, 32, 0" />
 				<FloatingLabel  Value="{lastName}" PlaceholderText="Surname" Margin="32, 16, 32, 0" />
 
-	</StackPanel>    
-		
+	</StackPanel>
+
 </DockPanel>
 
 </DefaultPage>
