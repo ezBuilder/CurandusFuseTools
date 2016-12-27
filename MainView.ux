@@ -78,7 +78,6 @@
     			
 		<!-- MAIN NAVIGATION START-->
 	    <Navigator DefaultTemplate="WelcomePage">
-	    	
 	        <LoginPage ux:Template="login" router="router" />
 	        <MainPage ux:Template="main" router="router" />
 	        <AlertPage ux:Template="alert" router="router" />
@@ -92,8 +91,8 @@
 	        <WelcomePage ux:Template="WelcomePage" router="router" />
 	        <AboutPage ux:Template="AboutPage" router="router" />
 	        <SharePage ux:Template="SharePage" router="router" />
-
-	    </Navigator>
+	        <savedTreatment ux:Template="savedTreatment" router="router" />
+		</Navigator>
 	    <!-- MAIN NAVIGATION END -->
         
         <BottomBarBackground Dock="Bottom"/>

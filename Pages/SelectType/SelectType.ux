@@ -2,24 +2,79 @@
 
 <Router ux:Dependency="router" />
 
+
+<JavaScript>
+    var Observable = require("FuseJS/Observable")
+    exports.values = Observable();
+    var flag = 0;
+
+    exports.list = Observable("")
+    var selektirani = Observable("");
+    // selektirani.add("Temperature Check"); 
+    // selektirani.add("Pulse Check"); 
+    
+    exports.values.onValueChanged( module, function() {        
+        exports.list.value = exports.values.toArray().join(",") 
+        exports.values = selektirani;
+        //console.log("kako se kreira listata: " + JSON.stringify(exports.values));
+       // console.log("selektirano: " + JSON.stringify(selektirani));
+     })
+
+    this.onParameterChanged(function(param) { 
+        //var savedTreatmentTemplateId = param.savedTreatmentTemplateId; 
+        //fetchDataBySavedTreatment(savedTreatmentTemplateId); 
+        //console.log("On Parameter changed Select type: "+JSON.stringify(param));
+        console.log('aj da vidime');
+        selektirani.clear(); 
+        for(var i = 0 ; i < param.length; i++){
+            selektirani.add(param[i]);
+        }
+    });
+
+  
+    // ADD SELECTED ITEM 
+    function AddSelectedItem(item){
+        //console.log("ova e toj item: "+JSON.stringify(item))
+        // for(var i = 0 ; i < item.data.length; i++){
+        //     console.log("ova e toj item: "+JSON.stringify(item[i]));
+        // }
+    }
+
+    function goToSavedTreatments(e) { 
+
+        router.push("savedTreatment", { 
+        }); 
+    } 
+    
+    module.exports = { 
+         goToSavedTreatments:goToSavedTreatments, 
+         selektirani:selektirani, 
+         AddSelectedItem:AddSelectedItem 
+    } 
+    
+    
+</JavaScript>
+
+
+
 <!-- **************** Treatment item   **************** -->
-<Rectangle ux:Class="MyItem" Color="primary" CornerRadius="7" Width="65%"  Alignment="Center" Height="60" Margin="	0,10,0,0" HitTestMode="LocalBounds">  
-	<string ux:Property="Label"/>
+<Rectangle ux:Class="MyItem" Color="primary" CornerRadius="7" Width="65%"  Alignment="Center" Height="60" Margin="  0,10,0,0" HitTestMode="LocalBounds" Clicked="{AddSelectedItem}">  
+    <string ux:Property="Label"/>
     <string ux:Property="Value"/>
 
     <Selectable Value="{ReadProperty this.Label}"/>
    
-	<WhilePressed>
-		<Scale Factor="1.3" Duration="0.2"/>
-	</WhilePressed>
-	<Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
-	<DropShadow/>  
-	<WhileSelected>  
-		<Change this.Color="#0097A7" Duration="0.2"/> 
-	</WhileSelected> 
-	<Tapped>  
-		<ToggleSelection /> 
-	</Tapped> 
+    <WhilePressed>
+        <Scale Factor="1.3" Duration="0.2"/>
+    </WhilePressed>
+    <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
+    <DropShadow/>  
+    <WhileSelected>  
+        <Change this.Color="#0097A7" Duration="0.2"/> 
+    </WhileSelected> 
+    <Tapped>  
+        <ToggleSelection /> 
+    </Tapped> 
 
 </Rectangle>  
 
@@ -28,34 +83,36 @@
     <string ux:Property="Label"/>
     <Selectable Value="{ReadProperty this.Label}"/>
     <Stroke Color="divider"  Width="0.2"  ></Stroke>
-    <Text Alignment="Center" Font="regular" Color="White" Value="{ReadProperty this.Label}" />
+    <Text Alignment="Center" Color="White" Value="{ReadProperty this.Label}" />
     <WhilePressed>
-        <Scale Factor="1.1" Duration="0.1"/>
+        <Scale Factor="1.1" Duration="0.2"/>
     </WhilePressed>
     <WhileSelected>  
         <Change this.Color="#0097A7" Duration="0.2"/> 
     </WhileSelected> 
 </Rectangle>
 
-<JavaScript File="SelectType.js" />
+
     <DockPanel>
-        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router">
+        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router"> 
+            
         </Toolbar>
         <Rectangle Alignment="Top" Height="45" Width="100%">
             <Grid Columns="1*,1*" >
                 <Selection Value="Select Types"/>
                 <TabName Label="Select Types"></TabName>
-                <TabName Label="load Templates"></TabName>
+                <TabName Clicked="{goToSavedTreatments}" Label="Load Saved Templates"></TabName>
                
             </Grid>
             <DropShadow/> 
         </Rectangle> 
         
+
         <Rectangle Color="background_color"> 
             <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
             <ScrollView Margin="0,60,0,0">
                 <StackPanel>
-                    <Selection Values="{values}"/>
+                    <Selection Values="{selektirani}"/>
 
                     <MyItem Label="Temperature Check" Value="sku-04"/> 
                     <MyItem Label="Blood Pressure Check" Value="sku-01"/> 
@@ -73,5 +130,7 @@
         </Rectangle>
 
     </DockPanel>
+
+
 
 </DefaultPage>
