@@ -1,0 +1,57 @@
+<DefaultPage ux:Class="savedTreatment">
+
+<Router ux:Dependency="router" />
+
+<!-- **************** Saved item  CLASS **************** -->
+<Rectangle ux:Class="SavedItem" Color="#ff853f" CornerRadius="7" Width="65%"  Alignment="Center" Height="40" Margin="0,10,0,0" Clicked="{getItemsForTemplate}" >  
+	<string ux:Property="Label"/>
+    <string ux:Property="Value"/>
+   
+	<WhilePressed>
+		<Scale Factor="1.3" Duration="0.2"/>
+	</WhilePressed>
+	<Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
+	<DropShadow/>  
+
+</Rectangle>  
+
+<!-- **************** TabFullSize CLASS  **************** -->
+<Rectangle ux:Class="TabFullSize" Color="primary_dark" Width="100%" > 
+    <string ux:Property="Label"/>
+    <Selectable Value="{ReadProperty this.Label}"/>
+    <Stroke Color="divider"  Width="0.2"  ></Stroke>
+    <Text Alignment="Center" Font="regular" Color="White" Value="{ReadProperty this.Label}" />
+    
+</Rectangle>
+
+
+<!-- **************** SCREEN VIEW  **************** -->
+<JavaScript File="savedTreatment.js" />
+    <DockPanel>
+        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router">
+        </Toolbar>
+        <Rectangle Alignment="Top" Height="45" Width="100%">
+            <Grid  >
+                <Selection Value="Select Types"/>
+                <TabFullSize Label="Saved Treatment Templates"></TabFullSize>
+               
+            </Grid>
+            <DropShadow/> 
+        </Rectangle> 
+        
+        <Rectangle Color="background_color"> 
+            <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
+            <ScrollView Margin="0,60,0,0">
+                <StackPanel>
+
+                    <Each Items="{savedTreatments}">
+                        <SavedItem Label="{nameTreatment}" Value="sku-04" /> 
+                    </Each>
+                    
+
+                </StackPanel>
+            </ScrollView>
+        </Rectangle>
+    </DockPanel>
+
+</DefaultPage>
