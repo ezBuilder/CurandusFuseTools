@@ -24,7 +24,7 @@
 
     // kod kontakti
     function fetchData() {
-        var url = "http://192.168.1.110:8080/curandusproject/webapi/api/getpatientsall/" + providerId
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getpatientsall/" + providerId
         console.log(url);
         fetch(url, {
             method: 'GET',

@@ -6,10 +6,11 @@
 		var patientInfo = Observable();
 		var stateCity = Observable();
 		var nameLastname = Observable();
+		var chat = Observable();
 
 		var treatmentItems = Observable();
 
-		fetch("http://89.205.28.221/curandusproject/webapi/api/gettreatmentitemlist/3", {
+		fetch("http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemlist/3", {
 		    method: 'GET',
 		    headers: {
 		        "Content-type": "application/json"
@@ -41,7 +42,7 @@
 		        "status": "SKIPPED",
 		    };
 
-		    fetch("http://89.205.28.221/curandusproject/webapi/api/updatetreatmentitemlist/" + treatmentItemID, {
+		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmentitemlist/" + treatmentItemID, {
 		        method: 'PUT',
 		        headers: {
 		            "Content-type": "application/json"
@@ -74,7 +75,7 @@
 		    //     });
 		}
 
-		fetch("http://192.168.1.110:8080/curandusproject/webapi/api/getpatientdata/5", {
+		fetch("http://192.168.1.165:8081/curandusproject/webapi/api/getpatientdata/5", {
 		    method: 'GET',
 		    headers: {
 		        "Content-type": "application/json"
@@ -113,6 +114,26 @@
 		    user.value = JSON.stringify(param.user);
 		})
 
+		function edit()
+		{
+			console.log('edit clicked');
+			console.log('end clicked');
+		}
+
+		function end()
+		{
+			console.log('edit clicked');
+			console.log('end clicked');
+		}
+
+
+
+		function goToChat() {
+    	router.push("chat");
+}
+
+
+
 		module.exports = {
 		    user: user,
 		    statusFunc: statusFunc,
@@ -121,4 +142,7 @@
 		    treatmentItems: treatmentItems,
 		    nameLastname: nameLastname,
 		    skip: skip,
+		    edit: edit,
+		    end: end,
+		    goToChat: goToChat,
 		};
