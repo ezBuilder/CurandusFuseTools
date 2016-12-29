@@ -1,6 +1,7 @@
 var Observable = require('FuseJS/Observable');
 
 var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var dataDoctors = [];
 var finalDoctors = [];
 
 function sort(contacts) {
@@ -36,6 +37,7 @@ function sort(contacts) {
     }
 
     for (var i = 0; i < finalDoctors.length; i++) {
+        dataDoctors.push(finalDoctors[i]);
     }
 
     console.log("Success", JSON.stringify(dataDoctors));
