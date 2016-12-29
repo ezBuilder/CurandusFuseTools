@@ -11,6 +11,8 @@
     var finalDoctors = [];
     konechnaKontakti = [];
 
+    var Alpabet = require("/Alphabet.js");
+
 
     function setDoctors() {
         isDoctors.value = true;
@@ -41,46 +43,11 @@
             return response.json(); // This returns a promise
 
         }).then(function(contacts) {
-
-            console.log(contacts.length);
-
-            var flag = false;
-
-            for (var i = contacts.length - 1; i >= 0; i--) {
-                if (contacts[i].firstName != null && contacts[i].firstName != "undefined") {
-                    contacts[i].firstLetter = contacts[i].firstName.charAt(0).toUpperCase();
-                    contacts[i].fullName = contacts[i].firstName + " " + contacts[i].lastName;
-                    contacts[i].isLetter = 0;
-                }
+            var tmp = Alpabet.sort(contacts);
+            for (var i = 0; i < tmp.length; i++) {
+                dataDoctors.add(tmp[i]);
             }
-            for (var i = 0; i < letters.length; i++) {
-                flag = false;
-                var tmp = {
-                    "firstName": letters[i],
-                    "isLetter": 1
-                }
-                finalDoctors.push(tmp);
-                for (var j = 0; j < contacts.length; j++) {
-                    if (contacts[j].firstName != null && contacts[j].firstName != "undefined") {
-                        if (letters[i] == contacts[j].firstLetter) {
-                            finalDoctors.push(contacts[j]);
-                            flag = true;
-                        } else {
-                            continue;
-                        }
-                    }
-                }
-                if (flag == false) {
-                    finalDoctors.pop();
-                }
-            }
-
-            for (var i = 0; i < finalDoctors.length; i++) {
-                dataDoctors.add(finalDoctors[i]);
-            }
-
-            console.log("__________________________________________________________________");
-            console.log("Success", JSON.stringify(dataDoctors));
+            console.log("msg", JSON.stringify(dataDoctors));
 
         }).catch(function(err) {
             console.log("Fetch data error");
@@ -135,7 +102,7 @@
                 data.add(final[i]);
             }
 
-            console.log("Success");
+            console.log("Success222222222222", JSON.stringify(data));
         }).catch(function(err) {
             console.log("Fetch data error");
             console.log(err.message);

@@ -10,6 +10,7 @@
   ],
   "Includes": [
     "*",
+    "Alphabet.js:Bundle",
   ],
   "Projects": [
     "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj"
