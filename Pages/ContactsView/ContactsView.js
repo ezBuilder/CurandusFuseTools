@@ -1,6 +1,29 @@
     var Observable = require("FuseJS/Observable");
     var Storage = require("FuseJS/Storage");
 
+    var CONTACTS_TYPES = {
+        CONTACTS: 'contacts',
+        DOCTORS: 'doctors',
+    };
+
+    var currentCategory = Observable(CONTACTS_TYPES.CONTACTS);
+
+    var filteredItems = currentCategory.flatMap(function(category) {
+        return items.where(function(item) {
+            return item.category === category || category === COLOR_TYPES.ALL;
+        });
+    });
+
+    function gotoContacts() {
+        currentCategory.value = COLOR_TYPES.CONTACTS;
+    }
+
+    function gotoDoctors() {
+        currentCategory.value = COLOR_TYPES.DOCTORS;
+    }
+
+
+
     var contactsFromDatabase = Observable();
     var isDoctors = Observable(false);
     var data = Observable();
