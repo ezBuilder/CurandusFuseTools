@@ -1,0 +1,109 @@
+var Observable = require('FuseJS/Observable');
+var CameraRoll = require("FuseJS/CameraRoll");
+var Camera = require("FuseJS/Camera");
+var ImageTools = require("FuseJS/ImageTools");
+
+var imagePath = Observable();
+var imageName = Observable();
+var imageSize = Observable();
+var name = Observable();
+var surname = Observable();
+
+// get this from the user
+imagePath.value = "Assets/placeholder.png";
+name.value = "Bojan";
+surname.value = "Janevski";
+
+var displayImage = function(image) {
+    imagePath.value = image.path;
+    imageName.value = image.name;
+    imageSize.value = image.width + "x" + image.height;
+}
+
+takePicture = function() {
+    Camera.takePicture().then(
+        function(image) {
+            console.log(JSON.stringify(image));
+            var args = {
+                desiredWidth: 480,
+                desiredHeight: 480,
+                mode: ImageTools.SCALE_AND_CROP,
+                performInPlace: true
+            };
+            ImageTools.resize(image, args).then(
+                function(image) {
+                    CameraRoll.publishImage(image);
+                    displayImage(image);
+                }
+            ).catch(
+                function(reason) {
+                    console.log("Couldn't resize image: " + reason);
+                }
+            );
+        }
+    ).catch(
+        function(reason) {
+            console.log("Couldn't take picture: " + reason);
+        }
+    );
+};
+
+selectImage = function() {
+    CameraRoll.getImage().then(
+        function(image) {
+            var args = {
+                desiredWidth: 480,
+                desiredHeight: 480,
+                mode: ImageTools.SCALE_AND_CROP,
+                performInPlace: true
+            };
+            ImageTools.resize(image, args).then(
+                function(image) {
+                    console.log(JSON.stringify(image));
+                    ImageTools.getImageFromBase64(image).then(
+                        function(b64) {
+                            console.log("BASE64", b64);
+                        }
+                    ).then(function(err) {
+                        console.log(err);
+                    });
+
+                    displayImage(image);
+                }
+            ).catch(
+                function(reason) {
+                    console.log("Couldn't resize image: " + reason);
+                }
+            );
+        }
+    ).catch(
+        function(reason) {
+            console.log("Couldn't get image: " + reason);
+        }
+    );
+};
+
+removePicture = function() {
+    var tmp = {
+        path: "Assets/placeholder.png"
+    };
+
+    displayImage(tmp);
+}
+
+editProfile = function() {
+    // PUT API FOR UPDATE USER INFO
+
+}
+
+
+module.exports = {
+    selectImage: selectImage,
+    imagePath: imagePath,
+    imageName: imageName,
+    imageSize: imageSize,
+    takePicture: takePicture,
+    removePicture: removePicture,
+    name: name,
+    surname: surname,
+};
