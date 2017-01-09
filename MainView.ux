@@ -19,11 +19,13 @@
 
     <JavaScript>
 		var Observable = require("FuseJS/Observable");
+		var Storage = require("FuseJS/Storage");
 
 		function goToAbout() {
 		    router.push("AboutPage", {});
 		    EdgeNavigator.dismiss();
 		}
+
 
 		function goToShare() {
 		    router.push("SharePage", {});

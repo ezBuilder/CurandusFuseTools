@@ -2,6 +2,7 @@ var Observable = require('FuseJS/Observable');
 var CameraRoll = require("FuseJS/CameraRoll");
 var Camera = require("FuseJS/Camera");
 var ImageTools = require("FuseJS/ImageTools");
+var Storage = require("FuseJS/Storage");
 
 var imagePath = Observable();
 var imageName = Observable();
@@ -9,10 +10,19 @@ var imageSize = Observable();
 var name = Observable();
 var surname = Observable();
 
+var User;
+
+Storage.read("userInfo").then(function(content) {
+    debug_log(content);
+    User = JSON.parse(content);
+    name.value = User.firstName;
+    surname.value = User.lastName;
+}, function(error) {
+
+});
+
 // get this from the user
 imagePath.value = "Assets/placeholder.png";
-name.value = "Bojan";
-surname.value = "Janevski";
 
 var displayImage = function(image) {
     imagePath.value = image.path;
@@ -96,6 +106,13 @@ editProfile = function() {
 
 }
 
+save = function() {
+    User.firstName = name.value;
+    User.lastName = surname.value;
+    Storage.write("userInfo", JSON.stringify(User));
+    router.goBack();
+}
+
 
 module.exports = {
     selectImage: selectImage,
@@ -106,4 +123,5 @@ module.exports = {
     removePicture: removePicture,
     name: name,
     surname: surname,
+    save: save,
 };
