@@ -4,37 +4,24 @@
     <Router ux:Dependency="router" />
 <DockPanel>
 
-        <Grid Rows="auto,1*">
-            <Grid Height="45" ColumnCount="2">
-                <Panel Color="primary_dark" Clicked="{gotoContacts}">
-                    <Text Alignment="Center" TextColor="icons" Value="Contacts"/>
-                </Panel>
-                <Panel Color="primary_dark" Clicked="{gotoDoctors}">
-                    <Text Alignment="Center" TextColor="icons" Value="Doctors"/>
-                </Panel>
-            </Grid>
-            <Panel>
-                <ScrollView>
-                    <StackPanel>
-                        <Each Items="{filteredItems}">
-                            <Grid Columns="1*,auto" Color="#ddd" Height="60">
-                                <Text Value="{name}" Alignment="VerticalCenter" Margin="50,0,0,0"/>
-                                <Rectangle Color="{color}" Width="60" Height="60" Dock="Right"/>
-                                <AddingAnimation>
-                                    <Move X="1" Duration="0.5" RelativeTo="Size" />
-                                </AddingAnimation>
-                                <RemovingAnimation>
-                                    <Move X="1" Duration="0.5" RelativeTo="Size" />
-                                </RemovingAnimation>
-                                <LayoutAnimation>
-                                    <Move Y="1" Duration="0.5" RelativeTo="PositionChange" />
-                                </LayoutAnimation>
-                            </Grid>
-                        </Each>
-                    </StackPanel>
-                </ScrollView>
-            </Panel>
-        </Grid>
+<Rectangle Dock="Top" Height="52" Color="background_color">
+    <StackPanel Orientation="Horizontal" Alignment="Center">
+        <Text ux:Name="Patients" Value="Patients" TextColor="primary_dark" Margin="0,0,12,0" Clicked="{setPatients}">
+            <Clicked>
+                <Set Patients.TextColor="primary_dark" />
+                <Set Doctors.TextColor="secondary_text" />
+            </Clicked>
+        </Text>
+        <Text ux:Name="Doctors" Value="Doctors" TextColor="secondary_text" Margin="12,0,0,0" Clicked="{setDoctors}">
+            <Clicked>
+                <Set Doctors.TextColor="primary_dark" />
+                <Set Patients.TextColor="secondary_text" />
+            </Clicked>
+        </Text>
+    </StackPanel>
+</Rectangle>
+
+    <Rectangle Color="background_color">
 
         <Match Value="{isDoctors}" >
             <Case Bool="true">
@@ -150,8 +137,8 @@
         </ScrollView>
             </Case>
         </Match>
-
         
+    </Rectangle>
 
 </DockPanel>
 </DefaultPage>
