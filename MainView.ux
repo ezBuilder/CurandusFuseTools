@@ -19,6 +19,20 @@
 
     <JavaScript>
 		var Observable = require("FuseJS/Observable");
+		var Storage = require("FuseJS/Storage");
+
+		var User;
+		var name = Observable();
+		var surname = Observable();
+
+		Storage.read("userInfo").then(function(content) {
+		    debug_log("*****", content);
+		    User = JSON.parse(content);
+		    name.value = User.firstName;
+		    surname.value = User.lastName;
+		}, function(error) {
+			
+		});
 
 		function goToAbout() {
 		    router.push("AboutPage", {});
@@ -32,7 +46,9 @@
 	
 		module.exports = {
 		    goToAbout: goToAbout,
-		    goToShare: goToShare
+		    goToShare: goToShare,
+		    name: name,
+		    surname: surname
 		};
     	
 	</JavaScript>
@@ -52,7 +68,7 @@
                                 <ImageFill File="Assets/placeholder.png" />
                             </Circle>
                             <Panel Height="48">
-                            	<Text Value="Name Surname" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
+                            	<Text Value="{name} {surname}" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
                         	</Panel>
                         </StackPanel>
                                   
