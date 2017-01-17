@@ -114,25 +114,21 @@
 		    user.value = JSON.stringify(param.user);
 		})
 
-		function edit()
-		{
-			console.log('edit clicked');
-			console.log('end clicked');
+		function edit() {
+		    console.log('edit clicked');
+		    console.log('end clicked');
 		}
 
-		function end()
-		{
-			console.log('edit clicked');
-			console.log('end clicked');
+		function end() {
+		    console.log('edit clicked');
+		    console.log('end clicked');
 		}
 
 
 
 		function goToChat() {
-    	router.push("chat");
-}
-
-
+		    router.push("chat");
+		}
 
 		module.exports = {
 		    user: user,
