@@ -93,7 +93,7 @@
         <StatusBarBackground Dock="Top" Background="#0097A7"/>
     			
 		<!-- MAIN NAVIGATION START-->
-	    <Navigator DefaultTemplate="WelcomePage">
+	    <Navigator DefaultTemplate="SelectItems">
 	        <LoginPage ux:Template="login" router="router" />
 	        <MainPage ux:Template="main" router="router" />
 	        <AlertPage ux:Template="alert" router="router" />
@@ -101,7 +101,7 @@
 	        <AddContactPage ux:Template="addContact" router="router" />
 	        <AddDoctorPage ux:Template="addDoctor" router="router" />
 	        <SelectType ux:Template="SelectType" router="router" />
-	        <!-- <SelectItems ux:Template="SelectItems" router="router" /> -->
+	        <SelectItems ux:Template="SelectItems" router="router" />
 	        <Templates ux:Template="Templates" router="router" />
 	        <ActivationPage ux:Template="ActivationPage" router="router" />
 	        <WelcomePage ux:Template="WelcomePage" router="router" />

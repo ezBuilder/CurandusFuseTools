@@ -1,4 +1,4 @@
-<DockPanel ux:Class="FloatingLabel">
+<DockPanel ux:Class="FloatingLabelArea">
 <string ux:Property="PlaceholderText" />
 <string ux:Property="Value" />	
 <int ux:Property="MaxLength" />
@@ -11,7 +11,7 @@
 	</Panel>
 <Panel Dock="Bottom">
 	
-	<TextInput ux:Name="input" Value="{Property this.Value}" Width="100%" MaxLength="{Property this.MaxLength}" InputHint="{Property this.InputHint}" FontSize="22" TextAlignment="{Property this.TextAlignment}" 
+	<TextView  ux:Name="input" Value="{Property this.Value}" TextWrapping="Wrap"  Width="100%" MaxLength="{Property this.MaxLength}" InputHint="{Property this.InputHint}" FontSize="22" TextAlignment="{Property this.TextAlignment}" 
 		Background="{Property this.Background}" >
 
 		<Text ux:Name="label" Value="{Property PlaceholderText}" Color="#BDBDBD" FontSize="20" />
@@ -30,7 +30,7 @@
 		<Move X="0" Y="-22" Target="label" Duration="0.3" />	
 	</WhileFocused>
 
-	</TextInput>
+	</TextView >
 	
 </Panel>
 

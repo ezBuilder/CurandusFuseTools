@@ -1,0 +1,24 @@
+<DefaultPage ux:Class="SelectItems">
+	<Router ux:Dependency="router" />
+
+	<JavaScript>		
+	var Observable = require("FuseJS/Observable");
+	
+	var ExampleInterval = Observable("7");
+	var ExampleRepeat = Observable("8");
+	var ExampleDescription = Observable("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque quasi, alias minima et");
+
+	module.exports = {
+	    ExampleInterval: ExampleInterval,
+	    ExampleRepeat: ExampleRepeat,
+	    ExampleDescription: ExampleDescription,
+	};
+
+	</JavaScript>
+<StackPanel>
+	<ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}" Description="{ExampleDescription}"/>
+	<ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}"/>
+</StackPanel>
+
+
+</DefaultPage>
