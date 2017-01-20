@@ -1,0 +1,40 @@
+<Panel ux:Class="ComparisonWithPicture" Margin="0,0,0,16">
+	<string ux:Property="AditionalComment" />
+	<string ux:Property="EnterQuestion" />
+	<string ux:Property="IntervalOn" />
+	<string ux:Property="RepeatOn" />
+<StackPanel>
+	<Rectangle Color="primary_dark" Height="32">
+		<DockPanel>
+	    	<Text Value="COMPARISON WITH PICTURE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+			<!-- BIN -->
+			<Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" >&#xE92B;</Icon>
+			<!-- PLUS -->
+			<Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" >&#xE145;</Icon>
+	
+		</DockPanel>
+	</Rectangle>
+	<Rectangle Color="White">
+		<StackPanel>
+				<DockPanel Margin="0,30,0,0">
+						<Text Value="Comparison with picture:" Width="100" TextWrapping="Wrap" FontSize="17" Color="primary"  Alignment="Left"  Margin="30,0,0,0" ></Text>
+						<Rectangle Color="White" ux:Name="btnSendImage" Width="170" Height="100" Dock="Right" Margin="0,0,30,0" >
+							<Clicked>
+								<Scale Factor="0.95" Duration=".1" Easing="QuadraticInOut" />
+							</Clicked>
+							<Text  Value="SELECT IMAGE"  FontSize="14"  Color="primary" Alignment="Center" Font="medium"> </Text>
+							<Stroke  Width="2" Color="done"> </Stroke>
+						</Rectangle>
+				</DockPanel>
+				
+            <!-- <Image File="Assets/background1.png" StretchMode="Scale9" /> -->
+        	
+			<FloatingLabelArea Value="{Property this.AditionalComment}" PlaceholderText="Aditional comment:" Margin="32, 8, 32, 0" />
+			<FloatingLabelArea Value="{Property this.EnterQuestion}" PlaceholderText="Enter question:" InputHint="Number" Margin="32, 8, 32, 0" />
+			<FloatingLabel Value="{Property this.IntervalOn}" PlaceholderText="interval on:" InputHint="Number" Margin="32, 8, 32, 0" />
+			<FloatingLabel Value="{Property this.RepeatOn}" PlaceholderText="repeat on:" InputHint="Number" Margin="32, 8, 32, 0" />
+		
+		</StackPanel> 
+	</Rectangle> 
+</StackPanel> 
+</Panel> 
