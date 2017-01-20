@@ -11,7 +11,7 @@
     <Font File="fonts/Roboto-Regular.ttf" ux:Global="regular" />
 
 	<!-- Declare the modal(popUp) package -->
-    <!-- <ModalJS ux:Global="Modal" /> -->
+    <ModalJS ux:Global="Modal" />
 	
 	<!-- MAIN ROUTER NAVIGATION -->
     <Router ux:Name="router" />

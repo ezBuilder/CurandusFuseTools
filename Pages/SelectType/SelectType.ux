@@ -3,57 +3,7 @@
 <Router ux:Dependency="router" />
 
 
-<JavaScript>
-    var Observable = require("FuseJS/Observable")
-    exports.values = Observable();
-    var flag = 0;
-
-    exports.list = Observable("")
-    var selektirani = Observable("");
-    // selektirani.add("Temperature Check"); 
-    // selektirani.add("Pulse Check"); 
-    
-    exports.values.onValueChanged( module, function() {        
-        exports.list.value = exports.values.toArray().join(",") 
-        exports.values = selektirani;
-        //console.log("kako se kreira listata: " + JSON.stringify(exports.values));
-       // console.log("selektirano: " + JSON.stringify(selektirani));
-     })
-
-    this.onParameterChanged(function(param) { 
-        //var savedTreatmentTemplateId = param.savedTreatmentTemplateId; 
-        //fetchDataBySavedTreatment(savedTreatmentTemplateId); 
-        //console.log("On Parameter changed Select type: "+JSON.stringify(param));
-        console.log('aj da vidime');
-        selektirani.clear(); 
-        for(var i = 0 ; i < param.length; i++){
-            selektirani.add(param[i]);
-        }
-    });
-
-  
-    // ADD SELECTED ITEM 
-    function AddSelectedItem(item){
-        //console.log("ova e toj item: "+JSON.stringify(item))
-        // for(var i = 0 ; i < item.data.length; i++){
-        //     console.log("ova e toj item: "+JSON.stringify(item[i]));
-        // }
-    }
-
-    function goToSavedTreatments(e) { 
-
-        router.push("savedTreatment", { 
-        }); 
-    } 
-    
-    module.exports = { 
-         goToSavedTreatments:goToSavedTreatments, 
-         selektirani:selektirani, 
-         AddSelectedItem:AddSelectedItem 
-    } 
-    
-    
-</JavaScript>
+    <JavaScript File="SelectType.js" />
 
 
 
@@ -94,7 +44,7 @@
 
 
     <DockPanel>
-        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router"> 
+        <Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router"> 
             
         </Toolbar>
         <Rectangle Alignment="Top" Height="45" Width="100%">

@@ -3,9 +3,8 @@ var Observable = require("FuseJS/Observable");
 var user = Observable();
 
 this.onParameterChanged(function(param) {
-    console.log("We should now display user with id: " + JSON.stringify(param.user));
-
     user.value = param.user;
+    console.log("da", JSON.stringify(user));
 })
 
 function goToUser(userId) {
