@@ -1,186 +1,220 @@
-    var Observable = require("FuseJS/Observable");
-    var Storage = require("FuseJS/Storage");
+console.log("ZASEKOGASH");
 
-    var contactsFromDatabase = Observable();
-    var isDoctors = Observable(false);
-    var data = Observable();
-    var dataDoctors = Observable();
-    var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var Observable = require("FuseJS/Observable");
+var Storage = require("FuseJS/Storage");
 
-    var final = [];
-    var finalDoctors = [];
-    konechnaKontakti = [];
+var contactsFromDatabase = Observable();
+var isDoctors = Observable(false);
+var data = Observable();
+var dataDoctors = Observable();
+var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+var final = [];
+var finalDoctors = [];
+konechnaKontakti = [];
 
 
-    function setDoctors() {
-        isDoctors.value = true;
-    }
+var isLoadingContacts = Observable(false);
+var isLoadingDoctors = Observable(false);
 
-    function setPatients() {
-        isDoctors.value = false;
-    }
+function reloadHandler() {
+    isLoadingContacts.value = true;
+    fetchData();
+}
 
-    var userInfo = Storage.readSync("userInfo");
+function reloadHandlerDoctors() {
+    isLoadingDoctors.value = true;
+    fetchDataDoctors();
+}
 
-    // var providerId = 1; 
-    // var providerId = userInfo.providerId;
+function endLoadingContacts() {
+    isLoadingContacts.value = false;
+}
 
-    function fetchDataDoctors() {
-        // ТРЕБА ДА СЕ СМЕНИ
-        var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/1"
-        console.log(urlProvider);
-        fetch(urlProvider, {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json"
-            },
-            dataType: 'json'
-        }).then(function(response) {
-            status = response.status; // Get the HTTP status code
-            response_ok = response.ok; // Is response.status in the 200-range?
-            return response.json(); // This returns a promise
+function endLoadingDoctors() {
+    isLoadingDoctors.value = false;
+}
 
-        }).then(function(contacts) {
 
-            console.log(contacts.length);
+function setDoctors() {
+    isDoctors.value = true;
+}
 
-            var flag = false;
+function setPatients() {
+    isDoctors.value = false;
+}
 
-            for (var i = contacts.length - 1; i >= 0; i--) {
-                if (contacts[i].firstName != null && contacts[i].firstName != "undefined") {
-                    contacts[i].firstLetter = contacts[i].firstName.charAt(0).toUpperCase();
-                    contacts[i].fullName = contacts[i].firstName + " " + contacts[i].lastName;
-                    contacts[i].isLetter = 0;
-                }
-            }
-            for (var i = 0; i < letters.length; i++) {
-                flag = false;
-                var tmp = {
-                    "firstName": letters[i],
-                    "isLetter": 1
-                }
-                finalDoctors.push(tmp);
-                for (var j = 0; j < contacts.length; j++) {
-                    if (contacts[j].firstName != null && contacts[j].firstName != "undefined") {
-                        if (letters[i] == contacts[j].firstLetter) {
-                            finalDoctors.push(contacts[j]);
-                            flag = true;
-                        } else {
-                            continue;
-                        }
-                    }
-                }
-                if (flag == false) {
-                    finalDoctors.pop();
-                }
-            }
+var userInfo = Storage.readSync("userInfo");
 
-            for (var i = 0; i < finalDoctors.length; i++) {
-                dataDoctors.add(finalDoctors[i]);
-            }
+// var providerId = 1; 
+// var providerId = userInfo.providerId;
 
-            console.log("__________________________________________________________________");
-            console.log("Success", JSON.stringify(dataDoctors));
+function fetchDataDoctors() {
+    // ТРЕБА ДА СЕ СМЕНИ
+    var urlProvider = "http://192.168.1.110:8080/curandusproject/webapi/api/getprovidersdatabyprovider/1"
+    console.log(urlProvider);
+    fetch(urlProvider, {
+        method: 'GET',
+        headers: {
+            "Content-type": "application/json"
+        },
+        dataType: 'json'
+    }).then(function(response) {
+        status = response.status; // Get the HTTP status code
+        response_ok = response.ok; // Is response.status in the 200-range?
+        return response.json(); // This returns a promise
 
-        }).catch(function(err) {
-            console.log("Fetch data error");
-            console.log(err.message);
-        });
-    }
-    // kod kontakti
-    function fetchData() {
-        // ТРЕБА ДА СЕ СМЕНИ
-        var urlPatient = "http://192.168.1.165:8081/curandusproject/webapi/api/patients/providerId=3"
-        console.log(urlPatient);
-        fetch(urlPatient, {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json"
-            },
-            dataType: 'json'
-        }).then(function(response) {
-            status = response.status; // Get the HTTP status code
-            response_ok = response.ok; // Is response.status in the 200-range?
-            return response.json(); // This returns a promise
-        }).then(function(contacts) {
+    }).then(function(contacts) {
 
-            var flag = false;
+        console.log(contacts.length);
 
-            for (var i = contacts.length - 1; i >= 0; i--) {
+        var flag = false;
+
+        for (var i = contacts.length - 1; i >= 0; i--) {
+            if (contacts[i].firstName != null && contacts[i].firstName != "undefined") {
                 contacts[i].firstLetter = contacts[i].firstName.charAt(0).toUpperCase();
                 contacts[i].fullName = contacts[i].firstName + " " + contacts[i].lastName;
                 contacts[i].isLetter = 0;
             }
-            for (var i = 0; i < letters.length; i++) {
-                flag = false;
-                var tmp = {
-                    "firstName": letters[i],
-                    "isLetter": 1
-                }
-                final.push(tmp);
-                for (var j = 0; j < contacts.length; j++) {
+        }
+        for (var i = 0; i < letters.length; i++) {
+            flag = false;
+            var tmp = {
+                "firstName": letters[i],
+                "isLetter": 1
+            }
+            finalDoctors.push(tmp);
+            for (var j = 0; j < contacts.length; j++) {
+                if (contacts[j].firstName != null && contacts[j].firstName != "undefined") {
                     if (letters[i] == contacts[j].firstLetter) {
-                        final.push(contacts[j]);
+                        finalDoctors.push(contacts[j]);
                         flag = true;
                     } else {
                         continue;
                     }
                 }
-                if (flag == false) {
-                    final.pop();
+            }
+            if (flag == false) {
+                finalDoctors.pop();
+            }
+        }
+
+        for (var i = 0; i < finalDoctors.length; i++) {
+            dataDoctors.add(finalDoctors[i]);
+        }
+
+        endLoadingDoctors();
+        console.log("__________________________________________________________________");
+        console.log("Success", JSON.stringify(dataDoctors));
+
+    }).catch(function(err) {
+        console.log("Fetch data error");
+        console.log(err.message);
+    });
+}
+// kod kontakti
+function fetchData() {
+    data = Observable();
+    final = [];
+    console.log("pa da be");
+    // ТРЕБА ДА СЕ СМЕНИ
+    var urlPatient = "http://192.168.1.110:8080/curandusproject/webapi/api/patients/providerId=1"
+    console.log(urlPatient);
+    fetch(urlPatient, {
+        method: 'GET',
+        headers: {
+            "Content-type": "application/json"
+        },
+        dataType: 'json'
+    }).then(function(response) {
+        status = response.status; // Get the HTTP status code
+        response_ok = response.ok; // Is response.status in the 200-range?
+        return response.json(); // This returns a promise
+    }).then(function(contacts) {
+
+        var flag = false;
+
+        for (var i = contacts.length - 1; i >= 0; i--) {
+            contacts[i].firstLetter = contacts[i].firstName.charAt(0).toUpperCase();
+            contacts[i].fullName = contacts[i].firstName + " " + contacts[i].lastName;
+            contacts[i].isLetter = 0;
+        }
+        for (var i = 0; i < letters.length; i++) {
+            flag = false;
+            var tmp = {
+                "firstName": letters[i],
+                "isLetter": 1
+            }
+            final.push(tmp);
+            for (var j = 0; j < contacts.length; j++) {
+                if (letters[i] == contacts[j].firstLetter) {
+                    final.push(contacts[j]);
+                    flag = true;
+                } else {
+                    continue;
                 }
             }
-
-            for (var i = 0; i < final.length; i++) {
-                data.add(final[i]);
+            if (flag == false) {
+                final.pop();
             }
+        }
 
-            console.log("Success");
-        }).catch(function(err) {
-            console.log("Fetch data error");
-            console.log(err.message);
-        });
-    } // end function checkData
+        for (var i = 0; i < final.length; i++) {
+            data.add(final[i]);
+        }
+        console.log(JSON.stringify(data));
+        endLoadingContacts();
 
-    fetchData();
-    fetchDataDoctors();
+        console.log("Success");
+    }).catch(function(err) {
+        console.log("Fetch data error");
+        console.log(err.message);
+    });
+} // end function checkData
 
-    function goToSelectType(e) {
-        router.push("SelectType", {
-            user: e.data
-        });
-    }
+fetchData();
+fetchDataDoctors();
 
-    function goToTreatment(e) {
-        router.push("alert", {
-            user: e.data
-        });
-    }
+function goToSelectType(e) {
+    router.push("SelectType", {
+        user: e.data
+    });
+}
 
-    function goToAddContact() {
-        router.push("addContact", {});
-    }
+function goToTreatment(e) {
+    router.push("alert", {
+        user: e.data
+    });
+}
 
-    function goToAddDoctors() {
-        router.push("addDoctor", {});
-    }
+function goToAddContact() {
+    router.push("addContact", {});
+}
 
-    module.exports = {
-        fetchData: fetchData,
-        data: data,
-        dataDoctors: dataDoctors,
-        isDoctors: isDoctors,
-        goToSelectType: goToSelectType,
-        goToAddContact: goToAddContact,
-        goToAddDoctors: goToAddDoctors,
-        setDoctors: setDoctors,
-        setPatients: setPatients,
-        goToTreatment: goToTreatment,
-        goToChat: goToChat
-    };
+function goToAddDoctors() {
+    router.push("addDoctor", {});
+}
 
-    function goToChat(e) {
-        router.push("chat", {
-            user: e.data
-        });
-    }
+module.exports = {
+    fetchData: fetchData,
+    data: data,
+    dataDoctors: dataDoctors,
+    isDoctors: isDoctors,
+    goToSelectType: goToSelectType,
+    goToAddContact: goToAddContact,
+    goToAddDoctors: goToAddDoctors,
+    setDoctors: setDoctors,
+    setPatients: setPatients,
+    goToTreatment: goToTreatment,
+    isLoadingContacts: isLoadingContacts,
+    reloadHandler: reloadHandler,
+    reloadHandlerDoctors: reloadHandlerDoctors,
+    isLoadingDoctors: isLoadingDoctors,
+    goToChat: goToChat
+};
+
+function goToChat(e) {
+    router.push("chat", {
+        user: e.data
+    });
+}
