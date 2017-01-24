@@ -1,9 +1,6 @@
-console.log("ZASEKOGASH");
-
 var Observable = require("FuseJS/Observable");
 var Storage = require("FuseJS/Storage");
 
-var contactsFromDatabase = Observable();
 var isDoctors = Observable(false);
 var data = Observable();
 var dataDoctors = Observable();
@@ -11,8 +8,6 @@ var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
 
 var final = [];
 var finalDoctors = [];
-konechnaKontakti = [];
-
 
 var isLoadingContacts = Observable(false);
 var isLoadingDoctors = Observable(false);
@@ -35,7 +30,6 @@ function endLoadingDoctors() {
     isLoadingDoctors.value = false;
 }
 
-
 function setDoctors() {
     isDoctors.value = true;
 }
@@ -46,12 +40,13 @@ function setPatients() {
 
 var userInfo = Storage.readSync("userInfo");
 
-// var providerId = 1; 
+// var providerId = 1;
 // var providerId = userInfo.providerId;
 
 function fetchDataDoctors() {
+    finalDoctors = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlProvider = "http://192.168.1.110:8080/curandusproject/webapi/api/getprovidersdatabyprovider/1"
+    var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/1"
     console.log(urlProvider);
     fetch(urlProvider, {
         method: 'GET',
@@ -60,13 +55,8 @@ function fetchDataDoctors() {
         },
         dataType: 'json'
     }).then(function(response) {
-        status = response.status; // Get the HTTP status code
-        response_ok = response.ok; // Is response.status in the 200-range?
         return response.json(); // This returns a promise
-
     }).then(function(contacts) {
-
-        console.log(contacts.length);
 
         var flag = false;
 
@@ -98,14 +88,9 @@ function fetchDataDoctors() {
                 finalDoctors.pop();
             }
         }
-
-        for (var i = 0; i < finalDoctors.length; i++) {
-            dataDoctors.add(finalDoctors[i]);
-        }
+        dataDoctors.replaceAll(finalDoctors);
 
         endLoadingDoctors();
-        console.log("__________________________________________________________________");
-        console.log("Success", JSON.stringify(dataDoctors));
 
     }).catch(function(err) {
         console.log("Fetch data error");
@@ -114,9 +99,7 @@ function fetchDataDoctors() {
 }
 // kod kontakti
 function fetchData() {
-    data = Observable();
     final = [];
-    console.log("pa da be");
     // ТРЕБА ДА СЕ СМЕНИ
     var urlPatient = "http://192.168.1.110:8080/curandusproject/webapi/api/patients/providerId=1"
     console.log(urlPatient);
@@ -127,8 +110,6 @@ function fetchData() {
         },
         dataType: 'json'
     }).then(function(response) {
-        status = response.status; // Get the HTTP status code
-        response_ok = response.ok; // Is response.status in the 200-range?
         return response.json(); // This returns a promise
     }).then(function(contacts) {
 
@@ -158,13 +139,8 @@ function fetchData() {
                 final.pop();
             }
         }
-
-        for (var i = 0; i < final.length; i++) {
-            data.add(final[i]);
-        }
-        console.log(JSON.stringify(data));
+        data.replaceAll(final);
         endLoadingContacts();
-
         console.log("Success");
     }).catch(function(err) {
         console.log("Fetch data error");
@@ -195,6 +171,12 @@ function goToAddDoctors() {
     router.push("addDoctor", {});
 }
 
+function goToChat(e) {
+    router.push("chat", {
+        user: e.data
+    });
+}
+
 module.exports = {
     fetchData: fetchData,
     data: data,
@@ -212,9 +194,3 @@ module.exports = {
     isLoadingDoctors: isLoadingDoctors,
     goToChat: goToChat
 };
-
-function goToChat(e) {
-    router.push("chat", {
-        user: e.data
-    });
-}

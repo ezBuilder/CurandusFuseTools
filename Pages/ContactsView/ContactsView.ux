@@ -36,6 +36,8 @@
             <Case Bool="true">
         <ScrollView ClipToBounds="True">
             <StackPanel Orientation="Vertical">
+
+                <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
                 <Each Items="{dataDoctors}">
                     <Match Value="{isLetter}" >
                         <Case Number="0" >
@@ -88,16 +90,7 @@
                 <ScrollView ClipToBounds="true" >
            
             <StackPanel Orientation="Vertical">
-                <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}">
-                    <State ux:Binding="Pulling">
-                        <!-- animate elements while pulling here -->
-                    </State>
-                    <State ux:Binding="PulledPastThreshold">
-                        
-                    </State>
-                    <State ux:Binding="Loading">
-                    </State>
-            </PullToReload>
+                <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}"></PullToReload>
                 <Each Items="{data}">
                     <Match Value="{isLetter}" >
                         <Case Number="0" >
