@@ -55,6 +55,8 @@
 				
 				<Each Items="{templejt}">
 					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
+
+						<Deferred>
 						<DockPanel >
 							<Match Value="{status}">
 							    <Case String="DONE">
@@ -100,14 +102,21 @@
 
 								</StackPanel>
 						</DockPanel>
+
+					</Deferred>
 					</Rectangle>
 		</Each>
 		
 	</StackPanel>
 
-	<Scrolled To="End" Within="350">
+	<Scrolled To="End" Within="300">
 		<Callback Handler="{loadMore}" />
 	</Scrolled>
+
+	<Scrolled To="Start" Within="300">
+		<Callback Handler="{loadMore}" />
+	</Scrolled>
+
 	</ScrollView>
 
 

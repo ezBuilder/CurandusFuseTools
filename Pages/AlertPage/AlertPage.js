@@ -34,6 +34,10 @@
 		        templejt.add(responseObject[i])
 		    }
 
+		    if (templejt.length > 20) {
+				templejt.removeRange(0, 10);
+			}
+
 		}).catch(function(err) {
 		    console.log("Error", err.message);
 

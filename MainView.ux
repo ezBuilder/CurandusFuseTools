@@ -93,7 +93,7 @@
         <StatusBarBackground Dock="Top" Background="#0097A7"/>
     			
 		<!-- MAIN NAVIGATION START-->
-	    <Navigator DefaultTemplate="SelectItems">
+	    <Navigator DefaultTemplate="alert">
 	        <LoginPage ux:Template="login" router="router" />
 	        <MainPage ux:Template="main" router="router" />
 	        <AlertPage ux:Template="alert" router="router" />
