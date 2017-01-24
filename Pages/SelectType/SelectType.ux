@@ -7,92 +7,108 @@
     var Observable = require("FuseJS/Observable")
     exports.values = Observable();
     var flag = 0;
-    var k = Observable();
-    var m = [];
+    var finalData = [];
     exports.list = Observable("")
     var selektirani = Observable("");
-    // selektirani.add("Temperature Check"); 
-    // selektirani.add("Pulse Check"); 
+    var patientId;
     
     exports.values.onValueChanged( module, function() {        
         exports.list.value = exports.values.toArray().join(",") 
         exports.values = selektirani;
-        // console.log("kako se kreira listata: " + JSON.stringify(exports.values));
-        // console.log("selektirano: " + JSON.stringify(selektirani));
      })
 
     this.onParameterChanged(function(param) { 
-        console.log('On Parameter changed:'+JSON.stringify(selektirani));
-        //selektirani.clear(); // SE
+         selektirani.clear(); 
+        //console.log('On Parameter changed:'+JSON.stringify(param));
         for(var i = 0 ; i < param.length; i++){
-            selektirani.add(param[i]);
+            selektirani.add(param[i].name);
+            finalData[i] = param[i];
         }
     });
 
   
     // ADD SELECTED ITEM 
     function AddSelectedItem(item){
-        console.log("SELEKTIRAN: "+JSON.stringify(item))
-        console.log("SELEKTIRANI PRED: "+JSON.stringify(selektirani))
+       // console.log("SELEKTIRAN: "+JSON.stringify(item))
+       // console.log("SELEKTIRANI PRED: "+JSON.stringify(selektirani))
         for(var i = 0 ; i < item.data.length; i++){
-             console.log("ova e toj item: "+JSON.stringify(item[i]));
+             //console.log("ova e toj item: "+JSON.stringify(item[i]));
              selektirani.add(item[i]);
         }
-        console.log("SELEKTIRANI POSLE: "+JSON.stringify(selektirani))
+        //console.log("SELEKTIRANI POSLE: "+JSON.stringify(selektirani))
     }
 
     function goToSavedTreatments(e) { 
             router.push("savedTreatment", { 
         }); 
-    } 
+    }
 
-    function goToSelectItems(){
-       
-        var sendData = [
-            {
-                // "name": "",
-                // "duration": "0",
-                // "createdBy": 0,
-                // "treatmentItemId": 0,
-                // "subtreatmentid": 0,
-                // "created": null,
-                // "modified": null,
-                // "modifiedBy": 0,
-                // "typeT": "",
-                // "repeatT": "",
-                // "renderingInfo": null
-            }
-        ];
-        
+    function goToSelectItems(){       
+        var sendData = [{}];
+        var flag=0;
+        //console.log("SELEKTIRANI POSLE: "+JSON.stringify(selektirani))
+        for(var i = 0 ; i < selektirani.length; i++){ //za nizata na tie shto gi doselektiral da se napravat objekti kako vratenite od templejtot vo finalData
+           
 
-        for(var i = 0 ; i < selektirani.length; i++){
-            var tmp = {
-                "name": selektirani.getAt(i),
-                "duration": "0",
-                "createdBy": 0,
-                "treatmentItemId": 0,
-                "subtreatmentid": 0,
-                "created": null,
-                "modified": null,
-                "modifiedBy": 0,
-                "typeT": "",
-                "repeatT": "",
-                "renderingInfo": null
+            for(var j = 0; j < finalData.length; j++){
+                //console.log("ELEMENT I VO FOR J: "+selektirani.getAt(i));
+                //console.log("ELEMENT I:"+selektirani.getAt(i)+"--ELEMENT J:"+finalData[j].name+'---');
+                
+                if(selektirani.getAt(i).localeCompare(finalData[j].name) == 0){
+                    if(flag == 0){
+                            var tmp1 = {
+                            "name": finalData[j].name,
+                            "duration": finalData[j].duration,
+                            "createdBy": finalData[j].createdBy,
+                            "treatmentItemId": finalData[j].treatmentItemId,
+                            "subtreatmentid": finalData[j].subtreatmentid,
+                            "created": finalData[j].created,
+                            "modified": finalData[j].modified,
+                            "modifiedBy": finalData[j].modifiedBy,
+                            "typeT": finalData[j].typeT,
+                            "repeatT": finalData[j].repeatT,
+                            "renderingInfo": finalData[j].renderingInfo
+                            }
+                        sendData[i] = tmp1;
+                        flag = 1;
+                        //console.log(" IMA IST ELEMENT:  "+selektirani.getAt(i)+" SO:"+finalData[j].name);
+                        break;
+                    }
+                }
+            } // for J
+               
+             console.log("***********************************************");
+            if(flag == 0){
+                 //console.log("AKO SELEKTIRANO i flag=0:  "+selektirani.getAt(i));
+                var tmp = {
+                    "name": selektirani.getAt(i), 
+                    "duration": "0", 
+                    "createdBy": 0, 
+                    "treatmentItemId": 0, 
+                    "subtreatmentid": 0, 
+                    "created": null, 
+                    "modified": null, 
+                    "modifiedBy": 0, 
+                    "typeT": "", 
+                    "repeatT": "", 
+                    "renderingInfo": null 
+                }
+                sendData[i] = tmp;
             }
-            sendData[i] = tmp;
-        }
+            //console.log("NA KRAJ  "+selektirani.getAt(i)); 
+            flag = 0;
+
+        }// for i
         console.log("FINISH: "+JSON.stringify(sendData));
-        //router.push("SelectItems", { sendData });      TUKA TREBA DA PREMINA NA SELECTITEM
-
-
+        // sendData[selektirani.length] = {"patientId":patientId}
+        // router.push("SelectItems", { sendData });     TUKA TREBA DA PREMINA NA SELECTITEM
     }
     
     module.exports = { 
-        goToSelectItems:goToSelectItems,
-         goToSavedTreatments:goToSavedTreatments, 
-         selektirani:selektirani, 
-         AddSelectedItem:AddSelectedItem ,
-
+        goToSelectItems:goToSelectItems, 
+        goToSavedTreatments:goToSavedTreatments, 
+        selektirani:selektirani, 
+        AddSelectedItem:AddSelectedItem  
     } 
     
     
@@ -102,15 +118,15 @@
 
 <!-- **************** Treatment item   **************** -->
 <Rectangle ux:Class="MyItem" Color="primary" CornerRadius="7" Width="65%"  Alignment="Center" Height="60" Margin="  0,10,0,0" HitTestMode="LocalBounds" Clicked="{AddSelectedItem}">  
-    <string ux:Property="Label"/>
-    <string ux:Property="Value"/>
+    <string ux:Property="Label"/> 
+    <string ux:Property="Value"/> 
 
-    <Selectable Value="{ReadProperty this.Label}"/>
+    <Selectable Value="{ReadProperty this.Label}"/> 
    
     <WhilePressed>
-        <Scale Factor="1.3" Duration="0.2"/>
+        <Scale Factor="1.3" Duration="0.2"/> 
     </WhilePressed>
-    <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
+    <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/> 
     <DropShadow/>  
     <WhileSelected> 
         <Change this.Color="#0097A7" Duration="0.2"/> 
