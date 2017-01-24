@@ -1,6 +1,6 @@
 var Observable = require("FuseJS/Observable");
 
-var contacts = Observable();
+var Contacts = require("Pages/ContactsView/ContactsView.js");
 var errorMessage = Observable();
 var isLoading = Observable(false);
 
@@ -17,13 +17,12 @@ this.Parameter.onValueChanged(module, function(param) {
     // lookup channel with id "param"
     console.log("We should RELOAD " + JSON.stringify(param.reload));
 
-
-
+    Contacts.reloadHandler();
+    Contacts.reloadHandlerDoctors();
 
 });
 
 module.exports = {
-    contacts: contacts,
     errorMessage: errorMessage,
     isLoading: isLoading,
     toolbarSearch: toolbarSearch

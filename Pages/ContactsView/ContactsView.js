@@ -99,6 +99,7 @@ function fetchDataDoctors() {
 }
 // kod kontakti
 function fetchData() {
+    console.log("gggggggggggggggggggggggggggggggggg");
     final = [];
     // ТРЕБА ДА СЕ СМЕНИ
     var urlPatient = "http://192.168.1.110:8080/curandusproject/webapi/api/patients/providerId=1"
@@ -179,6 +180,7 @@ function goToChat(e) {
 
 module.exports = {
     fetchData: fetchData,
+    fetchDataDoctors: fetchDataDoctors,
     data: data,
     dataDoctors: dataDoctors,
     isDoctors: isDoctors,

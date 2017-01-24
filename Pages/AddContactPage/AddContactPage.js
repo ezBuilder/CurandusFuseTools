@@ -31,7 +31,9 @@ function addContact() {
             name.value = "";
             surname.value = "";
 
-            router.goto("main");
+            router.goto("main", {
+                reload: true
+            });
 
         }).catch(function(err) {
             console.log("Error", err.message);
