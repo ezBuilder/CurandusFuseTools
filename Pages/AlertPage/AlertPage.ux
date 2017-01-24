@@ -46,12 +46,14 @@
 					<Text Dock="Right" Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"  Clicked="{edit}"/>
 				</DockPanel>
 
-				<Rectangle Color="primary">
+			<Rectangle Color="primary">
 
-<ScrollView ClipToBounds="true" >
+			<ScrollView ClipToBounds="true" >
+
 				<StackPanel Color="primary" Width="100%" >
+
 				
-				<Each Items="{treatmentItems}">
+				<Each Items="{templejt}">
 					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
 						<DockPanel >
 							<Match Value="{status}">
@@ -88,7 +90,7 @@
 				
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
 								<Text Alignment="Left" Font="regular" FontSize="12" Value="Name of Doctor: " Color="primary" Margin="0,10,0,0" />
-								<Text Alignment="Left" TextAlignment="Center" Font="medium"  FontSize="12" Value=" {render.defaultValue}" Color="lightgreen" Margin="10,10,0,0" />
+								<Text Alignment="Left" TextAlignment="Center" Font="medium"  FontSize="12" Value=" {fname}" Color="lightgreen" Margin="10,10,0,0" />
 								</StackPanel>
 
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
@@ -102,12 +104,16 @@
 		</Each>
 		
 	</StackPanel>
-</ScrollView>
+
+	<Scrolled To="End" Within="350">
+		<Callback Handler="{loadMore}" />
+	</Scrolled>
+	</ScrollView>
 
 
-				</Rectangle>
+		</Rectangle>
 
 				
 
-</DockPanel>
-</DefaultPage>
+	</DockPanel>
+	</DefaultPage>

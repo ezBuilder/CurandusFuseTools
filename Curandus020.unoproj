@@ -9,7 +9,7 @@
     "Fuse.ImageTools"
   ],
   "Includes": [
-    "*",
+    "*"
   ],
   "Projects": [
     "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj"
