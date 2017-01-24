@@ -22,7 +22,7 @@
 
    //***************  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
    function fetchDataBySavedTreatment(id) {
-       var url = "http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + id + "&typetreatment=S"
+       var url = "http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=1&typetreatment=S"
        console.log(url);
        fetch(url, {
            method: 'GET',
@@ -36,7 +36,7 @@
            return response.json(); // This returns a promise
        }).then(function(data) {
 
-           console.log("OVIE TREBA DA SE SELEKTIRANI");
+           console.log("OVIE TREBA DA SE SELEKTIRANI"+JSON.stringify(data));
 
        }).catch(function(err) {
            console.log("Fetch data error");
@@ -47,9 +47,11 @@
    this.onParameterChanged(function(param) {
        console.log("parametaaaaaaaaaaaaaaar: " + JSON.stringify(param));
        var savedTreatmentTemplateId = param.savedTreatmentTemplateId;
+       selektirani[0]="Blood Pressure Check";
 
+       console.log("Ovie se selektirani: "+selektirani);
        console.log("parametoooooooooooooooor: " + savedTreatmentTemplateId);
-       fetchDataBySavedTreatment(savedTreatmentTemplateId);
+       //fetchDataBySavedTreatment(savedTreatmentTemplateId);
        console.log("valuuuuuuuuuuuuuuuuuuuuuuues: " + JSON.stringify(exports.values));
 
    });

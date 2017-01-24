@@ -3,7 +3,100 @@
 <Router ux:Dependency="router" />
 
 
-    <JavaScript File="SelectType.js" />
+<JavaScript>
+    var Observable = require("FuseJS/Observable")
+    exports.values = Observable();
+    var flag = 0;
+    var k = Observable();
+    var m = [];
+    exports.list = Observable("")
+    var selektirani = Observable("");
+    // selektirani.add("Temperature Check"); 
+    // selektirani.add("Pulse Check"); 
+    
+    exports.values.onValueChanged( module, function() {        
+        exports.list.value = exports.values.toArray().join(",") 
+        exports.values = selektirani;
+        // console.log("kako se kreira listata: " + JSON.stringify(exports.values));
+        // console.log("selektirano: " + JSON.stringify(selektirani));
+     })
+
+    this.onParameterChanged(function(param) { 
+        console.log('On Parameter changed:'+JSON.stringify(selektirani));
+        //selektirani.clear(); // SE
+        for(var i = 0 ; i < param.length; i++){
+            selektirani.add(param[i]);
+        }
+    });
+
+  
+    // ADD SELECTED ITEM 
+    function AddSelectedItem(item){
+        console.log("SELEKTIRAN: "+JSON.stringify(item))
+        console.log("SELEKTIRANI PRED: "+JSON.stringify(selektirani))
+        for(var i = 0 ; i < item.data.length; i++){
+             console.log("ova e toj item: "+JSON.stringify(item[i]));
+             selektirani.add(item[i]);
+        }
+        console.log("SELEKTIRANI POSLE: "+JSON.stringify(selektirani))
+    }
+
+    function goToSavedTreatments(e) { 
+            router.push("savedTreatment", { 
+        }); 
+    } 
+
+    function goToSelectItems(){
+       
+        var sendData = [
+            {
+                // "name": "",
+                // "duration": "0",
+                // "createdBy": 0,
+                // "treatmentItemId": 0,
+                // "subtreatmentid": 0,
+                // "created": null,
+                // "modified": null,
+                // "modifiedBy": 0,
+                // "typeT": "",
+                // "repeatT": "",
+                // "renderingInfo": null
+            }
+        ];
+        
+
+        for(var i = 0 ; i < selektirani.length; i++){
+            var tmp = {
+                "name": selektirani.getAt(i),
+                "duration": "0",
+                "createdBy": 0,
+                "treatmentItemId": 0,
+                "subtreatmentid": 0,
+                "created": null,
+                "modified": null,
+                "modifiedBy": 0,
+                "typeT": "",
+                "repeatT": "",
+                "renderingInfo": null
+            }
+            sendData[i] = tmp;
+        }
+        console.log("FINISH: "+JSON.stringify(sendData));
+        //router.push("SelectItems", { sendData });      TUKA TREBA DA PREMINA NA SELECTITEM
+
+
+    }
+    
+    module.exports = { 
+        goToSelectItems:goToSelectItems,
+         goToSavedTreatments:goToSavedTreatments, 
+         selektirani:selektirani, 
+         AddSelectedItem:AddSelectedItem ,
+
+    } 
+    
+    
+</JavaScript>
 
 
 
@@ -19,7 +112,7 @@
     </WhilePressed>
     <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
     <DropShadow/>  
-    <WhileSelected>  
+    <WhileSelected> 
         <Change this.Color="#0097A7" Duration="0.2"/> 
     </WhileSelected> 
     <Tapped>  
@@ -44,7 +137,7 @@
 
 
     <DockPanel>
-        <Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router"> 
+        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router"> 
             
         </Toolbar>
         <Rectangle Alignment="Top" Height="45" Width="100%">
@@ -59,7 +152,9 @@
         
 
         <Rectangle Color="background_color"> 
+            
             <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
+            
             <ScrollView Margin="0,60,0,0">
                 <StackPanel>
                     <Selection Values="{selektirani}"/>
@@ -80,7 +175,6 @@
         </Rectangle>
 
     </DockPanel>
-
 
 
 </DefaultPage>

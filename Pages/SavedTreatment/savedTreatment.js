@@ -5,7 +5,7 @@ var lista=[];
 
 //***************  GET ALL TREATMENTS BY PROVIDES 
 function fetchData() {
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/" + '2'
+        var url = "http://192.168.1.110:8080/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/" + '2'
         console.log(url);
         fetch(url, {
             method: 'GET',
@@ -28,13 +28,12 @@ function fetchData() {
             console.log(err.message); 
         }); 
 }// end function checkData 
-
-// **************** GET ITEMS FOR SELECTED TREATMENT *******************************
   
-  //******  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
+  //******  GET SAVED TEMPLATE ITEMS BY SAVED TREATMENT ITEM ID ********
+  
         function fetchDataBySavedTreatment(id){
             selektirani.clear();
-            var url = "http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+id+"&typetreatment=S" 
+            var url = "http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=1&typetreatment=S"
             console.log(url);
             fetch(url, {
                 method: 'GET',
@@ -50,7 +49,7 @@ function fetchData() {
                 for(var i = 0; i < data.length; i++){
                     selektirani.add(data[i].name);
                     lista[i] = data[i].name;
-                   // console.log("FETCH DATA BY SAVED TREATMENTS: " + JSON.stringify(selektirani));
+                   console.log("FETCH DATA BY SAVED TREATMENTS: " + JSON.stringify(data));
                 }
                 goToSavedTreatments(lista);
 
@@ -65,7 +64,7 @@ function getItemsForTemplate(item){
     console.log("GET ITEMS FOR TEMPLATE: " + JSON.stringify(item)); 
     var id = item.data.savedTreatmentTemplateId;
     console.log("GET ITEMS FOR TEMPLATE ID: " + id); 
-    fetchDataBySavedTreatment(id);
+    fetchDataBySavedTreatment(id,item.data);
     	
 }
 
@@ -75,7 +74,7 @@ function goToSavedTreatments(e){
    	router.push("SelectType", e);
 }
 
-fetchData();  // <--------- CALL FUNCTION FOR DATA FETCH ABOUT SAVED TREATMENTS
+fetchData();  // <--- CALL FUNCTION FOR DATA FETCH ABOUT SAVED TREATMENTS
 
 module.exports = {
 	fetchData:fetchData, 
