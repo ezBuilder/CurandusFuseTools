@@ -1,14 +1,16 @@
-<Panel ux:Class="TemperatureCheck" Margin="0,0,0,16">
+<Panel ux:Class="PainLevelItem" Margin="0,0,0,16">
+
 	<string ux:Property="Interval" />
 	<string ux:Property="Repeat" />
-	<!-- <string ux:Property="Description" /> -->
+	<string ux:Property="painLevelOf" />
+	<int ux:Property="BR" />	
 
 <StackPanel>
 	<Rectangle Color="White">
 		<StackPanel>
+			<FloatingLabel Value="{Property this.painLevelOf}" PlaceholderText="Enter pain level of" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.Interval}" PlaceholderText="Interval on hours" InputHint="Number" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.Repeat}" PlaceholderText="Repeat on days" InputHint="Number" Margin="32, 8, 32, 0" />
-			<!-- <FloatingLabelArea Value="{Property this.Description}" PlaceholderText="Description" Margin="32, 8, 32, 0" /> -->
 		</StackPanel>
 	</Rectangle>
 </StackPanel>
