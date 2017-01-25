@@ -1,0 +1,25 @@
+<Panel ux:Class="ExampleItem" Margin="0,0,0,16">
+	<string ux:Property="Interval" />
+	<string ux:Property="Repeat" />
+	<string ux:Property="Description" />
+
+<StackPanel>
+	<Rectangle Color="primary_dark" Height="32">
+		<DockPanel>
+	    	<Text Value="Title" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+			<!-- BIN -->
+			<Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" >&#xE92B;</Icon>
+			<!-- PLUS -->
+			<Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" >&#xE145;</Icon>
+	
+		</DockPanel>
+	</Rectangle>
+	<Rectangle Color="White">
+		<StackPanel>
+			<FloatingLabel Value="{Property this.Interval}" PlaceholderText="Interval on hours" InputHint="Number" Margin="32, 8, 32, 0" />
+			<FloatingLabel Value="{Property this.Repeat}" PlaceholderText="Repeat on days" InputHint="Number" Margin="32, 8, 32, 0" />
+			<FloatingLabelArea Value="{Property this.Description}" PlaceholderText="Description" Margin="32, 8, 32, 0" />
+		</StackPanel>
+	</Rectangle>
+</StackPanel>
+</Panel>
