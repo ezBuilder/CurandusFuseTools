@@ -1,48 +1,6 @@
 <DefaultPage ux:Class="SelectItems">
 	<Router ux:Dependency="router" />
 
-	<JavaScript>		
-	var Observable = require("FuseJS/Observable");
-	
-	var ExampleInterval = Observable("7");
-	var ExampleRepeat = Observable("8");
-	var ExampleDescription = Observable("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque quasi, alias minima et");
-	
-
-	function SaveAs() {
-
-	}
-
-	module.exports = {
-	    ExampleInterval: ExampleInterval,
-	    ExampleRepeat: ExampleRepeat,
-	    ExampleDescription: ExampleDescription,
-	    SaveAs: SaveAs,
-
-	};
-
-	</JavaScript>
-
-
-
-
-<StackPanel>
-	<Rectangle >
-<DockPanel>
-
-<FloatingLabel PlaceholderText="Treatment name" Alignment="CenterLeft">
-</FloatingLabel>
-<RaisedButton Dock="Right" BtnText="Send" BtnTextColor="icons" BtnColor="primary" Margin="0,0,-6,0" Clicked="{SaveAs}">
-</RaisedButton>
-<RaisedButton Dock="Right" BtnText="Save as" BtnTextColor="icons" BtnColor="primary"  Margin="0,0,-10,0">
-</RaisedButton>
-
-
-</DockPanel>
-</Rectangle>
-	<ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}" Description="{ExampleDescription}"/>
-	<ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}"/>
-</StackPanel>
 
 
 </DefaultPage>
