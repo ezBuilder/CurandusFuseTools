@@ -26,9 +26,7 @@ function addContact() {
             name.value = "";
             surname.value = "";
 
-            router.goto("main", {
-                reload: true
-            });
+            router.goto("main");
 
         }).catch(function(err) {
             console.log("Error", err.message);
