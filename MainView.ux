@@ -43,9 +43,15 @@
 		    router.push("SharePage", {});
 		    EdgeNavigator.dismiss();
 		}
+		function goToEdit() {
+		    router.push("EditProfile", {});
+		    EdgeNavigator.dismiss();
+		}
 	
 		module.exports = {
 		    goToAbout: goToAbout,
+
+		    goToEdit: goToEdit,
 		    goToShare: goToShare,
 		    name: name,
 		    surname: surname
@@ -69,6 +75,8 @@
                             </Circle>
                             <Panel Height="48">
                             	<Text Value="{name} {surname}" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
+                            	<Text Value="Edit" Color="White" FontSize="12" Alignment="CenterRight" Font="medium" Margin="0,0,16,0" Clicked="{goToEdit}"/>
+
                         	</Panel>
                         </StackPanel>
                                   
@@ -108,6 +116,7 @@
 	        <AboutPage ux:Template="AboutPage" router="router" />
 	        <SharePage ux:Template="SharePage" router="router" />
 	        <savedTreatment ux:Template="savedTreatment" router="router" />
+	        <EditProfilePage ux:Template="EditProfile" router="router" />
 		</Navigator>
 	    <!-- MAIN NAVIGATION END -->
         
