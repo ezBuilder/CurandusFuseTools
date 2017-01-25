@@ -151,6 +151,12 @@
         });
     }
 
+    function goToTreatment(e) {
+        router.push("alert", {
+            user: e.data
+        });
+    }
+
     function goToAddContact() {
         router.push("addContact", {});
     }
@@ -169,6 +175,7 @@
         goToAddDoctors: goToAddDoctors,
         setDoctors: setDoctors,
         setPatients: setPatients,
+        goToTreatment: goToTreatment,
         goToChat: goToChat
     };
 

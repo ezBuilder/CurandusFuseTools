@@ -99,10 +99,20 @@
                                     <ImageFill File="../../Assets/placeholder.png" />
                                 </Circle>
 
-                                <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
-                                    <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
-                                </Rectangle>
                                 
+                                <Match Value="{activetreatmenId}" >
+                                    <Case Number="0">
+                                        <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
+                                            <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+                                        </Rectangle>
+                                    </Case>
+                                    <Case Number="-1" IsDefault="true">
+                                        <Rectangle HitTestMode="LocalBounds" Clicked="{goToTreatment}">
+                                            <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+                                        </Rectangle>
+                                    </Case>
+                                </Match>
+
                                 <StackPanel Dock="Right" Orientation="Horizontal">
                                     <Circle Height="30" Width="30" Dock="Left"  Alignment="Center" Margin="15,0,0,0">
                                         <Stroke Width="2">
@@ -137,8 +147,6 @@
         </ScrollView>
             </Case>
         </Match>
-
-        
         
     </Rectangle>
 

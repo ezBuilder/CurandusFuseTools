@@ -2,7 +2,7 @@
 	<JavaScript File="ChatPage.js" />
 	<Router ux:Dependency="router" />
 		<DockPanel>
-			<Toolbar Color="primary" Title="{user.fname}" HasBackButton="True" router="router">
+			<Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router">
 				<DropShadow />
 			</Toolbar>
 			<Rectangle Color="background_color" Layer="Background"/>
