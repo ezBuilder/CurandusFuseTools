@@ -1,14 +1,16 @@
-<Panel ux:Class="TemperatureCheck" Margin="0,0,0,16">
+<Panel ux:Class="MedicineItem" Margin="0,0,0,16">
 	<string ux:Property="Interval" />
 	<string ux:Property="Repeat" />
-	<!-- <string ux:Property="Description" /> -->
+	<string ux:Property="Medicine" />
+	<string ux:Property="Comment" />
 
 <StackPanel>
 	<Rectangle Color="White">
 		<StackPanel>
+			<FloatingLabel Value="{Property this.Medicine}" PlaceholderText="Enter medicine" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.Interval}" PlaceholderText="Interval on hours" InputHint="Number" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.Repeat}" PlaceholderText="Repeat on days" InputHint="Number" Margin="32, 8, 32, 0" />
-			<!-- <FloatingLabelArea Value="{Property this.Description}" PlaceholderText="Description" Margin="32, 8, 32, 0" /> -->
+			<FloatingLabelArea Value="{Property this.Comment}" PlaceholderText="Additional comment" Margin="32, 8, 32, 0" />
 		</StackPanel>
 	</Rectangle>
 </StackPanel>
