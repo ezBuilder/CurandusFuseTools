@@ -1,6 +1,5 @@
 var Observable = require("FuseJS/Observable");
 
-var contacts = Observable();
 var errorMessage = Observable();
 var isLoading = Observable(false);
 
@@ -13,15 +12,7 @@ function toolbarSearch() {
 }
 
 
-this.Parameter.onValueChanged(module, function(param) {
-    // lookup channel with id "param"
-    console.log("We should RELOAD " + JSON.stringify(param.reload));
-
-
-});
-
 module.exports = {
-    contacts: contacts,
     errorMessage: errorMessage,
     isLoading: isLoading,
     toolbarSearch: toolbarSearch
