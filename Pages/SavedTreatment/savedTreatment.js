@@ -3,9 +3,17 @@ var savedTreatments = Observable();
 var selektirani = Observable("");
 var lista=[];
 
-//***************  GET ALL TREATMENTS BY PROVIDES 
+var userInfo = Storage.readSync("userInfo");
+var providerId = userInfo.providerId;
+console.log("OVA E PROVIDER ID: "+providerId);
+
+//***************  GET ALL TREATMENTS BY PROVIDERS 
 function fetchData() {
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/2"
+        var userInfo = Storage.readSync("userInfo");
+        var providerId = userInfo.providerId;
+        console.log("OVA E PROVIDER ID: "+providerId);
+
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId
         console.log(url);
         fetch(url, {
             method: 'GET',
@@ -34,6 +42,7 @@ function fetchData() {
 function fetchDataBySavedTreatment(id){ 
     //console.log("fetchDataBySavedTreatment DATA: "+JSON.stringify(selektirani));
     //console.log("iddddddddddddddddddddddddddddddd"+id);
+   
     selektirani.clear(); 
     var url = "http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+id+"&typetreatment=S" 
     console.log(url); 
