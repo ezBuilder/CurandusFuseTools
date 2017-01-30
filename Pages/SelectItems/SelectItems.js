@@ -7,11 +7,32 @@ var Modal = require('Modal');
     var	P_SubTreatmentID;
     var api_call;
     var	P_PatientID;
+    var p_enabled=Observable(true);
+
+    var p_patientID=JSON.parse(Storage.readSync("patientId"));
+
+	var userInfo = Storage.readSync("userInfo");
+   	var p_providerId = userInfo.providerId; 
+
+		 var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
+		//var providerId = JSON.parse(userInfo.providerId);
+		console.log("OVA E user info  yyyy: "+userInfo);
+		var providerId=JSON.stringify(userInfo.providerId);  	  
 
     var stname=Observable();	
 
 		var lista_post=
 				[];
+
+function NVL(x){
+	if (x==null){
+		return "";
+	}
+	else
+	{
+		return x;
+	}
+}				
 
 function NewItem(data){
 		this.index=Observable(data.index);
@@ -36,6 +57,8 @@ function NewItem(data){
 
     this.onParameterChanged(function(param) { 
 
+    	console.log("ssss");
+
     	P_ActiveTreatmentID=0;
     	P_SubTreatmentID=0;
     	P_PatientID=0;
@@ -44,9 +67,9 @@ function NewItem(data){
     	lista.clear();
     	var responseObject=JSON.stringify(param.sendData);
 
-		     for (var i = 1; i < param.sendData.length; i++) {
-		     	param.sendData[i].name=param.sendData[i].name.replace(" ","");
-		     	param.sendData[i].name=param.sendData[i].name.replace(" ","");
+		     for (var i = 0; i < param.sendData.length-1; i++) {
+		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
+		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
 
 		    	 if (param.sendData[i].renderingInfo==null||param.sendData[i].renderingInfo=="null"){
 		    		param.sendData[i].render="";
@@ -58,23 +81,94 @@ function NewItem(data){
 		        param.sendData[i].index=i-1;
 		        lista.add(new NewItem(param.sendData[i]));
 		    }
+		    p_patient_id=param.sendData[param.sendData.length-1];
+
+		    console.log("Prametar "+p_patient_id);
+		    stname.value="";
     });
+
+ 		function CheckFields() {
+ 			var ret=0;
+ 			for (var i=0;i<lista.length;i++){
+ 				 if (lista.getAt(0).name.value!="Diet"&&lista.getAt(0).name.value!="Hygiene"&&
+ 				 	lista.getAt(0).name.value!="Activity"&&lista.getAt(0).name.value!="OtherInstructions")
+ 				 	// lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
+ 				 	// ||lista.getAt(0).name.value=="BloodPressuerCheck")  
+ 				   {    console.log("Duration "+lista.getAt(0).duration.value);
+ 				   		console.log("Duration "+NVL(lista.getAt(0).duration.value));
+		 				if (NVL(lista.getAt(0).interval.value)==""||NVL(lista.getAt(0).duration.value)=="") {
+		 					console.log("Interval "+lista.getAt(0).interval.value);
+		 					ret=ret+1;
+		 				}
+		 			}
+ 				 else if (lista.getAt(0).name.value=="Diet")  {
+		 				if (NVL(lista.getAt(0).diet.value)=="") {
+		 					ret=ret+1;
+		 				}		 				
+		 			}	
+ 				 else if (lista.getAt(0).name.value=="Hygiene")  {
+		 				if (NVL(lista.getAt(0).hygiene.value)=="") {
+		 					ret=ret+1;
+		 				}		 				
+		 			}			 				 					 			
+ 				 else if (lista.getAt(0).name.value=="OtherInstructions")  {
+		 				if (NVL(lista.getAt(0).otherinstructions.value)=="") {
+		 					ret=ret+1;
+		 				}		 				
+		 			}
+ 				 else if (lista.getAt(0).name.value=="Activity")  {
+		 				if (NVL(lista.getAt(0).activity.value)=="") {
+		 					ret=ret+1;
+		 				}		 				
+		 			}
+
+
+ 				  if (lista.getAt(0).name.value=="PainLevel")  {
+		 				if (NVL(lista.getAt(0).painlevelof.value)=="") {
+		 					ret=ret+1;
+		 				}
+		 			}	
+ 				  else if (lista.getAt(0).name.value=="SendImage")  {
+		 				if (NVL(lista.getAt(0).sendimageof.value)=="") {
+		 					ret=ret+1;
+		 				}
+ 				  else if (lista.getAt(0).name.value=="ComparisonWithPicture")  {
+		 				if (NVL(lista.getAt(0).EnterQuestion.value)==""||NVL(lista.getAt(0).comparisionurl.value)=="") {
+		 					ret=ret+1;
+		 				}		 				
+		 			}	
+ 				 else if (lista.getAt(0).name.value=="Medicines")  {
+		 				if (NVL(lista.getAt(0).medicinename.value)==""||NVL(lista.getAt(0).medicinecomment.value)=="") {
+		 					ret=ret+1;
+		 				}		 				
+		 			}		
+			}  
+		}  
+		console.log("ret "+ret);
+		if (ret==0) { p_enabled.value=true; return true; }
+		else {p_enabled.value=false; return false;}
+		
+	}
 
 		function ChekNameTreatment() {
 			console.log("klik");
-		    Modal.showModal(
-		        "Skip " + "TEST",
-		        "Are you sure you want to ovveride this treatment?", ["Yes", "No"],
-		        function(s) {
-		            debug_log("Got callback with " + s);
-		            if (s == "Yes") {
-		                console.log("Clicked item - TEST");
-		            }
-		            else
-		            {
-		            	console.log("Clicked item - TEST");
-		            }
-		        });
+
+			var pom=CheckFields();
+			console.log("pom "+pom);
+
+		    // Modal.showModal(
+		    //     "Skip " + "TEST",
+		    //     "Are you sure you want to ovveride this treatment?", ["Yes", "No"],
+		    //     function(s) {
+		    //         debug_log("Got callback with " + s);
+		    //         if (s == "Yes") {
+		    //             console.log("Clicked item - TEST");
+		    //         }
+		    //         else
+		    //         {
+		    //         	console.log("Clicked item - TEST");
+		    //         }
+		    //     });
 		}    
 
 function GetParameter(){
@@ -110,9 +204,10 @@ function GetParameter(){
 		    console.log("Error", err.message);
 		});
 	}
-       function AddNewItem(sender) {
+     function AddNewItem(sender) {
        		var pom_item={
        						"name":sender.data.name.value,
+       						"subtreatmentid":sender.data.subtreatmentdetail.value,
        						"index":sender.data.index.value+1,
        						"render":""
        					 }
@@ -130,10 +225,21 @@ function GetParameter(){
             }   
 
  		function Insert_Treatment(){
-
  			var userInfo = Storage.readSync("userInfo");
- 			var p_provider_id=userInfo.providerId
+ 			var p_provider_id=userInfo.providerId;
 
+ 			var validation=CheckFields();
+
+ 			if (validation==false)
+ 			{
+				    	Modal.showModal(
+				        "Message",
+				        "Please fulfill all fields in treatment", ["OK"],
+				        function(s) {
+				        });
+ 			}
+ 			else 
+ 			{
  			var rendering;
 			for (var i=0;i<lista.length;i++){
 					rendering={};
@@ -190,7 +296,7 @@ function GetParameter(){
 			}
 
 
-			fetch("http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=2&patientid=1&nametreatment=Prv&namesubtreatment=PrvS", {
+			fetch("http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid="+providerId+"&patientid="+p_patientID+"&nametreatment=Prv&namesubtreatment=PrvS", {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"
@@ -205,18 +311,21 @@ function GetParameter(){
 
 		    }).then(function(responseObject) {
 		        console.log("Success");
+
+		        console.log("parameter "+responseObject);
+		        var activetreatmentid=responseObject;
+
 		        		Modal.showModal(
 				        "Send Treatment ",
 				        "You have successfuly send treatmetnt to patient", ["OK"],
 				        function(s) {
-							        router.push("Alert");
-
-
+							        router.push("alert", activetreatmentid);
 				        });
 
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
 		    });
+		}
 		}
 
  		function Insert_Saved_Treatment(){
@@ -224,8 +333,20 @@ function GetParameter(){
  			console.log("Insert Save");
 
  			var userInfo = Storage.readSync("userInfo");
- 			var p_provider_id=userInfo.providerId
+ 			var p_provider_id=userInfo.providerId;
 
+ 			var validation=CheckFields();
+
+ 			if (validation==false||NVL(stname.value)=="")
+ 			{
+				    	Modal.showModal(
+				        "Message",
+				        "Please fulfill all fields in treatment", ["OK"],
+				        function(s) {
+				        });
+ 			}
+ 			else  			
+ 			{	
  			var rendering;
 			for (var i=0;i<lista.length;i++){
 					rendering={};
@@ -283,7 +404,7 @@ function GetParameter(){
 			var userInfo = Storage.readSync("userInfo");
 
 			console.log("User "+userInfo);
-			fetch("http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment/providerid=2&nametreatment="+stname.value, {
+			fetch("http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment/providerid="+providerId+"&nametreatment="+stname.value, {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"
@@ -297,7 +418,7 @@ function GetParameter(){
 		        return response.json(); // This returns a promise
 
 		    }).then(function(responseObject) {
-		    	if (responseObject==true){
+		    	if (responseObject==0){
 		        	console.log("Success");
 				    	Modal.showModal(
 				        "Save Treatment Template",
@@ -316,7 +437,7 @@ function GetParameter(){
 				        function(s) {
 				            debug_log("Got callback with " + s);
 				            if (s == "Yes") {
-												fetch("http://192.168.1.110:8080/curandusproject/webapi/api/updatesavedtreatment", {
+												fetch("http://192.168.1.110:8080/curandusproject/webapi/api/updatesavedtreatment/savedtreatmentid="+responseObject, {
 											        method: 'POST',
 											        headers: {
 											            "Content-type": "application/json"
@@ -331,6 +452,14 @@ function GetParameter(){
 
 											    }).then(function(responseObject) {
 											        	console.log("Success");
+											        	Modal.showModal(
+												        "Save Treatment Template",
+												        "You save treatment succesfully", ["OK"],
+												        function(s) {
+															        router.push("savedTreatment");
+
+
+				        });
 											    }).catch(function(err) {
 											        console.log("Error", err.message);
 											    });
@@ -341,6 +470,7 @@ function GetParameter(){
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
 		    });
+		}
 		}
 
 
@@ -356,5 +486,7 @@ function GetParameter(){
 	    ChekNameTreatment: ChekNameTreatment,
 	    stname: stname,
 	    Insert_Saved_Treatment: Insert_Saved_Treatment,
-	    RemoveItem: RemoveItem
-	};
+	    CheckFields: CheckFields,
+	    p_enabled:p_enabled,
+	    NVL: NVL,
+	    RemoveItem: RemoveItem	};

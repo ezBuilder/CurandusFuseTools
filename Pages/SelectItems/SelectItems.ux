@@ -1,20 +1,17 @@
 <DefaultPage ux:Class="SelectItems">
     <JavaScript File="SelectItems.js" />
     <Router ux:Dependency="router" />
-
-<ScrollView ClipToBounds="true" >
-                <StackPanel Width="100%" >
+<DockPanel>
         <Toolbar Color="primary" Title="Select Treatment Item" HasBackButton="True" router="router"> 
-            
         </Toolbar>
-
             <DockPanel Padding="10" Dock="Top">
-                <Rectangle Color="background_color" Layer="Background"/>
+            <!-- <Rectangle Color="background_color" Layer="Background"/> -->
                 <Panel Dock="Left">
                     <Circle Height="50" Width="50"  Alignment="Center">
                         <ImageFill File="../../Assets/placeholder.png" />
                     </Circle>
                 </Panel>
+
                 <StackPanel Margin="10" Alignment="Left">
                     <Text Font="medium" Value="Name Surname" FontSize="18" TextColor="primary" />
                     <Rectangle Width="100%" Height="1" Color="divider"/>
@@ -25,22 +22,26 @@
                 </StackPanel>
             </DockPanel>
 
-    <Rectangle >
-    <DockPanel>
-
-    <FloatingLabel PlaceholderText="Treatment name" Value="{stname}" Alignment="CenterLeft">
-    </FloatingLabel>
-    <RaisedButton Dock="Right" BtnText="Send" BtnTextColor="icons" BtnColor="primary" Margin="0,0,-6,0" Clicked="{Insert_Treatment}">
-    </RaisedButton>
-    <RaisedButton Dock="Right" BtnText="Save as" BtnTextColor="icons" BtnColor="primary" Clicked="{Insert_Saved_Treatment}"  Margin="0,0,-10,0">
-    </RaisedButton>
 
 
-</DockPanel>
-</Rectangle>                  
+                            <DockPanel Dock="Top">
+                                <FloatingLabel PlaceholderText="Treatment name" Value="{stname}" Alignment="CenterLeft">
+                                </FloatingLabel>
+                                <RaisedButton ux:Name="sendsave"  Dock="Right" BtnText="Send" BtnTextColor="icons" BtnColor="primary" Margin="0,0,-6,0" Clicked="{Insert_Treatment}">
+                                </RaisedButton>
+                                <RaisedButton Dock="Right" BtnText="Save" BtnTextColor="icons" BtnColor="primary" Clicked="{Insert_Saved_Treatment}"  Margin="0,0,-10,0">
+                                </RaisedButton>
+                            </DockPanel>
+        <!-- </DockPanel> -->
+
+
+           
+
+<ScrollView ClipToBounds="true" > 
+        <StackPanel>             
             <Each Items="{lista}">
                 <Match Value="{name}">
-                    <Case String="PainLevel">
+                    <Case String="Pain Level">
                         <Rectangle Color="primary_dark" Height="32">
                         <DockPanel>
                             <Text Value="PAIN LEVEL" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
@@ -51,7 +52,7 @@
                         <PainLevelItem Interval="{interval}" Repeat="{duration}"
                          painLevelOf="{painlevelof}"></PainLevelItem>
                     </Case>
-                    <Case String="TemperatureCheck">
+                    <Case String="Temperature Check">
                         <Rectangle Color="primary_dark" Height="32">
                         <DockPanel>
                             <Text Value="TEMPERATURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
@@ -60,7 +61,7 @@
                     </Rectangle>                        
                         <TemperatureCheck Interval="{interval}" Repeat="{duration}"/>
                     </Case>
-                    <Case String="BloodPressureCheck">
+                    <Case String="Blood Pressure Check">
                         <Rectangle Color="primary_dark" Height="32">
                         <DockPanel>
                             <Text Value="BLOOD PRESSURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
@@ -69,7 +70,7 @@
                     </Rectangle>                        
                         <BloodPresure Interval="{interval}" Repeat="{duration}"/>
                     </Case> 
-                      <Case String="PulseCheck">
+                      <Case String="Pulse Check">
                         <Rectangle Color="primary_dark" Height="32">
                         <DockPanel>
                             <Text Value="PULSE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
@@ -78,7 +79,7 @@
                     </Rectangle>                        
                         <PulseCheck Interval="{interval}" Repeat="{duration}"/>
                     </Case>                                    
-                    <Case String="SendImage">
+                    <Case String="Send Image">
                         <Rectangle Color="primary_dark" Height="32">
                         <DockPanel>
                             <Text Value="SEND IMAGE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
@@ -106,7 +107,7 @@
                         </Rectangle>                        
                         <Hygiene Question="{hygiene}" />
                     </Case>  
-                     <Case String="OtherInstructions">
+                     <Case String="Other Instructions">
                         <Rectangle Color="primary_dark" Height="32">
                         <DockPanel>
                             <Text Value="OTHER INSTRUCTIONS" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
@@ -125,7 +126,7 @@
                         <Activity AdviceForActivity="{activity}" />
                     </Case>  
 
-                     <Case String="ComparisonWithPicture">
+                     <Case String="Comparison With Picture">
                         <Rectangle Color="primary_dark" Height="32">
                         <DockPanel>
                             <Text Value="COMPARISION WITH PICTURE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
@@ -149,10 +150,10 @@
                 </Match>                            
             </Each>
 
-
 <!--    <ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}" Description="{ExampleDescription}"/>
+
     <ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}"/> -->
 </StackPanel>
 </ScrollView>
-
+</DockPanel>
 </DefaultPage>
