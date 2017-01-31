@@ -1,48 +1,159 @@
 <DefaultPage ux:Class="SelectItems">
-	<Router ux:Dependency="router" />
-
-	<JavaScript>		
-	var Observable = require("FuseJS/Observable");
-	
-	var ExampleInterval = Observable("7");
-	var ExampleRepeat = Observable("8");
-	var ExampleDescription = Observable("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque quasi, alias minima et");
-	
-
-	function SaveAs() {
-
-	}
-
-	module.exports = {
-	    ExampleInterval: ExampleInterval,
-	    ExampleRepeat: ExampleRepeat,
-	    ExampleDescription: ExampleDescription,
-	    SaveAs: SaveAs,
-
-	};
-
-	</JavaScript>
-
-
-
-
-<StackPanel>
-	<Rectangle >
+    <JavaScript File="SelectItems.js" />
+    <Router ux:Dependency="router" />
 <DockPanel>
+        <Toolbar Color="primary" Title="Select Treatment Item" HasBackButton="True" router="router"> 
+        </Toolbar>
+            <DockPanel Padding="10" Dock="Top">
+            <!-- <Rectangle Color="background_color" Layer="Background"/> -->
+                <Panel Dock="Left">
+                    <Circle Height="50" Width="50"  Alignment="Center">
+                        <ImageFill File="../../Assets/placeholder.png" />
+                    </Circle>
+                </Panel>
 
-<FloatingLabel PlaceholderText="Treatment name" Alignment="CenterLeft">
-</FloatingLabel>
-<RaisedButton Dock="Right" BtnText="Send" BtnTextColor="icons" BtnColor="primary" Margin="0,0,-6,0" Clicked="{SaveAs}">
-</RaisedButton>
-<RaisedButton Dock="Right" BtnText="Save as" BtnTextColor="icons" BtnColor="primary"  Margin="0,0,-10,0">
-</RaisedButton>
+                <StackPanel Margin="10" Alignment="Left">
+                    <Text Font="medium" Value="Name Surname" FontSize="18" TextColor="primary" />
+                    <Rectangle Width="100%" Height="1" Color="divider"/>
+                    <StackPanel Orientation="Horizontal" Alignment="Left">
+                        <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>
+                        <Text Font="medium" Value="Diabetes" FontSize="12" TextColor="offline" />
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
 
 
-</DockPanel>
-</Rectangle>
-	<ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}" Description="{ExampleDescription}"/>
-	<ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}"/>
+
+                            <DockPanel Dock="Top">
+                                <FloatingLabel PlaceholderText="Treatment name" Value="{stname}" Alignment="CenterLeft">
+                                </FloatingLabel>
+                                <RaisedButton ux:Name="sendsave"  Dock="Right" BtnText="Send" BtnTextColor="icons" BtnColor="primary" Margin="0,0,-6,0" Clicked="{Insert_Treatment}">
+                                </RaisedButton>
+                                <RaisedButton Dock="Right" BtnText="Save" BtnTextColor="icons" BtnColor="primary" Clicked="{Insert_Saved_Treatment}"  Margin="0,0,-10,0">
+                                </RaisedButton>
+                            </DockPanel>
+        <!-- </DockPanel> -->
+
+
+           
+
+<ScrollView ClipToBounds="true" > 
+        <StackPanel>             
+            <Each Items="{lista}">
+                <Match Value="{name}">
+                    <Case String="Pain Level">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="PAIN LEVEL" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
+                        </DockPanel>
+                    </Rectangle>                        
+                        <PainLevelItem Interval="{interval}" Repeat="{duration}"
+                         painLevelOf="{painlevelof}"></PainLevelItem>
+                    </Case>
+                    <Case String="Temperature Check">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="TEMPERATURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                        </DockPanel>
+                    </Rectangle>                        
+                        <TemperatureCheck Interval="{interval}" Repeat="{duration}"/>
+                    </Case>
+                    <Case String="Blood Pressure Check">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="BLOOD PRESSURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                        </DockPanel>
+                    </Rectangle>                        
+                        <BloodPresure Interval="{interval}" Repeat="{duration}"/>
+                    </Case> 
+                      <Case String="Pulse Check">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="PULSE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                        </DockPanel>
+                    </Rectangle>                        
+                        <PulseCheck Interval="{interval}" Repeat="{duration}"/>
+                    </Case>                                    
+                    <Case String="Send Image">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="SEND IMAGE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
+                        </DockPanel>
+                        </Rectangle>                        
+                        <SendImage Interval="{interval}" Repeat="{duration}" ImageFromYour="{sendimageof}" />
+                    </Case> 
+                    <Case String="Diet">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="DIET" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                        </DockPanel>
+                        </Rectangle>                        
+                        <Diet Advice="{diet}" />
+                    </Case>  
+                    <Case String="Hygiene">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="HYGIENE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                        </DockPanel>
+                        </Rectangle>                        
+                        <Hygiene Question="{hygiene}" />
+                    </Case>  
+                     <Case String="Other Instructions">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="OTHER INSTRUCTIONS" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                        </DockPanel>
+                        </Rectangle>                        
+                        <OtherInstruction Instruction="{otherinstruction}" />
+                    </Case>                     
+                    <Case String="Activity">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="ACTIVITY" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                        </DockPanel>
+                        </Rectangle>                        
+                        <Activity AdviceForActivity="{activity}" />
+                    </Case>  
+
+                     <Case String="Comparison With Picture">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="COMPARISION WITH PICTURE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
+                        </DockPanel>
+                        </Rectangle>                        
+                        <ComparisonWithPicture IntervalOn="{interval}" RepeatOn="{duration}" EnterQuestion="{comparisionquestion}" AditionalComment="{comparisionurl}"/>
+                    </Case>                     
+
+                    <Case String="Medicines">
+                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                            <Text Value="MEDICINE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
+                            <Icon Alignment="Center" FontSize="20" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
+                        </DockPanel>
+                        </Rectangle>                        
+                        <MedicineItem Interval="{interval}" Repeat="{duration}" Medicine="{medicinename}" Comment="{medicinecomment}"/>
+                    </Case> 
+                </Match>                            
+            </Each>
+
+<!--    <ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}" Description="{ExampleDescription}"/>
+
+    <ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}"/> -->
 </StackPanel>
-
-
+</ScrollView>
+</DockPanel>
 </DefaultPage>

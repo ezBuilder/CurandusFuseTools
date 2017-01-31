@@ -1,5 +1,9 @@
    var Observable = require("FuseJS/Observable")
-   exports.values = Observable()
+   var Storage = require("FuseJS/Storage");
+
+   var UserInfo = JSON.parse(Storage.readSync("userInfo"));
+
+   exports.values = Observable();
 
    var user = Observable();
 

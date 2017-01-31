@@ -46,13 +46,17 @@
 					<Text Dock="Right" Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"  Clicked="{edit}"/>
 				</DockPanel>
 
-				<Rectangle Color="primary">
+			<Rectangle Color="primary">
 
-<ScrollView ClipToBounds="true" >
+			<ScrollView ClipToBounds="true" >
+
 				<StackPanel Color="primary" Width="100%" >
+
 				
-				<Each Items="{treatmentItems}">
+				<Each Items="{templejt}">
 					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
+
+						<Deferred>
 						<DockPanel >
 							<Match Value="{status}">
 							    <Case String="DONE">
@@ -65,12 +69,12 @@
 								<StackPanel Dock="Left">
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
 								<Text Alignment="Left" Font="regular" FontSize="12" Value="Date: " Color="primary" Margin="0,10,0,0" />
-								<Text Alignment="Left" Font="medium"  FontSize="12" Value="01.10.2016" Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="{fullDate}" Color="primary" Margin="0,10,0,0" />
 								</StackPanel>
 
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
 								<Text Alignment="Left" Font="regular" FontSize="12" Value="Time: " Color="primary" Margin="0,10,0,0" />
-								<Text Alignment="Left" Font="medium"  FontSize="12" Value="12:00 AM" Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="{fullTime}" Color="primary" Margin="0,10,0,0" />
 								</StackPanel>
 
 								</StackPanel>
@@ -87,27 +91,41 @@
 								<StackPanel  Dock="Left" Height="100%"  Color="White">
 				
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
-								<Text Alignment="Left" Font="regular" FontSize="12" Value="Name of Doctor: " Color="primary" Margin="0,10,0,0" />
-								<Text Alignment="Left" TextAlignment="Center" Font="medium"  FontSize="12" Value=" {render.defaultValue}" Color="lightgreen" Margin="10,10,0,0" />
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Doctor: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" TextAlignment="Center" Font="medium"  FontSize="12" Value=" {providername}" Color="lightgreen" Margin="10,10,0,0" />
 								</StackPanel>
 
 								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
-								<Text Alignment="Left" Font="regular" FontSize="12" Value="Body temperature: " Color="primary" Margin="0,10,0,0" />
-								<Text Alignment="Left" Font="medium"  FontSize="12" Value="37.1°C" Color="lightorange" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="{label}" Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="{responseInfo}" Color="lightorange" Margin="0,10,0,0" />
 								</StackPanel>	
 
 								</StackPanel>
 						</DockPanel>
+
+					</Deferred>
 					</Rectangle>
 		</Each>
 		
 	</StackPanel>
-</ScrollView>
+
+	
+
+	<Scrolled To="End" Within="200">
+		<Callback Handler="{loadMore}" />
+	</Scrolled>
+
+	<Scrolled To="Start" Within="200">
+		<Callback Handler="{loadMore1}" />
+	</Scrolled>
 
 
-				</Rectangle>
+	</ScrollView>
+
+
+		</Rectangle>
 
 				
 
-</DockPanel>
-</DefaultPage>
+	</DockPanel>
+	</DefaultPage>

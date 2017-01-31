@@ -3,23 +3,151 @@
 <Router ux:Dependency="router" />
 
 
-    <JavaScript File="SelectType.js" />
+<JavaScript>
+    var Observable = require("FuseJS/Observable")
+    exports.values = Observable();
+    var flag = 0;
+    var finalData = [];
+    exports.list = Observable("")
+    var selektirani = Observable("");
+    var patientId;
+    var Storage = require("FuseJS/Storage");
+    
+    exports.values.onValueChanged( module, function() {        
+        exports.list.value = exports.values.toArray().join(",") 
+        exports.values = selektirani;
+     })
+
+    this.onParameterChanged(function(param) { 
+        selektirani.clear(); 
+        finalData=[];
+        console.log('On Parameter changed:'+JSON.stringify(param));
+        if("user" in param){
+            patientId = JSON.stringify(param.user.patientId);
+            Storage.write("patientId", JSON.stringify(patientId));
+
+        }
+       // console.log('POSLE On Parameter changed:'+param); 
+        // var obj = JSON.parse(param);
+        // console.log(obj);
+
+        
+        for(var i = 0 ; i < param.length; i++){
+            if(!param[i].num){
+                //console.log("vleze za NE NUM");
+                selektirani.add(param[i].name);
+                finalData[i] = param[i];
+            }
+        }
+        //param.clear();
+    });
+  
+    // ADD SELECTED ITEM 
+    function AddSelectedItem(item){
+      // console.log("SELEKTIRAN ITEM: "+JSON.stringify(item))
+       // console.log("SELEKTIRANI PRED: "+JSON.stringify(selektirani))
+        for(var i = 0 ; i < item.data.length; i++){
+             //console.log("ova e toj item: "+JSON.stringify(item[i]));
+             selektirani.add(item[i]);
+        }
+        //console.log("SELEKTIRANI POSLE: "+JSON.stringify(selektirani))
+    }
+
+    function goToSavedTreatments(e) { 
+            router.push("savedTreatment", { 
+        }); 
+    }
+
+    function goToSelectItems(){       
+        var sendData = [{}];
+        var flag=0;
+        console.log("SELEKTIRANI TUKAAAAAAAAA: "+JSON.stringify(selektirani))
+        console.log("FINAL DATA TUKAAAAAAAAA: "+JSON.stringify(selektirani))
+        for(var i = 0 ; i < selektirani.length; i++){ //za nizata na tie shto gi doselektiral da se napravat objekti kako vratenite od templejtot vo finalData
+           for(var j = 0; j < finalData.length; j++){
+                //console.log("ELEMENT I VO FOR J: "+selektirani.getAt(i));
+                //console.log("ELEMENT I:"+selektirani.getAt(i)+"--ELEMENT J:"+finalData[j].name+'---');
+                
+                if(selektirani.getAt(i).localeCompare(finalData[j].name) == 0){
+                    if(flag == 0){
+                            var tmp1 = {
+                            "name": finalData[j].name,
+                            "duration": finalData[j].duration,
+                            "createdBy": finalData[j].createdBy,
+                            "treatmentItemId": finalData[j].treatmentItemId,
+                            "subtreatmentid": finalData[j].subtreatmentid,
+                            "created": finalData[j].created,
+                            "modified": finalData[j].modified,
+                            "modifiedBy": finalData[j].modifiedBy,
+                            "typeT": finalData[j].typeT,
+                            "repeatT": finalData[j].repeatT,
+                            "renderingInfo": finalData[j].renderingInfo
+                            }
+                        sendData[i] = tmp1;
+                        flag = 1;
+                        //console.log(" IMA IST ELEMENT:  "+selektirani.getAt(i)+" SO:"+finalData[j].name);
+                        break;
+                    }
+                }
+            } // for J
+               
+             console.log("***********************************************");
+            if(flag == 0){
+                 //console.log("AKO SELEKTIRANO i flag=0:  "+selektirani.getAt(i));
+                var tmp = {
+                    "name": selektirani.getAt(i), 
+                    "duration": null, 
+                    "createdBy": 0, 
+                    "treatmentItemId": 0, 
+                    "subtreatmentid": 0, 
+                    "created": null, 
+                    "modified": null, 
+                    "modifiedBy": 0, 
+                    "typeT": "", 
+                    "repeatT": "", 
+                    "renderingInfo": null 
+                }
+                sendData[i] = tmp;
+            }
+            //console.log("NA KRAJ  "+selektirani.getAt(i)); 
+            flag = 0;
+
+        }// for i
+        //console.log("FINISH: "+JSON.stringify(sendData));
+       // console.log("FINISH pred da stavime patient: "+sendData.length);
+        sendData[sendData.length] = {"patientId":""+JSON.parse(Storage.readSync("patientId")) }
+        console.log("OVA E PATIENTID: "+Storage.readSync("patientId"));
+        console.log("FINISH posle: "+JSON.stringify(sendData));
+        console.log("FINISH posle so length: "+sendData.length);
+        
+         router.push("SelectItems", { sendData });   //  TUKA TREBA DA PREMINA NA SELECTITEM
+    }
+    
+    module.exports = { 
+        goToSelectItems:goToSelectItems, 
+        goToSavedTreatments:goToSavedTreatments, 
+        selektirani:selektirani, 
+        AddSelectedItem:AddSelectedItem  
+    } 
+    
+    
+</JavaScript>
 
 
 
 <!-- **************** Treatment item   **************** -->
 <Rectangle ux:Class="MyItem" Color="primary" CornerRadius="7" Width="65%"  Alignment="Center" Height="60" Margin="  0,10,0,0" HitTestMode="LocalBounds" Clicked="{AddSelectedItem}">  
-    <string ux:Property="Label"/>
-    <string ux:Property="Value"/>
+    <string ux:Property="Label"/> 
+    <string ux:Property="Value"/> 
 
-    <Selectable Value="{ReadProperty this.Label}"/>
+    <Selectable Value="{ReadProperty this.Label}"/> 
    
     <WhilePressed>
-        <Scale Factor="1.3" Duration="0.2"/>
+        <Scale Factor="1.3" Duration="0.2"/> 
     </WhilePressed>
-    <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
+    <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/> 
     <DropShadow/>  
-    <WhileSelected>  
+    <WhileSelected> 
         <Change this.Color="#0097A7" Duration="0.2"/> 
     </WhileSelected> 
     <Tapped>  
@@ -44,7 +172,7 @@
 
 
     <DockPanel>
-        <Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router"> 
+        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router"> 
             
         </Toolbar>
         <Rectangle Alignment="Top" Height="45" Width="100%">
@@ -59,7 +187,9 @@
         
 
         <Rectangle Color="background_color"> 
+            
             <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
+            
             <ScrollView Margin="0,60,0,0">
                 <StackPanel>
                     <Selection Values="{selektirani}"/>
@@ -70,8 +200,9 @@
                     <MyItem Label="Pain Level" Value="sku-03"/> 
                     <MyItem Label="Medicines" Value="sku-05"/> 
                     <MyItem Label="Send Image" Value="sku-05"/>
-                    <MyItem Label="Comparison With A Picture" Value="sku-05"/>  
+                    <MyItem Label="Comparison With Picture" Value="sku-05"/>  
                     <MyItem Label="Diet" Value="sku-05"/> 
+                    <MyItem Label="Activity" Value="sku-05"/> 
                     <MyItem Label="Hygiene" Value="sku-05"/> 
                     <MyItem Label="Other Instructions" Value="sku-05"/> 
                    
@@ -80,7 +211,6 @@
         </Rectangle>
 
     </DockPanel>
-
 
 
 </DefaultPage>

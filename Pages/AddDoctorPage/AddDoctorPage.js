@@ -1,4 +1,13 @@
 var Observable = require('FuseJS/Observable');
+var Storage = require("FuseJS/Storage");
+
+var User;
+
+Storage.read("userInfo").then(function(content) {
+    User = JSON.parse(content);
+}, function(error) {
+
+});
 
 var phoneNumber = Observable("");
 var name = Observable("");
@@ -9,7 +18,7 @@ function addContact() {
 
     if (phoneNumber.value != "" && name.value != "" && surname.value != "") {
 
-        fetch("http://192.168.1.165:8081/curandusproject/webapi/api/addcontactdoctor/providerId=" + 1 + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value, {
+        fetch("http://192.168.1.165:8081/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value, {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"
@@ -26,9 +35,7 @@ function addContact() {
             name.value = "";
             surname.value = "";
 
-            router.goto("main", {
-                reload: true
-            });
+            router.goto("main");
 
         }).catch(function(err) {
             console.log("Error", err.message);
