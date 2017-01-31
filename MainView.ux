@@ -11,7 +11,7 @@
     <Font File="fonts/Roboto-Regular.ttf" ux:Global="regular" />
 
 	<!-- Declare the modal(popUp) package -->
-    <!-- <ModalJS ux:Global="Modal" /> -->
+    <ModalJS ux:Global="Modal" />
 	
 	<!-- MAIN ROUTER NAVIGATION -->
     <Router ux:Name="router" />
@@ -43,7 +43,9 @@
 		    router.push("SharePage", {});
 		    EdgeNavigator.dismiss();
 		}
-	
+		
+
+
 		module.exports = {
 		    goToAbout: goToAbout,
 		    goToShare: goToShare,
@@ -75,8 +77,12 @@
 						<Image File="Assets/Menu.jpg" />
 					</Rectangle>
 					<MenuItem Text="About" Dock="Top" Icon="&#xE853;"  Clicked="{goToAbout}"/>			
-					<MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{goToShare}" />			
-					<MenuItem Text="Exit" Icon="&#xE879;" Dock="Bottom"/>			
+					<MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{goToShare}"/>			
+					<MenuItem Text="Exit" Icon="&#xE879;" Dock="Top">
+					 <Clicked>
+    						<HomeScreen Type="Finish" />
+ 					 </Clicked>	
+					<MenuItem/>
 							
 				</DockPanel>
 	
@@ -93,7 +99,7 @@
         <StatusBarBackground Dock="Top" Background="#0097A7"/>
     			
 		<!-- MAIN NAVIGATION START-->
-	    <Navigator DefaultTemplate="alert">
+	    <Navigator DefaultTemplate="WelcomePage">
 	        <LoginPage ux:Template="login" router="router" />
 	        <MainPage ux:Template="main" router="router" />
 	        <AlertPage ux:Template="alert" router="router" />
