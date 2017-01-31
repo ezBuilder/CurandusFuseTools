@@ -1,0 +1,32 @@
+<DefaultPage ux:Class="EditProfilePage">
+	
+<JavaScript File="EditProfilePage.js" />
+<Router ux:Dependency="router" />
+
+	<DockPanel >
+		<Toolbar Color="primary" Title="Edit Profile" HasBackButton="True" router="router">
+			<DropShadow />
+		</Toolbar>
+
+			<Rectangle Color="background_color" Layer="Background"/>
+			
+			<StackPanel>
+
+				<Image File="{imagePath}" Width="128" Height="128" Margin="0, 16, 0, 0"/>
+				      
+				     <StackPanel Alignment="Center">
+							<FlatButton BtnText="Load Picture" Alignment="Center" BtnTextColor="accent" Clicked="{selectImage}" Margin="-16"/>
+							<FlatButton BtnText="Take Picture" Alignment="Center" BtnTextColor="accent" Clicked="{takePicture}" Margin="-16"/>
+							<FlatButton BtnText="Remove Picture" Alignment="Center" BtnTextColor="accent" Clicked="{removePicture}" Margin="-16"/>
+		            </StackPanel>
+
+				<FloatingLabel Value="{name}" PlaceholderText="Name" Margin="32, 16, 32, 0" />
+				<FloatingLabel Value="{surname}" PlaceholderText="Surname" Margin="32, 16, 32, 0" />
+
+				<RaisedButton BtnText="SAVE" BtnColor="primary" BtnTextColor="icons" Clicked="{save}" Alignment="Center" Margin="0,32,0,0"/>
+
+			</StackPanel>
+
+	</DockPanel>
+
+</DefaultPage>

@@ -4,7 +4,7 @@
 
 	<JavaScript File="AlertPage.js" />
 
-	<Toolbar Color="primary" Title="{user.fname}" HasBackButton="True" router="router">
+	<Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router">
 		<DropShadow />
 	</Toolbar>
 			<DockPanel Padding="10" Dock="Top">
@@ -15,7 +15,7 @@
 	                </Circle>
 	            </Panel>
 	            <StackPanel Margin="10" Alignment="Center">
-	                <Text Font="medium" Value="{user.fname}" FontSize="18" TextColor="primary" />
+	                <Text Font="medium" Value="{user.fullName}" FontSize="18" TextColor="primary" />
 	                <Rectangle Width="100%" Height="1" Color="divider"/>
 	                <StackPanel Orientation="Horizontal">
 		                <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>

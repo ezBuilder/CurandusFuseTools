@@ -9,7 +9,8 @@
     "Fuse.ImageTools"
   ],
   "Includes": [
-    "*"
+    "*",
+    "Pages/ContactsView/ContactsView.js:Bundle",
   ],
   "Projects": [
     "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj",
@@ -24,6 +25,7 @@
       "https://github.com/bolav/fuse-contacts",
       "https://github.com/bolav/fuse-modalview",
       "https://github.com/bolav/fuse-homescreen"
+
     ]
   }
 }

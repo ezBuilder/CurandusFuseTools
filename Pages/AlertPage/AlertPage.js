@@ -230,16 +230,16 @@
 		};
 
 		function skip(item) {
-		    // Modal.showModal(
-		    //     "Skip " + JSON.stringify(item.data.label),
-		    //     "Are you sure you want to skip this item?", ["Yes", "No"],
-		    //     function(s) {
-		    //         debug_log("Got callback with " + s);
-		    //         if (s == "Yes") {
-		    //             console.log("Clicked item - " + JSON.stringify(item.data.treatmentItemListId));
-		    //             statusFunc(item.data.treatmentItemListId);
-		    //         }
-		    //     });
+		    Modal.showModal(
+		        "Skip " + "TEST",
+		        "Are you sure you want to skip this item?", ["Yes", "No"],
+		        function(s) {
+		            debug_log("Got callback with " + s);
+		            if (s == "Yes") {
+		                console.log("Clicked item - TEST");
+		                // statusFunc(item.data.treatmentItemListId);
+		            }
+		        });
 		}
 
 		fetch("http://192.168.1.165:8081/curandusproject/webapi/api/getpatientdata/5", {
@@ -276,9 +276,7 @@
 		});
 
 		this.onParameterChanged(function(param) {
-		    console.log("++++++++++++++++++++++++++++++++++++++++" + JSON.stringify(param.user));
-
-		    user.value = JSON.stringify(param.user);
+		    user.value = param.user;
 		})
 
 		function edit() {
@@ -291,10 +289,8 @@
 		    console.log('end clicked');
 		}
 
-
-
 		function goToChat() {
-		    router.push("chat");
+		    router.push("chat", JSON.stringify(user));
 		}
 
 		module.exports = {
