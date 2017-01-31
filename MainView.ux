@@ -43,6 +43,7 @@
 		    router.push("SharePage", {});
 		    EdgeNavigator.dismiss();
 		}
+
 		function goToEdit() {
 		    router.push("EditProfile", {});
 		    EdgeNavigator.dismiss();
@@ -50,7 +51,6 @@
 	
 		module.exports = {
 		    goToAbout: goToAbout,
-
 		    goToEdit: goToEdit,
 		    goToShare: goToShare,
 		    name: name,
@@ -59,38 +59,41 @@
     	
 	</JavaScript>
 
-	<EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren">
-	<!-- Add a panel handled by the EdgeNavigator -->
-		
-		<DockPanel EdgeNavigation.Edge="Left">
+ <EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren">
+ <!-- Add a panel handled by the EdgeNavigator -->
+  
+  <DockPanel EdgeNavigation.Edge="Left">
 
-	       <Rectangle ux:Name="menu" Width="280" Height="100%" Color="White">
+        <Rectangle ux:Name="menu" Width="280" Height="100%" Color="White">
 
-				<DockPanel>
+    <DockPanel>
 
-					<Rectangle Color="#FAFAFA" Width="100%" Height="158" Dock="Top">
-						<StackPanel>
-						   <Circle Height="80" Width="80" Dock="Left" Margin="12,26,0,12" Alignment="TopLeft">
+     <Rectangle Color="#FAFAFA" Width="100%" Height="158" Dock="Top">
+      <StackPanel>
+         <Circle Height="80" Width="80" Dock="Left" Margin="12,26,0,12" Alignment="TopLeft">
                                 <ImageFill File="Assets/placeholder.png" />
                             </Circle>
                             <Panel Height="48">
-                            	<Text Value="{name} {surname}" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
-                            	<Text Value="Edit" Color="White" FontSize="12" Alignment="CenterRight" Font="medium" Margin="0,0,16,0" Clicked="{goToEdit}"/>
-
-                        	</Panel>
+                             <Text Value="{name} {surname}" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
+                         </Panel>
                         </StackPanel>
                                   
-						<Image File="Assets/Menu.jpg" />
-					</Rectangle>
-					<MenuItem Text="About" Dock="Top" Icon="&#xE853;"  Clicked="{goToAbout}"/>			
-					<MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{goToShare}" />			
-					<MenuItem Text="Exit" Icon="&#xE879;" Dock="Bottom"/>			
-							
-				</DockPanel>
-	
-					
+      <Image File="Assets/Menu.jpg" />
+     </Rectangle>
+     <MenuItem Text="About" Dock="Top" Icon="&#xE853;"  Clicked="{goToAbout}"/>   
+     <MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{goToShare}" />   
+     <MenuItem Text="Exit" Icon="&#xE879;" Dock="Top"> 
+     		<Clicked>
+    			<HomeScreen Type="Finish" />
+  			</Clicked>
+	</MenuItem>
 
-        	<DropShadow />
+       
+    </DockPanel>
+ 
+     
+
+         <DropShadow />
         </Rectangle>
 </DockPanel>
 
