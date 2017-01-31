@@ -1,4 +1,5 @@
 		var Observable = require("FuseJS/Observable");
+		var Device = require('Device');
 
 		var register = Observable();
 		var firstName = Observable();
@@ -14,7 +15,7 @@
 		        "firstName": firstName.value,
 		        "lastName": lastName.value,
 		        "phone": phone.value,
-		        "deviceId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+		        "deviceId": Device.UUID,
 		        "activationCode": 111111,
 		        "status": 0
 		    }

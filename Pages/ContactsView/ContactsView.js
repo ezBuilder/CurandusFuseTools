@@ -1,6 +1,8 @@
 var Observable = require("FuseJS/Observable");
 var Storage = require("FuseJS/Storage");
 
+var UserInfo = JSON.parse(Storage.readSync("userInfo"));
+
 var isDoctors = Observable(false);
 var data = Observable();
 var dataDoctors = Observable();
@@ -38,7 +40,6 @@ function setPatients() {
     isDoctors.value = false;
 }
 
-var userInfo = Storage.readSync("userInfo");
 
 // var providerId = 1;
 // var providerId = userInfo.providerId;
@@ -46,7 +47,7 @@ var userInfo = Storage.readSync("userInfo");
 function fetchDataDoctors() {
     finalDoctors = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/1"
+    var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/" + UserInfo.providerId
     console.log(urlProvider);
     fetch(urlProvider, {
         method: 'GET',
@@ -102,7 +103,7 @@ function fetchData() {
     console.log("gggggggggggggggggggggggggggggggggg");
     final = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlPatient = "http://192.168.1.110:8080/curandusproject/webapi/api/patients/providerId=1"
+    var urlPatient = "http://192.168.1.110:8080/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
     console.log(urlPatient);
     fetch(urlPatient, {
         method: 'GET',
