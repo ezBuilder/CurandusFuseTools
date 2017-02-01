@@ -22,6 +22,7 @@
     "fuse_modules/"
   ],
   "Android": {
+      "ApplicationLabel": "Curandus",
       "Icons": {
           "LDPI": "Assets/icons/drawable-mdpi/ic_launcher.png",
           "MDPI": "Assets/icons/drawable-mdpi/ic_launcher.png",
