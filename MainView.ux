@@ -75,8 +75,9 @@
                             </Circle>
                             <Panel Height="48">
                              <Text Value="{name} {surname}" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
+                             <Text Value="Edit" Color="White" Clicked="{goToEdit}" FontSize="14" Margin="0,0,16,0" Alignment="CenterRight" Font="medium"/>
                          </Panel>
-                        </StackPanel>
+      </StackPanel>
                                   
       <Image File="Assets/Menu.jpg" />
      </Rectangle>
