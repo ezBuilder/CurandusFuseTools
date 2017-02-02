@@ -6,12 +6,20 @@
 <JavaScript>
     var Observable = require("FuseJS/Observable")
     exports.values = Observable();
+    var savedTreatments;// = Observable();
     var flag = 0;
     var finalData = [];
     exports.list = Observable("")
     var selektirani = Observable("");
     var patientId;
+    var providerId;
     var Storage = require("FuseJS/Storage");
+    var lista = [];
+    var userInfo = JSON.parse(Storage.readSync("userInfo"));
+    var templateName="";
+
+   // console.log("provajdeeeeeeeeeeeer: "+userInfo.providerId);
+    providerId= JSON.stringify(userInfo.providerId);
     
     exports.values.onValueChanged( module, function() {        
         exports.list.value = exports.values.toArray().join(",") 
@@ -19,50 +27,94 @@
      })
 
     this.onParameterChanged(function(param) { 
+        
         selektirani.clear(); 
         finalData=[];
-        console.log('On Parameter changed:'+JSON.stringify(param));
+
+        console.log('On Parameter changed vo selectType:'+JSON.stringify(param));
         if("user" in param){
             patientId = JSON.stringify(param.user.patientId);
             Storage.write("patientId", JSON.stringify(patientId));
-
         }
-       // console.log('POSLE On Parameter changed:'+param); 
-        // var obj = JSON.parse(param);
-        // console.log(obj);
-
-        
+        //console.log("PRED FOOOOR"+JSON.stringify(param));
         for(var i = 0 ; i < param.length; i++){
+            console.log("VO FOOOOR"+JSON.stringify(param[i]));
             if(!param[i].num){
-                //console.log("vleze za NE NUM");
-                selektirani.add(param[i].name);
-                finalData[i] = param[i];
+                if(param[i].id){
+                    console.log("VO IF if id"+param[i].id);
+                }
+                else if(param[i].templateName){
+                    console.log("VO ELSEIF nameTemplate"+param[i].templateName);
+                    templateName = param[i].templateName;
+
+                }
+                else{
+                    console.log("VO IF else"+param[i].name);
+                    selektirani.add(param[i].name);
+                    finalData[i] = param[i];
+                }
+                
             }
         }
-        //param.clear();
+
     });
   
     // ADD SELECTED ITEM 
     function AddSelectedItem(item){
-      // console.log("SELEKTIRAN ITEM: "+JSON.stringify(item))
-       // console.log("SELEKTIRANI PRED: "+JSON.stringify(selektirani))
         for(var i = 0 ; i < item.data.length; i++){
-             //console.log("ova e toj item: "+JSON.stringify(item[i]));
              selektirani.add(item[i]);
         }
-        //console.log("SELEKTIRANI POSLE: "+JSON.stringify(selektirani))
     }
 
     function goToSavedTreatments(e) { 
-            router.push("savedTreatment", { 
+        lista=[];
+
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/156"
+        console.log(url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json"
+            },
+            dataType: 'json'
+        }).then(function(response) { 
+            status = response.status; // Get the HTTP status code 
+            response_ok = response.ok; // Is response.status in the 200-range? 
+            return response.json(); // This returns a promise 
+        }).then(function(data) {
+            var tmp ={};
+            for (var i = 0; i < data.length; i++) {
+                tmp={
+                    "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,
+                    "nameTreatment":data[i].nameTreatment,
+                    "created":data[i].created,
+                    "createdBy":data[i].createdBy,
+                    "modified":data[i].modified,
+                    "modifiedBy":data[i].modifiedBy,
+                    "providerDetail":data[i].providerDetail
+                }
+                lista[i]=tmp;
+            }
+
+        router.push("savedTreatment",  lista ); 
+        }).catch(function(err) { 
+            console.log("Fetch data error"); 
+            console.log(err.message); 
         }); 
+
+             
+         
     }
+
+
+              
+      
 
     function goToSelectItems(){       
         var sendData = [{}];
         var flag=0;
-        console.log("SELEKTIRANI TUKAAAAAAAAA: "+JSON.stringify(selektirani))
-        console.log("FINAL DATA TUKAAAAAAAAA: "+JSON.stringify(selektirani))
+        //console.log("SELEKTIRANI TUKAAAAAAAAA: "+JSON.stringify(selektirani))
+        //console.log("FINAL DATA TUKAAAAAAAAA: "+JSON.stringify(selektirani))
         for(var i = 0 ; i < selektirani.length; i++){ //za nizata na tie shto gi doselektiral da se napravat objekti kako vratenite od templejtot vo finalData
            for(var j = 0; j < finalData.length; j++){
                 //console.log("ELEMENT I VO FOR J: "+selektirani.getAt(i));
@@ -91,7 +143,7 @@
                 }
             } // for J
                
-             console.log("***********************************************");
+             //console.log("***********************************************");
             if(flag == 0){
                  //console.log("AKO SELEKTIRANO i flag=0:  "+selektirani.getAt(i));
                 var tmp = {
@@ -116,18 +168,20 @@
         //console.log("FINISH: "+JSON.stringify(sendData));
        // console.log("FINISH pred da stavime patient: "+sendData.length);
         sendData[sendData.length] = {"patientId":""+JSON.parse(Storage.readSync("patientId")) }
-        console.log("OVA E PATIENTID: "+Storage.readSync("patientId"));
-        console.log("FINISH posle: "+JSON.stringify(sendData));
-        console.log("FINISH posle so length: "+sendData.length);
+        sendData[sendData.length] = {"templateName":templateName }
+        //console.log("OVA E PATIENTID: "+Storage.readSync("patientId"));
+        console.log("Data koja se prakja do SelectItems ( kartite ) "+JSON.stringify(sendData));
+        console.log("Length na data koja se prakja do SelectItems ( kartite ) "+sendData.length);
         
-         router.push("SelectItems", { sendData });   //  TUKA TREBA DA PREMINA NA SELECTITEM
+        router.push("SelectItems", { sendData });   //  TUKA TREBA DA PREMINA NA SELECTITEM
     }
     
     module.exports = { 
         goToSelectItems:goToSelectItems, 
         goToSavedTreatments:goToSavedTreatments, 
         selektirani:selektirani, 
-        AddSelectedItem:AddSelectedItem  
+        AddSelectedItem:AddSelectedItem ,
+        savedTreatments:savedTreatments 
     } 
     
     

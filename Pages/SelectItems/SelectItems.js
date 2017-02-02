@@ -9,15 +9,14 @@ var Modal = require('Modal');
     var	P_PatientID;
     var p_enabled=Observable(true);
 
+     var lista_send = [];
+
     var p_patientID=JSON.parse(Storage.readSync("patientId"));
 
-	var userInfo = Storage.readSync("userInfo");
-   	var p_providerId = userInfo.providerId; 
 
-		 var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
-		//var providerId = JSON.parse(userInfo.providerId);
+		var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
 		console.log("OVA E user info  yyyy: "+userInfo);
-		var providerId=JSON.stringify(userInfo.providerId);  	  
+		var providerId=JSON.stringify(userInfo.providerId); 
 
     var stname=Observable();	
 
@@ -57,17 +56,16 @@ function NewItem(data){
 
     this.onParameterChanged(function(param) { 
 
-    	console.log("ssss");
-
     	P_ActiveTreatmentID=0;
     	P_SubTreatmentID=0;
     	P_PatientID=0;
-
+    	stname.value="";
+    	console.log("param senddata"+JSON.stringify(param.sendData));
     	
     	lista.clear();
     	var responseObject=JSON.stringify(param.sendData);
 
-		     for (var i = 0; i < param.sendData.length-1; i++) {
+		     for (var i = 0; i < param.sendData.length-2; i++) {
 		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
 		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
 
@@ -83,9 +81,53 @@ function NewItem(data){
 		    }
 		    p_patient_id=param.sendData[param.sendData.length-1];
 
+		    
+
+		    stname.value=param.sendData[param.sendData.length-1].templateName;
+
+		    console.log("Nameeee "+param.sendData[param.sendData.length]);
 		    console.log("Prametar "+p_patient_id);
-		    stname.value="";
+		 //   stname.value="";
     });
+
+   function goToSavedTreatments() { 
+        lista_send=[];
+
+        console.log("Redirekting");
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId
+        console.log(url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json"
+            },
+            dataType: 'json'
+        }).then(function(response) { 
+            status = response.status; // Get the HTTP status code 
+            response_ok = response.ok; // Is response.status in the 200-range? 
+            return response.json(); // This returns a promise 
+        }).then(function(data) {
+            var tmp ={};
+            for (var i = 0; i < data.length; i++) {
+                tmp={
+                    "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,
+                    "nameTreatment":data[i].nameTreatment,
+                    "created":data[i].created,
+                    "createdBy":data[i].createdBy,
+                    "modified":data[i].modified,
+                    "modifiedBy":data[i].modifiedBy,
+                    "providerDetail":data[i].providerDetail
+                }
+                lista_send[i]=tmp;
+            }
+
+        router.push("savedTreatment",  lista_send ); 
+        }).catch(function(err) { 
+            console.log("Fetch data error"); 
+            console.log(err.message); 
+        });         
+    }
+
 
  		function CheckFields() {
  			var ret=0;
@@ -225,8 +267,7 @@ function GetParameter(){
             }   
 
  		function Insert_Treatment(){
- 			var userInfo = Storage.readSync("userInfo");
- 			var p_provider_id=userInfo.providerId;
+ 			lista_post=[];
 
  			var validation=CheckFields();
 
@@ -286,8 +327,8 @@ function GetParameter(){
 								"renderingInfo":JSON.stringify(rendering)
 							}
 
-							lista_post.push(pom);
-						}	
+					 lista_post.push(pom);
+					}	
 			if (P_SubTreatmentID==0){
 				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=2&patientid=1&nametreatment=Prv&namesubtreatment=PrvS";
 			}
@@ -330,15 +371,15 @@ function GetParameter(){
 
  		function Insert_Saved_Treatment(){
 
- 			console.log("Insert Save");
+ 			lista_post=[];
 
- 			var userInfo = Storage.readSync("userInfo");
- 			var p_provider_id=userInfo.providerId;
+ 			console.log("Insert Save");
 
  			var validation=CheckFields();
 
  			if (validation==false||NVL(stname.value)=="")
  			{
+ 						console.log("pppp  "+providerId);
 				    	Modal.showModal(
 				        "Message",
 				        "Please fulfill all fields in treatment", ["OK"],
@@ -403,8 +444,14 @@ function GetParameter(){
 			// }
 			var userInfo = Storage.readSync("userInfo");
 
-			console.log("User "+userInfo);
-			fetch("http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment/providerid="+providerId+"&nametreatment="+stname.value, {
+			var call_api="http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment?providerid="+providerId+"&nametreatment="+encodeURIComponent(stname.value);
+
+			console.log("nametreatment "+stname.value);
+
+			console.log("nametreatment "+call_api);
+
+
+			fetch(call_api, {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"
@@ -424,7 +471,7 @@ function GetParameter(){
 				        "Save Treatment Template",
 				        "You save treatment succesfully", ["OK"],
 				        function(s) {
-							        router.push("savedTreatment");
+							        goToSavedTreatments();
 
 
 				        });
@@ -456,7 +503,7 @@ function GetParameter(){
 												        "Save Treatment Template",
 												        "You save treatment succesfully", ["OK"],
 												        function(s) {
-															        router.push("savedTreatment");
+															        goToSavedTreatments();
 
 
 				        });
@@ -473,9 +520,6 @@ function GetParameter(){
 		}
 		}
 
-
-                       
-
 	module.exports = {
 	    lista: lista,
 	    NewItem: NewItem,
@@ -488,5 +532,6 @@ function GetParameter(){
 	    Insert_Saved_Treatment: Insert_Saved_Treatment,
 	    CheckFields: CheckFields,
 	    p_enabled:p_enabled,
+	    goToSavedTreatments: goToSavedTreatments,
 	    NVL: NVL,
 	    RemoveItem: RemoveItem	};
