@@ -1,9 +1,9 @@
 var Observable = require("FuseJS/Observable")
-var savedTreatments = Observable();
-var selektirani = Observable("");
- var Storage = require("FuseJS/Storage");
-var lista=[];
 
+var selektirani = Observable("");
+var Storage = require("FuseJS/Storage");
+var lista=[];
+var savedTreatments = Observable();
 var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
 //var providerId = JSON.parse(userInfo.providerId);
 console.log("OVA E user info  yyyy: "+userInfo);
@@ -14,42 +14,16 @@ var providerId=JSON.stringify(userInfo.providerId);
 console.log("OVA E PROVIDER ID yyyy: "+providerId);
 
 //***************  GET ALL TREATMENTS BY PROVIDERS 
-function fetchData() {
-        // var userInfo = Storage.readSync("userInfo");
-        // var providerId = userInfo.providerId;
-        console.log("OVA E PROVIDER ID: "+providerId);
-
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId
-        console.log(url);
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json"
-            },
-            dataType: 'json'
-        }).then(function(response) { 
-            status = response.status; // Get the HTTP status code 
-            response_ok = response.ok; // Is response.status in the 200-range? 
-            return response.json(); // This returns a promise 
-        }).then(function(data) { 
-           for (var i = 0; i < data.length; i++) {
-                savedTreatments.add(data[i]);
-           }
-        console.log("Vrati od api: "+JSON.stringify(savedTreatments));
-
-        }).catch(function(err) { 
-            console.log("Fetch data error"); 
-            console.log(err.message); 
-        }); 
-}// end function checkData 
+// end function checkData 
 
 
 //////******  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
-function fetchDataBySavedTreatment(id){ 
+function fetchDataBySavedTreatment(id,templateName){ 
     //console.log("fetchDataBySavedTreatment DATA: "+JSON.stringify(selektirani));
     //console.log("iddddddddddddddddddddddddddddddd"+id);
    
-    selektirani.clear(); 
+   // selektirani.clear(); 
+    lista = [];
     var url = "http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+id+"&typetreatment=S" 
     console.log(url); 
     fetch(url, { 
@@ -64,7 +38,7 @@ function fetchDataBySavedTreatment(id){
             return response.json(); // This returns a promise 
         }).then(function(data) {
             for(var i = 0; i < data.length; i++){
-                selektirani.add(data[i].name);
+                //selektirani.add(data[i].name);
                 //lista[i] = data[i].name;
                 ///////////
                 var tmp = {
@@ -83,39 +57,51 @@ function fetchDataBySavedTreatment(id){
                 lista[i] = tmp;
                 ///////////
                 console.log("FETCH DATA BY SAVED TREATMENTS: " + JSON.stringify(tmp)); 
+                console.log("FETCH DATA BY SAVED TREATMENTS - SELEKTIRANI: " + JSON.stringify(selektirani));  
             }
-        goToSavedTreatments(lista);
+        goToSavedTreatments(lista,id,templateName);
 
         }).catch(function(err) {
-            console.log("Fetch data error");
-            console.log(err.message);
+            console.log("Fetch data error"); 
+            console.log(err.message); 
         });
 } // end function fetchDataBySavedTreatment
 
 
 function getItemsForTemplate(item){
-   // console.log("GET ITEMS FOR TEMPLATE: " + JSON.stringify(item)); 
+    console.log("Data na klik na template: " + JSON.stringify(item.data)); 
     var id = item.data.savedTreatmentTemplateId; 
-    //console.log("GET ITEMS FOR TEMPLATE ID: " + id); 
-    fetchDataBySavedTreatment(id); 
+    var templateName = item.data.nameTreatment;
+    //console.log("Na klik na template: " + id); 
+    fetchDataBySavedTreatment(id,templateName); 
 } 
 
 
-function goToSavedTreatments(e){
-    console.log("NAJBITNOOO ***",JSON.stringify(e)); 
+function goToSavedTreatments(e,id,templateName){
+    //console.log("NAJBITNOOO ***",JSON.stringify(e)); 
     e.push({"num":Math.random()}); 
-    console.log("NAJBITNOOO-->>>",JSON.stringify(e)); 
-    console.log("NAJBITNOOO----- ",e.length); 
+    e.push({"id":id})
+    e.push({"templateName":templateName})
+    console.log("Data shto se prakja do SelectType",JSON.stringify(e)); 
+    console.log("dolzhina na data shto se prakja do SelectType: -----> ",e.length); 
     router.push("SelectType", e );
 }
 
-fetchData();  // <--- CALL FUNCTION FOR DATA FETCH ABOUT SAVED TEMPLATE
+this.onParameterChanged(function(param) { 
+    savedTreatments.clear();
+    console.log("Tuka se stigna vo savedTreatments"+JSON.stringify(param)); 
+    for(var i = 0 ; i < param.length; i++){
+         console.log("vo for stignato: "+param[i].nameTreatment); 
+         savedTreatments.add(param[i]); 
+    }
+});
+
+ // <--- CALL FUNCTION FOR DATA FETCH ABOUT SAVED TEMPLATE
 
 module.exports = {
-    fetchData:fetchData, 
-    savedTreatments:savedTreatments, 
     getItemsForTemplate:getItemsForTemplate, 
     goToSavedTreatments:goToSavedTreatments ,
-    fetchDataBySavedTreatment:fetchDataBySavedTreatment
+    fetchDataBySavedTreatment:fetchDataBySavedTreatment,
+    savedTreatments:savedTreatments
 
 }
