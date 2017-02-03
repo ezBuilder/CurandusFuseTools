@@ -5,20 +5,28 @@
 <DockPanel>
 
 <Rectangle Dock="Top" Height="52" Color="background_color">
-    <StackPanel Orientation="Horizontal" Alignment="Center">
-        <Text ux:Name="Patients" Value="Patients" TextColor="primary_dark" Margin="0,0,12,0" Clicked="{setPatients}">
+    <DockPanel Alignment="Center" Width="100%">
+        <Rectangle ux:Name="btn" Dock="Left" Width="50%" Height="52" Clicked="{setPatients}">
+            <WhileHovering>
+                <Change btn.Color="divider" />
+            </WhileHovering>
+            <Text ux:Name="Patients" FontSize="16" TextAlignment="Right" Value="Patients" TextColor="primary_dark" Margin="0,18,18,0"/>
             <Clicked>
                 <Set Patients.TextColor="primary_dark" />
                 <Set Doctors.TextColor="secondary_text" />
             </Clicked>
-        </Text>
-        <Text ux:Name="Doctors" Value="Doctors" TextColor="secondary_text" Margin="12,0,0,0" Clicked="{setDoctors}">
+        </Rectangle>
+        <Rectangle ux:Name="btn2"  Dock="Right" Width="50%" Height="52" Clicked="{setDoctors}">
+            <WhileHovering>
+                <Change btn2.Color="divider" />
+            </WhileHovering>
+            <Text ux:Name="Doctors" FontSize="16" TextAlignment="Left" Value="Doctors" TextColor="secondary_text" Margin="18,18,0,0"/>
             <Clicked>
                 <Set Doctors.TextColor="primary_dark" />
                 <Set Patients.TextColor="secondary_text" />
             </Clicked>
-        </Text>
-    </StackPanel>
+        </Rectangle>
+    </DockPanel>
 </Rectangle>
 
     <Rectangle Color="background_color">
