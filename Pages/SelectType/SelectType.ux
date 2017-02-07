@@ -27,9 +27,11 @@
      })
 
     this.onParameterChanged(function(param) { 
+
         
         selektirani.clear(); 
         finalData=[];
+        templateName="";
 
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param));
         if("user" in param){
@@ -46,7 +48,9 @@
                 else if(param[i].templateName){
                     console.log("VO ELSEIF nameTemplate"+param[i].templateName);
                     templateName = param[i].templateName;
-
+                    console.log("VO ELSEIF nameTemplate**"+templateName);
+                }
+                else if(param[i].num1){
                 }
                 else{
                     console.log("VO IF else"+param[i].name);
@@ -56,6 +60,7 @@
                 
             }
         }
+                    console.log("pOSLE FOR selektirani "+JSON.stringify(selektirani));
 
     });
   
@@ -69,7 +74,7 @@
     function goToSavedTreatments(e) { 
         lista=[];
 
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/156"
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/342"
         console.log(url);
         fetch(url, {
             method: 'GET',
@@ -113,7 +118,7 @@
     function goToSelectItems(){       
         var sendData = [{}];
         var flag=0;
-        //console.log("SELEKTIRANI TUKAAAAAAAAA: "+JSON.stringify(selektirani))
+        console.log("SELEKTIRANI TUKAAAAAAAAA: "+JSON.stringify(selektirani))
         //console.log("FINAL DATA TUKAAAAAAAAA: "+JSON.stringify(selektirani))
         for(var i = 0 ; i < selektirani.length; i++){ //za nizata na tie shto gi doselektiral da se napravat objekti kako vratenite od templejtot vo finalData
            for(var j = 0; j < finalData.length; j++){

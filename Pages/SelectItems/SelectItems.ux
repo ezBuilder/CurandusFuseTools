@@ -13,11 +13,11 @@
                 </Panel>
 
                 <StackPanel Margin="10" Alignment="Left">
-                    <Text Font="medium" Value="Name Surname" FontSize="18" TextColor="primary" />
+                    <Text Font="medium" Value="{user_patient.firstName} {user_patient.lastName}" FontSize="18" TextColor="primary" />
                     <Rectangle Width="100%" Height="1" Color="divider"/>
                     <StackPanel Orientation="Horizontal" Alignment="Left">
                         <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>
-                        <Text Font="medium" Value="Diabetes" FontSize="12" TextColor="offline" />
+                        <Text Font="medium" Value="" FontSize="12" TextColor="offline" />
                     </StackPanel>
                 </StackPanel>
             </DockPanel>

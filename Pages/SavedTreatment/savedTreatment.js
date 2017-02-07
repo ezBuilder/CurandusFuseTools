@@ -79,7 +79,7 @@ function getItemsForTemplate(item){
 
 function goToSavedTreatments(e,id,templateName){
     //console.log("NAJBITNOOO ***",JSON.stringify(e)); 
-    e.push({"num":Math.random()}); 
+    e.push({"num1":Math.random()}); 
     e.push({"id":id})
     e.push({"templateName":templateName})
     console.log("Data shto se prakja do SelectType",JSON.stringify(e)); 

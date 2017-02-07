@@ -8,6 +8,7 @@ var Modal = require('Modal');
     var api_call;
     var	P_PatientID;
     var p_enabled=Observable(true);
+    var user_patient=Observable();
 
      var lista_send = [];
 
@@ -73,9 +74,11 @@ function NewItem(data){
 		    		param.sendData[i].render="";
 		    	}
 		    	else{
-			        param.sendData[i].render = //JSON.parse
+			        param.sendData[i].render = JSON.parse
 			        (JSON.parse(param.sendData[i].renderingInfo));		    					        
 		   		    }
+
+		   	//	console.log("Render "+(JSON.parse(param.sendData[i].render)).diet);    
 		        param.sendData[i].index=i-1;
 		        lista.add(new NewItem(param.sendData[i]));
 		    }
@@ -88,6 +91,27 @@ function NewItem(data){
 		    console.log("Nameeee "+param.sendData[param.sendData.length]);
 		    console.log("Prametar "+p_patient_id);
 		 //   stname.value="";
+
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getpatientdata/"+p_patientID;
+        console.log(url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json"
+            },
+            dataType: 'json'
+        }).then(function(response) { 
+            status = response.status; // Get the HTTP status code 
+            response_ok = response.ok; // Is response.status in the 200-range? 
+            return response.json(); // This returns a promise 
+        }).then(function(data) {
+        	user_patient.value=data;
+        }).catch(function(err) { 
+            console.log("Fetch data error"); 
+            console.log(err.message); 
+        });   
+
+
     });
 
    function goToSavedTreatments() { 
@@ -122,6 +146,14 @@ function NewItem(data){
             }
 
         router.push("savedTreatment",  lista_send ); 
+
+        //router.goto("savedTreatment", lista_send); 
+       // router.goto("WelcomePage", null,"savedTreatment", lista_send); 
+		  //       router.modify({
+				//     how: "Goto",
+				//     path: [ "main", {}, "savedTreatment", lista_send ],
+				//     transition: "Bypass",
+				// });
         }).catch(function(err) { 
             console.log("Fetch data error"); 
             console.log(err.message); 
@@ -132,60 +164,61 @@ function NewItem(data){
  		function CheckFields() {
  			var ret=0;
  			for (var i=0;i<lista.length;i++){
- 				 if (lista.getAt(0).name.value!="Diet"&&lista.getAt(0).name.value!="Hygiene"&&
- 				 	lista.getAt(0).name.value!="Activity"&&lista.getAt(0).name.value!="OtherInstructions")
+ 				 if (lista.getAt(i).name.value!="Diet"&&lista.getAt(i).name.value!="Hygiene"&&
+ 				 	lista.getAt(i).name.value!="Activity"&&lista.getAt(i).name.value!="OtherInstructions")
  				 	// lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
  				 	// ||lista.getAt(0).name.value=="BloodPressuerCheck")  
- 				   {    console.log("Duration "+lista.getAt(0).duration.value);
- 				   		console.log("Duration "+NVL(lista.getAt(0).duration.value));
-		 				if (NVL(lista.getAt(0).interval.value)==""||NVL(lista.getAt(0).duration.value)=="") {
-		 					console.log("Interval "+lista.getAt(0).interval.value);
+ 				   {    console.log("Duration "+lista.getAt(i).duration.value);
+ 				   		console.log("Duration "+NVL(lista.getAt(i).duration.value));
+		 				if (NVL(lista.getAt(i).interval.value)==""||NVL(lista.getAt(i).duration.value)=="") {
+		 					console.log("Interval "+lista.getAt(i).interval.value);
 		 					ret=ret+1;
 		 				}
 		 			}
- 				 else if (lista.getAt(0).name.value=="Diet")  {
-		 				if (NVL(lista.getAt(0).diet.value)=="") {
+ 				 else if (lista.getAt(i).name.value=="Diet")  {
+		 				if (NVL(lista.getAt(i).diet.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}	
  				 else if (lista.getAt(0).name.value=="Hygiene")  {
-		 				if (NVL(lista.getAt(0).hygiene.value)=="") {
+		 				if (NVL(lista.getAt(i).hygiene.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}			 				 					 			
- 				 else if (lista.getAt(0).name.value=="OtherInstructions")  {
-		 				if (NVL(lista.getAt(0).otherinstructions.value)=="") {
+ 				 else if (lista.getAt(i).name.value=="Other Instructions")  {
+		 				if (NVL(lista.getAt(i).otherinstructions.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}
- 				 else if (lista.getAt(0).name.value=="Activity")  {
-		 				if (NVL(lista.getAt(0).activity.value)=="") {
+ 				 else if (lista.getAt(i).name.value=="Activity")  {
+		 				if (NVL(lista.getAt(i).activity.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}
 
 
- 				  if (lista.getAt(0).name.value=="PainLevel")  {
-		 				if (NVL(lista.getAt(0).painlevelof.value)=="") {
+ 				  if (lista.getAt(i).name.value=="PainLevel")  {
+		 				if (NVL(lista.getAt(i).painlevelof.value)=="") {
 		 					ret=ret+1;
 		 				}
 		 			}	
- 				  else if (lista.getAt(0).name.value=="SendImage")  {
-		 				if (NVL(lista.getAt(0).sendimageof.value)=="") {
+ 				  else if (lista.getAt(i).name.value=="Send Image")  {
+		 				if (NVL(lista.getAt(i).sendimageof.value)=="") {
 		 					ret=ret+1;
 		 				}
- 				  else if (lista.getAt(0).name.value=="ComparisonWithPicture")  {
-		 				if (NVL(lista.getAt(0).EnterQuestion.value)==""||NVL(lista.getAt(0).comparisionurl.value)=="") {
+		 			}
+ 				  else if (lista.getAt(i).name.value=="Comparison With Picture")  {
+		 				if (NVL(lista.getAt(i).EnterQuestion.value)==""||NVL(lista.getAt(i).comparisionurl.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}	
- 				 else if (lista.getAt(0).name.value=="Medicines")  {
-		 				if (NVL(lista.getAt(0).medicinename.value)==""||NVL(lista.getAt(0).medicinecomment.value)=="") {
+ 				 else if (lista.getAt(i).name.value=="Medicines")  {
+		 				if (NVL(lista.getAt(i).medicinename.value)==""||NVL(lista.getAt(i).medicinecomment.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}		
 			}  
-		}  
+		  
 		console.log("ret "+ret);
 		if (ret==0) { p_enabled.value=true; return true; }
 		else {p_enabled.value=false; return false;}
@@ -284,16 +317,16 @@ function GetParameter(){
  			var rendering;
 			for (var i=0;i<lista.length;i++){
 					rendering={};
-					if (lista.getAt(i).name.value=="PainLevel")
+					if (lista.getAt(i).name.value=="Pain Level")
 					{
 						 rendering={"painlevelof":lista.getAt(i).painlevelof.value};
 					}
-					else if (lista.getAt(i).name.value=="Medicine")
+					else if (lista.getAt(i).name.value=="Medicines")
 					{		
 						 rendering={"medicinename":lista.getAt(i).medicinename.value,
 									   "medicinecomment":lista.getAt(i).medicinecomment.value};
 					}
-					else if (lista.getAt(i).name.value=="SendImage")
+					else if (lista.getAt(i).name.value=="Send Image")
 					{		
 						 rendering={"sendimageof":lista.getAt(i).sendimageof.value};
 					}					
@@ -309,11 +342,11 @@ function GetParameter(){
 					{		
 						 rendering={"activity":lista.getAt(i).activity.value};
 					}	
-					else if (lista.getAt(i).name.value=="OtherInstruction")
+					else if (lista.getAt(i).name.value=="Other Instruction")
 					{		
 						 rendering={"otherinstruction":lista.getAt(i).otherinstruction.value};
 					}
-					else if (lista.getAt(i).name.value=="ComparisonWithPicture")
+					else if (lista.getAt(i).name.value=="Comparison With Picture")
 					{		
 						 rendering={"comparisionquestion":lista.getAt(i).comparisionquestion.value, 
 						 	"comparisionurl":lista.getAt(i).comparisionurl.value};
@@ -330,10 +363,10 @@ function GetParameter(){
 					 lista_post.push(pom);
 					}	
 			if (P_SubTreatmentID==0){
-				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=2&patientid=1&nametreatment=Prv&namesubtreatment=PrvS";
+				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid="+providerId+"&patientid="+p_patientID+"&nametreatment=Prv&namesubtreatment=PrvS";
 			}
 			else{
-				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment";
+				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=10";
 			}
 
 
@@ -360,9 +393,10 @@ function GetParameter(){
 				        "Send Treatment ",
 				        "You have successfuly send treatmetnt to patient", ["OK"],
 				        function(s) {
-							        router.push("alert", activetreatmentid);
+				        			console.log("Param return "+JSON.stringify(responseObject));
+				        			router.goto("alert", JSON.stringify(responseObject));
+							       // router.push("alert", activetreatmentid);
 				        });
-
 		    }).catch(function(err) {
 		        console.log("Error", err.message);
 		    });
@@ -391,16 +425,16 @@ function GetParameter(){
  			var rendering;
 			for (var i=0;i<lista.length;i++){
 					rendering={};
-					if (lista.getAt(i).name.value=="PainLevel")
+					if (lista.getAt(i).name.value=="Pain Level")
 					{
 						 rendering={"painlevelof":lista.getAt(i).painlevelof.value};
 					}
-					else if (lista.getAt(i).name.value=="Medicine")
+					else if (lista.getAt(i).name.value=="Medicines")
 					{		
 						 rendering={"medicinename":lista.getAt(i).medicinename.value,
 									   "medicinecomment":lista.getAt(i).medicinecomment.value};
 					}
-					else if (lista.getAt(i).name.value=="SendImage")
+					else if (lista.getAt(i).name.value=="Send Image")
 					{		
 						 rendering={"sendimageof":lista.getAt(i).sendimageof.value};
 					}					
@@ -416,11 +450,11 @@ function GetParameter(){
 					{		
 						 rendering={"activity":lista.getAt(i).activity.value};
 					}	
-					else if (lista.getAt(i).name.value=="OtherInstruction")
+					else if (lista.getAt(i).name.value=="Other Instruction")
 					{		
 						 rendering={"otherinstruction":lista.getAt(i).otherinstruction.value};
 					}
-					else if (lista.getAt(i).name.value=="ComparisonWithPicture")
+					else if (lista.getAt(i).name.value=="Comparison With Picture")
 					{		
 						 rendering={"comparisionquestion":lista.getAt(i).comparisionquestion.value, 
 						 	"comparisionurl":lista.getAt(i).comparisionurl.value};
@@ -534,4 +568,5 @@ function GetParameter(){
 	    p_enabled:p_enabled,
 	    goToSavedTreatments: goToSavedTreatments,
 	    NVL: NVL,
+	    user_patient:user_patient,
 	    RemoveItem: RemoveItem	};
