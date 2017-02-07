@@ -1,14 +1,11 @@
-
-<DockPanel ux:Class="MenuItem"  Height="48"  Padding="16,0">
-<string ux:Property="Icon" />
-<string ux:Property="Text" />	
-<string ux:Property="Label" />	
-
+<DockPanel ux:Class="MenuItem" Height="48" Padding="16,0" Width="100%" HitTestMode="LocalBounds">
+	<string ux:Property="Icon" />
+	<string ux:Property="Text" />
+	<string ux:Property="Label" />
 	<WhileHovering>
 		<Change this.Color="#d3d3d3" />
 	</WhileHovering>
-
-<Icon FontSize="24" Dock="Left" Color="secondary_text" Alignment="CenterLeft" Value="{Property this.Icon}" />
-<Text Value="{Property this.Text}" Color="primary_text" FontSize="14" Margin="32,0,0,0" Alignment="CenterLeft" Font="medium"/>
-<Text Value="{Property this.Label}" Color="primary_text" FontSize="14" Dock="Right" Alignment="CenterLeft" Font="medium"/>
+	<Icon FontSize="24" Dock="Left" Color="secondary_text" Alignment="CenterLeft" Value="{Property this.Icon}" />
+	<Text Value="{Property this.Text}" Color="primary_text" FontSize="14" Margin="32,0,0,0" Alignment="CenterLeft" Font="medium"/>
+	<Text Value="{Property this.Label}" Color="primary_text" FontSize="14" Dock="Right" Alignment="CenterLeft" Font="medium"/>
 </DockPanel>
