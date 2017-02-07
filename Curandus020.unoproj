@@ -10,7 +10,8 @@
   ],
   "Includes": [
     "*",
-    "Pages/ContactsView/ContactsView.js:Bundle"
+    "Pages/ContactsView/ContactsView.js:Bundle",
+    "Share.uno"
   ],
   "Projects": [
     "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj",

@@ -16,6 +16,11 @@
 		var Observable = require("FuseJS/Observable");
 		var Storage = require("FuseJS/Storage");
 
+		var Share = require("Share");
+
+		function share() { Share.sendIntent(); }
+
+
 		var User;
 		var name = Observable();
 		var surname = Observable();
@@ -48,6 +53,7 @@
 		    goToAbout: goToAbout,
 		    goToEdit: goToEdit,
 		    goToShare: goToShare,
+		    share: share,
 		    name: name,
 		    surname: surname
 		};
@@ -70,7 +76,7 @@
 						<Image File="Assets/Menu.jpg" />
 					</Rectangle>
 					<MenuItem Text="About" Dock="Top" Icon="&#xE853;"  Clicked="{goToAbout}"/>
-					<MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{goToShare}" />
+					<MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{share}" />
 					<MenuItem Text="Exit" Icon="&#xE879;" Dock="Top">
 						<Clicked>
 							<HomeScreen Type="Finish" />
