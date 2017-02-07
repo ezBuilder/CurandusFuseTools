@@ -11,20 +11,59 @@
 		var templejt = Observable();
 		var firstID = 0;
 		var lastID = 0;
+		var patientId = "";
 
+		this.onParameterChanged(function(param) {
+		    user.value = param.user;
 
+		    patientId = JSON.stringify(user.value.patientId);
 
-		function loadMore() {
-
-		    console.log("LOAD");
-		    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + lastID + "&updown=D&range=10", {
+		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId=" + patientId, {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
 		        },
 		        dataType: 'json'
 		    }).then(function(response) {
-		        status = response.status; // Get the HTTP status code
+		        response_ok = response.ok; // Is response.status in the 200-range?
+		        return response.json(); // This returns a promise
+		    }).then(function(responseObject) {
+
+		        console.log("Success");
+		        console.log(JSON.stringify(responseObject));
+
+		        patientInfo.value = responseObject;
+
+		        console.log(patientInfo.value.StreetAddress);
+		        console.log(patientInfo.value.city);
+
+
+
+		        stateCity.value = patientInfo.value.city + " /  " + patientInfo.value.state;
+		        nameLastname.value = patientInfo.value.firstName + " " + patientInfo.value.lastName;
+
+		        console.log(stateCity);
+		        console.log(nameLastname);
+
+		    }).catch(function(err) {
+		        console.log("Error", err.message);
+
+		    });
+
+		    console.log("PARAM", patientId);
+		})
+
+
+		function loadMore() {
+
+		    console.log("LOAD");
+		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + lastID + "&updown=D&range=10", {
+		        method: 'GET',
+		        headers: {
+		            "Content-type": "application/json"
+		        },
+		        dataType: 'json'
+		    }).then(function(response) {
 		        response_ok = response.ok; // Is response.status in the 200-range?
 		        return response.json(); // This returns a promise
 		    }).then(function(responseObject) {
@@ -63,14 +102,13 @@
 		function loadMore1() {
 
 		    console.log("LOAD111111");
-		    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + firstID + "&updown=U&range=10", {
+		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + firstID + "&updown=U&range=10", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
 		        },
 		        dataType: 'json'
 		    }).then(function(response) {
-		        status = response.status; // Get the HTTP status code
 		        response_ok = response.ok; // Is response.status in the 200-range?
 		        return response.json(); // This returns a promise
 		    }).then(function(responseObject) {
@@ -108,14 +146,13 @@
 		function initload() {
 
 		    console.log("LOAD");
-		    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/treatmentitemlis/activetreatmentid=15", {
+		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlis/activetreatmentid=15", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
 		        },
 		        dataType: 'json'
 		    }).then(function(response) {
-		        status = response.status; // Get the HTTP status code
 		        response_ok = response.ok; // Is response.status in the 200-range?
 		        return response.json(); // This returns a promise
 		    }).then(function(responseObject) {
@@ -159,13 +196,27 @@
 
 		function statusFunc(e) {
 
-		    console.log(JSON.stringify(e.data.treatmentItemListId));
+		    console.log(JSON.stringify(e.data));
 
-		    treatmentItemID = JSON.stringify(e.data.treatmentItemListId);
+		    var treatmentItemListId = JSON.stringify(e.data.treatmentItemListId);
 
-		    status = {
+
+		    var data = {
+		        "treatmentItemListId": e.data.treatmentItemListId,
+		        "treatmentitem": e.data.treatmentitem,
+		        "label": e.data.treatmentitem,
+		        "timeScheduled": null,
+		        "timeDone": e.data.timeDone,
+		        "timeRemove": e.data.timeRemove,
 		        "status": "SKIPPED",
+		        "renderingInfo": null,
+		        "responseInfo": e.data.responseInfo,
+		        "created": null,
+		        "createdBy": e.data.createdBy,
+		        "modified": null,
+		        "modifiedBy": e.data.modifiedBy
 		    };
+
 
 		    Modal.showModal(
 		        "Skip " + JSON.stringify(e.data.label),
@@ -174,20 +225,19 @@
 		            debug_log("Got callback with " + s);
 		            if (s == "Yes") {
 
-
-		                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmentitemlist/" + treatmentItemID, {
-		                    method: 'PUT',
+		                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmenitemlist/TreatmentItemListId=" + treatmentItemListId, {
+		                    method: 'POST',
 		                    headers: {
 		                        "Content-type": "application/json"
 		                    },
 		                    dataType: 'json',
-		                    body: JSON.stringify(status)
+		                    body: JSON.stringify(data)
 		                }).then(function(response) {
-		                    status = response.status; // Get the HTTP status code
 		                    response_ok = response.ok; // Is response.status in the 200-range?
 		                    return response.json(); // This returns a promise
 		                }).then(function(responseObject) {
-		                    console.log("Success");
+		                    console.log("Success EDIT");
+		                    console.log(JSON.stringify(responseObject));
 
 		                }).catch(function(err) {
 		                    console.log("Error", err.message);
@@ -213,50 +263,12 @@
 		        });
 		}
 
-		fetch("http://192.168.1.165:8081/curandusproject/webapi/api/getpatientdata/5", {
-		    method: 'GET',
-		    headers: {
-		        "Content-type": "application/json"
-		    },
-		    dataType: 'json'
-		}).then(function(response) {
-		    status = response.status; // Get the HTTP status code
-		    response_ok = response.ok; // Is response.status in the 200-range?
-		    return response.json(); // This returns a promise
-		}).then(function(responseObject) {
-
-		    console.log("Success");
-
-		    patientInfo.value = responseObject;
-
-
-		    console.log(patientInfo.value.StreetAddress);
-		    console.log(patientInfo.value.city);
-
-
-
-		    stateCity.value = patientInfo.value.city + " /  " + patientInfo.value.state;
-		    nameLastname.value = patientInfo.value.firstName + " " + patientInfo.value.lastName;
-
-		    console.log(stateCity);
-		    console.log(nameLastname);
-
-		}).catch(function(err) {
-		    console.log("Error", err.message);
-
-		});
-
-		this.onParameterChanged(function(param) {
-		    user.value = param.user;
-		})
 
 		function edit() {
 		    console.log('edit clicked');
-		    console.log('end clicked');
 		}
 
 		function end() {
-		    console.log('edit clicked');
 		    console.log('end clicked');
 		}
 

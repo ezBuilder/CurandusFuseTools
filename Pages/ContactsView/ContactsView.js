@@ -47,7 +47,7 @@ function setPatients() {
 function fetchDataDoctors() {
     finalDoctors = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/" + UserInfo.providerId
+    var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/ProviderProviderId=" + UserInfo.providerId
     console.log(urlProvider);
     fetch(urlProvider, {
         method: 'GET',
@@ -58,13 +58,13 @@ function fetchDataDoctors() {
     }).then(function(response) {
         return response.json(); // This returns a promise
     }).then(function(contacts) {
-
         var flag = false;
 
         for (var i = contacts.length - 1; i >= 0; i--) {
-            if (contacts[i].firstName != null && contacts[i].firstName != "undefined") {
-                contacts[i].firstLetter = contacts[i].firstName.charAt(0).toUpperCase();
-                contacts[i].fullName = contacts[i].firstName + " " + contacts[i].lastName;
+            console.log("dsadasdasda", contacts[i].FirstName);
+            if (contacts[i].FirstName != null && contacts[i].FirstName != "undefined") {
+                contacts[i].firstLetter = contacts[i].FirstName.charAt(0).toUpperCase();
+                contacts[i].fullName = contacts[i].FirstName + " " + contacts[i].LastName;
                 contacts[i].isLetter = 0;
             }
         }
@@ -76,7 +76,7 @@ function fetchDataDoctors() {
             }
             finalDoctors.push(tmp);
             for (var j = 0; j < contacts.length; j++) {
-                if (contacts[j].firstName != null && contacts[j].firstName != "undefined") {
+                if (contacts[j].FirstName != null && contacts[j].FirstName != "undefined") {
                     if (letters[i] == contacts[j].firstLetter) {
                         finalDoctors.push(contacts[j]);
                         flag = true;
@@ -103,7 +103,7 @@ function fetchData() {
     console.log("gggggggggggggggggggggggggggggggggg");
     final = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlPatient = "http://192.168.1.110:8080/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
+    var urlPatient = "http://192.168.1.165:8081/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
     console.log(urlPatient);
     fetch(urlPatient, {
         method: 'GET',
