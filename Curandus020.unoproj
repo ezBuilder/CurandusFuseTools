@@ -13,10 +13,7 @@
     "Pages/ContactsView/ContactsView.js:Bundle"
   ],
   "Projects": [
-    "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj",
-    "fuse_modules\\bolav\\fuse-modalview\\modal_include.unoproj",
-    "fuse_modules\\bolav\\fuse-homescreen\\homescreen_include.unoproj",
-    "fuse_modules\\MaxGraey\\fuse-device\\device_include.unoproj"
+  
   ],
   "Excludes": [
     "fuse_modules/"
@@ -24,9 +21,9 @@
   "Android": {
       "ApplicationLabel": "Curandus",
       "Icons": {
-          "LDPI": "Assets/icons/drawable-mdpi/ic_launcher.png",
-          "MDPI": "Assets/icons/drawable-mdpi/ic_launcher.png",
-          "HDPI": "Assets/icons/drawable-hdpi/ic_launcher.png",
+          "LDPI": "Assets/icons/drawable-mdpi/ic_launcher.png", 
+          "MDPI": "Assets/icons/drawable-mdpi/ic_launcher.png", 
+          "HDPI": "Assets/icons/drawable-hdpi/ic_launcher.png", 
           "XHDPI": "Assets/icons/drawable-xhdpi/ic_launcher.png",
           "XXHDPI": "Assets/icons/drawable-xxhdpi/ic_launcher.png",
           "XXXHDPI": "Assets/icons/drawable-xxxhdpi/ic_launcher.png",
@@ -34,9 +31,7 @@
  },
   "FusePM": {
     "Dependencies": [
-      "https://github.com/bolav/fuse-contacts",
       "https://github.com/bolav/fuse-modalview",
-      "https://github.com/bolav/fuse-homescreen",
       "https://github.com/MaxGraey/fuse-device"
     ]
   }

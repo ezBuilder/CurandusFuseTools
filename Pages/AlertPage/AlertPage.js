@@ -1,5 +1,5 @@
 		var Observable = require("FuseJS/Observable");
-		var Modal = require('Modal');
+		// var Modal = require('Modal');
 
 		var user = Observable();
 		var status = Observable();
@@ -13,6 +13,7 @@
 		var lastID = 0;
 
 
+        var SubtreatmentId=10;
 
 		function loadMore() {
 
@@ -62,7 +63,7 @@
 
 		function loadMore1() {
 
-		    console.log("LOAD111111");
+		    console.log("LOAD");
 		    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + firstID + "&updown=U&range=10", {
 		        method: 'GET',
 		        headers: {
@@ -161,7 +162,7 @@
 
 		    console.log(JSON.stringify(e.data.treatmentItemListId));
 
-		    treatmentItemID = JSON.stringify(e.data.treatmentItemListId);
+		    var treatmentItemID = JSON.stringify(e.data.treatmentItemListId);
 
 		    status = {
 		        "status": "SKIPPED",
@@ -248,11 +249,33 @@
 
 		this.onParameterChanged(function(param) {
 		    user.value = param.user;
+		    console.log("ovde param od contacts"+param.user);
 		})
 
 		function edit() {
 		    console.log('edit clicked');
-		    console.log('end clicked');
+
+			fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+SubtreatmentId+"&typetreatment=R", {
+				    method: 'GET',
+				    headers: {
+				        "Content-type": "application/json"
+				    },
+				    dataType: 'json'
+				}).then(function(response) {
+				    status = response.status; // Get the HTTP status code
+				    response_ok = response.ok; // Is response.status in the 200-range?
+				    return response.json(); // This returns a promise
+				}).then(function(responseObject) {
+
+				    //console.log("Success");
+				    console.log("Success: "+JSON.stringify(responseObject));
+				     router.push("SelectType", JSON.stringify(responseObject));
+
+				}).catch(function(err) {
+				    console.log("Error", err.message);
+
+				});
+
 		}
 
 		function end() {
