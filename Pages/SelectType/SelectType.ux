@@ -48,7 +48,7 @@
                 else if(param[i].templateName){
                    // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
                     templateName = param[i].templateName;
-                   // console.log("VO ELSEIF nameTemplate**"+templateName);
+
                 }
                 else if(param[i].num1){
                 }
@@ -60,7 +60,7 @@
                 
             }
         }
-                   // console.log("pOSLE FOR selektirani "+JSON.stringify(selektirani));
+
 
     });
   

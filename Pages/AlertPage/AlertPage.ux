@@ -48,6 +48,48 @@
 
 			<Rectangle Color="primary">
 
+
+		<JavaScript File="AlertPage.js" />
+		<Toolbar Color="primary" Title="{nameLastname}" HasBackButton="True" router="router">
+			<DropShadow />
+		</Toolbar>
+		<DockPanel Padding="10" Dock="Top">
+			<Rectangle Color="background_color" Layer="Background"/>
+			<Panel Dock="Left">
+				<Circle Height="50" Width="50" Alignment="Center">
+					<ImageFill File="../../Assets/placeholder.png" />
+				</Circle>
+			</Panel>
+			<StackPanel Margin="10" Alignment="Center">
+				<Text Font="medium" Value="{nameLastname}" FontSize="18" TextColor="primary" />
+				<Rectangle Width="100%" Height="1" Color="divider"/>
+				<StackPanel Orientation="Horizontal">
+					<Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>
+					<Text Font="medium" Value="Diabetes" FontSize="12" TextColor="offline" />
+				</StackPanel>
+			</StackPanel>
+			<StackPanel Dock="Right" Orientation="Horizontal">
+				<Circle Height="45" Width="45" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
+					<Stroke Width="2">
+						<SolidColor Color="primary" />
+					</Stroke>
+					<Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}">&#xE0B7;</Icon>
+				</Circle>
+				<Circle Height="45" Width="45" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
+					<Stroke Width="2">
+						<SolidColor Color="primary" />
+					</Stroke>
+					<Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}" >&#xE0D8;</Icon>
+				</Circle>
+			</StackPanel>
+		</DockPanel>
+		<DockPanel Color="primary_dark" Width="100%" Height="25" Dock="Top">
+			<Text Dock="Left" Font="medium" Value="TREATMENT TIMELINE"  Color="White" Margin="10,3,10,0" />
+			<Text Dock="Right" Font="medium" Value="END"  Color="White" Margin="10,3,10,0" Clicked="{end}" />
+			<Text Dock="Right" Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"  Clicked="{edit}"/>
+		</DockPanel>
+		<Rectangle Color="primary">
+
 			<ScrollView ClipToBounds="true" >
 
 				<StackPanel Color="primary" Width="100%" >
