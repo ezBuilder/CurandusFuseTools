@@ -1,10 +1,8 @@
 <!-- TOOLBAR START-->
 <StackPanel Dock="Top" ux:Class="Toolbar">
-
-    <Router ux:Dependency="router" />
-
+	<Router ux:Dependency="router" />
 	<JavaScript>
-	    var Observable = require("FuseJS/Observable");
+		var Observable = require("FuseJS/Observable");
 
 	    var IsSearch = Observable(false);
 		
@@ -21,59 +19,56 @@
 	        goBack: goBack,
 	        IsSearch: IsSearch
 	    };
-
 	</JavaScript>
-
-    <string ux:Property="Title" />
-    <string ux:Property="Icon" />
-    <float4 ux:Property="Color" />
-    <bool ux:Property="HasSearchButton" />
-    <bool ux:Property="HasBackButton" />
-    <bool ux:Property="IsSearch" />
-
-	<DockPanel ux:Name="mainDock" Height="56" Padding="16, 0" Color="primary">
-			
-<!-- 		<WhileTrue Value="{IsSearch}">
-			<Change mainDock.Color = "background_color" />
-		</WhileTrue> -->
-
+	<string ux:Property="Title" />
+	<string ux:Property="Icon" />
+	<float4 ux:Property="Color" />
+	<bool ux:Property="HasSearchButton" />
+	<bool ux:Property="HasBackButton" />
+	<bool ux:Property="IsSearch" />
+	<DockPanel ux:Name="mainDock" Height="56" Padding="0, 0" Color="primary">
+		<!-- 		<WhileTrue Value="{IsSearch}">
+							<Change mainDock.Color = "background_color" />
+						</WhileTrue> -->
 		<Match Value="{IsSearch}">
-		    <Case Bool="True">
-
+			<Case Bool="True">
 				<Panel Dock="Left">
-              		<Icon FontSize="24" Margin="0,16" Clicked="{toogleSearch}" Color="icons">&#xE5C4;</Icon>
+					<Rectangle Width="56" Height="56" Clicked="{toogleSearch}" HitTestMode="LocalBounds">
+						<Icon FontSize="24" Alignment="Center">&#xE5C4;</Icon>
+					</Rectangle>
 				</Panel>
-			        <!-- <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" /> -->
-
-				<TextInput Alignment="CenterLeft" ux:Name="text" Value="{searchText}" PlaceholderText="Search" CaretColor="icons" FontSize="20" PlaceholderColor="primary_light"  Margin="40,0,0,0" Font="regular" TextColor="icons">
-					
-				</TextInput>
-
+				<!-- <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" />-->
+				<TextInput Alignment="CenterLeft" ux:Name="text" Value="{searchText}" PlaceholderText="Search" CaretColor="icons" FontSize="20" PlaceholderColor="primary_light" Margin="40,0,0,0" Font="regular" TextColor="icons"></TextInput>
 				<Panel Dock="Right">
-              		<Icon FontSize="24" Margin="0,16" Clicked="{toolbarSearch}" Color="icons">&#xE8B6;</Icon>
+					<Rectangle Width="56" Height="56" Clicked="{toogleSearch}" HitTestMode="LocalBounds">
+						<Icon FontSize="24" Alignment="Center">&#xE8B6;</Icon>
+					</Rectangle>
 				</Panel>
-
-		    </Case>
-		    <Case Bool="False">
+			</Case>
+			<Case Bool="False">
 				<Panel Dock="Left">
 					<Match Value="{ReadProperty this.HasBackButton}">
-		    			<Case Bool="True">
-              				<Icon FontSize="24" Margin="0,16" Clicked="{goBack}">&#xE5C4;</Icon>
-              			</Case>
-		    			<Case Bool="False">
-              				<Icon FontSize="24" Margin="0,16" Clicked="{openMenu}">&#xE5D2;</Icon>
-              			</Case>
-              		</Match>
+						<Case Bool="True">
+							<Rectangle Width="56" Height="56" Clicked="{goBack}" HitTestMode="LocalBounds">
+								<Icon FontSize="24" Alignment="Center">&#xE5C4;</Icon>
+							</Rectangle>
+						</Case>
+						<Case Bool="False">
+							<Rectangle Width="56" Height="56" Clicked="{openMenu}" HitTestMode="LocalBounds">
+								<Icon FontSize="24" Alignment="Center">&#xE5D2;</Icon>
+							</Rectangle>
+						</Case>
+					</Match>
 				</Panel>
-			        <Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="40,0" TextColor="#fff" />
-			        <StackPanel Orientation="Horizontal" Alignment="Right" >
-			        <WhileTrue Value="{ReadProperty this.HasSearchButton}">
-			            <Icon FontSize="24"  Margin="0,16" Clicked="{toogleSearch}">&#xE8B6;</Icon>
-			        </WhileTrue>
-			        </StackPanel>
-		    </Case>
+				<Text Value="{Property this.Title}" Alignment="CenterLeft" Font="medium" FontSize="20" Margin="16,0" TextColor="#fff" />
+				<StackPanel Orientation="Horizontal" Alignment="Right" >
+					<WhileTrue Value="{ReadProperty this.HasSearchButton}">
+						<Rectangle Width="56" Height="56" Clicked="{toogleSearch}" HitTestMode="LocalBounds">
+							<Icon FontSize="24" Alignment="Center">&#xE8B6;</Icon>
+						</Rectangle>
+					</WhileTrue>
+				</StackPanel>
+			</Case>
 		</Match>
-
 	</DockPanel>
-
 </StackPanel>

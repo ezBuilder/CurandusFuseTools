@@ -14,11 +14,11 @@ function isLogged() {
 }
 
 function goToLogin() {
-    router.push("login");
+    router.goto("login");
 }
 
 function goToMain() {
-    router.push("main");
+    router.goto("main");
 }
 
 setTimeout(function() {
