@@ -1,6 +1,54 @@
 <DefaultPage ux:Class="AlertPage" >
 	<Router ux:Dependency="router" />
 	<DockPanel >
+
+	<JavaScript File="AlertPage.js" />
+
+	<Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router">
+		<DropShadow />
+	</Toolbar>
+			<DockPanel Padding="10" Dock="Top">
+				<Rectangle Color="background_color" Layer="Background"/>
+				<Panel Dock="Left">
+	                <Circle Height="50" Width="50"  Alignment="Center">
+	                    <ImageFill File="../../Assets/placeholder.png" />
+	                </Circle>
+	            </Panel>
+	            <StackPanel Margin="10" Alignment="Center">
+	                <Text Font="medium" Value="{user.fullName}" FontSize="18" TextColor="primary" />
+	                <Rectangle Width="100%" Height="1" Color="divider"/>
+	                <StackPanel Orientation="Horizontal">
+		                <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>
+		                <Text Font="medium" Value="Diabetes" FontSize="12" TextColor="offline" />
+	                </StackPanel>
+	            </StackPanel>
+	            <StackPanel Dock="Right" Orientation="Horizontal">
+	              
+	                <Circle Height="45" Width="45" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
+	                	<Stroke Width="2">
+					        <SolidColor Color="primary" />
+					    </Stroke>
+	                    <Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}">&#xE0B7;</Icon>
+	                </Circle>
+	                <Circle Height="45" Width="45" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
+	                	<Stroke Width="2">
+					        <SolidColor Color="primary" />
+					    </Stroke>
+	                    <Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}" >&#xE0D8;</Icon>
+	                </Circle>
+	            </StackPanel>
+        	</DockPanel>
+		
+
+				<DockPanel  Color="primary_dark" Width="100%" Height="25" Dock="Top">
+					<Text Dock="Left" Font="medium" Value="TREATMENT TIMELINE"  Color="White" Margin="10,3,10,0" />
+					<Text Dock="Right" Font="medium" Value="END"  Color="White" Margin="10,3,10,0" Clicked="{end}" />
+					<Text Dock="Right" Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"  Clicked="{edit}"/>
+				</DockPanel>
+
+			<Rectangle Color="primary">
+
+
 		<JavaScript File="AlertPage.js" />
 		<Toolbar Color="primary" Title="{nameLastname}" HasBackButton="True" router="router">
 			<DropShadow />
@@ -41,56 +89,82 @@
 			<Text Dock="Right" Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"  Clicked="{edit}"/>
 		</DockPanel>
 		<Rectangle Color="primary">
+
 			<ScrollView ClipToBounds="true" >
+
 				<StackPanel Color="primary" Width="100%" >
-					<Each Items="{templejt}">
-						<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
-							<Deferred>
-								<DockPanel >
-									<Match Value="{status}">
-										<Case String="DONE">
-											<Rectangle Dock="Left" Height="100%" Width="10" Color="done" CornerRadius="8,0,0,8"/>
-										</Case>
-										<Case String="FUTURE">
-											<Rectangle Dock="Left" Height="100%" Width="10" Color="future" CornerRadius="8,0,0,8"/>
-										</Case>
-									</Match>
-									<StackPanel Dock="Left">
-										<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
-											<Text Alignment="Left" Font="regular" FontSize="12" Value="Date: " Color="primary" Margin="0,10,0,0" />
-											<Text Alignment="Left" Font="medium"  FontSize="12" Value="{fullDate}" Color="primary" Margin="0,10,0,0" />
-										</StackPanel>
-										<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
-											<Text Alignment="Left" Font="regular" FontSize="12" Value="Time: " Color="primary" Margin="0,10,0,0" />
-											<Text Alignment="Left" Font="medium"  FontSize="12" Value="{fullTime}" Color="primary" Margin="0,10,0,0" />
-										</StackPanel>
-									</StackPanel>
-									<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
-									<DockPanel Dock="Right" Height="100%" Width="32" HitTestMode="LocalBounds" Clicked="{statusFunc}">
-										<Icon Dock="Right" FontSize="18" Color="Red" Alignment="VerticalCenter" Margin="0,0,3,0" >&#xE044;</Icon>
-									</DockPanel>
-									<StackPanel Dock="Left" Height="100%" Color="White">
-										<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
-											<Text Alignment="Left" Font="regular" FontSize="12" Value="Doctor: " Color="primary" Margin="0,10,0,0" />
-											<Text Alignment="Left" TextAlignment="Center" Font="medium"  FontSize="12" Value=" {providername}" Color="lightgreen" Margin="10,10,0,0" />
-										</StackPanel>
-										<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
-											<Text Alignment="Left" Font="regular" FontSize="12" Value="{label}" Color="primary" Margin="0,10,0,0" />
-											<Text Alignment="Left" Font="medium"  FontSize="12" Value="{responseInfo}" Color="lightorange" Margin="0,10,0,0" />
-										</StackPanel>
-									</StackPanel>
+
+				
+				<Each Items="{templejt}">
+					<Rectangle Width="90%" Height="64" Color="White" Margin="0,16,0,0" CornerRadius="8">
+
+						<Deferred>
+						<DockPanel >
+							<Match Value="{status}">
+							    <Case String="DONE">
+									<Rectangle Dock="Left" Height="100%" Width="10" Color="done" CornerRadius="8,0,0,8"/>
+							    </Case>
+							    <Case String="FUTURE">
+									<Rectangle Dock="Left" Height="100%" Width="10" Color="future" CornerRadius="8,0,0,8"/>
+							    </Case>
+							</Match>
+								<StackPanel Dock="Left">
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Date: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="01.10.2016" Color="primary" Margin="0,10,0,0" />
+								</StackPanel>
+
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Time: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="12:00 AM" Color="primary" Margin="0,10,0,0" />
+								</StackPanel>
+
+								</StackPanel>
+								<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
+
+
+								<DockPanel Dock="Right" Height="100%" Width="32">
+
+								<Icon Dock="Right" FontSize="18" Color="Red"  Alignment="VerticalCenter" Clicked="{statusFunc}"    Margin="0,0,3,0" >&#xE044; </Icon>
+
+								
 								</DockPanel>
-							</Deferred>
-						</Rectangle>
-					</Each>
-				</StackPanel>
-				<Scrolled To="End" Within="200">
-					<Callback Handler="{loadMore}" />
-				</Scrolled>
-				<Scrolled To="Start" Within="200">
-					<Callback Handler="{loadMore1}" />
-				</Scrolled>
-			</ScrollView>
+
+								<StackPanel  Dock="Left" Height="100%"  Color="White">
+				
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Name of Doctor: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" TextAlignment="Center" Font="medium"  FontSize="12" Value=" {fname}" Color="lightgreen" Margin="10,10,0,0" />
+								</StackPanel>
+
+								<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
+								<Text Alignment="Left" Font="regular" FontSize="12" Value="Body temperature: " Color="primary" Margin="0,10,0,0" />
+								<Text Alignment="Left" Font="medium"  FontSize="12" Value="37.1°C" Color="lightorange" Margin="0,10,0,0" />
+								</StackPanel>	
+
+								</StackPanel>
+						</DockPanel>
+
+					</Deferred>
+					</Rectangle>
+		</Each>
+		
+	</StackPanel>
+
+	<Scrolled To="End" Within="300">
+		<Callback Handler="{loadMore}" />
+	</Scrolled>
+
+	<Scrolled To="Start" Within="300">
+		<Callback Handler="{loadMore}" />
+	</Scrolled>
+
+	</ScrollView>
+
+
 		</Rectangle>
+
+				
+
 	</DockPanel>
-</DefaultPage>
+	</DefaultPage>
