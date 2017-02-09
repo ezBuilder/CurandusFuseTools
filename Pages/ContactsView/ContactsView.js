@@ -154,10 +154,9 @@ fetchData();
 fetchDataDoctors();
 
 function goToSelectType(e) {
-    
-  // e.data.push({"num":Math.random()}); 
+
    e.data.num=Math.random();
-   console.log(JSON.stringify(e.data));
+  // console.log(JSON.stringify(e.data));
     router.push("SelectType", {
         user: e.data
     });

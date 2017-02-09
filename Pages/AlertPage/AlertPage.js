@@ -1,5 +1,9 @@
 		var Observable = require("FuseJS/Observable");
-		// var Modal = require('Modal');
+
+		//var Modal = require('Modal');
+
+		var Modal = require('Modal');
+
 
 		var user = Observable();
 		var status = Observable();
@@ -268,6 +272,12 @@
 
 		                });
 
+
+		            }
+		        });
+
+
+
 		            }
 		        });
 
@@ -276,16 +286,16 @@
 		};
 
 		function skip(item) {
-		    // Modal.showModal(
-		    //     "Skip " + "TEST",
-		    //     "Are you sure you want to skip this item?", ["Yes", "No"],
-		    //     function(s) {
-		    //         debug_log("Got callback with " + s);
-		    //         if (s == "Yes") {
-		    //             console.log("Clicked item - TEST");
-		    //             // statusFunc(item.data.treatmentItemListId);
-		    //         }
-		    //     });
+		    Modal.showModal(
+		        "Skip " + "TEST",
+		        "Are you sure you want to skip this item?", ["Yes", "No"],
+		        function(s) {
+		            debug_log("Got callback with " + s);
+		            if (s == "Yes") {
+		                console.log("Clicked item - TEST");
+		                // statusFunc(item.data.treatmentItemListId);
+		            }
+		        });
 		}
 
 
@@ -329,6 +339,7 @@
 		})
 
 		function edit() {
+
 		      console.log('edit clicked');
 
 		   fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+SubtreatmentId+"&typetreatment=R", {
@@ -353,12 +364,6 @@
 
 		    });
 
-
-
-		function edit() {
-		    console.log('edit clicked');
-
-		}
 
 		function end() {
 		    console.log('end clicked');
