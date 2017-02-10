@@ -5,6 +5,7 @@ var Storage = require("FuseJS/Storage");
 var lista=[];
 var savedTreatments = Observable();
 var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
+var name ="";
 //var providerId = JSON.parse(userInfo.providerId);
 console.log("OVA E user info  yyyy: "+userInfo);
 
@@ -14,15 +15,12 @@ var providerId=JSON.stringify(userInfo.providerId);
 console.log("OVA E PROVIDER ID yyyy: "+providerId);
 
 //***************  GET ALL TREATMENTS BY PROVIDERS 
-// end function checkData 
-
+name = JSON.parse(Storage.readSync("nameLastname"));
+console.log("*VO SAVED TREATMENTS NAME"+name);
 
 //////******  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
 function fetchDataBySavedTreatment(id,templateName){ 
-    //console.log("fetchDataBySavedTreatment DATA: "+JSON.stringify(selektirani));
-    //console.log("iddddddddddddddddddddddddddddddd"+id);
-   
-   // selektirani.clear(); 
+
     lista = [];
     var url = "http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+id+"&typetreatment=S" 
     console.log(url); 
@@ -103,6 +101,7 @@ module.exports = {
     getItemsForTemplate:getItemsForTemplate, 
     goToSelectType:goToSelectType ,
     fetchDataBySavedTreatment:fetchDataBySavedTreatment,
-    savedTreatments:savedTreatments
+    savedTreatments:savedTreatments,
+    name:name
 
 }

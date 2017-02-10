@@ -18,8 +18,14 @@
     var userInfo = JSON.parse(Storage.readSync("userInfo")); 
     var templateName=""; 
     var subtreatmentid="";
-    var SubtreatmentIdOnEDIT="0"; 
+    var SubtreatmentIdOnEDIT="0";
+    var name = "MOKI"; 
+    //var patientName = {name:"MOKIIII"}; 
+    var Storage = require("FuseJS/Storage");
 
+
+    console.log("*** IMETO OD ALERT PAGE: "+JSON.parse(Storage.readSync("nameLastname")));
+    name = JSON.parse(Storage.readSync("nameLastname"));
    // console.log("provajdeeeeeeeeeeeer: "+userInfo.providerId);
     providerId= JSON.stringify(userInfo.providerId);
     
@@ -35,6 +41,11 @@
         templateName="";
         subtreatmentid="";
         SubtreatmentIdOnEDIT="0";
+
+        
+        console.log("IMETO OD ALERT PAGE ON PARAMETER CHANGE VO SELECT TYPE: "+JSON.parse(Storage.readSync("nameLastname")));
+        name = JSON.parse(Storage.readSync("nameLastname"));
+
         //patientId = JSON.stringify(param.user.patientId);
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
 
@@ -43,6 +54,20 @@
             for(var i = 0 ; i < param.savedTreatments.length; i++){
 
                 if(!param.savedTreatments[i].num){
+
+
+                    if(param.savedTreatments[i].id){
+                        console.log("VO IF if id"+param.savedTreatments[i].id);
+                    }
+                    
+                    else if(param.savedTreatments[i].name){
+
+                         selektirani.add(param.savedTreatments[i].name);
+                         finalData[i] = param.savedTreatments[i];
+                         SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
+                    }
+
+
 
                     if(param.savedTreatments[i].id){
                         console.log("VO IF if id"+param.savedTreatments[i].id);
@@ -74,6 +99,7 @@
             } 
 
         }
+
 ///// koga doagja od page ContactView
         else if(param.user.length > 1){
           //  console.log('If param length > 0:'+JSON.stringify(param)); 
@@ -119,52 +145,28 @@
                     
                 }
             } 
-        }
-       // console.log("patientId vo select type:", JSON.stringify(patientId));
-        else if("user" in param){
+        } // kraj koga doagja od contactview
 
+        /// koga doagja od ALERT PAGE
+        else if("user" in param){
             console.log("Vo IF user!");
             console.log("Vo IF user"+JSON.stringify(param.user.patientId));
             patientId = JSON.stringify(param.user.patientId);
             //patientId = param[i].patientId;
             console.log("IF select type patientID "+patientId);
-
+            name = JSON.stringify(param.user.fullName);
+           // patientName.name =    JSON.stringify(param.user.fullName);
+           // console.log("patientName"+param.user.fullName);
             Storage.write("patientId", JSON.stringify(patientId));
             subtreatmentid = param.user.subtreatmentid;
         }
 
-        //console.log("PRED FOOOOR"+JSON.stringify(param));
-        // for(var i = 0 ; i < param.length; i++){
-        //     console.log("VO FOOOOR"+JSON.stringify(param[i]));
-        //     if(!param[i].num){
-        //         if(param[i].id){
-        //             console.log("VO IF if id"+param[i].id);
-        //         }
-        //         else if(param[i].templateName){
-        //            // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
-        //             templateName = param[i].templateName;
-        //            // console.log("VO ELSEIF nameTemplate**"+templateName);
-        //         }
-        //         else if(param[i].num1){
-        //         }
-        //         else if(param[i].subtrementID){
-        //             //console.log(" vo else if select type subtreatmentid: "+param[i]);
-        //            SubtreatmentIdOnEDIT = param[i].subtrementID;
-        //         }
-        //         else{
-        //             console.log("VO IF else"+param[i].name);
-        //             selektirani.add(param[i].name);
-        //             finalData[i] = param[i];
-        //         }
-                
-        //     }
-        // }       
-                console.log("PRED FOR PATIENTID "+patientId);
-                console.log("POSLE FOR selektirani "+JSON.stringify(selektirani));
-
-
-
+    
+            console.log("PRED FOR PATIENTID "+patientId);
+            console.log("POSLE FOR selektirani "+JSON.stringify(selektirani));
     });
+
+    
   
     // ADD SELECTED ITEM 
     function AddSelectedItem(item){
@@ -173,44 +175,42 @@
         }
     }
 
-    function goToSavedTreatments(e) { 
-        lista=[];
+    function goToSavedTreatments(e) {  
+        lista=[]; 
 
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId
-        console.log(url);
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json"
+
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId 
+        console.log(url); 
+        fetch(url, { 
+            method: 'GET', 
+            headers: { 
+                "Content-type": "application/json" 
             },
-            dataType: 'json'
-        }).then(function(response) { 
-            status = response.status; // Get the HTTP status code 
-            response_ok = response.ok; // Is response.status in the 200-range? 
-            return response.json(); // This returns a promise 
+            dataType: 'json' 
+        }).then(function(response) {  
+            status = response.status; // Get the HTTP status code  
+            response_ok = response.ok; // Is response.status in the 200-range?  
+            return response.json(); // This returns a promise  
         }).then(function(data) {
             var tmp ={};
-            for (var i = 0; i < data.length; i++) {
-                tmp={
-                    "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,
-                    "nameTreatment":data[i].nameTreatment,
-                    "created":data[i].created,
-                    "createdBy":data[i].createdBy,
-                    "modified":data[i].modified,
-                    "modifiedBy":data[i].modifiedBy,
-                    "providerDetail":data[i].providerDetail
-                }
-                lista[i]=tmp;
-            }
+            for (var i = 0; i < data.length; i++) { 
+                tmp={ 
+                    "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,  
+                    "nameTreatment":data[i].nameTreatment,                        
+                    "created":data[i].created,                                    
+                    "createdBy":data[i].createdBy,                                
+                    "modified":data[i].modified,                                   
+                    "modifiedBy":data[i].modifiedBy,                              
+                    "providerDetail":data[i].providerDetail                        
+                } 
+                lista[i] = tmp; 
+            } 
 
         router.push("savedTreatment",  lista ); 
         }).catch(function(err) { 
             console.log("Fetch data error"); 
             console.log(err.message); 
         }); 
-
-             
-         
     }
 
 
@@ -290,7 +290,8 @@
         goToSavedTreatments:goToSavedTreatments, 
         selektirani:selektirani, 
         AddSelectedItem:AddSelectedItem ,
-        savedTreatments:savedTreatments 
+        savedTreatments:savedTreatments ,
+        name
     } 
     
     
@@ -335,7 +336,7 @@
 
 
     <DockPanel>
-        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router"> 
+        <Toolbar Color="primary" Title="{name}" HasBackButton="True" router="router"> 
             
         </Toolbar>
         <Rectangle Alignment="Top" Height="45" Width="100%">
@@ -349,13 +350,13 @@
         </Rectangle> 
         
 
-        <Rectangle Color="background_color"> 
+        <Rectangle Color="background_color">  
             
-            <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
+            <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> 
             
-            <ScrollView Margin="0,60,0,0">
+            <ScrollView Margin="0,60,0,0"> 
                 <StackPanel>
-                    <Selection Values="{selektirani}"/>
+                    <Selection Values="{selektirani}"/> 
 
                     <MyItem Label="Temperature Check" Value="sku-04"/> 
                     <MyItem Label="Blood Pressure Check" Value="sku-01"/> 
