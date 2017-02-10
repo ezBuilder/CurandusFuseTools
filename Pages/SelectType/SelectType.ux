@@ -40,27 +40,27 @@
         }
         //console.log("PRED FOOOOR"+JSON.stringify(param));
         for(var i = 0 ; i < param.length; i++){
-          //  console.log("VO FOOOOR"+JSON.stringify(param[i]));
+            console.log("VO FOOOOR"+JSON.stringify(param[i]));
             if(!param[i].num){
                 if(param[i].id){
-                   // console.log("VO IF if id"+param[i].id);
+                    console.log("VO IF if id"+param[i].id);
                 }
                 else if(param[i].templateName){
-                   // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
+                    console.log("VO ELSEIF nameTemplate"+param[i].templateName);
                     templateName = param[i].templateName;
-
+                    console.log("VO ELSEIF nameTemplate**"+templateName);
                 }
                 else if(param[i].num1){
                 }
                 else{
-                   // console.log("VO IF else"+param[i].name);
+                    console.log("VO IF else"+param[i].name);
                     selektirani.add(param[i].name);
                     finalData[i] = param[i];
                 }
                 
             }
         }
-
+                    console.log("pOSLE FOR selektirani "+JSON.stringify(selektirani));
 
     });
   
