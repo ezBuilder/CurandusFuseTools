@@ -7,7 +7,7 @@ var isDoctors = Observable(false);
 var data = Observable();
 var dataDoctors = Observable();
 var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-
+var fullName="";
 var final = [];
 var finalDoctors = [];
 
@@ -65,6 +65,8 @@ function fetchDataDoctors() {
             if (contacts[i].FirstName != null && contacts[i].FirstName != "undefined") {
                 contacts[i].firstLetter = contacts[i].FirstName.charAt(0).toUpperCase();
                 contacts[i].fullName = contacts[i].FirstName + " " + contacts[i].LastName;
+                //// dodadeno od moki go zemam full name za da go prikazham vo selekttype koga se odi kon selekttype od contacts
+                fullName = contacts[i].fullName;
                 contacts[i].isLetter = 0;
             }
         }
@@ -154,6 +156,10 @@ fetchData();
 fetchDataDoctors();
 
 function goToSelectType(e) {
+   e.data.num=Math.random();
+     Storage.write("nameLastname", JSON.stringify(fullName));
+   console.log("od tuka se prakja kon SelectType"+JSON.stringify(e.data));
+
     router.push("SelectType", {
         user: e.data
     });

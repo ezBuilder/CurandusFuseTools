@@ -28,7 +28,7 @@
 <!-- **************** SCREEN VIEW  **************** -->
 <JavaScript File="savedTreatment.js" />
     <DockPanel>
-        <Toolbar Color="primary" Title="Anneta Franklin" HasBackButton="True" router="router">
+        <Toolbar Color="primary" Title="{name}" HasBackButton="True" router="router">
         </Toolbar>
         <Rectangle Alignment="Top" Height="45" Width="100%">
             <Grid  >
