@@ -59,7 +59,7 @@ function fetchDataBySavedTreatment(id,templateName){
                 console.log("FETCH DATA BY SAVED TREATMENTS: " + JSON.stringify(tmp)); 
                 console.log("FETCH DATA BY SAVED TREATMENTS - SELEKTIRANI: " + JSON.stringify(selektirani));  
             }
-        goToSavedTreatments(lista,id,templateName);
+        goToSelectType(lista,id,templateName);
 
         }).catch(function(err) {
             console.log("Fetch data error"); 
@@ -77,14 +77,15 @@ function getItemsForTemplate(item){
 } 
 
 
-function goToSavedTreatments(e,id,templateName){
+function goToSelectType(e,id,templateName){
     //console.log("NAJBITNOOO ***",JSON.stringify(e)); 
     e.push({"num1":Math.random()}); 
     e.push({"id":id})
     e.push({"templateName":templateName})
+
     console.log("Data shto se prakja do SelectType",JSON.stringify(e)); 
     console.log("dolzhina na data shto se prakja do SelectType: -----> ",e.length); 
-    router.push("SelectType", e );
+    router.push("SelectType", {savedTreatments:e} );
 }
 
 this.onParameterChanged(function(param) { 
@@ -100,7 +101,7 @@ this.onParameterChanged(function(param) {
 
 module.exports = {
     getItemsForTemplate:getItemsForTemplate, 
-    goToSavedTreatments:goToSavedTreatments ,
+    goToSelectType:goToSelectType ,
     fetchDataBySavedTreatment:fetchDataBySavedTreatment,
     savedTreatments:savedTreatments
 

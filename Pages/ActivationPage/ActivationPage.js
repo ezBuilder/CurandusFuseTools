@@ -23,8 +23,9 @@ function checkData() {
 
     var url = "http://192.168.1.165:8081/curandusproject/webapi/api/CheckProviderActivationKey/" + register.value.deviceId + "&&" + register.value.phone + "&&" + inputCode.value;
 
+    console.log("url "+url);
     fetch(url, {
-        method: 'PUT',
+        method: 'GET',
         headers: {
             "Content-type": "application/json"
         },
