@@ -9,6 +9,8 @@ var Modal = require('Modal');
     var	P_PatientID;
     var p_enabled=Observable(true);
     var user_patient=Observable();
+    var praznoime="";
+    var show_string="";
 
      var lista_send = [];
 
@@ -62,11 +64,15 @@ function NewItem(data){
     	P_PatientID=0;
     	stname.value="";
     	console.log("param senddata"+JSON.stringify(param.sendData));
+
+    	console.log("P_SubTreatmentID"+param.sendData[param.sendData.length-1].SubtreatmentIdOnEDIT);
+
+    	console.log("Patientn "+param.sendData[param.sendData.length-3].patientId);
     	
     	lista.clear();
     	var responseObject=JSON.stringify(param.sendData);
 
-		     for (var i = 0; i < param.sendData.length-2; i++) {
+		     for (var i = 0; i < param.sendData.length-3; i++) {
 		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
 		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
 
@@ -82,17 +88,29 @@ function NewItem(data){
 		        param.sendData[i].index=i-1;
 		        lista.add(new NewItem(param.sendData[i]));
 		    }
-		    p_patient_id=param.sendData[param.sendData.length-1];
 
+		    p_patient_id=param.sendData[param.sendData.length-3].patientId;
+		    P_SubTreatmentID=param.sendData[param.sendData.length-1].SubtreatmentIdOnEDIT;
+
+		    if (P_SubTreatmentID==""){
+		    	P_SubTreatmentID=0;
+		    }
 		    
 
-		    stname.value=param.sendData[param.sendData.length-1].templateName;
+		    stname.value=param.sendData[param.sendData.length-2].templateName;
+
+		    prazno_ime=param.sendData[param.sendData.length-2].templateName;
+
+		    if(param.sendData[param.sendData.length-2].templateName=="") 
+		    {
+		    	console.log("44444");
+		    }
 
 		    console.log("Nameeee "+param.sendData[param.sendData.length]);
-		    console.log("Prametar "+p_patient_id);
+		    console.log("Prametar "+p_patient_id+ " P_SubTreatmentID "+P_SubTreatmentID+" Name "+stname.value);
 		 //   stname.value="";
 
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getpatientdata/"+p_patientID;
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId="+p_patient_id;
         console.log(url);
         fetch(url, {
             method: 'GET',
@@ -106,6 +124,7 @@ function NewItem(data){
             return response.json(); // This returns a promise 
         }).then(function(data) {
         	user_patient.value=data;
+
         }).catch(function(err) { 
             console.log("Fetch data error"); 
             console.log(err.message); 
@@ -113,6 +132,18 @@ function NewItem(data){
 
 
     });
+
+
+    function ShowAlergies() { 
+				Modal.showModal(
+				        "Patient Info ",
+				        "Alergies: "+NVL(user_patient.value.allergies)+"\n"+
+				        "Chronic diseases: "+NVL(user_patient.value.chronicDiseases)+"\n"+
+				        "Medications that recieves: "+NVL(user_patient.value.medicationsThatRecieves)+"\n", 
+				        ["OK"],
+				        function(s) {
+				        });
+    }
 
    function goToSavedTreatments() { 
         lista_send=[];
@@ -280,6 +311,7 @@ function GetParameter(){
 		});
 	}
      function AddNewItem(sender) {
+       			     console.log("subtreatmentdetail"+sender.data.subtreatmentdetail.value);
        		var pom_item={
        						"name":sender.data.name.value,
        						"subtreatmentid":sender.data.subtreatmentdetail.value,
@@ -353,6 +385,7 @@ function GetParameter(){
 					}
 
 					var pom={
+								"treatmentItemId":lista.getAt(i).treatmentitemid.value,
 								"name":lista.getAt(i).name.value,
 								"typeT":"ACK",
 								"repeatT":lista.getAt(i).interval.value,
@@ -361,16 +394,22 @@ function GetParameter(){
 							}
 
 					 lista_post.push(pom);
+					 console.log(JSON.stringify(lista_post));	
+
 					}	
-			if (P_SubTreatmentID==0){
-				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid="+providerId+"&patientid="+p_patientID+"&nametreatment=Prv&namesubtreatment=PrvS";
+			if (P_SubTreatmentID==0 || prazno_ime!=""){
+				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid="+providerId+"&patientid="+p_patient_id+"&nametreatment=Prv&namesubtreatment=PrvS";
+				show_string="You have successfuly sent treatmetnt to patient";
 			}
 			else{
-				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=10";
+				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid="+P_SubTreatmentID;
+				show_string="You have successfuly updated treatmetnt";
 			}
 
+			console.log("api_call "+api_call);
 
-			fetch("http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid="+providerId+"&patientid="+p_patientID+"&nametreatment=Prv&namesubtreatment=PrvS", {
+
+			fetch(api_call, {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"
@@ -391,10 +430,10 @@ function GetParameter(){
 
 		        		Modal.showModal(
 				        "Send Treatment ",
-				        "You have successfuly send treatmetnt to patient", ["OK"],
+				         show_string, ["OK"],
 				        function(s) {
 				        			console.log("Param return "+JSON.stringify(responseObject));
-				        			router.goto("alert", JSON.stringify(responseObject));
+				        			router.goto("alert", {user:JSON.stringify(responseObject)});
 							       // router.push("alert", activetreatmentid);
 				        });
 		    }).catch(function(err) {
@@ -484,6 +523,10 @@ function GetParameter(){
 
 			console.log("nametreatment "+call_api);
 
+			console.log("lista "+lista_post);
+
+			console.log("lista "+JSON.stringify(lista_post));
+
 
 			fetch(call_api, {
 		        method: 'POST',
@@ -506,8 +549,6 @@ function GetParameter(){
 				        "You save treatment succesfully", ["OK"],
 				        function(s) {
 							        goToSavedTreatments();
-
-
 				        });
 		        }
 		        else {
@@ -569,4 +610,5 @@ function GetParameter(){
 	    goToSavedTreatments: goToSavedTreatments,
 	    NVL: NVL,
 	    user_patient:user_patient,
+	    ShowAlergies: ShowAlergies,
 	    RemoveItem: RemoveItem	};
