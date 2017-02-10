@@ -185,8 +185,8 @@
 
 		            console.log(fullDate, fulltime);
 
-		            templejt.add(responseObject[i])
 		        }
+		            templejt.replaceAll(responseObject);
 
 
 
@@ -201,7 +201,7 @@
 
 		function statusFunc(e) {
 
-		    console.log(JSON.stringify(e.data));
+		    console.log("ovaaa",JSON.stringify(e.data));
 
 		    var treatmentItemListId = JSON.stringify(e.data.treatmentItemListId);
 
@@ -242,6 +242,7 @@
 		                    return response.json(); // This returns a promise
 		                }).then(function(responseObject) {
 		                    console.log("Success EDIT");
+		                    initload();
 		                    console.log(JSON.stringify(responseObject));
 
 		                }).catch(function(err) {

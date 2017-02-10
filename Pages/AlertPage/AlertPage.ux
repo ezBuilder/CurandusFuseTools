@@ -37,8 +37,13 @@
 		</DockPanel>
 		<DockPanel Color="primary_dark" Width="100%" Height="25" Dock="Top">
 			<Text Dock="Left" Font="medium" Value="TREATMENT TIMELINE"  Color="White" Margin="10,3,10,0" />
-			<Text Dock="Right" Font="medium" Value="END"  Color="White" Margin="10,3,10,0" Clicked="{end}" />
-			<Text Dock="Right" Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"  Clicked="{edit}"/>
+
+			<Rectangle Height="25" Dock="Right" Clicked="{end}" HitTestMode="LocalBounds">
+			<Text  Font="medium" Value="END"  Color="White" Margin="10,3,10,0"/>
+			</Rectangle>
+			<Rectangle Height="25" Dock="Right" Clicked="{edit}" HitTestMode="LocalBounds">
+			<Text  Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"/>
+			</Rectangle>
 		</DockPanel>
 		<Rectangle Color="primary">
 			<ScrollView ClipToBounds="true" >
@@ -52,6 +57,9 @@
 											<Rectangle Dock="Left" Height="100%" Width="10" Color="done" CornerRadius="8,0,0,8"/>
 										</Case>
 										<Case String="FUTURE">
+											<Rectangle Dock="Left" Height="100%" Width="10" Color="lightgreen" CornerRadius="8,0,0,8"/>
+										</Case>
+										<Case String="EXPIRED">
 											<Rectangle Dock="Left" Height="100%" Width="10" Color="future" CornerRadius="8,0,0,8"/>
 										</Case>
 									</Match>
