@@ -13,10 +13,10 @@
     "Pages/ContactsView/ContactsView.js:Bundle"
   ],
   "Projects": [
-    //"fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj",
-    //"fuse_modules\\bolav\\fuse-modalview\\modal_include.unoproj",
-    //"fuse_modules\\bolav\\fuse-homescreen\\homescreen_include.unoproj",
-    //"fuse_modules\\MaxGraey\\fuse-device\\device_include.unoproj"
+    "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj",
+    "fuse_modules\\bolav\\fuse-modalview\\modal_include.unoproj",
+    "fuse_modules\\bolav\\fuse-homescreen\\homescreen_include.unoproj",
+    "fuse_modules\\MaxGraey\\fuse-device\\device_include.unoproj"
   ],
   "Excludes": [
     "fuse_modules/"
@@ -35,9 +35,9 @@
   "FusePM": {
     "Dependencies": [
       "https://github.com/bolav/fuse-contacts",
-      //"https://github.com/bolav/fuse-modalview",
-      //"https://github.com/bolav/fuse-homescreen",
-      //"https://github.com/MaxGraey/fuse-device"
+      "https://github.com/bolav/fuse-modalview",
+      "https://github.com/bolav/fuse-homescreen",
+      "https://github.com/MaxGraey/fuse-device"
     ]
   }
 }

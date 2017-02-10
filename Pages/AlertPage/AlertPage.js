@@ -1,5 +1,5 @@
 		var Observable = require("FuseJS/Observable");
-		//var Modal = require('Modal');
+		var Modal = require('Modal');
 		var Storage = require("FuseJS/Storage");
 		var user = Observable();
 		var status = Observable();
@@ -273,7 +273,6 @@
 
 
 		function edit() {
-		      //console.log('edit clicked');
 
 		   fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+subtrementID+"&typetreatment=R", {
 		        method: 'GET',
