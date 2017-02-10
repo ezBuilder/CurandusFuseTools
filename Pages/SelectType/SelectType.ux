@@ -23,6 +23,7 @@
     //var patientName = {name:"MOKIIII"}; 
     var Storage = require("FuseJS/Storage");
 
+
     console.log("*** IMETO OD ALERT PAGE: "+JSON.parse(Storage.readSync("nameLastname")));
     name = JSON.parse(Storage.readSync("nameLastname"));
    // console.log("provajdeeeeeeeeeeeer: "+userInfo.providerId);
@@ -39,9 +40,12 @@
         finalData=[];
         templateName="";
         subtreatmentid="";
-        SubtreatmentIdOnEDIT="";
+        SubtreatmentIdOnEDIT="0";
+
+        
         console.log("IMETO OD ALERT PAGE ON PARAMETER CHANGE VO SELECT TYPE: "+JSON.parse(Storage.readSync("nameLastname")));
         name = JSON.parse(Storage.readSync("nameLastname"));
+
         //patientId = JSON.stringify(param.user.patientId);
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
 
@@ -50,6 +54,20 @@
             for(var i = 0 ; i < param.savedTreatments.length; i++){
 
                 if(!param.savedTreatments[i].num){
+
+
+                    if(param.savedTreatments[i].id){
+                        console.log("VO IF if id"+param.savedTreatments[i].id);
+                    }
+                    
+                    else if(param.savedTreatments[i].name){
+
+                         selektirani.add(param.savedTreatments[i].name);
+                         finalData[i] = param.savedTreatments[i];
+                         SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
+                    }
+
+
 
                     if(param.savedTreatments[i].id){
                         console.log("VO IF if id"+param.savedTreatments[i].id);
@@ -127,10 +145,10 @@
                     
                 }
             } 
-        }
-       /// koga doagja od ALERT PAGE
-        else if("user" in param){
+        } // kraj koga doagja od contactview
 
+        /// koga doagja od ALERT PAGE
+        else if("user" in param){
             console.log("Vo IF user!");
             console.log("Vo IF user"+JSON.stringify(param.user.patientId));
             patientId = JSON.stringify(param.user.patientId);
@@ -159,6 +177,7 @@
 
     function goToSavedTreatments(e) {  
         lista=[]; 
+
 
         var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId 
         console.log(url); 
