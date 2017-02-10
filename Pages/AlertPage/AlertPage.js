@@ -193,7 +193,6 @@
 		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmentitemlist/" + treatmentItemID, {
 		        method: 'PUT',
 
-		    console.log("LOAD");
 		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlis/activetreatmentid=15", {
 		        method: 'GET',
 		        headers: {
