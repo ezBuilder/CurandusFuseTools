@@ -1,6 +1,6 @@
 		var Observable = require("FuseJS/Observable");
-		var Modal = require('Modal');
-
+		//var Modal = require('Modal');
+		var Storage = require("FuseJS/Storage");
 		var user = Observable();
 		var status = Observable();
 		var patientInfo = Observable();
@@ -13,6 +13,7 @@
 		var lastID = 0;
 		var patientId = "";
 		var activetreatmentid = "";
+		var subtrementID = "";
 
 		this.onParameterChanged(function(param) {
 		    user.value = param.user;
@@ -21,6 +22,7 @@
 
 		    activetreatmentid = JSON.stringify(user.value.activetreatmenId);
 		    patientId = JSON.stringify(user.value.patientId);
+		    subtrementID =  JSON.stringify(user.value.subtreatmentid);
 
 			initload();
 
@@ -270,8 +272,37 @@
 
 
 		function edit() {
-		    console.log('edit clicked');
+		      //console.log('edit clicked');
+
+		   fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+subtrementID+"&typetreatment=R", {
+		        method: 'GET',
+		        headers: {
+		            "Content-type": "application/json"
+		        },
+		        dataType: 'json'
+		    }).then(function(response) { 
+		        status = response.status; // Get the HTTP status code 
+		        response_ok = response.ok; // Is response.status in the 200-range? 
+		        return response.json(); // This returns a promise 
+		    }).then(function(responseObject){ 
+		        console.log("Success: "+JSON.stringify(responseObject));
+		        responseObject.push({"num":Math.random()});
+		        responseObject.push({"subtrementID":subtrementID})
+		        responseObject.push({"patientId":patientId})
+		        console.log("Vo alertPage go stava imeto: "+nameLastname.value);
+		        Storage.write("nameLastname", JSON.stringify(nameLastname.value));
+		        //responseObject.push({"nameLastname":nameLastname.value});
+		        console.log("ova se printa pred da se prati kon selecttype: "+JSON.stringify(responseObject));
+
+		        router.push("SelectType",{"user":responseObject} );
+
+		    }).catch(function(err) {
+		        console.log("Error", err.message);
+
+		    });
+
 		}
+
 
 		function end() {
 		    console.log('end clicked');

@@ -5,6 +5,7 @@ var Storage = require("FuseJS/Storage");
 var lista=[];
 var savedTreatments = Observable();
 var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
+var name ="";
 //var providerId = JSON.parse(userInfo.providerId);
 console.log("OVA E user info  yyyy: "+userInfo);
 
@@ -14,15 +15,12 @@ var providerId=JSON.stringify(userInfo.providerId);
 console.log("OVA E PROVIDER ID yyyy: "+providerId);
 
 //***************  GET ALL TREATMENTS BY PROVIDERS 
-// end function checkData 
-
+name = JSON.parse(Storage.readSync("nameLastname"));
+console.log("*VO SAVED TREATMENTS NAME"+name);
 
 //////******  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
 function fetchDataBySavedTreatment(id,templateName){ 
-    //console.log("fetchDataBySavedTreatment DATA: "+JSON.stringify(selektirani));
-    //console.log("iddddddddddddddddddddddddddddddd"+id);
-   
-   // selektirani.clear(); 
+
     lista = [];
     var url = "http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId="+id+"&typetreatment=S" 
     console.log(url); 
@@ -59,7 +57,7 @@ function fetchDataBySavedTreatment(id,templateName){
                 console.log("FETCH DATA BY SAVED TREATMENTS: " + JSON.stringify(tmp)); 
                 console.log("FETCH DATA BY SAVED TREATMENTS - SELEKTIRANI: " + JSON.stringify(selektirani));  
             }
-        goToSavedTreatments(lista,id,templateName);
+        goToSelectType(lista,id,templateName);
 
         }).catch(function(err) {
             console.log("Fetch data error"); 
@@ -77,14 +75,15 @@ function getItemsForTemplate(item){
 } 
 
 
-function goToSavedTreatments(e,id,templateName){
+function goToSelectType(e,id,templateName){
     //console.log("NAJBITNOOO ***",JSON.stringify(e)); 
     e.push({"num1":Math.random()}); 
     e.push({"id":id})
     e.push({"templateName":templateName})
+
     console.log("Data shto se prakja do SelectType",JSON.stringify(e)); 
     console.log("dolzhina na data shto se prakja do SelectType: -----> ",e.length); 
-    router.push("SelectType", e );
+    router.push("SelectType", {savedTreatments:e} );
 }
 
 this.onParameterChanged(function(param) { 
@@ -100,8 +99,9 @@ this.onParameterChanged(function(param) {
 
 module.exports = {
     getItemsForTemplate:getItemsForTemplate, 
-    goToSavedTreatments:goToSavedTreatments ,
+    goToSelectType:goToSelectType ,
     fetchDataBySavedTreatment:fetchDataBySavedTreatment,
-    savedTreatments:savedTreatments
+    savedTreatments:savedTreatments,
+    name:name
 
 }

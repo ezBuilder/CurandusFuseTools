@@ -1,6 +1,6 @@
 var Observable = require('FuseJS/Observable');
 var Storage = require("FuseJS/Storage");
-var Modal = require('Modal');
+//var Modal = require('Modal');
 
 	var lista = Observable();
     var	P_ActiveTreatmentID;
