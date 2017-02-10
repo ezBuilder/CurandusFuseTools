@@ -187,8 +187,8 @@
 
 		            console.log(fullDate, fulltime);
 
-		            templejt.add(responseObject[i])
 		        }
+		            templejt.replaceAll(responseObject);
 
 
 
@@ -203,7 +203,7 @@
 
 		function statusFunc(e) {
 
-		    console.log(JSON.stringify(e.data));
+		    console.log("ovaaa",JSON.stringify(e.data));
 
 		    var treatmentItemListId = JSON.stringify(e.data.treatmentItemListId);
 
@@ -244,6 +244,7 @@
 		                    return response.json(); // This returns a promise
 		                }).then(function(responseObject) {
 		                    console.log("Success EDIT");
+		                    initload();
 		                    console.log(JSON.stringify(responseObject));
 
 		                }).catch(function(err) {
@@ -303,10 +304,40 @@
 
 		}
 
+		function end(e) {
 
-		function end() {
-		    console.log('end clicked');
-		}
+			console.log(activetreatmentid);
+		    Modal.showModal(
+		        "END TREATMENT" ,
+		        "Are you sure you want to end this treatment?", ["Yes", "No"],
+		        function(s) {
+		            debug_log("Got callback with " + s);
+		            if (s == "Yes") {
+
+		                fetch("http://localhost:8080/curandusproject/webapi/api/EndTreatment/ActiveTreatmentId=" + activetreatmentid, {
+		                    method: 'POST',
+		                    headers: {
+		                        "Content-type": "application/json"
+		                    }
+		                    
+		                }).then(function(response) {
+		                    status = response.status; // Get the HTTP status code
+		                    response_ok = response.ok; // Is response.status in the 200-range?
+		                    return response.json(); // This returns a promise
+		                }).then(function(responseObject) {
+		                    console.log("Success");
+
+		                    router.goto("main");
+		                    
+		                }).catch(function(err) {
+		                    console.log("Error", err.message);
+
+		                });
+
+		            }
+		        });
+
+		};
 
 		function goToChat() {
 		    router.push("chat", JSON.stringify(user));
