@@ -12,11 +12,17 @@
 		var firstID = 0;
 		var lastID = 0;
 		var patientId = "";
+		var activetreatmentid = "";
 
 		this.onParameterChanged(function(param) {
 		    user.value = param.user;
 
+		    console.log(JSON.stringify(user));
+
+		    activetreatmentid = JSON.stringify(user.value.activetreatmenId);
 		    patientId = JSON.stringify(user.value.patientId);
+
+			initload();
 
 		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId=" + patientId, {
 		        method: 'GET',
@@ -146,7 +152,7 @@
 		function initload() {
 
 		    console.log("LOAD");
-		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlis/activetreatmentid=15", {
+		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlis/activetreatmentid=" + activetreatmentid, {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
@@ -192,7 +198,6 @@
 
 
 		}
-		initload();
 
 		function statusFunc(e) {
 
