@@ -19,13 +19,13 @@
     var templateName=""; 
     var subtreatmentid="";
     var SubtreatmentIdOnEDIT="0";
-    var name = "MOKI"; 
+    // var name = "MOKI"; 
     //var patientName = {name:"MOKIIII"}; 
-    var Storage = require("FuseJS/Storage");
+
+    var name = Observable();
 
 
-    console.log("*** IMETO OD ALERT PAGE: "+JSON.parse(Storage.readSync("nameLastname")));
-    name = JSON.parse(Storage.readSync("nameLastname"));
+    // name = JSON.parse(Storage.readSync("nameLastname"));
    // console.log("provajdeeeeeeeeeeeer: "+userInfo.providerId);
     providerId= JSON.stringify(userInfo.providerId);
     
@@ -42,15 +42,11 @@
         subtreatmentid="";
         SubtreatmentIdOnEDIT="0";
 
-        
-        console.log("IMETO OD ALERT PAGE ON PARAMETER CHANGE VO SELECT TYPE: "+JSON.parse(Storage.readSync("nameLastname")));
-        name = JSON.parse(Storage.readSync("nameLastname"));
 
         //patientId = JSON.stringify(param.user.patientId);
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
 
         if("savedTreatments" in param){
-            console.log("dat da da da da da da");
             for(var i = 0 ; i < param.savedTreatments.length; i++){
 
                 if(!param.savedTreatments[i].num){
@@ -92,6 +88,9 @@
 
 ///// koga doagja od page ContactView
         else if(param.user.length > 1){
+
+            console.log("VLAGAAAAAAAA");
+            console.log(JSON.stringify(param));
           //  console.log('If param length > 0:'+JSON.stringify(param)); 
             for(var i = 0 ; i < param.user.length; i++){
                 if(param.user[i].patientId){
@@ -102,6 +101,9 @@
                 }
                 else if(param.user[i].subtrementID){
                     SubtreatmentIdOnEDIT = param.user[i].subtrementID;
+                } 
+                else if (param.user[i].fullName){
+                    name.value = param.user[i].fullName
                 }
                // console.log("VO FOOOOR"+JSON.stringify(param.user[i]));
             }
@@ -127,6 +129,10 @@
                     else if(param.user[i].patientId){
 
                     }
+
+                        else if (param.user[i].fullName){
+                            name.value = param.user[i].fullName
+                        }
                     else{
                         console.log("VO IF else"+param.user[i].name);
                         selektirani.add(param.user[i].name);
@@ -137,16 +143,13 @@
             } 
         } // kraj koga doagja od contactview
 
-        /// koga doagja od ALERT PAGE
+        /// koga doagja od CONTACTS
         else if("user" in param){
-            console.log("Vo IF user!");
-            console.log("Vo IF user"+JSON.stringify(param.user.patientId));
+            console.log("VLAGAAAAAAAAAAA2");
             patientId = JSON.stringify(param.user.patientId);
-            //patientId = param[i].patientId;
-            console.log("IF select type patientID "+patientId);
-            name = JSON.stringify(param.user.fullName);
-           // patientName.name =    JSON.stringify(param.user.fullName);
-           // console.log("patientName"+param.user.fullName);
+            console.log(JSON.stringify(param.user.fullName));
+            name.value = param.user.fullName;
+
             Storage.write("patientId", JSON.stringify(patientId));
             subtreatmentid = param.user.subtreatmentid;
         }
@@ -281,7 +284,7 @@
         selektirani:selektirani, 
         AddSelectedItem:AddSelectedItem ,
         savedTreatments:savedTreatments ,
-        name
+        name : name
     } 
     
     
