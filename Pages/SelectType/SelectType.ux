@@ -69,16 +69,6 @@
 
 
 
-                    if(param.savedTreatments[i].id){
-                        console.log("VO IF if id"+param.savedTreatments[i].id);
-                    }
-                    
-                    else if(param.savedTreatments[i].name){
-
-                         selektirani.add(param.savedTreatments[i].name);
-                         finalData[i] = param.savedTreatments[i];
-                         SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
-                    }
 
                     else if(param.savedTreatments[i].templateName){
                        // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
