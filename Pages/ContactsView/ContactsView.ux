@@ -44,6 +44,9 @@
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
+                                            <WhilePressed>
+                                                <Callback Handler="{deleteContact}" Delay="3"/>
+                                            </WhilePressed>
                                             <WhileHovering>
                                                 <Change contactItem.Color="divider" />
                                             </WhileHovering>
@@ -90,6 +93,9 @@
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
+                                            <WhilePressed>
+                                                <Callback Handler="{deleteContact}" Delay="1.2"/>
+                                            </WhilePressed>
                                             <WhileHovering>
                                                 <Change contactItem.Color="divider" />
                                             </WhileHovering>

@@ -1,5 +1,6 @@
 var Observable = require("FuseJS/Observable");
 var Storage = require("FuseJS/Storage");
+var Modal = require('Modal');
 
 var UserInfo = JSON.parse(Storage.readSync("userInfo"));
 
@@ -7,7 +8,7 @@ var isDoctors = Observable(false);
 var data = Observable();
 var dataDoctors = Observable();
 var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-var fullName="";
+var fullName = "";
 var final = [];
 var finalDoctors = [];
 
@@ -156,9 +157,9 @@ fetchData();
 fetchDataDoctors();
 
 function goToSelectType(e) {
-   e.data.num=Math.random();
-     Storage.write("nameLastname", JSON.stringify(fullName));
-   console.log("od tuka se prakja kon SelectType"+JSON.stringify(e.data));
+    e.data.num = Math.random();
+    Storage.write("nameLastname", JSON.stringify(fullName));
+    console.log("od tuka se prakja kon SelectType" + JSON.stringify(e.data));
 
     router.push("SelectType", {
         user: e.data
@@ -185,6 +186,21 @@ function goToChat(e) {
     });
 }
 
+function deleteContact(e) {
+    Modal.showModal(
+        "Delete Contact ",
+        "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
+        function(s) {
+            if (s == "Yes") {
+                console.log(JSON.stringify(e.data.fullName));
+                // CALL PUT API TO MAKE CONTACT INACTIVE
+                router.goBack();
+            } else {
+                router.goBack();
+            }
+        });
+}
+
 module.exports = {
     fetchData: fetchData,
     fetchDataDoctors: fetchDataDoctors,
@@ -201,5 +217,6 @@ module.exports = {
     reloadHandler: reloadHandler,
     reloadHandlerDoctors: reloadHandlerDoctors,
     isLoadingDoctors: isLoadingDoctors,
+    deleteContact: deleteContact,
     goToChat: goToChat
 };
