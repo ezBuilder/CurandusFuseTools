@@ -44,13 +44,13 @@
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
-                                            <WhilePressed>
-                                                <Callback Handler="{deleteContact}" Delay="3"/>
-                                            </WhilePressed>
                                             <WhileHovering>
                                                 <Change contactItem.Color="divider" />
                                             </WhileHovering>
                                             <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                                <WhilePressed>
+                                                    <Callback Handler="{deleteDoctor}" Delay="1"/>
+                                                </WhilePressed>
                                                 <ImageFill File="../../Assets/placeholder.png" />
                                             </Circle>
                                             <Rectangle HitTestMode="LocalBounds" >
@@ -63,12 +63,15 @@
                                                     </Stroke>
                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                 </Circle>
-                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,8,0">
                                                     <Stroke Width="2">
                                                         <SolidColor Color="primary" />
                                                     </Stroke>
                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
                                                 </Circle>
+                                                <Rectangle Width="12" Clicked="{deleteDoctor}" HitTestMode="LocalBounds">
+                                                    <Icon Alignment="TopCenter" FontSize="14" Color="primary">&#xE872;</Icon>
+                                                </Rectangle>
                                             </StackPanel>
                                         </DockPanel>
                                     </Case>
@@ -93,13 +96,13 @@
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
-                                            <WhilePressed>
-                                                <Callback Handler="{deleteContact}" Delay="1.2"/>
-                                            </WhilePressed>
                                             <WhileHovering>
                                                 <Change contactItem.Color="divider" />
                                             </WhileHovering>
                                             <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                                <WhilePressed>
+                                                    <Callback Handler="{deleteContact}" Delay="1"/>
+                                                </WhilePressed>
                                                 <ImageFill File="../../Assets/placeholder.png" />
                                             </Circle>
                                             <Match Value="{activetreatmenId}" >
@@ -121,12 +124,15 @@
                                                     </Stroke>
                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                 </Circle>
-                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,8,0">
                                                     <Stroke Width="2">
                                                         <SolidColor Color="primary" />
                                                     </Stroke>
                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
                                                 </Circle>
+                                                <Rectangle Width="12" Clicked="{deleteContact}" HitTestMode="LocalBounds">
+                                                    <Icon Alignment="TopCenter" FontSize="14" Color="primary">&#xE872;</Icon>
+                                                </Rectangle>
                                             </StackPanel>
                                         </DockPanel>
                                     </Case>

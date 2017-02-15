@@ -187,16 +187,35 @@ function goToChat(e) {
 }
 
 function deleteContact(e) {
+    console.log("MHMMMMMMMMMM", JSON.stringify(e.data.activetreatmenId));
+    if (e.data.activetreatmenId != 0) {
+        Modal.showModal(
+            "Delete Contact ",
+            "You cannot delete this contact because it has active treatment!", ["Ok"],
+            function(s) {});
+    } else {
+        Modal.showModal(
+            "Delete Contact",
+            "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
+            function(s) {
+                if (s == "Yes") {
+                    console.log(JSON.stringify(e.data.fullName));
+                    reloadHandler();
+                }
+            });
+    }
+
+}
+
+function deleteDoctor(e) {
     Modal.showModal(
-        "Delete Contact ",
+        "Delete Contact",
         "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
         function(s) {
             if (s == "Yes") {
                 console.log(JSON.stringify(e.data.fullName));
                 // CALL PUT API TO MAKE CONTACT INACTIVE
-                router.goBack();
-            } else {
-                router.goBack();
+                reloadHandlerDoctors();
             }
         });
 }
@@ -218,5 +237,6 @@ module.exports = {
     reloadHandlerDoctors: reloadHandlerDoctors,
     isLoadingDoctors: isLoadingDoctors,
     deleteContact: deleteContact,
+    deleteDoctor: deleteDoctor,
     goToChat: goToChat
 };
