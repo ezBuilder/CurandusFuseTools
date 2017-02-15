@@ -11,7 +11,7 @@
         <Scale Factor="1.3" Duration="0.2"/>
     </WhilePressed>
     <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
-    <DropShadow/>  
+    
 
 </Rectangle>  
 
@@ -23,6 +23,14 @@
     <Text Alignment="Center" Font="regular" Color="White" Value="{ReadProperty this.Label}" />
     
 </Rectangle>
+
+<!-- **************** REMOVE ICON ***************** -->
+<Rectangle  ux:Class="RemoveIcon" Color="#ff852f"  CornerRadius="7" Width="10%"  Alignment="Right" Height="40" Margin="0,10,60,0" Clicked="{RemoveItem}">
+            <Icon Alignment="Center" Color="icons" FontSize="22"  Dock="Right" Margin="0,0,0,0" >&#xE92B;</Icon>
+            <WhilePressed>
+                 <Scale Factor="1.3" Duration="0.2"/>
+             </WhilePressed>
+ </Rectangle>
 
 
 <!-- **************** SCREEN VIEW  **************** -->
@@ -43,12 +51,12 @@
             <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
             <ScrollView Margin="0,60,0,0">
                 <StackPanel>
-
-                    <Each Items="{savedTreatments}">
-                        <SavedItem Label="{nameTreatment}" Value="sku-04" /> 
+                    <Each Items="{savedTreatments}"> 
+                            <DockPanel> 
+                                <RemoveIcon></RemoveIcon> 
+                                <SavedItem Label="{nameTreatment}" Value="sku-04" /> 
+                            </DockPanel> 
                     </Each>
-                    
-
                 </StackPanel>
             </ScrollView>
         </Rectangle>
