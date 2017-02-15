@@ -5,12 +5,17 @@ var Storage = require("FuseJS/Storage");
 var Modal = require("Modal");
 var lista = [];
 var savedTreatments = Observable();
-var userInfo = JSON.parse(Storage.readSync("userInfo")); //Storage.readSync("userInfo");
-var name = Observable();
+var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
+var name = Observable("");
+//var providerId = JSON.parse(userInfo.providerId);
+
 console.log("OVA E user info  yyyy: " + userInfo);
 var providerId = JSON.stringify(userInfo.providerId);
 console.log("OVA E PROVIDER ID yyyy: " + providerId);
 
+//***************  GET NAME BY PATIENT 
+name.value = JSON.parse(Storage.readSync("nameLastname"));
+console.log("*VO SAVED TREATMENTS NAME"+name);
 
 /////////////////////// REMOVE TREATMENT TEMPLATE ////////////////////////////////////
 function RemoveItem(sender) {
@@ -60,6 +65,7 @@ function Remove(sender) {
 }
 
 
+
 //////******  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
 function fetchDataBySavedTreatment(id, templateName) {
 
@@ -93,6 +99,7 @@ function fetchDataBySavedTreatment(id, templateName) {
                 "createdBy": data[i].createdBy,
                 "treatmentItemId": data[i].treatmentItemId,
                 "subtreatmentid": data[i].subtreatmentid
+
             }
             lista[i] = tmp;
             ///////////
@@ -136,6 +143,7 @@ function goToSelectType(e, id, templateName) {
     });
 }
 
+
 this.onParameterChanged(function(param) {
     savedTreatments.clear();
     console.log("Tuka se stigna vo savedTreatments" + JSON.stringify(param));
@@ -156,11 +164,13 @@ this.onParameterChanged(function(param) {
 // <--- CALL FUNCTION FOR DATA FETCH ABOUT SAVED TEMPLATE
 
 module.exports = {
+
     getItemsForTemplate: getItemsForTemplate,
     goToSelectType: goToSelectType,
     fetchDataBySavedTreatment: fetchDataBySavedTreatment,
     savedTreatments: savedTreatments,
     name: name,
     RemoveItem: RemoveItem
+
 
 }
