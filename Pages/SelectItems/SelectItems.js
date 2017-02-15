@@ -433,7 +433,8 @@ function GetParameter(){
 				         show_string, ["OK"],
 				        function(s) {
 				        			console.log("Param return "+JSON.stringify(responseObject));
-				        			router.goto("alert", {user:JSON.stringify(responseObject)});
+				        			responseObject.num=Math.random();
+				        			router.goto("main", {user:responseObject});
 							       // router.push("alert", activetreatmentid);
 				        });
 		    }).catch(function(err) {
