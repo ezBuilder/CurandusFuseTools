@@ -213,6 +213,7 @@
                 lista[i] = tmp; 
             } 
 
+            lista[lista.length] = {"name":name.value}
         router.push("savedTreatment",  lista ); 
         }).catch(function(err) { 
             console.log("Fetch data error"); 
