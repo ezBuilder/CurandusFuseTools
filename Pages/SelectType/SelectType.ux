@@ -199,6 +199,7 @@
                 lista[i] = tmp; 
             } 
 
+            lista[lista.length] = {"name":name.value}
         router.push("savedTreatment",  lista ); 
         }).catch(function(err) { 
             console.log("Fetch data error"); 
@@ -282,9 +283,9 @@
         goToSelectItems:goToSelectItems, 
         goToSavedTreatments:goToSavedTreatments, 
         selektirani:selektirani, 
-        AddSelectedItem:AddSelectedItem ,
-        savedTreatments:savedTreatments ,
-        name : name
+        AddSelectedItem:AddSelectedItem , 
+        savedTreatments:savedTreatments , 
+        name:name 
     } 
     
     
