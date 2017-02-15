@@ -3,7 +3,7 @@
 	<JavaScript File="ActivationPage.js" />
 	<DockPanel>
 			<FloatingButton Alignment="Right" Dock="Bottom" Clicked="{checkData}" BtnColor="primary" BtnIcon="&#xE315;" BtnTextColor="icons"/>
-			<StackPanel>
+			<StackPanel ux:Name="activationArea">
 				<Image Alignment="VerticalCenter" Margin="0,100,0,0" ContentAlignment="Top" Width="130" Height="130"  File="../../Assets/CurandusLogo.png"/>
 				<Text TextAlignment="Center" TextWrapping="Wrap" Color="primary" Font="regular" Margin="0,50,0,10" FontSize="30">ACTIVATION</Text>	
 				<Text TextWrapping="Wrap" Margin="32,30,32,0" TextAlignment="Left" FontSize="14">An activation code was sent to your mobile device, enter the code below: </Text>
@@ -13,5 +13,8 @@
 					<Text Margin="10,0,0,0" TextColor="primary" Clicked="{goBack}">Resend.</Text>
 				</StackPanel>
 			</StackPanel>
+			<WhileKeyboardVisible>
+				<Move Target="activationArea" Y="-200" Duration=".6" Easing="ExponentialInOut"/>
+			</WhileKeyboardVisible>
 	</DockPanel>					
 </DefaultPage>
