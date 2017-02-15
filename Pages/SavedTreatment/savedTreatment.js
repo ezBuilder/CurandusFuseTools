@@ -5,7 +5,7 @@ var Storage = require("FuseJS/Storage");
 var lista=[];
 var savedTreatments = Observable();
 var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
-var name ="";
+var name = Observable("");
 //var providerId = JSON.parse(userInfo.providerId);
 console.log("OVA E user info  yyyy: "+userInfo);
 
@@ -15,8 +15,34 @@ var providerId=JSON.stringify(userInfo.providerId);
 console.log("OVA E PROVIDER ID yyyy: "+providerId);
 
 //***************  GET ALL TREATMENTS BY PROVIDERS 
-name = JSON.parse(Storage.readSync("nameLastname"));
+name.value = JSON.parse(Storage.readSync("nameLastname"));
 console.log("*VO SAVED TREATMENTS NAME"+name);
+
+/////////////////////// REMOVE TREATMENT TEMPLATE ////////////////////////////////////
+function RemoveItem(sender){
+    console.log("REMOVE TREATMENT TEMPLATE: "+sender.data.savedTreatmentTemplateId);
+    var url = "http://localhost:8080/curandusproject/webapi/api/DeleteSavedTemplate/"+item.data.savedTreatmentTemplateId+"&&"+item.data.savedTreatmentTemplateId
+    fetch(url, { 
+        method: 'GET', 
+        headers: { 
+            "Content-type": "application/json"   
+            }, 
+            dataType: 'json' 
+        }).then(function(response) {  
+            status = response.status; // Get the HTTP status code  
+            response_ok = response.ok; // Is response.status in the 200-range?  
+            return response.json(); // This returns a promise 
+        }).then(function(data) {
+           console.log("DELETED TEMPLATE: " + JSON.stringify(data)); 
+        
+        }).catch(function(err) {
+            console.log("Fetch data error"); 
+            console.log(err.message); 
+        });
+
+}
+
+
 
 //////******  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
 function fetchDataBySavedTreatment(id,templateName){ 
@@ -38,7 +64,7 @@ function fetchDataBySavedTreatment(id,templateName){
             for(var i = 0; i < data.length; i++){
                 //selektirani.add(data[i].name);
                 //lista[i] = data[i].name;
-                ///////////
+                ////////////////////////////
                 var tmp = {
                             "name": data[i].name,
                             "duration": data[i].duration,
@@ -87,6 +113,7 @@ function goToSelectType(e,id,templateName){
 }
 
 this.onParameterChanged(function(param) { 
+    name.value = JSON.parse(Storage.readSync("nameLastname"));
     savedTreatments.clear();
     console.log("Tuka se stigna vo savedTreatments"+JSON.stringify(param)); 
     for(var i = 0 ; i < param.length; i++){
@@ -102,6 +129,7 @@ module.exports = {
     goToSelectType:goToSelectType ,
     fetchDataBySavedTreatment:fetchDataBySavedTreatment,
     savedTreatments:savedTreatments,
-    name:name
+    name:name,
+    RemoveItem:RemoveItem
 
 }
