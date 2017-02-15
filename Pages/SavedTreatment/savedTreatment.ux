@@ -13,13 +13,6 @@
     <Text ux:Name="text" Color="White" Font="regular" FontSize="16" Value="{ReadProperty this.Label}" Alignment="Center"/>  
 </Rectangle>  
 
-<Rectangle  ux:Class="RemoveIcon" Color="#ff853f"  CornerRadius="7" Width="10%"  Alignment="Right" Height="40" Margin="0,10,60,0" Clicked="{RemoveItem}">
-           <Icon Alignment="Center" Color="icons" FontSize="22"  Dock="Right" Margin="0,0,0,0" >&#xE92B;</Icon>
-           <WhilePressed>
-                <Scale Factor="1.3" Duration="0.2"/>
-            </WhilePressed>
-</Rectangle>
-
 
 <!-- **************** TabFullSize CLASS  **************** -->
 <Rectangle ux:Class="TabFullSize" Color="primary_dark" Width="100%" > 
