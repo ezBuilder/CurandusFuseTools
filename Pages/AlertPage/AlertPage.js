@@ -1,6 +1,6 @@
 		var Observable = require("FuseJS/Observable");
 		var Modal = require('Modal');
-
+		var Storage = require("FuseJS/Storage");
 		var user = Observable();
 		var status = Observable();
 		var patientInfo = Observable();
@@ -13,6 +13,15 @@
 		var lastID = 0;
 		var patientId = "";
 		var activetreatmentid = "";
+		var subtrementID = "";
+
+		function NVL(x) {
+		    if (x == null) {
+		        return "";
+		    } else {
+		        return x;
+		    }
+		}
 
 		this.onParameterChanged(function(param) {
 		    user.value = param.user;
@@ -21,8 +30,9 @@
 
 		    activetreatmentid = JSON.stringify(user.value.activetreatmenId);
 		    patientId = JSON.stringify(user.value.patientId);
+		    subtrementID = JSON.stringify(user.value.subtreatmentid);
 
-			initload();
+		    initload();
 
 		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId=" + patientId, {
 		        method: 'GET',
@@ -186,7 +196,7 @@
 		            console.log(fullDate, fulltime);
 
 		        }
-		            templejt.replaceAll(responseObject);
+		        templejt.replaceAll(responseObject);
 
 
 
@@ -201,7 +211,7 @@
 
 		function statusFunc(e) {
 
-		    console.log("ovaaa",JSON.stringify(e.data));
+		    console.log("ovaaa", JSON.stringify(e.data));
 
 		    var treatmentItemListId = JSON.stringify(e.data.treatmentItemListId);
 
@@ -256,6 +266,16 @@
 
 		};
 
+		function ShowAlergies() {
+
+		    Modal.showModal(
+		        "Patient Info ",
+		        "Alergies: " + NVL(patientInfo.value.allergies) + "\n" +
+		        "Chronic diseases: " + NVL(patientInfo.value.chronicDiseases) + "\n" +
+		        "Medications that recieves: " + NVL(patientInfo.value.medicationsThatRecieves) + "\n", ["OK"],
+		        function(s) {});
+		}
+
 		function skip(item) {
 		    Modal.showModal(
 		        "Skip " + "TEST",
@@ -271,14 +291,52 @@
 
 
 		function edit() {
-		    console.log('edit clicked');
+
+		    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + subtrementID + "&typetreatment=R", {
+		        method: 'GET',
+		        headers: {
+		            "Content-type": "application/json"
+		        },
+		        dataType: 'json'
+		    }).then(function(response) {
+		        status = response.status; // Get the HTTP status code 
+		        response_ok = response.ok; // Is response.status in the 200-range? 
+		        return response.json(); // This returns a promise 
+		    }).then(function(responseObject) {
+		        console.log("Success: " + JSON.stringify(responseObject));
+		        responseObject.push({
+		            "num": Math.random()
+		        });
+		        responseObject.push({
+		            "subtrementID": subtrementID
+		        })
+		        responseObject.push({
+		            "patientId": patientId
+		        })
+		        responseObject.push({
+		            "fullName": nameLastname.value
+		        })
+		        console.log("Vo alertPage go stava imeto: " + nameLastname.value);
+		        Storage.write("nameLastname", JSON.stringify(nameLastname.value));
+		        //responseObject.push({"nameLastname":nameLastname.value});
+		        console.log("ova se printa pred da se prati kon selecttype: " + JSON.stringify(responseObject));
+
+		        router.push("SelectType", {
+		            "user": responseObject
+		        });
+
+		    }).catch(function(err) {
+		        console.log("Error", err.message);
+
+		    });
+
 		}
 
 		function end(e) {
 
-			console.log(activetreatmentid);
+		    console.log(activetreatmentid);
 		    Modal.showModal(
-		        "END TREATMENT" ,
+		        "END TREATMENT",
 		        "Are you sure you want to end this treatment?", ["Yes", "No"],
 		        function(s) {
 		            debug_log("Got callback with " + s);
@@ -289,7 +347,7 @@
 		                    headers: {
 		                        "Content-type": "application/json"
 		                    }
-		                    
+
 		                }).then(function(response) {
 		                    status = response.status; // Get the HTTP status code
 		                    response_ok = response.ok; // Is response.status in the 200-range?
@@ -298,7 +356,7 @@
 		                    console.log("Success");
 
 		                    router.goto("main");
-		                    
+
 		                }).catch(function(err) {
 		                    console.log("Error", err.message);
 
@@ -327,4 +385,5 @@
 		    templejt: templejt,
 		    loadMore: loadMore,
 		    loadMore1: loadMore1,
+		    ShowAlergies: ShowAlergies,
 		};
