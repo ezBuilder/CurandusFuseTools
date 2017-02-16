@@ -49,10 +49,13 @@
 		    goToEdit: goToEdit,
 		    goToShare: goToShare,
 		    name: name,
-		    surname: surname
+		    surname: surname,
+		    openDrawerPanel: function() {
+				EdgeNavigator.open("Left");
+			}
 		};
 	</JavaScript>
-	<EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren">
+	<EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren" >
 		<!-- Add a panel handled by the EdgeNavigator -->
 		<DockPanel EdgeNavigation.Edge="Left">
 			<Rectangle ux:Name="menu" Width="280" Height="100%" Color="White">

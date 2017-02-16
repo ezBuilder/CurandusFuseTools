@@ -54,7 +54,7 @@
 							</Rectangle>
 						</Case>
 						<Case Bool="False">
-							<Rectangle Width="56" Height="56" Clicked="{openMenu}" HitTestMode="LocalBounds">
+							<Rectangle Width="56" Height="56" Clicked="{openDrawerPanel}" HitTestMode="LocalBounds">
 								<Icon FontSize="24" Alignment="Center">&#xE5D2;</Icon>
 							</Rectangle>
 						</Case>
