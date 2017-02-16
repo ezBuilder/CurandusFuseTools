@@ -39,8 +39,9 @@
                 <Case Bool="true">
                     <ScrollView ClipToBounds="True">
                         <StackPanel Orientation="Vertical">
+                            <TextInput Value="{searchString1}"/>
                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
-                            <Each Items="{dataDoctors}">
+                            <Each Items="{filteredItems1}">
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
@@ -73,7 +74,7 @@
                                 <Match Value="{isLetter}" >
                                     <Case Number="1" >
                                         <Rectangle Color="primary_dark" Height="32">
-                                            <Text Value="{firstName}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                                            <Text Value="{FirstName}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                                         </Rectangle>
                                     </Case>
                                 </Match>
@@ -85,8 +86,9 @@
                 <Case Bool="false">
                     <ScrollView ClipToBounds="true" >
                         <StackPanel Orientation="Vertical">
+                            <TextInput Value="{searchString}"/>
                             <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}"></PullToReload>
-                            <Each Items="{data}">
+                            <Each Items="{filteredItems}">
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">

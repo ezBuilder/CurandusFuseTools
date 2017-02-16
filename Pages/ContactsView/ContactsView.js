@@ -14,6 +14,13 @@ var finalDoctors = [];
 var isLoadingContacts = Observable(false);
 var isLoadingDoctors = Observable(false);
 
+searchString = Observable("");
+searchString1 = Observable("");
+
+function stringContainsString(main,filter) {
+    return main.toLowerCase().indexOf(filter.toLowerCase()) != -1;
+}
+
 function reloadHandler() {
     isLoadingContacts.value = true;
     fetchData();
@@ -73,7 +80,7 @@ function fetchDataDoctors() {
         for (var i = 0; i < letters.length; i++) {
             flag = false;
             var tmp = {
-                "firstName": letters[i],
+                "FirstName": letters[i],
                 "isLetter": 1
             }
             finalDoctors.push(tmp);
@@ -185,6 +192,20 @@ function goToChat(e) {
     });
 }
 
+var filteredItems = searchString.flatMap(function(searchValue) {
+    return data.where(function(item) {
+    return stringContainsString(item.firstName, searchValue);
+    });
+});
+
+
+
+var filteredItems1 = searchString1.flatMap(function(searchValue) {
+    return dataDoctors.where(function(item) {
+    return stringContainsString(item.FirstName, searchValue);
+    });
+});
+
 module.exports = {
     fetchData: fetchData,
     fetchDataDoctors: fetchDataDoctors,
@@ -201,5 +222,9 @@ module.exports = {
     reloadHandler: reloadHandler,
     reloadHandlerDoctors: reloadHandlerDoctors,
     isLoadingDoctors: isLoadingDoctors,
-    goToChat: goToChat
+    goToChat: goToChat,
+    filteredItems: filteredItems,
+    searchString: searchString,
+    searchString1: searchString1,
+    filteredItems1: filteredItems1
 };
