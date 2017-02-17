@@ -19,14 +19,9 @@
     var templateName=""; 
     var subtreatmentid="";
     var SubtreatmentIdOnEDIT="0";
-    var name = "MOKI"; 
-    //var patientName = {name:"MOKIIII"}; 
-    var Storage = require("FuseJS/Storage");
+    var name = Observable();
 
 
-    console.log("*** IMETO OD ALERT PAGE: "+JSON.parse(Storage.readSync("nameLastname")));
-    name = JSON.parse(Storage.readSync("nameLastname"));
-   // console.log("provajdeeeeeeeeeeeer: "+userInfo.providerId);
     providerId= JSON.stringify(userInfo.providerId);
     
     exports.values.onValueChanged( module, function() {        
@@ -42,42 +37,22 @@
         subtreatmentid="";
         SubtreatmentIdOnEDIT="0";
 
-        
-        console.log("IMETO OD ALERT PAGE ON PARAMETER CHANGE VO SELECT TYPE: "+JSON.parse(Storage.readSync("nameLastname")));
-        name = JSON.parse(Storage.readSync("nameLastname"));
-
         //patientId = JSON.stringify(param.user.patientId);
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
 
         if("savedTreatments" in param){
-            console.log("dat da da da da da da");
             for(var i = 0 ; i < param.savedTreatments.length; i++){
 
                 if(!param.savedTreatments[i].num){
 
-
                     if(param.savedTreatments[i].id){
                         console.log("VO IF if id"+param.savedTreatments[i].id);
                     }
                     
                     else if(param.savedTreatments[i].name){
-
-                         selektirani.add(param.savedTreatments[i].name);
-                         finalData[i] = param.savedTreatments[i];
-                         SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
-                    }
-
-
-
-                    if(param.savedTreatments[i].id){
-                        console.log("VO IF if id"+param.savedTreatments[i].id);
-                    }
-                    
-                    else if(param.savedTreatments[i].name){
-
-                         selektirani.add(param.savedTreatments[i].name);
-                         finalData[i] = param.savedTreatments[i];
-                         SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
+                        selektirani.add(param.savedTreatments[i].name);
+                        finalData[i] = param.savedTreatments[i];
+                        SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
                     }
 
                     else if(param.savedTreatments[i].templateName){
@@ -86,6 +61,7 @@
                        // console.log("VO ELSEIF nameTemplate**"+templateName);
                     }
                     else if(param.savedTreatments[i].num1){
+                        
                     }
                     else if(param.savedTreatments[i].subtreatmentid){
                        // console.log("TUKA SE DOAGJA VO SUBTREATMENT ID :"+param.savedTreatments[i].subtreatmentid);
@@ -100,20 +76,24 @@
 
         }
 
-///// koga doagja od page ContactView
+///// koga doagja od page AlertPage
         else if(param.user.length > 1){
+
+            console.log("VLAGAAAAAAAA");
+            console.log(JSON.stringify(param));
           //  console.log('If param length > 0:'+JSON.stringify(param)); 
             for(var i = 0 ; i < param.user.length; i++){
                 if(param.user[i].patientId){
                     patientId = param.user[i].patientId;
-
                     console.log("tuka patientid:"+patientId);
                     Storage.write("patientId", JSON.stringify(patientId));
                 }
                 else if(param.user[i].subtrementID){
                     SubtreatmentIdOnEDIT = param.user[i].subtrementID;
+                } 
+                else if (param.user[i].fullName){
+                    name.value = param.user[i].fullName
                 }
-               // console.log("VO FOOOOR"+JSON.stringify(param.user[i]));
             }
 
             ///// kod za selekcija na tabovite vo select type
@@ -137,6 +117,10 @@
                     else if(param.user[i].patientId){
 
                     }
+
+                        else if (param.user[i].fullName){
+                            name.value = param.user[i].fullName
+                        }
                     else{
                         console.log("VO IF else"+param.user[i].name);
                         selektirani.add(param.user[i].name);
@@ -145,23 +129,46 @@
                     
                 }
             } 
-        } // kraj koga doagja od contactview
+        } // kraj 
 
-        /// koga doagja od ALERT PAGE
+        /// koga doagja od CONTACTS
         else if("user" in param){
-            console.log("Vo IF user!");
-            console.log("Vo IF user"+JSON.stringify(param.user.patientId));
+
+            console.log("VLAGAAAAAAAAAAA2");
             patientId = JSON.stringify(param.user.patientId);
-            //patientId = param[i].patientId;
-            console.log("IF select type patientID "+patientId);
-            name = JSON.stringify(param.user.fullName);
-           // patientName.name =    JSON.stringify(param.user.fullName);
-           // console.log("patientName"+param.user.fullName);
+            console.log(JSON.stringify(param.user.fullName));
+            name.value = param.user.fullName;
             Storage.write("patientId", JSON.stringify(patientId));
             subtreatmentid = param.user.subtreatmentid;
         }
 
-    
+ 
+        console.log("ZEMANJE NA PODATOCI ZA PACIENT");
+        /////////////////////////////////////  ova se koristi samo da se zeme imeto na pacientot selektiran  //////
+        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId="+patientId;
+        console.log(url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json"
+            },
+            dataType: 'json'
+        }).then(function(response) { 
+            status = response.status; // Get the HTTP status code 
+            response_ok = response.ok; // Is response.status in the 200-range? 
+            return response.json(); // This returns a promise 
+        }).then(function(data) {
+            //user_patient.value=data;
+            console.log("ZEMANJE NA PODATOCI ZA PACIENT - "+JSON.stringify(data));
+            // name.value = data.firstName+" "+data.lastName;
+
+        }).catch(function(err) { 
+            console.log("Fetch data error"); 
+            console.log(err.message); 
+        });   
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
             console.log("PRED FOR PATIENTID "+patientId);
             console.log("POSLE FOR selektirani "+JSON.stringify(selektirani));
     });
@@ -194,7 +201,7 @@
         }).then(function(data) {
             var tmp ={};
             for (var i = 0; i < data.length; i++) { 
-                tmp={ 
+                tmp = { 
                     "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,  
                     "nameTreatment":data[i].nameTreatment,                        
                     "created":data[i].created,                                    
@@ -206,6 +213,7 @@
                 lista[i] = tmp; 
             } 
 
+            lista[lista.length] = {"name":name.value}
         router.push("savedTreatment",  lista ); 
         }).catch(function(err) { 
             console.log("Fetch data error"); 
@@ -213,9 +221,6 @@
         }); 
     }
 
-
-              
-      
 
     function goToSelectItems(){       
         var sendData = [{}];
@@ -291,7 +296,8 @@
         selektirani:selektirani, 
         AddSelectedItem:AddSelectedItem ,
         savedTreatments:savedTreatments ,
-        name
+        name : name
+
     } 
     
     

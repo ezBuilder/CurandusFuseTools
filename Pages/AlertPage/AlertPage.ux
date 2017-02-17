@@ -12,7 +12,7 @@
 					<ImageFill File="../../Assets/placeholder.png" />
 				</Circle>
 			</Panel>
-			<StackPanel Margin="10" Alignment="Center">
+			<StackPanel Margin="10" Alignment="Center" Clicked="{ShowAlergies}">
 				<Text Font="medium" Value="{nameLastname}" FontSize="18" TextColor="primary" />
 				<Rectangle Width="100%" Height="1" Color="divider"/>
 				<StackPanel Orientation="Horizontal">
