@@ -53,11 +53,12 @@
 							<Deferred>
 								<DockPanel >
 									<Match Value="{status}">
-										<Case String="DONE">
-											<Rectangle Dock="Left" Height="100%" Width="10" Color="done" CornerRadius="8,0,0,8"/>
-										</Case>
+										
 										<Case String="FUTURE">
 											<Rectangle Dock="Left" Height="100%" Width="10" Color="lightgreen" CornerRadius="8,0,0,8"/>
+										</Case>
+										<Case String="DONE">
+											<Rectangle Dock="Left" Height="100%" Width="10" Color="done" CornerRadius="8,0,0,8"/>
 										</Case>
 										<Case String="EXPIRED">
 											<Rectangle Dock="Left" Height="100%" Width="10" Color="future" CornerRadius="8,0,0,8"/>
@@ -74,9 +75,15 @@
 										</StackPanel>
 									</StackPanel>
 									<Rectangle Dock="Left" Width="1" Height="60" Color="divider"/>
-									<DockPanel Dock="Right" Height="100%" Width="32" HitTestMode="LocalBounds" Clicked="{statusFunc}">
+									<Match Value="{status}">
+										<Case String="FUTURE">
+										<DockPanel Dock="Right" Height="100%" Width="32" HitTestMode="LocalBounds" Clicked="{statusFunc}">
+										
 										<Icon Dock="Right" FontSize="18" Color="Red" Alignment="VerticalCenter" Margin="0,0,3,0" >&#xE044;</Icon>
+										
 									</DockPanel>
+									</Case>
+									</Match>
 									<StackPanel Dock="Left" Height="100%" Color="White">
 										<StackPanel Dock="Left" Height="100%" Width="120" Color="White" Orientation="Horizontal" Padding="10,2,0,0">
 											<Text Alignment="Left" Font="regular" FontSize="12" Value="Doctor: " Color="primary" Margin="0,10,0,0" />
