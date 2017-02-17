@@ -19,9 +19,10 @@
     var templateName=""; 
     var subtreatmentid="";
     var SubtreatmentIdOnEDIT="0";
+    var active=Observable("false");
+    // var name = "MOKI"; 
+    //var patientName = {name:"MOKIIII"}; 
     var name = Observable();
-
-
     providerId= JSON.stringify(userInfo.providerId);
     
     exports.values.onValueChanged( module, function() {        
@@ -39,8 +40,10 @@
 
         //patientId = JSON.stringify(param.user.patientId);
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
-
+        // KOGA DOAGJA OD SAVEDTREATMENTS
         if("savedTreatments" in param){
+            active.value = "true"; 
+            console.log("TUKA OD SELEKT TYPE SHOW TEMPLATE:"+active);// dali da se pokazhuva kopche load template
             for(var i = 0 ; i < param.savedTreatments.length; i++){
 
                 if(!param.savedTreatments[i].num){
@@ -76,10 +79,12 @@
 
         }
 
-///// koga doagja od page AlertPage
-        else if(param.user.length > 1){
 
-            console.log("VLAGAAAAAAAA");
+///// koga doagja od page ALERTPAGE
+        else if(param.user.length > 1){
+            active.value="false";// dali da se pokazhuva kopche load template
+             console.log("TUKA OD ALERT PAGE SHOW TEMPLATE:"+active);
+            console.log("doagja od page ALERTPAGE");
             console.log(JSON.stringify(param));
           //  console.log('If param length > 0:'+JSON.stringify(param)); 
             for(var i = 0 ; i < param.user.length; i++){
@@ -133,40 +138,14 @@
 
         /// koga doagja od CONTACTS
         else if("user" in param){
-
-            console.log("VLAGAAAAAAAAAAA2");
+            active.value="true";// dali da se pokazhuva kopche load template
+            console.log("TUKA OD CONTACT - :"+active);
             patientId = JSON.stringify(param.user.patientId);
             console.log(JSON.stringify(param.user.fullName));
             name.value = param.user.fullName;
             Storage.write("patientId", JSON.stringify(patientId));
             subtreatmentid = param.user.subtreatmentid;
         }
-
- 
-        console.log("ZEMANJE NA PODATOCI ZA PACIENT");
-        /////////////////////////////////////  ova se koristi samo da se zeme imeto na pacientot selektiran  //////
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId="+patientId;
-        console.log(url);
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json"
-            },
-            dataType: 'json'
-        }).then(function(response) { 
-            status = response.status; // Get the HTTP status code 
-            response_ok = response.ok; // Is response.status in the 200-range? 
-            return response.json(); // This returns a promise 
-        }).then(function(data) {
-            //user_patient.value=data;
-            console.log("ZEMANJE NA PODATOCI ZA PACIENT - "+JSON.stringify(data));
-            // name.value = data.firstName+" "+data.lastName;
-
-        }).catch(function(err) { 
-            console.log("Fetch data error"); 
-            console.log(err.message); 
-        });   
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
             console.log("PRED FOR PATIENTID "+patientId);
@@ -294,10 +273,10 @@
         goToSelectItems:goToSelectItems, 
         goToSavedTreatments:goToSavedTreatments, 
         selektirani:selektirani, 
-        AddSelectedItem:AddSelectedItem ,
-        savedTreatments:savedTreatments ,
-        name : name
-
+        AddSelectedItem:AddSelectedItem , 
+        savedTreatments:savedTreatments , 
+        name:name ,
+        active:active
     } 
     
     
@@ -349,8 +328,14 @@
             <Grid Columns="1*,1*" >
                 <Selection Value="Select Types"/>
                 <TabName Label="Select Types"></TabName>
-                <TabName Clicked="{goToSavedTreatments}" Label="Load Saved Templates"></TabName>
-               
+                <Match Value="{active}">
+                    <Case String="true">
+                        <TabName Clicked="{goToSavedTreatments}" Label="Load Saved Templates"></TabName>
+                    </Case>
+                    <Case String="false">
+                        <TabName Opacity="0.4"  Label="Load Saved Templates"></TabName>
+                    </Case>
+                </Match>   
             </Grid>
             <DropShadow/> 
         </Rectangle> 
