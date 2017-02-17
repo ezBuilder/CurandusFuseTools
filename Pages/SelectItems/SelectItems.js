@@ -85,7 +85,7 @@ function NewItem(data){
 		   		    }
 
 		   	//	console.log("Render "+(JSON.parse(param.sendData[i].render)).diet);    
-		        param.sendData[i].index=i-1;
+		        param.sendData[i].index=i;
 		        lista.add(new NewItem(param.sendData[i]));
 		    }
 
@@ -312,6 +312,8 @@ function GetParameter(){
 	}
      function AddNewItem(sender) {
        			     console.log("subtreatmentdetail"+sender.data.subtreatmentdetail.value);
+
+       			     console.log("index"+sender.data.index);
        		var pom_item={
        						"name":sender.data.name.value,
        						"subtreatmentid":sender.data.subtreatmentdetail.value,
