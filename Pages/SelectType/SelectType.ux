@@ -23,8 +23,6 @@
     // var name = "MOKI"; 
     //var patientName = {name:"MOKIIII"}; 
     var name = Observable();
-    // name = JSON.parse(Storage.readSync("nameLastname"));
-   // console.log("provajdeeeeeeeeeeeer: "+userInfo.providerId);
     providerId= JSON.stringify(userInfo.providerId);
     
     exports.values.onValueChanged( module, function() {        
@@ -39,7 +37,6 @@
         templateName="";
         subtreatmentid="";
         SubtreatmentIdOnEDIT="0";
-
 
         //patientId = JSON.stringify(param.user.patientId);
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
@@ -56,10 +53,9 @@
                     }
                     
                     else if(param.savedTreatments[i].name){
-
-                         selektirani.add(param.savedTreatments[i].name);
-                         finalData[i] = param.savedTreatments[i];
-                         SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
+                        selektirani.add(param.savedTreatments[i].name);
+                        finalData[i] = param.savedTreatments[i];
+                        SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
                     }
 
                     else if(param.savedTreatments[i].templateName){
@@ -68,6 +64,7 @@
                        // console.log("VO ELSEIF nameTemplate**"+templateName);
                     }
                     else if(param.savedTreatments[i].num1){
+                        
                     }
                     else if(param.savedTreatments[i].subtreatmentid){
                        // console.log("TUKA SE DOAGJA VO SUBTREATMENT ID :"+param.savedTreatments[i].subtreatmentid);
@@ -82,6 +79,7 @@
 
         }
 
+
 ///// koga doagja od page ALERTPAGE
         else if(param.user.length > 1){
             active.value="false";// dali da se pokazhuva kopche load template
@@ -92,7 +90,6 @@
             for(var i = 0 ; i < param.user.length; i++){
                 if(param.user[i].patientId){
                     patientId = param.user[i].patientId;
-
                     console.log("tuka patientid:"+patientId);
                     Storage.write("patientId", JSON.stringify(patientId));
                 }
@@ -102,7 +99,6 @@
                 else if (param.user[i].fullName){
                     name.value = param.user[i].fullName
                 }
-               // console.log("VO FOOOOR"+JSON.stringify(param.user[i]));
             }
 
             ///// kod za selekcija na tabovite vo select type
@@ -144,16 +140,14 @@
         else if("user" in param){
             active.value="true";// dali da se pokazhuva kopche load template
             console.log("TUKA OD CONTACT - :"+active);
-            console.log("VLAGAAAAAAAAAAA2");
             patientId = JSON.stringify(param.user.patientId);
             console.log(JSON.stringify(param.user.fullName));
             name.value = param.user.fullName;
-
             Storage.write("patientId", JSON.stringify(patientId));
             subtreatmentid = param.user.subtreatmentid;
         }
 
-    
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
             console.log("PRED FOR PATIENTID "+patientId);
             console.log("POSLE FOR selektirani "+JSON.stringify(selektirani));
     });
@@ -186,7 +180,7 @@
         }).then(function(data) {
             var tmp ={};
             for (var i = 0; i < data.length; i++) { 
-                tmp={ 
+                tmp = { 
                     "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,  
                     "nameTreatment":data[i].nameTreatment,                        
                     "created":data[i].created,                                    
@@ -206,9 +200,6 @@
         }); 
     }
 
-
-              
-      
 
     function goToSelectItems(){       
         var sendData = [{}];
