@@ -45,18 +45,6 @@
 		}
 	
     	function OpenMenu() {
-			EdgeNavigator.open("Left");
-		}
-
-		module.exports = {
-		    goToAbout: goToAbout,
-		    goToEdit: goToEdit,
-		    goToShare: goToShare,
-		    name: name,
-		    surname: surname,
-			OpenMenu: OpenMenu
-			
-		   
 
 		};
 	</JavaScript>
@@ -76,28 +64,12 @@
 							</Panel>
 						</StackPanel>
 						<Image File="Assets/Menu.jpg" />
-					</Rectangle>
-					<MenuItem Text="About" Dock="Top" Icon="&#xE853;"  Clicked="{goToAbout}"/>
-					<MenuItem Text="Share app / Invite" Dock="Top" Icon="&#xE80D;" Clicked="{goToShare}" />
-					<MenuItem Text="Exit" Icon="&#xE879;" Dock="Top">
-						<Clicked>
-							<HomeScreen Type="Finish" />
-						</Clicked>
-					</MenuItem>
-				</DockPanel>
-				<DropShadow />
+
 			</Rectangle>
 		</DockPanel>
 		<!-- MAIN PANEL START-->
 		<DockPanel Color="background_color">
-			<StatusBarBackground Dock="Top" Background="#0097A7"/>
-			<!-- MAIN NAVIGATION START-->
-			<Navigator DefaultTemplate="WelcomePage">
-				<LoginPage ux:Template="login" router="router" />
-				<MainPage ux:Template="main" router="router" />
-				<AlertPage ux:Template="alert" router="router" />
-				<ChatPage ux:Template="chat" router="router" />
-				<AddContactPage ux:Template="addContact" router="router" />
+
 				<AddDoctorPage ux:Template="addDoctor" router="router" />
 				<SelectType ux:Template="SelectType" router="router" />
 				<SelectItems ux:Template="SelectItems" router="router" />
