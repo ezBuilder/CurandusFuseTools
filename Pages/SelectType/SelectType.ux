@@ -19,12 +19,10 @@
     var templateName=""; 
     var subtreatmentid="";
     var SubtreatmentIdOnEDIT="0";
+    var active=Observable("false");
     // var name = "MOKI"; 
     //var patientName = {name:"MOKIIII"}; 
-
     var name = Observable();
-
-
     // name = JSON.parse(Storage.readSync("nameLastname"));
    // console.log("provajdeeeeeeeeeeeer: "+userInfo.providerId);
     providerId= JSON.stringify(userInfo.providerId);
@@ -45,12 +43,13 @@
 
         //patientId = JSON.stringify(param.user.patientId);
         console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
-
+        // KOGA DOAGJA OD SAVEDTREATMENTS
         if("savedTreatments" in param){
+            active.value = "true"; 
+            console.log("TUKA OD SELEKT TYPE SHOW TEMPLATE:"+active);// dali da se pokazhuva kopche load template
             for(var i = 0 ; i < param.savedTreatments.length; i++){
 
                 if(!param.savedTreatments[i].num){
-
 
                     if(param.savedTreatments[i].id){
                         console.log("VO IF if id"+param.savedTreatments[i].id);
@@ -62,9 +61,6 @@
                          finalData[i] = param.savedTreatments[i];
                          SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
                     }
-
-
-
 
                     else if(param.savedTreatments[i].templateName){
                        // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
@@ -86,10 +82,11 @@
 
         }
 
-///// koga doagja od page ContactView
+///// koga doagja od page ALERTPAGE
         else if(param.user.length > 1){
-
-            console.log("VLAGAAAAAAAA");
+            active.value="false";// dali da se pokazhuva kopche load template
+             console.log("TUKA OD ALERT PAGE SHOW TEMPLATE:"+active);
+            console.log("doagja od page ALERTPAGE");
             console.log(JSON.stringify(param));
           //  console.log('If param length > 0:'+JSON.stringify(param)); 
             for(var i = 0 ; i < param.user.length; i++){
@@ -141,10 +138,12 @@
                     
                 }
             } 
-        } // kraj koga doagja od contactview
+        } // kraj 
 
         /// koga doagja od CONTACTS
         else if("user" in param){
+            active.value="true";// dali da se pokazhuva kopche load template
+            console.log("TUKA OD CONTACT - :"+active);
             console.log("VLAGAAAAAAAAAAA2");
             patientId = JSON.stringify(param.user.patientId);
             console.log(JSON.stringify(param.user.fullName));
@@ -285,7 +284,8 @@
         selektirani:selektirani, 
         AddSelectedItem:AddSelectedItem , 
         savedTreatments:savedTreatments , 
-        name:name 
+        name:name ,
+        active:active
     } 
     
     
@@ -337,8 +337,14 @@
             <Grid Columns="1*,1*" >
                 <Selection Value="Select Types"/>
                 <TabName Label="Select Types"></TabName>
-                <TabName Clicked="{goToSavedTreatments}" Label="Load Saved Templates"></TabName>
-               
+                <Match Value="{active}">
+                    <Case String="true">
+                        <TabName Clicked="{goToSavedTreatments}" Label="Load Saved Templates"></TabName>
+                    </Case>
+                    <Case String="false">
+                        <TabName Opacity="0.4"  Label="Load Saved Templates"></TabName>
+                    </Case>
+                </Match>   
             </Grid>
             <DropShadow/> 
         </Rectangle> 

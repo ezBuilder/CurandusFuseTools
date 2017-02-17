@@ -48,7 +48,6 @@
         </Rectangle> 
         
         <Rectangle Color="background_color"> 
-            <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" />
             <ScrollView Margin="0,60,0,0">
                 <StackPanel>
                     <Each Items="{savedTreatments}"> 
