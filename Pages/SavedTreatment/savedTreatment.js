@@ -2,21 +2,69 @@ var Observable = require("FuseJS/Observable")
 
 var selektirani = Observable("");
 var Storage = require("FuseJS/Storage");
+var Modal = require("Modal");
 var lista = [];
 var savedTreatments = Observable();
-var userInfo = JSON.parse(Storage.readSync("userInfo")); //Storage.readSync("userInfo");
-var name = "";
+var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
+var name = Observable("");
 //var providerId = JSON.parse(userInfo.providerId);
+
 console.log("OVA E user info  yyyy: " + userInfo);
-
-
 var providerId = JSON.stringify(userInfo.providerId);
-
 console.log("OVA E PROVIDER ID yyyy: " + providerId);
 
-//***************  GET ALL TREATMENTS BY PROVIDERS 
-name = JSON.parse(Storage.readSync("nameLastname"));
-console.log("*VO SAVED TREATMENTS NAME" + name);
+//***************  GET NAME BY PATIENT 
+name.value = JSON.parse(Storage.readSync("nameLastname"));
+console.log("*VO SAVED TREATMENTS NAME"+name);
+
+/////////////////////// REMOVE TREATMENT TEMPLATE ////////////////////////////////////
+function RemoveItem(sender) {
+    console.log(JSON.stringify(sender.data.nameTreatment));
+    Modal.showModal(
+        "Delete Treatment",
+        "Are you sure you want to delete " + sender.data.nameTreatment + " ?", ["Yes", "No"],
+        function(s) {
+            if (s == "Yes") {
+                console.log("REMOVE TREATMENT TEMPLATE: " + sender.data.savedTreatmentTemplateId);
+                var url = "http://192.168.1.165:8081/curandusproject/webapi/api/DeleteSavedTemplate/" + sender.data.savedTreatmentTemplateId + "&&" + sender.data.savedTreatmentTemplateId
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    dataType: 'json'
+                }).then(function(response) {
+                    status = response.status; // Get the HTTP status code  
+                    response_ok = response.ok; // Is response.status in the 200-range?  
+                    return response.json(); // This returns a promise 
+                }).then(function(data) {
+                    //remove template item from list --> sender
+                    Remove(sender);
+                    console.log("DELETED TEMPLATE: " + JSON.stringify(data));
+
+                }).catch(function(err) {
+                    console.log("Fetch data error");
+                    console.log(err.message);
+                });
+
+            }
+        });
+
+
+
+
+}
+
+/////////////// Remove template item from front end templatelist
+function Remove(sender) {
+    console.log("OVA E ITEMOT SHTO SE BRISHE : " + JSON.stringify(sender));
+    savedTreatments.remove(sender.data);
+    for (var i = 0; i < savedTreatments.length; i++) {
+        savedTreatments.getAt(i).index.value = i;
+    }
+}
+
+
 
 //////******  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
 function fetchDataBySavedTreatment(id, templateName) {
@@ -51,6 +99,7 @@ function fetchDataBySavedTreatment(id, templateName) {
                 "createdBy": data[i].createdBy,
                 "treatmentItemId": data[i].treatmentItemId,
                 "subtreatmentid": data[i].subtreatmentid
+
             }
             lista[i] = tmp;
             ///////////
@@ -94,22 +143,34 @@ function goToSelectType(e, id, templateName) {
     });
 }
 
+
 this.onParameterChanged(function(param) {
     savedTreatments.clear();
     console.log("Tuka se stigna vo savedTreatments" + JSON.stringify(param));
     for (var i = 0; i < param.length; i++) {
-        console.log("vo for stignato: " + param[i].nameTreatment);
-        savedTreatments.add(param[i]);
+        if (param[i].name) {
+            console.log("OVA E IMETO STIGNATO OD SELECT TYPE VO FOR:" + param[i].name);
+            name.value = param[i].name;
+        } else {
+            console.log("vo for stignato: " + param[i].nameTreatment);
+            savedTreatments.add(param[i]);
+        }
+        // console.log("OVA E IMETO STIGNATO OD SELECT TYPE:"+param[i].name);
+        console.log("OVA E IMETO STIGNATO OD SELECT TYPE:" + name.value);
+
     }
 });
 
 // <--- CALL FUNCTION FOR DATA FETCH ABOUT SAVED TEMPLATE
 
 module.exports = {
+
     getItemsForTemplate: getItemsForTemplate,
     goToSelectType: goToSelectType,
     fetchDataBySavedTreatment: fetchDataBySavedTreatment,
     savedTreatments: savedTreatments,
-    name: name
+    name: name,
+    RemoveItem: RemoveItem
+
 
 }

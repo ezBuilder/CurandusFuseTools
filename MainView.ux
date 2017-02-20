@@ -44,12 +44,20 @@
 		    EdgeNavigator.dismiss();
 		}
 	
+    	function OpenMenu() {
+			EdgeNavigator.open("Left");
+		}
+
 		module.exports = {
 		    goToAbout: goToAbout,
 		    goToEdit: goToEdit,
 		    goToShare: goToShare,
 		    name: name,
-		    surname: surname
+		    surname: surname,
+			OpenMenu: OpenMenu
+			
+		   
+
 		};
 	</JavaScript>
 	<EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren">

@@ -38,49 +38,80 @@
            
 
 <ScrollView ClipToBounds="true" > 
-        <StackPanel>             
+        <StackPanel>
+                      
             <Each Items="{lista}">
                 <Match Value="{name}">
                     <Case String="Pain Level">
-                        <Rectangle Color="primary_dark" Height="32">
+
+                        <DockPanel>
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="PAIN LEVEL" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
                         </DockPanel>
                     </Rectangle>                        
-                        <PainLevelItem Interval="{interval}" Repeat="{duration}"
-                         painLevelOf="{painlevelof}"></PainLevelItem>
+                        <PainLevelItem Interval="{interval}" Repeat="{duration}" painLevelOf="{painlevelof}"></PainLevelItem> 
+                        <AddingAnimation>
+                            <Move RelativeTo="Size" X="8" Duration="0.6" Easing="CircularIn" />
+                        </AddingAnimation>
+
+                         <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel>
                     </Case>
+
                     <Case String="Temperature Check">
-                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>   
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="TEMPERATURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
-                    </Rectangle>                        
+                        </Rectangle>                        
                         <TemperatureCheck Interval="{interval}" Repeat="{duration}"/>
+                         <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel>    
                     </Case>
+
                     <Case String="Blood Pressure Check">
-                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>  
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="BLOOD PRESSURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                     </Rectangle>                        
                         <BloodPresure Interval="{interval}" Repeat="{duration}"/>
+                        <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel>  
                     </Case> 
+
+
                       <Case String="Pulse Check">
-                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>  
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="PULSE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                     </Rectangle>                        
                         <PulseCheck Interval="{interval}" Repeat="{duration}"/>
-                    </Case>                                    
+                        <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel>                          
+                    </Case>  
+
                     <Case String="Send Image">
-                        <Rectangle Color="primary_dark" Height="32">
+                         <DockPanel>  
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="SEND IMAGE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
@@ -88,46 +119,80 @@
                         </DockPanel>
                         </Rectangle>                        
                         <SendImage Interval="{interval}" Repeat="{duration}" ImageFromYour="{sendimageof}" />
-                    </Case> 
+
+                        <AddingAnimation>
+                            <Move RelativeTo="Size" X="8" Duration="0.6" Easing="CircularIn" />
+                        </AddingAnimation>                        
+                       <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel>  
+                    </Case>
+
                     <Case String="Diet">
-                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel> 
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="DIET" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
                         <Diet Advice="{diet}" />
+                       <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel> 
+
                     </Case>  
                     <Case String="Hygiene">
-                        <Rectangle Color="primary_dark" Height="32">
+                         <DockPanel>
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="HYGIENE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
                         <Hygiene Question="{hygiene}" />
+                       <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel> 
+
                     </Case>  
                      <Case String="Other Instructions">
-                        <Rectangle Color="primary_dark" Height="32">
+                        <DockPanel>
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="OTHER INSTRUCTIONS" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
                         <OtherInstruction Instruction="{otherinstruction}" />
-                    </Case>                     
+
+                       <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel>                         
+                    </Case> 
+
                     <Case String="Activity">
-                        <Rectangle Color="primary_dark" Height="32">
+                         <DockPanel>
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="ACTIVITY" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
                         <Activity AdviceForActivity="{activity}" />
+                       <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel>                        
                     </Case>  
 
                      <Case String="Comparison With Picture">
-                        <Rectangle Color="primary_dark" Height="32">
+                         <DockPanel>
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="COMPARISION WITH PICTURE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
@@ -135,10 +200,19 @@
                         </DockPanel>
                         </Rectangle>                        
                         <ComparisonWithPicture IntervalOn="{interval}" RepeatOn="{duration}" EnterQuestion="{comparisionquestion}" AditionalComment="{comparisionurl}"/>
+                    
+                        <AddingAnimation>
+                            <Move RelativeTo="Size" X="8" Duration="0.6" Easing="CircularIn" />
+                        </AddingAnimation>                        
+                       <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel> 
                     </Case>                     
 
                     <Case String="Medicines">
-                        <Rectangle Color="primary_dark" Height="32">
+                         <DockPanel>
+                        <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
                             <Text Value="MEDICINE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
@@ -146,13 +220,21 @@
                         </DockPanel>
                         </Rectangle>                        
                         <MedicineItem Interval="{interval}" Repeat="{duration}" Medicine="{medicinename}" Comment="{medicinecomment}"/>
+                        <AddingAnimation>
+                            <Move RelativeTo="Size" X="8" Duration="0.6" Easing="CircularIn" />
+                        </AddingAnimation>                        
+                       <RemovingAnimation>
+                            <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
+                        </RemovingAnimation>
+                    </DockPanel> 
                     </Case> 
-                </Match>                            
+                </Match>
             </Each>
-
+        
 <!--    <ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}" Description="{ExampleDescription}"/>
 
     <ExampleItem Interval="{ExampleInterval}" Repeat="{ExampleRepeat}"/> -->
+
 </StackPanel>
 </ScrollView>
 </DockPanel>
