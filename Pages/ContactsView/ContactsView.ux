@@ -39,7 +39,12 @@
                 <Case Bool="true">
                     <ScrollView ClipToBounds="True">
                         <StackPanel Orientation="Vertical">
-                            <TextInput Value="{searchString1}"/>
+
+                            <DockPanel>
+                            <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary_light" />
+                            <Icon FontSize="24" Color="primary" Dock="Right" Alignment="Center">&#xE8B6;</Icon>
+                            </DockPanel>
+
                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
                             <Each Items="{filteredItems1}">
                                 <Match Value="{isLetter}" >
@@ -86,7 +91,10 @@
                 <Case Bool="false">
                     <ScrollView ClipToBounds="true" >
                         <StackPanel Orientation="Vertical">
-                            <TextInput Value="{searchString}"/>
+                            <DockPanel>
+                            <TextInput Value="{searchString}" PlaceholderText="Search" PlaceholderColor="primary_light" />
+                            <Icon FontSize="24" Color="primary" Dock="Right" Alignment="Center">&#xE8B6;</Icon>
+                            </DockPanel>
                             <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}"></PullToReload>
                             <Each Items="{filteredItems}">
                                 <Match Value="{isLetter}" >

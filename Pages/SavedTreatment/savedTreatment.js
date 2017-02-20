@@ -7,8 +7,11 @@ var lista = [];
 var savedTreatments = Observable();
 var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
 var name = Observable("");
+searchString2 = Observable("");
 //var providerId = JSON.parse(userInfo.providerId);
-
+function stringContainsString(main,filter) {
+    return main.toLowerCase().indexOf(filter.toLowerCase()) != -1;
+}
 console.log("OVA E user info  yyyy: " + userInfo);
 var providerId = JSON.stringify(userInfo.providerId);
 console.log("OVA E PROVIDER ID yyyy: " + providerId);
@@ -161,6 +164,12 @@ this.onParameterChanged(function(param) {
     }
 });
 
+var filteredItems = searchString2.flatMap(function(searchValue) {
+    return savedTreatments.where(function(item) {
+    return stringContainsString(item.nameTreatment, searchValue);
+    });
+});
+
 // <--- CALL FUNCTION FOR DATA FETCH ABOUT SAVED TEMPLATE
 
 module.exports = {
@@ -170,7 +179,9 @@ module.exports = {
     fetchDataBySavedTreatment: fetchDataBySavedTreatment,
     savedTreatments: savedTreatments,
     name: name,
-    RemoveItem: RemoveItem
+    RemoveItem: RemoveItem,
+    filteredItems: filteredItems,
+    searchString2: searchString2
 
 
 }
