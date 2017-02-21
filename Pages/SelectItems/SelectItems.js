@@ -395,10 +395,10 @@ function Insert_Treatment() {
         }
         if (P_SubTreatmentID == 0 || prazno_ime != "") {
             api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=" + providerId + "&patientid=" + p_patient_id + "&nametreatment=Prv&namesubtreatment=PrvS";
-            show_string = "You have successfuly sent treatmetnt to patient";
+            show_string = "Treatment assigned to patient";
         } else {
             api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=" + P_SubTreatmentID;
-            show_string = "You have successfuly updated treatmetnt";
+            show_string = "Treatmetnt updated";
         }
 
         console.log("api_call " + api_call);
@@ -423,17 +423,23 @@ function Insert_Treatment() {
             console.log("parameter " + responseObject);
             var activetreatmentid = responseObject;
 
-            Modal.showModal(
-                "Send Treatment ",
-                show_string, ["OK"],
-                function(s) {
-                    console.log("Param return " + JSON.stringify(responseObject));
-                    responseObject.num = Math.random();
-                    router.goto("main", {
-                        user: responseObject
-                    });
-                    // router.push("alert", activetreatmentid);
-                });
+            // Modal.showModal(
+            //     "Send Treatment ",
+            //     show_string, ["OK"],
+            //     function(s) {
+            //         console.log("Param return " + JSON.stringify(responseObject));
+            //         responseObject.num = Math.random();
+            //         router.goto("main", {
+            //             user: responseObject
+            //         });
+            //         // router.push("alert", activetreatmentid);
+            //     });
+
+            myToast.toastIt(show_string);
+            responseObject.num = Math.random();
+            router.goto("main", {
+                user: responseObject
+            });
         }).catch(function(err) {
             console.log("Error", err.message);
         });
@@ -450,10 +456,11 @@ function Insert_Saved_Treatment() {
 
     if (validation == false || NVL(stname.value) == "") {
         console.log("pppp  " + providerId);
-        Modal.showModal(
-            "Message",
-            "Please fulfill all fields in treatment", ["OK"],
-            function(s) {});
+        // Modal.showModal(
+        //     "Message",
+        //     "Please fulfill all fields in treatment", ["OK"],
+        //     function(s) {});
+        myToast.toastIt("Please fulfill all fields in treatment");
     } else {
         var rendering;
         for (var i = 0; i < lista.length; i++) {
@@ -539,12 +546,15 @@ function Insert_Saved_Treatment() {
         }).then(function(responseObject) {
             if (responseObject == 0) {
                 console.log("Success");
-                Modal.showModal(
-                    "Save Treatment Template",
-                    "You save treatment succesfully", ["OK"],
-                    function(s) {
-                        goToSavedTreatments();
-                    });
+                // Modal.showModal(
+                //     "Save Treatment Template",
+                //     "You save treatment succesfully", ["OK"],
+                //     function(s) {
+                //         goToSavedTreatments();
+                //     });
+
+                myToast.toastIt("Treatment saved");
+                goToSavedTreatments();
             } else {
                 console.log("klik");
                 Modal.showModal(
@@ -568,14 +578,14 @@ function Insert_Saved_Treatment() {
 
                             }).then(function(responseObject) {
                                 console.log("Success");
-                                Modal.showModal(
-                                    "Save Treatment Template",
-                                    "You save treatment succesfully", ["OK"],
-                                    function(s) {
-                                        goToSavedTreatments();
-
-
-                                    });
+                                // Modal.showModal(
+                                //     "Save Treatment Template",
+                                //     "You save treatment succesfully", ["OK"],
+                                //     function(s) {
+                                //         goToSavedTreatments();
+                                //     });
+                                myToast.toastIt("Treatment saved");
+                                goToSavedTreatments();
                             }).catch(function(err) {
                                 console.log("Error", err.message);
                             });
