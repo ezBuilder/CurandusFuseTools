@@ -40,10 +40,14 @@
                     <ScrollView ClipToBounds="True">
                         <StackPanel Orientation="Vertical">
 
+                            <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,0,0,10" >
+                            <Stroke Width="1" Color="primary_light"/>
                             <DockPanel>
-                            <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary_light" />
-                            <Icon FontSize="24" Color="primary" Dock="Right" Alignment="Center">&#xE8B6;</Icon>
+                            <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary" />
+                            <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
                             </DockPanel>
+                             </Rectangle>
+
 
                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
                             <Each Items="{filteredItems1}">
@@ -91,10 +95,16 @@
                 <Case Bool="false">
                     <ScrollView ClipToBounds="true" >
                         <StackPanel Orientation="Vertical">
+
+                              <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,0,0,10" >
+                            <Stroke Width="1" Color="primary_light"/>
                             <DockPanel>
-                            <TextInput Value="{searchString}" PlaceholderText="Search" PlaceholderColor="primary_light" />
-                            <Icon FontSize="24" Color="primary" Dock="Right" Alignment="Center">&#xE8B6;</Icon>
+                            <TextInput Value="{searchString}" PlaceholderText="Search" PlaceholderColor="primary" />
+                            <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
                             </DockPanel>
+                            </Rectangle>
+
+
                             <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}"></PullToReload>
                             <Each Items="{filteredItems}">
                                 <Match Value="{isLetter}" >

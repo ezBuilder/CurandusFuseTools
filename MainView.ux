@@ -48,18 +48,27 @@
 			EdgeNavigator.open("Left");
 		}
 
+
+		function closeSideMenu() {
+		   EdgeNavigator.dismiss();
+		}
+
 		module.exports = {
 		    goToAbout: goToAbout,
 		    goToEdit: goToEdit,
 		    goToShare: goToShare,
 		    name: name,
 		    surname: surname,
-			OpenMenu: OpenMenu
+			OpenMenu: OpenMenu,
+			closeSideMenu: closeSideMenu
 			
 		   
 
 		};
 	</JavaScript>
+	<OnBackButton>
+  	<Callback Handler="{closeSideMenu}" />
+	</OnBackButton>
 	<EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren">
 		<!-- Add a panel handled by the EdgeNavigator -->
 		<DockPanel EdgeNavigation.Edge="Left">

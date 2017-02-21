@@ -44,11 +44,13 @@
             </Grid>
             <DropShadow/> 
         </Rectangle> 
-        <DockPanel Dock="Top">
-                 <TextInput  Value="{searchString2}" PlaceholderText="Search" PlaceholderColor="primary_light" />
-                 <Icon FontSize="24" Color="primary" Dock="Right" Alignment="Center">&#xE8B6;</Icon>
-
+        <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,10,0,0" >
+            <Stroke Width="1" Color="primary_light"/>
+        <DockPanel >
+                 <TextInput  Value="{searchString2}" PlaceholderText="Search" PlaceholderColor="primary" />
+                 <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
         </DockPanel>
+        </Rectangle>
         <Rectangle Color="background_color"> 
      
             <ScrollView Margin="0,60,0,0">
