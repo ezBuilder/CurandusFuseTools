@@ -1,617 +1,619 @@
 var Observable = require('FuseJS/Observable');
 var Storage = require("FuseJS/Storage");
 var Modal = require('Modal');
+var myToast = require("myToast");
 
-	var lista = Observable();
-    var	P_ActiveTreatmentID;
-    var	P_SubTreatmentID;
-    var api_call;
-    var	P_PatientID;
-    var p_enabled=Observable(true);
-    var user_patient=Observable();
-    var praznoime="";
-    var show_string="";
+var lista = Observable();
+var P_ActiveTreatmentID;
+var P_SubTreatmentID;
+var api_call;
+var P_PatientID;
+var p_enabled = Observable(true);
+var user_patient = Observable();
+var praznoime = "";
+var show_string = "";
 
-     var lista_send = [];
+var lista_send = [];
 
-    var p_patientID=JSON.parse(Storage.readSync("patientId"));
-
-
-		var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
-		console.log("OVA E user info  yyyy: "+userInfo);
-		var providerId=JSON.stringify(userInfo.providerId); 
-
-    var stname=Observable();	
-
-		var lista_post=
-				[];
-
-function NVL(x){
-	if (x==null){
-		return "";
-	}
-	else
-	{
-		return x;
-	}
-}				
-
-function NewItem(data){
-		this.index=Observable(data.index);
-		this.treatmentitemid=Observable(data.treatmentItemId);
-		this.subtreatmentdetail=Observable(data.subtreatmentid);
-		this.name=Observable(data.name);
-		this.typet=Observable(data.typeT);
-		this.interval=Observable(data.repeatT);
-		this.duration=Observable(data.duration);
-		this.defaultvalue=Observable(data.render.defaultvalue);
-		this.painlevelof=Observable(data.render.painlevelof);	
-		this.sendimageof=Observable(data.render.sendimageof);
-		this.medicinename=Observable(data.render.medicinename);
-		this.medicinecomment=Observable(data.render.medicinecomment);
-		this.diet=Observable(data.render.diet);	
-		this.activity=Observable(data.render.activity);	
-		this.hygiene=Observable(data.render.hygiene);	
-		this.otherinstruction=Observable(data.render.otherinstruction);	
-		this.comparisionquestion=Observable(data.render.comparisionquestion);	
-		this.comparisionurl=Observable(data.render.comparisionurl);
-}	
-
-    this.onParameterChanged(function(param) { 
-
-    	P_ActiveTreatmentID=0;
-    	P_SubTreatmentID=0;
-    	P_PatientID=0;
-    	stname.value="";
-    	console.log("param senddata"+JSON.stringify(param.sendData));
-
-    	console.log("P_SubTreatmentID"+param.sendData[param.sendData.length-1].SubtreatmentIdOnEDIT);
-
-    	console.log("Patientn "+param.sendData[param.sendData.length-3].patientId);
-    	
-    	lista.clear();
-    	var responseObject=JSON.stringify(param.sendData);
-
-		     for (var i = 0; i < param.sendData.length-3; i++) {
-		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
-		     //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
-
-		    	 if (param.sendData[i].renderingInfo==null||param.sendData[i].renderingInfo=="null"){
-		    		param.sendData[i].render="";
-		    	}
-		    	else{
-			        param.sendData[i].render = JSON.parse
-			        (JSON.parse(param.sendData[i].renderingInfo));		    					        
-		   		    }
-
-		   	//	console.log("Render "+(JSON.parse(param.sendData[i].render)).diet);    
-		        param.sendData[i].index=i;
-		        lista.add(new NewItem(param.sendData[i]));
-		    }
-
-		    p_patient_id=param.sendData[param.sendData.length-3].patientId;
-		    P_SubTreatmentID=param.sendData[param.sendData.length-1].SubtreatmentIdOnEDIT;
-
-		    if (P_SubTreatmentID==""){
-		    	P_SubTreatmentID=0;
-		    }
-		    
-
-		    stname.value=param.sendData[param.sendData.length-2].templateName;
-
-		    prazno_ime=param.sendData[param.sendData.length-2].templateName;
-
-		    if(param.sendData[param.sendData.length-2].templateName=="") 
-		    {
-		    	console.log("44444");
-		    }
-
-		    console.log("Nameeee "+param.sendData[param.sendData.length]);
-		    console.log("Prametar "+p_patient_id+ " P_SubTreatmentID "+P_SubTreatmentID+" Name "+stname.value);
-		 //   stname.value="";
-
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId="+p_patient_id;
-        console.log(url);
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json"
-            },
-            dataType: 'json'
-        }).then(function(response) { 
-            status = response.status; // Get the HTTP status code 
-            response_ok = response.ok; // Is response.status in the 200-range? 
-            return response.json(); // This returns a promise 
-        }).then(function(data) {
-        	user_patient.value=data;
-
-        }).catch(function(err) { 
-            console.log("Fetch data error"); 
-            console.log(err.message); 
-        });   
+var p_patientID = JSON.parse(Storage.readSync("patientId"));
 
 
+var userInfo = JSON.parse(Storage.readSync("userInfo")); //Storage.readSync("userInfo");
+console.log("OVA E user info  yyyy: " + userInfo);
+var providerId = JSON.stringify(userInfo.providerId);
+
+var stname = Observable();
+
+var lista_post =
+    [];
+
+function NVL(x) {
+    if (x == null) {
+        return "";
+    } else {
+        return x;
+    }
+}
+
+function NewItem(data) {
+    this.index = Observable(data.index);
+    this.treatmentitemid = Observable(data.treatmentItemId);
+    this.subtreatmentdetail = Observable(data.subtreatmentid);
+    this.name = Observable(data.name);
+    this.typet = Observable(data.typeT);
+    this.interval = Observable(data.repeatT);
+    this.duration = Observable(data.duration);
+    this.defaultvalue = Observable(data.render.defaultvalue);
+    this.painlevelof = Observable(data.render.painlevelof);
+    this.sendimageof = Observable(data.render.sendimageof);
+    this.medicinename = Observable(data.render.medicinename);
+    this.medicinecomment = Observable(data.render.medicinecomment);
+    this.diet = Observable(data.render.diet);
+    this.activity = Observable(data.render.activity);
+    this.hygiene = Observable(data.render.hygiene);
+    this.otherinstruction = Observable(data.render.otherinstruction);
+    this.comparisionquestion = Observable(data.render.comparisionquestion);
+    this.comparisionurl = Observable(data.render.comparisionurl);
+}
+
+this.onParameterChanged(function(param) {
+
+    P_ActiveTreatmentID = 0;
+    P_SubTreatmentID = 0;
+    P_PatientID = 0;
+    stname.value = "";
+    console.log("param senddata" + JSON.stringify(param.sendData));
+
+    console.log("P_SubTreatmentID" + param.sendData[param.sendData.length - 1].SubtreatmentIdOnEDIT);
+
+    console.log("Patientn " + param.sendData[param.sendData.length - 3].patientId);
+
+    lista.clear();
+    var responseObject = JSON.stringify(param.sendData);
+
+    for (var i = 0; i < param.sendData.length - 3; i++) {
+        //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
+        //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
+
+        if (param.sendData[i].renderingInfo == null || param.sendData[i].renderingInfo == "null") {
+            param.sendData[i].render = "";
+        } else {
+            param.sendData[i].render = JSON.parse(JSON.parse(param.sendData[i].renderingInfo));
+        }
+
+        //	console.log("Render "+(JSON.parse(param.sendData[i].render)).diet);    
+        param.sendData[i].index = i;
+        lista.add(new NewItem(param.sendData[i]));
+    }
+
+    p_patient_id = param.sendData[param.sendData.length - 3].patientId;
+    P_SubTreatmentID = param.sendData[param.sendData.length - 1].SubtreatmentIdOnEDIT;
+
+    if (P_SubTreatmentID == "") {
+        P_SubTreatmentID = 0;
+    }
+
+
+    stname.value = param.sendData[param.sendData.length - 2].templateName;
+
+    prazno_ime = param.sendData[param.sendData.length - 2].templateName;
+
+    if (param.sendData[param.sendData.length - 2].templateName == "") {
+        console.log("44444");
+    }
+
+    console.log("Nameeee " + param.sendData[param.sendData.length]);
+    console.log("Prametar " + p_patient_id + " P_SubTreatmentID " + P_SubTreatmentID + " Name " + stname.value);
+    //   stname.value="";
+
+    var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId=" + p_patient_id;
+    console.log(url);
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-type": "application/json"
+        },
+        dataType: 'json'
+    }).then(function(response) {
+        status = response.status; // Get the HTTP status code 
+        response_ok = response.ok; // Is response.status in the 200-range? 
+        return response.json(); // This returns a promise 
+    }).then(function(data) {
+        user_patient.value = data;
+
+    }).catch(function(err) {
+        console.log("Fetch data error");
+        console.log(err.message);
     });
 
 
-    function ShowAlergies() { 
-				Modal.showModal(
-				        "Patient Info ",
-				        "Alergies: "+NVL(user_patient.value.allergies)+"\n"+
-				        "Chronic diseases: "+NVL(user_patient.value.chronicDiseases)+"\n"+
-				        "Medications that recieves: "+NVL(user_patient.value.medicationsThatRecieves)+"\n", 
-				        ["OK"],
-				        function(s) {
-				        });
+});
+
+
+function ShowAlergies() {
+    Modal.showModal(
+        "Patient Info ",
+        "Alergies: " + NVL(user_patient.value.allergies) + "\n" +
+        "Chronic diseases: " + NVL(user_patient.value.chronicDiseases) + "\n" +
+        "Medications that recieves: " + NVL(user_patient.value.medicationsThatRecieves) + "\n", ["OK"],
+        function(s) {});
+}
+
+function goToSavedTreatments() {
+    lista_send = [];
+
+    console.log("Redirekting");
+    var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/" + providerId
+    console.log(url);
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-type": "application/json"
+        },
+        dataType: 'json'
+    }).then(function(response) {
+        status = response.status; // Get the HTTP status code 
+        response_ok = response.ok; // Is response.status in the 200-range? 
+        return response.json(); // This returns a promise 
+    }).then(function(data) {
+        var tmp = {};
+        for (var i = 0; i < data.length; i++) {
+            tmp = {
+                "savedTreatmentTemplateId": data[i].savedTreatmentTemplateId,
+                "nameTreatment": data[i].nameTreatment,
+                "created": data[i].created,
+                "createdBy": data[i].createdBy,
+                "modified": data[i].modified,
+                "modifiedBy": data[i].modifiedBy,
+                "providerDetail": data[i].providerDetail
+            }
+            lista_send[i] = tmp;
+        }
+
+        router.push("savedTreatment", lista_send);
+
+        //router.goto("savedTreatment", lista_send); 
+        // router.goto("WelcomePage", null,"savedTreatment", lista_send); 
+        //       router.modify({
+        //     how: "Goto",
+        //     path: [ "main", {}, "savedTreatment", lista_send ],
+        //     transition: "Bypass",
+        // });
+    }).catch(function(err) {
+        console.log("Fetch data error");
+        console.log(err.message);
+    });
+}
+
+
+function CheckFields() {
+    var ret = 0;
+    for (var i = 0; i < lista.length; i++) {
+        if (lista.getAt(i).name.value != "Diet" && lista.getAt(i).name.value != "Hygiene" &&
+            lista.getAt(i).name.value != "Activity" && lista.getAt(i).name.value != "OtherInstructions")
+        // lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
+        // ||lista.getAt(0).name.value=="BloodPressuerCheck")  
+        {
+            console.log("Duration " + lista.getAt(i).duration.value);
+            console.log("Duration " + NVL(lista.getAt(i).duration.value));
+            if (NVL(lista.getAt(i).interval.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                console.log("Interval " + lista.getAt(i).interval.value);
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "Diet") {
+            if (NVL(lista.getAt(i).diet.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(0).name.value == "Hygiene") {
+            if (NVL(lista.getAt(i).hygiene.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "Other Instructions") {
+            if (NVL(lista.getAt(i).otherinstructions.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "Activity") {
+            if (NVL(lista.getAt(i).activity.value) == "") {
+                ret = ret + 1;
+            }
+        }
+
+
+        if (lista.getAt(i).name.value == "PainLevel") {
+            if (NVL(lista.getAt(i).painlevelof.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "Send Image") {
+            if (NVL(lista.getAt(i).sendimageof.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "Comparison With Picture") {
+            if (NVL(lista.getAt(i).EnterQuestion.value) == "" || NVL(lista.getAt(i).comparisionurl.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "Medicines") {
+            if (NVL(lista.getAt(i).medicinename.value) == "" || NVL(lista.getAt(i).medicinecomment.value) == "") {
+                ret = ret + 1;
+            }
+        }
     }
 
-   function goToSavedTreatments() { 
-        lista_send=[];
+    console.log("ret " + ret);
+    if (ret == 0) {
+        p_enabled.value = true;
+        return true;
+    } else {
+        p_enabled.value = false;
+        return false;
+    }
 
-        console.log("Redirekting");
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId
-        console.log(url);
-        fetch(url, {
-            method: 'GET',
+}
+
+function ChekNameTreatment() {
+    console.log("klik");
+
+    var pom = CheckFields();
+    console.log("pom " + pom);
+
+    // Modal.showModal(
+    //     "Skip " + "TEST",
+    //     "Are you sure you want to ovveride this treatment?", ["Yes", "No"],
+    //     function(s) {
+    //         debug_log("Got callback with " + s);
+    //         if (s == "Yes") {
+    //             console.log("Clicked item - TEST");
+    //         }
+    //         else
+    //         {
+    //         	console.log("Clicked item - TEST");
+    //         }
+    //     });
+}
+
+function GetParameter() {
+    console.log("GetParameter");
+    lista.clear();
+    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=10&typetreatment=7", {
+        method: 'GET',
+        headers: {
+            "Content-type": "application/json"
+        },
+        dataType: 'json'
+    }).then(function(response) {
+        //  status = response.status; // Get the HTTP status code
+        //response_ok = response.ok; // Is response.status in the 200-range?
+        return response.json(); // This returns a promise
+    }).then(function(responseObject) {
+        console.log("Success");
+        for (var i = 0; i < responseObject.length; i++) {
+            console.log("renderinginfo " + responseObject[i].renderingInfo);
+            if (responseObject[i].renderingInfo == null || responseObject[i].renderingInfo == "null") {
+                console.log("NULL " + responseObject[i].renderingInfo);
+                responseObject[i].render = "";
+            } else {
+                console.log("NOT NULL  " + responseObject[i].renderingInfo);
+                responseObject[i].render = //JSON.parse
+                    (JSON.parse(responseObject[i].renderingInfo));
+            }
+            responseObject[i].index = i;
+            lista.add(new NewItem(responseObject[i]));
+        }
+    }).catch(function(err) {
+        console.log("Error", err.message);
+    });
+}
+
+function AddNewItem(sender) {
+    console.log("subtreatmentdetail" + sender.data.subtreatmentdetail.value);
+
+    console.log("index" + sender.data.index);
+    var pom_item = {
+        "name": sender.data.name.value,
+        "subtreatmentid": sender.data.subtreatmentdetail.value,
+        "index": sender.data.index.value + 1,
+        "render": ""
+    }
+    lista.insertAt(sender.data.index.value + 1, new NewItem(pom_item));
+    for (var i = 0; i < lista.length; i++) {
+        lista.getAt(i).index.value = i;
+    }
+}
+
+function RemoveItem(sender) {
+    lista.remove(sender.data);
+    for (var i = 0; i < lista.length; i++) {
+        lista.getAt(i).index.value = i;
+    }
+}
+
+function Insert_Treatment() {
+    lista_post = [];
+
+    var validation = CheckFields();
+
+    if (validation == false) {
+        // Modal.showModal(
+        //    "Message",
+        //    "Please fulfill all fields in treatment", ["OK"],
+        //    function(s) {
+        //    });
+
+        myToast.toastIt("Please fulfill all fields in treatment")
+
+    } else {
+        var rendering;
+        for (var i = 0; i < lista.length; i++) {
+            rendering = {};
+            if (lista.getAt(i).name.value == "Pain Level") {
+                rendering = {
+                    "painlevelof": lista.getAt(i).painlevelof.value
+                };
+            } else if (lista.getAt(i).name.value == "Medicines") {
+                rendering = {
+                    "medicinename": lista.getAt(i).medicinename.value,
+                    "medicinecomment": lista.getAt(i).medicinecomment.value
+                };
+            } else if (lista.getAt(i).name.value == "Send Image") {
+                rendering = {
+                    "sendimageof": lista.getAt(i).sendimageof.value
+                };
+            } else if (lista.getAt(i).name.value == "Diet") {
+                rendering = {
+                    "diet": lista.getAt(i).diet.value
+                };
+            } else if (lista.getAt(i).name.value == "Hygiene") {
+                rendering = {
+                    "hygiene": lista.getAt(i).hygiene.value
+                };
+            } else if (lista.getAt(i).name.value == "Activity") {
+                rendering = {
+                    "activity": lista.getAt(i).activity.value
+                };
+            } else if (lista.getAt(i).name.value == "Other Instruction") {
+                rendering = {
+                    "otherinstruction": lista.getAt(i).otherinstruction.value
+                };
+            } else if (lista.getAt(i).name.value == "Comparison With Picture") {
+                rendering = {
+                    "comparisionquestion": lista.getAt(i).comparisionquestion.value,
+                    "comparisionurl": lista.getAt(i).comparisionurl.value
+                };
+            }
+
+            var pom = {
+                "treatmentItemId": lista.getAt(i).treatmentitemid.value,
+                "name": lista.getAt(i).name.value,
+                "typeT": "ACK",
+                "repeatT": lista.getAt(i).interval.value,
+                "duration": lista.getAt(i).duration.value,
+                "renderingInfo": JSON.stringify(rendering)
+            }
+
+            lista_post.push(pom);
+            console.log(JSON.stringify(lista_post));
+
+        }
+        if (P_SubTreatmentID == 0 || prazno_ime != "") {
+            api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=" + providerId + "&patientid=" + p_patient_id + "&nametreatment=Prv&namesubtreatment=PrvS";
+            show_string = "Treatment assigned to patient";
+        } else {
+            api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=" + P_SubTreatmentID;
+            show_string = "Treatmetnt updated";
+        }
+
+        console.log("api_call " + api_call);
+
+
+        fetch(api_call, {
+            method: 'POST',
             headers: {
                 "Content-type": "application/json"
             },
-            dataType: 'json'
-        }).then(function(response) { 
-            status = response.status; // Get the HTTP status code 
-            response_ok = response.ok; // Is response.status in the 200-range? 
-            return response.json(); // This returns a promise 
-        }).then(function(data) {
-            var tmp ={};
-            for (var i = 0; i < data.length; i++) {
-                tmp={
-                    "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,
-                    "nameTreatment":data[i].nameTreatment,
-                    "created":data[i].created,
-                    "createdBy":data[i].createdBy,
-                    "modified":data[i].modified,
-                    "modifiedBy":data[i].modifiedBy,
-                    "providerDetail":data[i].providerDetail
-                }
-                lista_send[i]=tmp;
+            dataType: 'json',
+            body: JSON.stringify(lista_post)
+        }).then(function(response) {
+            status = response.status; // Get the HTTP status code
+            console.log('status', status);
+            response_ok = response.ok; // Is response.status in the 200-range?
+            return response.json(); // This returns a promise
+
+        }).then(function(responseObject) {
+            console.log("Success");
+
+            console.log("parameter " + responseObject);
+            var activetreatmentid = responseObject;
+
+            // Modal.showModal(
+            //     "Send Treatment ",
+            //     show_string, ["OK"],
+            //     function(s) {
+            //         console.log("Param return " + JSON.stringify(responseObject));
+            //         responseObject.num = Math.random();
+            //         router.goto("main", {
+            //             user: responseObject
+            //         });
+            //         // router.push("alert", activetreatmentid);
+            //     });
+
+            myToast.toastIt(show_string);
+            responseObject.num = Math.random();
+            router.goto("main", {
+                user: responseObject
+            });
+        }).catch(function(err) {
+            console.log("Error", err.message);
+        });
+    }
+}
+
+function Insert_Saved_Treatment() {
+
+    lista_post = [];
+
+    console.log("Insert Save");
+
+    var validation = CheckFields();
+
+    if (validation == false || NVL(stname.value) == "") {
+        console.log("pppp  " + providerId);
+        // Modal.showModal(
+        //     "Message",
+        //     "Please fulfill all fields in treatment", ["OK"],
+        //     function(s) {});
+        myToast.toastIt("Please fulfill all fields in treatment");
+    } else {
+        var rendering;
+        for (var i = 0; i < lista.length; i++) {
+            rendering = {};
+            if (lista.getAt(i).name.value == "Pain Level") {
+                rendering = {
+                    "painlevelof": lista.getAt(i).painlevelof.value
+                };
+            } else if (lista.getAt(i).name.value == "Medicines") {
+                rendering = {
+                    "medicinename": lista.getAt(i).medicinename.value,
+                    "medicinecomment": lista.getAt(i).medicinecomment.value
+                };
+            } else if (lista.getAt(i).name.value == "Send Image") {
+                rendering = {
+                    "sendimageof": lista.getAt(i).sendimageof.value
+                };
+            } else if (lista.getAt(i).name.value == "Diet") {
+                rendering = {
+                    "diet": lista.getAt(i).diet.value
+                };
+            } else if (lista.getAt(i).name.value == "Hygiene") {
+                rendering = {
+                    "hygiene": lista.getAt(i).hygiene.value
+                };
+            } else if (lista.getAt(i).name.value == "Activity") {
+                rendering = {
+                    "activity": lista.getAt(i).activity.value
+                };
+            } else if (lista.getAt(i).name.value == "Other Instruction") {
+                rendering = {
+                    "otherinstruction": lista.getAt(i).otherinstruction.value
+                };
+            } else if (lista.getAt(i).name.value == "Comparison With Picture") {
+                rendering = {
+                    "comparisionquestion": lista.getAt(i).comparisionquestion.value,
+                    "comparisionurl": lista.getAt(i).comparisionurl.value
+                };
             }
 
-        router.push("savedTreatment",  lista_send ); 
+            var pom = {
+                "name": lista.getAt(i).name.value,
+                "typeT": "ACK",
+                "repeatT": lista.getAt(i).interval.value,
+                "duration": lista.getAt(i).duration.value,
+                "renderingInfo": JSON.stringify(rendering)
+            }
 
-        //router.goto("savedTreatment", lista_send); 
-       // router.goto("WelcomePage", null,"savedTreatment", lista_send); 
-		  //       router.modify({
-				//     how: "Goto",
-				//     path: [ "main", {}, "savedTreatment", lista_send ],
-				//     transition: "Bypass",
-				// });
-        }).catch(function(err) { 
-            console.log("Fetch data error"); 
-            console.log(err.message); 
-        });         
+            lista_post.push(pom);
+        }
+        // if (P_SubTreatmentID==0){
+        // 	api_call="http://192.168.1.110:8080/curobjectandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=2&patientid=1&nametreatment=Prv&namesubtreatment=PrvS";
+        // }
+        // else{
+        // 	api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment";
+        // }
+        var userInfo = Storage.readSync("userInfo");
+
+        var call_api = "http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment?providerid=" + providerId + "&nametreatment=" + encodeURIComponent(stname.value);
+
+        console.log("nametreatment " + stname.value);
+
+        console.log("nametreatment " + call_api);
+
+        console.log("lista " + lista_post);
+
+        console.log("lista " + JSON.stringify(lista_post));
+
+
+        fetch(call_api, {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json"
+            },
+            dataType: 'json',
+            body: JSON.stringify(lista_post)
+        }).then(function(response) {
+            status = response.status; // Get the HTTP status code
+            console.log('status', status);
+            response_ok = response.ok; // Is response.status in the 200-range?
+            return response.json(); // This returns a promise
+
+        }).then(function(responseObject) {
+            if (responseObject == 0) {
+                console.log("Success");
+                // Modal.showModal(
+                //     "Save Treatment Template",
+                //     "You save treatment succesfully", ["OK"],
+                //     function(s) {
+                //         goToSavedTreatments();
+                //     });
+
+                myToast.toastIt("Treatment saved");
+                goToSavedTreatments();
+            } else {
+                console.log("klik");
+                Modal.showModal(
+                    "Save Treatment Template",
+                    "Are you sure you want to overide this treatment?", ["Yes", "No"],
+                    function(s) {
+                        debug_log("Got callback with " + s);
+                        if (s == "Yes") {
+                            fetch("http://192.168.1.110:8080/curandusproject/webapi/api/updatesavedtreatment/savedtreatmentid=" + responseObject, {
+                                method: 'POST',
+                                headers: {
+                                    "Content-type": "application/json"
+                                },
+                                dataType: 'json',
+                                body: JSON.stringify(lista_post)
+                            }).then(function(response) {
+                                status = response.status; // Get the HTTP status code
+                                console.log('status', status);
+                                response_ok = response.ok; // Is response.status in the 200-range?
+                                return response.json(); // This returns a promise
+
+                            }).then(function(responseObject) {
+                                console.log("Success");
+                                // Modal.showModal(
+                                //     "Save Treatment Template",
+                                //     "You save treatment succesfully", ["OK"],
+                                //     function(s) {
+                                //         goToSavedTreatments();
+                                //     });
+                                myToast.toastIt("Treatment saved");
+                                goToSavedTreatments();
+                            }).catch(function(err) {
+                                console.log("Error", err.message);
+                            });
+                        }
+                    });
+            }
+
+        }).catch(function(err) {
+            console.log("Error", err.message);
+        });
     }
+}
 
-
- 		function CheckFields() {
- 			var ret=0;
- 			for (var i=0;i<lista.length;i++){
- 				 if (lista.getAt(i).name.value!="Diet"&&lista.getAt(i).name.value!="Hygiene"&&
- 				 	lista.getAt(i).name.value!="Activity"&&lista.getAt(i).name.value!="OtherInstructions")
- 				 	// lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
- 				 	// ||lista.getAt(0).name.value=="BloodPressuerCheck")  
- 				   {    console.log("Duration "+lista.getAt(i).duration.value);
- 				   		console.log("Duration "+NVL(lista.getAt(i).duration.value));
-		 				if (NVL(lista.getAt(i).interval.value)==""||NVL(lista.getAt(i).duration.value)=="") {
-		 					console.log("Interval "+lista.getAt(i).interval.value);
-		 					ret=ret+1;
-		 				}
-		 			}
- 				 else if (lista.getAt(i).name.value=="Diet")  {
-		 				if (NVL(lista.getAt(i).diet.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}	
- 				 else if (lista.getAt(0).name.value=="Hygiene")  {
-		 				if (NVL(lista.getAt(i).hygiene.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}			 				 					 			
- 				 else if (lista.getAt(i).name.value=="Other Instructions")  {
-		 				if (NVL(lista.getAt(i).otherinstructions.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}
- 				 else if (lista.getAt(i).name.value=="Activity")  {
-		 				if (NVL(lista.getAt(i).activity.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}
-
-
- 				  if (lista.getAt(i).name.value=="PainLevel")  {
-		 				if (NVL(lista.getAt(i).painlevelof.value)=="") {
-		 					ret=ret+1;
-		 				}
-		 			}	
- 				  else if (lista.getAt(i).name.value=="Send Image")  {
-		 				if (NVL(lista.getAt(i).sendimageof.value)=="") {
-		 					ret=ret+1;
-		 				}
-		 			}
- 				  else if (lista.getAt(i).name.value=="Comparison With Picture")  {
-		 				if (NVL(lista.getAt(i).EnterQuestion.value)==""||NVL(lista.getAt(i).comparisionurl.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}	
- 				 else if (lista.getAt(i).name.value=="Medicines")  {
-		 				if (NVL(lista.getAt(i).medicinename.value)==""||NVL(lista.getAt(i).medicinecomment.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}		
-			}  
-		  
-		console.log("ret "+ret);
-		if (ret==0) { p_enabled.value=true; return true; }
-		else {p_enabled.value=false; return false;}
-		
-	}
-
-		function ChekNameTreatment() {
-			console.log("klik");
-
-			var pom=CheckFields();
-			console.log("pom "+pom);
-
-		    // Modal.showModal(
-		    //     "Skip " + "TEST",
-		    //     "Are you sure you want to ovveride this treatment?", ["Yes", "No"],
-		    //     function(s) {
-		    //         debug_log("Got callback with " + s);
-		    //         if (s == "Yes") {
-		    //             console.log("Clicked item - TEST");
-		    //         }
-		    //         else
-		    //         {
-		    //         	console.log("Clicked item - TEST");
-		    //         }
-		    //     });
-		}    
-
-function GetParameter(){
-		console.log("GetParameter");
-		lista.clear();
-		fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=10&typetreatment=7", {
-		    method: 'GET',
-		    headers: {
-		        "Content-type": "application/json"
-		    },
-		    dataType: 'json'
-		}).then(function(response) {
-		  //  status = response.status; // Get the HTTP status code
-		    //response_ok = response.ok; // Is response.status in the 200-range?
-		    return response.json(); // This returns a promise
-		}).then(function(responseObject) {
-		    console.log("Success");
-		    for (var i = 0; i < responseObject.length; i++) {
-		    	console.log("renderinginfo "+responseObject[i].renderingInfo);
-		    	 if (responseObject[i].renderingInfo==null||responseObject[i].renderingInfo=="null"){
-		    		console.log("NULL "+responseObject[i].renderingInfo);
-		    		responseObject[i].render="";
-		    	}
-		    	else{
-		    		console.log("NOT NULL  "+responseObject[i].renderingInfo);
-			        responseObject[i].render = //JSON.parse
-			        (JSON.parse(responseObject[i].renderingInfo));		    					        
-		    }
-		        responseObject[i].index=i;
-		        lista.add(new NewItem(responseObject[i]));
-		    }
-		}).catch(function(err) {
-		    console.log("Error", err.message);
-		});
-	}
-     function AddNewItem(sender) {
-       			     console.log("subtreatmentdetail"+sender.data.subtreatmentdetail.value);
-
-       			     console.log("index"+sender.data.index);
-       		var pom_item={
-       						"name":sender.data.name.value,
-       						"subtreatmentid":sender.data.subtreatmentdetail.value,
-       						"index":sender.data.index.value+1,
-       						"render":""
-       					 }
-       		lista.insertAt(sender.data.index.value+1,new NewItem(pom_item));
-       		for (var i=0;i<lista.length;i++){
-       			lista.getAt(i).index.value=i;
-       		}
-            } 
-
-      function RemoveItem(sender) {
-            	lista.remove(sender.data);
-	       		for (var i=0;i<lista.length;i++){
-	       			lista.getAt(i).index.value=i;
-	       		}            	
-            }   
-
- 		function Insert_Treatment(){
- 			lista_post=[];
-
- 			var validation=CheckFields();
-
- 			if (validation==false)
- 			{
-				    	Modal.showModal(
-				        "Message",
-				        "Please fulfill all fields in treatment", ["OK"],
-				        function(s) {
-				        });
- 			}
- 			else 
- 			{
- 			var rendering;
-			for (var i=0;i<lista.length;i++){
-					rendering={};
-					if (lista.getAt(i).name.value=="Pain Level")
-					{
-						 rendering={"painlevelof":lista.getAt(i).painlevelof.value};
-					}
-					else if (lista.getAt(i).name.value=="Medicines")
-					{		
-						 rendering={"medicinename":lista.getAt(i).medicinename.value,
-									   "medicinecomment":lista.getAt(i).medicinecomment.value};
-					}
-					else if (lista.getAt(i).name.value=="Send Image")
-					{		
-						 rendering={"sendimageof":lista.getAt(i).sendimageof.value};
-					}					
-					else if (lista.getAt(i).name.value=="Diet")
-					{		
-						 rendering={"diet":lista.getAt(i).diet.value};
-					}	
-					else if (lista.getAt(i).name.value=="Hygiene")
-					{		
-						 rendering={"hygiene":lista.getAt(i).hygiene.value};
-					}					
-					else if (lista.getAt(i).name.value=="Activity")
-					{		
-						 rendering={"activity":lista.getAt(i).activity.value};
-					}	
-					else if (lista.getAt(i).name.value=="Other Instruction")
-					{		
-						 rendering={"otherinstruction":lista.getAt(i).otherinstruction.value};
-					}
-					else if (lista.getAt(i).name.value=="Comparison With Picture")
-					{		
-						 rendering={"comparisionquestion":lista.getAt(i).comparisionquestion.value, 
-						 	"comparisionurl":lista.getAt(i).comparisionurl.value};
-					}
-
-					var pom={
-								"treatmentItemId":lista.getAt(i).treatmentitemid.value,
-								"name":lista.getAt(i).name.value,
-								"typeT":"ACK",
-								"repeatT":lista.getAt(i).interval.value,
-								"duration":lista.getAt(i).duration.value,
-								"renderingInfo":JSON.stringify(rendering)
-							}
-
-					 lista_post.push(pom);
-					 console.log(JSON.stringify(lista_post));	
-
-					}	
-			if (P_SubTreatmentID==0 || prazno_ime!=""){
-				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid="+providerId+"&patientid="+p_patient_id+"&nametreatment=Prv&namesubtreatment=PrvS";
-				show_string="You have successfuly sent treatmetnt to patient";
-			}
-			else{
-				api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid="+P_SubTreatmentID;
-				show_string="You have successfuly updated treatmetnt";
-			}
-
-			console.log("api_call "+api_call);
-
-
-			fetch(api_call, {
-		        method: 'POST',
-		        headers: {
-		            "Content-type": "application/json"
-		        },
-		        dataType: 'json',
-		        body: JSON.stringify(lista_post)
-		    }).then(function(response) {
-		        status = response.status; // Get the HTTP status code
-		        console.log('status', status);
-		        response_ok = response.ok; // Is response.status in the 200-range?
-		        return response.json(); // This returns a promise
-
-		    }).then(function(responseObject) {
-		        console.log("Success");
-
-		        console.log("parameter "+responseObject);
-		        var activetreatmentid=responseObject;
-
-		        		Modal.showModal(
-				        "Send Treatment ",
-				         show_string, ["OK"],
-				        function(s) {
-				        			console.log("Param return "+JSON.stringify(responseObject));
-				        			responseObject.num=Math.random();
-				        			router.goto("main", {user:responseObject});
-							       // router.push("alert", activetreatmentid);
-				        });
-		    }).catch(function(err) {
-		        console.log("Error", err.message);
-		    });
-		}
-		}
-
- 		function Insert_Saved_Treatment(){
-
- 			lista_post=[];
-
- 			console.log("Insert Save");
-
- 			var validation=CheckFields();
-
- 			if (validation==false||NVL(stname.value)=="")
- 			{
- 						console.log("pppp  "+providerId);
-				    	Modal.showModal(
-				        "Message",
-				        "Please fulfill all fields in treatment", ["OK"],
-				        function(s) {
-				        });
- 			}
- 			else  			
- 			{	
- 			var rendering;
-			for (var i=0;i<lista.length;i++){
-					rendering={};
-					if (lista.getAt(i).name.value=="Pain Level")
-					{
-						 rendering={"painlevelof":lista.getAt(i).painlevelof.value};
-					}
-					else if (lista.getAt(i).name.value=="Medicines")
-					{		
-						 rendering={"medicinename":lista.getAt(i).medicinename.value,
-									   "medicinecomment":lista.getAt(i).medicinecomment.value};
-					}
-					else if (lista.getAt(i).name.value=="Send Image")
-					{		
-						 rendering={"sendimageof":lista.getAt(i).sendimageof.value};
-					}					
-					else if (lista.getAt(i).name.value=="Diet")
-					{		
-						 rendering={"diet":lista.getAt(i).diet.value};
-					}	
-					else if (lista.getAt(i).name.value=="Hygiene")
-					{		
-						 rendering={"hygiene":lista.getAt(i).hygiene.value};
-					}					
-					else if (lista.getAt(i).name.value=="Activity")
-					{		
-						 rendering={"activity":lista.getAt(i).activity.value};
-					}	
-					else if (lista.getAt(i).name.value=="Other Instruction")
-					{		
-						 rendering={"otherinstruction":lista.getAt(i).otherinstruction.value};
-					}
-					else if (lista.getAt(i).name.value=="Comparison With Picture")
-					{		
-						 rendering={"comparisionquestion":lista.getAt(i).comparisionquestion.value, 
-						 	"comparisionurl":lista.getAt(i).comparisionurl.value};
-					}
-
-					var pom={
-								"name":lista.getAt(i).name.value,
-								"typeT":"ACK",
-								"repeatT":lista.getAt(i).interval.value,
-								"duration":lista.getAt(i).duration.value,
-								"renderingInfo":JSON.stringify(rendering)
-							}
-
-							lista_post.push(pom);
-			}	
-			// if (P_SubTreatmentID==0){
-			// 	api_call="http://192.168.1.110:8080/curobjectandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=2&patientid=1&nametreatment=Prv&namesubtreatment=PrvS";
-			// }
-			// else{
-			// 	api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment";
-			// }
-			var userInfo = Storage.readSync("userInfo");
-
-			var call_api="http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment?providerid="+providerId+"&nametreatment="+encodeURIComponent(stname.value);
-
-			console.log("nametreatment "+stname.value);
-
-			console.log("nametreatment "+call_api);
-
-			console.log("lista "+lista_post);
-
-			console.log("lista "+JSON.stringify(lista_post));
-
-
-			fetch(call_api, {
-		        method: 'POST',
-		        headers: {
-		            "Content-type": "application/json"
-		        },
-		        dataType: 'json',
-		        body: JSON.stringify(lista_post)
-		    }).then(function(response) {
-		        status = response.status; // Get the HTTP status code
-		        console.log('status', status);
-		        response_ok = response.ok; // Is response.status in the 200-range?
-		        return response.json(); // This returns a promise
-
-		    }).then(function(responseObject) {
-		    	if (responseObject==0){
-		        	console.log("Success");
-				    	Modal.showModal(
-				        "Save Treatment Template",
-				        "You save treatment succesfully", ["OK"],
-				        function(s) {
-							        goToSavedTreatments();
-				        });
-		        }
-		        else {
-		         		console.log("klik");
-				    	Modal.showModal(
-				        "Save Treatment Template",
-				        "Are you sure you want to overide this treatment?", ["Yes", "No"],
-				        function(s) {
-				            debug_log("Got callback with " + s);
-				            if (s == "Yes") {
-												fetch("http://192.168.1.110:8080/curandusproject/webapi/api/updatesavedtreatment/savedtreatmentid="+responseObject, {
-											        method: 'POST',
-											        headers: {
-											            "Content-type": "application/json"
-											        },
-											        dataType: 'json',
-											        body: JSON.stringify(lista_post)
-											    }).then(function(response) {
-											        status = response.status; // Get the HTTP status code
-											        console.log('status', status);
-											        response_ok = response.ok; // Is response.status in the 200-range?
-											        return response.json(); // This returns a promise
-
-											    }).then(function(responseObject) {
-											        	console.log("Success");
-											        	Modal.showModal(
-												        "Save Treatment Template",
-												        "You save treatment succesfully", ["OK"],
-												        function(s) {
-															        goToSavedTreatments();
-
-
-				        });
-											    }).catch(function(err) {
-											        console.log("Error", err.message);
-											    });
-				            }
-				        });
-		    	    }
-		     
-		    }).catch(function(err) {
-		        console.log("Error", err.message);
-		    });
-		}
-		}
-
-	module.exports = {
-	    lista: lista,
-	    NewItem: NewItem,
-	    Insert_Treatment: Insert_Treatment,
-	    lista_post: lista_post,
-	    GetParameter: GetParameter,
-	    AddNewItem: AddNewItem,
-	    ChekNameTreatment: ChekNameTreatment,
-	    stname: stname,
-	    Insert_Saved_Treatment: Insert_Saved_Treatment,
-	    CheckFields: CheckFields,
-	    p_enabled:p_enabled,
-	    goToSavedTreatments: goToSavedTreatments,
-	    NVL: NVL,
-	    user_patient:user_patient,
-	    ShowAlergies: ShowAlergies,
-	    RemoveItem: RemoveItem	};
+module.exports = {
+    lista: lista,
+    NewItem: NewItem,
+    Insert_Treatment: Insert_Treatment,
+    lista_post: lista_post,
+    GetParameter: GetParameter,
+    AddNewItem: AddNewItem,
+    ChekNameTreatment: ChekNameTreatment,
+    stname: stname,
+    Insert_Saved_Treatment: Insert_Saved_Treatment,
+    CheckFields: CheckFields,
+    p_enabled: p_enabled,
+    goToSavedTreatments: goToSavedTreatments,
+    NVL: NVL,
+    user_patient: user_patient,
+    ShowAlergies: ShowAlergies,
+    RemoveItem: RemoveItem
+};
