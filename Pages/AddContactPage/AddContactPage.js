@@ -29,12 +29,14 @@ function addContact() {
             newContact.phoneNumber = phoneNumber.value;
             newContact.name = name.value;
             newContact.surname = surname.value;
-
+            var tmp = phoneNumber.value;
             phoneNumber.value = "";
             name.value = "";
             surname.value = "";
 
-            router.goto("main");
+            router.goto("main", {
+                newContact: tmp
+            });
 
         }).catch(function(err) {
             console.log("Error", err.message);

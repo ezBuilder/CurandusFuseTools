@@ -1,13 +1,22 @@
 var Observable = require("FuseJS/Observable");
 var Storage = require("FuseJS/Storage");
+var Modal = require("Modal");
 
 var UserInfo = JSON.parse(Storage.readSync("userInfo"));
+
+this.onParameterChanged(function(param) {
+    if (param.newContact) {
+        reloadHandler();
+    } else if (param.newDoctor) {
+        reloadHandlerDoctors();
+    }
+});
 
 var isDoctors = Observable(false);
 var data = Observable();
 var dataDoctors = Observable();
 var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-var fullName="";
+var fullName = "";
 var final = [];
 var finalDoctors = [];
 
@@ -17,7 +26,7 @@ var isLoadingDoctors = Observable(false);
 searchString = Observable("");
 searchString1 = Observable("");
 
-function stringContainsString(main,filter) {
+function stringContainsString(main, filter) {
     return main.toLowerCase().indexOf(filter.toLowerCase()) != -1;
 }
 
@@ -163,9 +172,9 @@ fetchData();
 fetchDataDoctors();
 
 function goToSelectType(e) {
-   e.data.num=Math.random();
-     Storage.write("nameLastname", JSON.stringify(fullName));
-   console.log("od tuka se prakja kon SelectType"+JSON.stringify(e.data));
+    e.data.num = Math.random();
+    Storage.write("nameLastname", JSON.stringify(fullName));
+    console.log("od tuka se prakja kon SelectType" + JSON.stringify(e.data));
 
     router.push("SelectType", {
         user: e.data
@@ -192,17 +201,49 @@ function goToChat(e) {
     });
 }
 
+function deleteContact(e) {
+    console.log("MHMMMMMMMMMM", JSON.stringify(e.data.activetreatmenId));
+    if (e.data.activetreatmenId != 0) {
+        Modal.showModal(
+            "Delete Contact ",
+            "You cannot delete this contact because it has active treatment!", ["Ok"],
+            function(s) {});
+    } else {
+        Modal.showModal(
+            "Delete Contact",
+            "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
+            function(s) {
+                if (s == "Yes") {
+                    console.log(JSON.stringify(e.data.fullName));
+                    reloadHandler();
+                }
+            });
+    }
+
+}
+
+function deleteDoctor(e) {
+    Modal.showModal(
+        "Delete Contact",
+        "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
+        function(s) {
+            if (s == "Yes") {
+                console.log(JSON.stringify(e.data.fullName));
+                // CALL PUT API TO MAKE CONTACT INACTIVE
+                reloadHandlerDoctors();
+            }
+        });
+}
+
 var filteredItems = searchString.flatMap(function(searchValue) {
     return data.where(function(item) {
-    return stringContainsString(item.firstName, searchValue);
+        return stringContainsString(item.firstName, searchValue);
     });
 });
 
-
-
 var filteredItems1 = searchString1.flatMap(function(searchValue) {
     return dataDoctors.where(function(item) {
-    return stringContainsString(item.FirstName, searchValue);
+        return stringContainsString(item.FirstName, searchValue);
     });
 });
 
@@ -226,5 +267,7 @@ module.exports = {
     filteredItems: filteredItems,
     searchString: searchString,
     searchString1: searchString1,
-    filteredItems1: filteredItems1
+    filteredItems1: filteredItems1,
+    deleteContact: deleteContact,
+    deleteDoctor: deleteDoctor,
 };

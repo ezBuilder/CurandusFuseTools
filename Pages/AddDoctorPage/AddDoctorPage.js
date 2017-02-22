@@ -30,12 +30,14 @@ function addContact() {
             return response.json(); // This returns a promise
         }).then(function(responseObject) {
             console.log("Success");
-
+            var tmp = phoneNumber.value;
             phoneNumber.value = "";
             name.value = "";
             surname.value = "";
 
-            router.goto("main");
+            router.goto("main", {
+                newDoctor: tmp
+            });
 
         }).catch(function(err) {
             console.log("Error", err.message);
