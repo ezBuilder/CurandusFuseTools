@@ -20,7 +20,7 @@
             <!-- <Image File="Assets/background1.png" StretchMode="Scale9" /> -->
         	
 			<FloatingLabelArea Value="{Property this.AditionalComment}" PlaceholderText="Aditional comment:" Margin="32, 8, 32, 0" />
-			<FloatingLabelArea Value="{Property this.EnterQuestion}" PlaceholderText="Enter question:" InputHint="Number" Margin="32, 8, 32, 0" />
+			<FloatingLabelArea Value="{Property this.EnterQuestion}" PlaceholderText="Enter question:" InputHint="Default" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.IntervalOn}" PlaceholderText="interval on:" InputHint="Number" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.RepeatOn}" PlaceholderText="repeat on:" InputHint="Number" Margin="32, 8, 32, 0" />
 		

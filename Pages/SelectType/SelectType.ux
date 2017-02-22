@@ -181,18 +181,18 @@
             var tmp ={};
             for (var i = 0; i < data.length; i++) { 
                 tmp = { 
-                    "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId,  
-                    "nameTreatment":data[i].nameTreatment,                        
-                    "created":data[i].created,                                    
-                    "createdBy":data[i].createdBy,                                
-                    "modified":data[i].modified,                                   
-                    "modifiedBy":data[i].modifiedBy,                              
-                    "providerDetail":data[i].providerDetail                        
+                    "savedTreatmentTemplateId":data[i].savedTreatmentTemplateId, 
+                    "nameTreatment":data[i].nameTreatment,                      
+                    "created":data[i].created,                          
+                    "createdBy":data[i].createdBy,                           
+                    "modified":data[i].modified,                               
+                    "modifiedBy":data[i].modifiedBy,                            
+                    "providerDetail":data[i].providerDetail                
                 } 
                 lista[i] = tmp; 
             } 
 
-            lista[lista.length] = {"name":name.value}
+            lista[lista.length] = {"name":name.value} 
         router.push("savedTreatment",  lista ); 
         }).catch(function(err) { 
             console.log("Fetch data error"); 
@@ -306,34 +306,45 @@
 </Rectangle>  
 
 <!-- **************** Tabs   **************** -->
-<Rectangle ux:Class="TabName" Color="primary" Width="100%" > 
+<Rectangle ux:Class="TabName" Color="primary_dark" Width="100%" > 
     <string ux:Property="Label"/>
     <Selectable Value="{ReadProperty this.Label}"/>
-    <Stroke Color="divider"  Width="0.2"  ></Stroke>
-    <Text Alignment="Center" Color="White" Value="{ReadProperty this.Label}" />
+    <Text Alignment="BottomLeft"  Font="regular" Color="White" Margin="10,0,0,5" Value="{ReadProperty this.Label}" />
+    
+</Rectangle>
+
+
+<!-- **************** Tabs1   **************** -->
+<Rectangle ux:Class="TabName1" Color="primary_dark" Width="100%" > 
+    <string ux:Property="Label"/>
+    <Selectable Value="{ReadProperty this.Label}"/>
+    <Text Alignment="CenterRight" Color="White" Margin="0,0,35,0"  Value="{ReadProperty this.Label}" />
+    <Text Alignment="CenterRight" Font="fa" Margin="0,0,15,0" TextColor="White">&#xf0f6;</Text>
     <WhilePressed>
         <Scale Factor="1.1" Duration="0.2"/>
     </WhilePressed>
-    <WhileSelected>  
-        <Change this.Color="#0097A7" Duration="0.2"/> 
-    </WhileSelected> 
+    
 </Rectangle>
 
 
     <DockPanel>
         <Toolbar Color="primary" Title="{name}" HasBackButton="True" router="router"> 
-            
+            <!-- <Rectangle Height="1" Alignment="Bottom">
+                <SolidColor Color="White"/>
+            </Rectangle> -->
         </Toolbar>
+
+        
         <Rectangle Alignment="Top" Height="45" Width="100%">
             <Grid Columns="1*,1*" >
-                <Selection Value="Select Types"/>
-                <TabName Label="Select Types"></TabName>
+                <Selection Value="Types"/>
+                <TabName Label=""></TabName>
                 <Match Value="{active}">
                     <Case String="true">
-                        <TabName Clicked="{goToSavedTreatments}" Label="Load Saved Templates"></TabName>
+                        <TabName1 Clicked="{goToSavedTreatments}" Label="Load"></TabName1>
                     </Case>
                     <Case String="false">
-                        <TabName Opacity="0.4"  Label="Load Saved Templates"></TabName>
+                        <TabName1 Opacity="0.4"  Label="Load"></TabName1>
                     </Case>
                 </Match>   
             </Grid>
