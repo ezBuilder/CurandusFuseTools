@@ -3,22 +3,18 @@
 <Router ux:Dependency="router" />
 
 
-<JavaScript>
-    var Observable = require("FuseJS/Observable");
-
-    var Types = require("Constants/Types.js");
-
-    console.log("TIPOVI", JSON.stringify(Types.types.value));
-
-    var allTypes = Types.types.value;
-
-    exports.values = Observable();
-    var savedTreatments;// = Observable();
-    var flag = 0;
-    var finalData = [];
-    exports.list = Observable("")
-    var selektirani = Observable("");
-    var patientId="";
+<JavaScript> 
+    var Observable = require("FuseJS/Observable"); 
+    var Types = require("Constants/Types.js"); 
+    console.log("TIPOVI", JSON.stringify(Types.types.value)); 
+    var allTypes = Types.types.value; 
+    exports.values = Observable(); 
+    var savedTreatments;// = Observable(); 
+    var flag = 0;  
+    var finalData = []; 
+    exports.list = Observable("") 
+    var selektirani = Observable("");  
+    var patientId=""; 
     var providerId; 
     var Storage = require("FuseJS/Storage"); 
     var lista = [];  
@@ -34,6 +30,7 @@
     
     exports.values.onValueChanged( module, function() {        
         exports.list.value = exports.values.toArray().join(",") 
+        console.log("OVA "+exports.list.value);
         exports.values = selektirani;
      })
 
@@ -316,6 +313,7 @@
 <!-- **************** Tabs   **************** -->
 <Rectangle ux:Class="TabName" Color="primary_dark" Width="100%" > 
     <string ux:Property="Label"/>
+    <string ux:Property="Value"/>
     <Selectable Value="{ReadProperty this.Label}"/>
     <Text Alignment="BottomLeft"  Font="regular" Color="White" Margin="10,0,0,5" Value="{ReadProperty this.Label}" />
     
@@ -371,9 +369,9 @@
                     <Selection Values="{selektirani}"/> 
 
                     <Each Items="{allTypes}">
-                        <MyItem Label="{label}" Value="{value}"/> 
+                        <MyItem Label="{label}" Value="{id}"/> 
                     </Each>
-<!-- 
+                <!-- 
                     <MyItem Label="Blood Pressure Check" Value="2"/> 
                     <MyItem Label="Pulse Check" Value="3"/> 
                     <MyItem Label="Pain Level" Value="4"/> 
@@ -383,7 +381,8 @@
                     <MyItem Label="Diet" Value="8"/> 
                     <MyItem Label="Activity" Value="9"/> 
                     <MyItem Label="Hygiene" Value="10"/> 
-                    <MyItem Label="Other Instructions" Value="11"/>  -->
+                    <MyItem Label="Other Instructions" Value="11"/>  
+                -->
                    
                 </StackPanel>
             </ScrollView>
