@@ -3,7 +3,7 @@ var Storage = require("FuseJS/Storage");
 var Modal = require('Modal');
 
 	var lista = Observable();
-	var WarningInfo = Observable();
+	var WarningInfo=Observable();
     var	P_ActiveTreatmentID;
     var	P_SubTreatmentID;
     var api_call;
@@ -126,19 +126,14 @@ function NewItem(data){
         }).then(function(data) {
         	user_patient.value=data;
 
+                 if (NVL(user_patient.value.allergies) != "" || NVL(user_patient.value.chronicDiseases) != "" || NVL(user_patient.value.medicationsThatRecieves) != "") {
+                    WarningInfo.value = "Warning";
 
-
-        	if (NVL(user_patient.value.allergies)!="" || NVL(user_patient.value.chronicDiseases)!="" || NVL(user_patient.value.medicationsThatRecieves)!="")
-        	{
-        		WarningInfo.value="Warning";
-
-        		console.log("warning "+ WarningInfo.value);
-        	}
-        	else
-        	{
-        		WarningInfo.value="";
-        		console.log("nema warning "+WarningInfo.value);
-        	}
+                    console.log("warning " + WarningInfo.value);
+                } else {
+                    WarningInfo.value = "";
+                    console.log("nema warning " + WarningInfo.value);
+                }       	
 
         }).catch(function(err) { 
             console.log("Fetch data error"); 
@@ -207,70 +202,69 @@ function NewItem(data){
     }
 
 
- 		function CheckFields() {
- 			var ret=0;
- 			for (var i=0;i<lista.length;i++){
- 				 if (lista.getAt(i).name.value!="Diet"&&lista.getAt(i).name.value!="Hygiene"&&
- 				 	lista.getAt(i).name.value!="Activity"&&lista.getAt(i).name.value!="OtherInstructions")
- 				 	// lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
- 				 	// ||lista.getAt(0).name.value=="BloodPressuerCheck")  
- 				   {   
-		 				if (NVL(lista.getAt(i).interval.value)==""||NVL(lista.getAt(i).duration.value)=="") {
-		 					console.log("Interval "+lista.getAt(i).interval.value);
-		 					ret=ret+1;
-		 				}
-		 			}
- 				 else if (lista.getAt(i).name.value=="Diet")  {
-		 				if (NVL(lista.getAt(i).diet.value)==""|| NVL(lista.getAt(i).duration.value)=="") {
 
-		 					console.log("diet");console.log("Interval "+NVL(lista.getAt(i).duration.value));
-		 					ret=ret+1;
-		 				}		 				
-		 			}	
- 				 else if (lista.getAt(0).name.value=="Hygiene")  {
-		 				if (NVL(lista.getAt(i).hygiene.value)=="" || NVL(lista.getAt(i).duration.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}			 				 					 			
- 				 else if (lista.getAt(i).name.value=="Other Instructions")  {
-		 				if (NVL(lista.getAt(i).otherinstructions.value)=="" || NVL(lista.getAt(i).duration.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}
- 				 else if (lista.getAt(i).name.value=="Activity")  {
-		 				if (NVL(lista.getAt(i).activity.value)=="" || NVL(lista.getAt(i).duration.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}
+           function CheckFields() {
+                var ret = 0;
+                for (var i = 0; i < lista.length; i++) {
+                    if (lista.getAt(i).name.value != "Diet" && lista.getAt(i).name.value != "Hygiene" &&
+                        lista.getAt(i).name.value != "Activity" && lista.getAt(i).name.value != "OtherInstructions")
+                    // lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
+                    // ||lista.getAt(0).name.value=="BloodPressuerCheck")  
+                    {
+                        if (NVL(lista.getAt(i).interval.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            console.log("Interval " + lista.getAt(i).interval.value);
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "Diet") {
+                        if (NVL(lista.getAt(i).diet.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+
+                            console.log("diet");
+                            console.log("Interval " + NVL(lista.getAt(i).duration.value));
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(0).name.value == "Hygiene") {
+                        if (NVL(lista.getAt(i).hygiene.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "Other Instructions") {
+                        if (NVL(lista.getAt(i).otherinstructions.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "Activity") {
+                        if (NVL(lista.getAt(i).activity.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            ret = ret + 1;
+                        }
+                    }
 
 
- 				  if (lista.getAt(i).name.value=="PainLevel")  {
-		 				if (NVL(lista.getAt(i).painlevelof.value)=="") {
-		 					ret=ret+1;
-		 				}
-		 			}	
- 				  else if (lista.getAt(i).name.value=="Send Image")  {
-		 				if (NVL(lista.getAt(i).sendimageof.value)=="") {
-		 					ret=ret+1;
-		 				}
-		 			}
- 				  else if (lista.getAt(i).name.value=="Comparison With Picture")  {
-		 				if (NVL(lista.getAt(i).comparisionquestion.value)==""||NVL(lista.getAt(i).comparisionurl.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}	
- 				 else if (lista.getAt(i).name.value=="Medicines")  {
-		 				if (NVL(lista.getAt(i).medicinename.value)==""||NVL(lista.getAt(i).medicinecomment.value)=="") {
-		 					ret=ret+1;
-		 				}		 				
-		 			}		
-			}  
-		  
-		console.log("ret "+ret);
-		if (ret==0) { p_enabled.value=true; return true; }
-		else {p_enabled.value=false; return false;}
-		
-	}
+                    if (lista.getAt(i).name.value == "PainLevel") {
+                        if (NVL(lista.getAt(i).painlevelof.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "Send Image") {
+                        if (NVL(lista.getAt(i).sendimageof.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "Comparison With Picture") {
+                        if (NVL(lista.getAt(i).comparisionquestion.value) == "" || NVL(lista.getAt(i).comparisionurl.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "Medicines") {
+                        if (NVL(lista.getAt(i).medicinename.value) == "" || NVL(lista.getAt(i).medicinecomment.value) == "") {
+                            ret = ret + 1;
+                        }
+                    }
+                }
+
+                console.log("ret " + ret);
+                if (ret == 0) {
+                    p_enabled.value = true;
+                    return true;
+                } else {
+                    p_enabled.value = false;
+                    return false;
+                }
+            }
 
 		function ChekNameTreatment() {
 			console.log("klik");
@@ -617,6 +611,7 @@ function GetParameter(){
 	module.exports = {
 	    lista: lista,
 	    NewItem: NewItem,
+	    WarningInfo: WarningInfo,
 	    Insert_Treatment: Insert_Treatment,
 	    lista_post: lista_post,
 	    GetParameter: GetParameter,
@@ -629,6 +624,5 @@ function GetParameter(){
 	    goToSavedTreatments: goToSavedTreatments,
 	    NVL: NVL,
 	    user_patient:user_patient,
-	    WarningInfo: WarningInfo,
 	    ShowAlergies: ShowAlergies,
 	    RemoveItem: RemoveItem	};
