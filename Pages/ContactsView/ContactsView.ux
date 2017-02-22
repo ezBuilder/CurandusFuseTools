@@ -39,8 +39,18 @@
                 <Case Bool="true">
                     <ScrollView ClipToBounds="True">
                         <StackPanel Orientation="Vertical">
+
+                            <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,0,0,10" >
+                            <Stroke Width="1" Color="primary_light"/>
+                            <DockPanel>
+                            <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary" />
+                            <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
+                            </DockPanel>
+                             </Rectangle>
+
+
                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
-                            <Each Items="{dataDoctors}">
+                            <Each Items="{filteredItems1}">
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
@@ -73,7 +83,7 @@
                                 <Match Value="{isLetter}" >
                                     <Case Number="1" >
                                         <Rectangle Color="primary_dark" Height="32">
-                                            <Text Value="{firstName}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                                            <Text Value="{FirstName}" FontSize="16" Color="icons" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                                         </Rectangle>
                                     </Case>
                                 </Match>
@@ -85,8 +95,18 @@
                 <Case Bool="false">
                     <ScrollView ClipToBounds="true" >
                         <StackPanel Orientation="Vertical">
+
+                              <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,0,0,10" >
+                            <Stroke Width="1" Color="primary_light"/>
+                            <DockPanel>
+                            <TextInput Value="{searchString}" PlaceholderText="Search" PlaceholderColor="primary" />
+                            <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
+                            </DockPanel>
+                            </Rectangle>
+
+
                             <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}"></PullToReload>
-                            <Each Items="{data}">
+                            <Each Items="{filteredItems}">
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">

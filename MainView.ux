@@ -8,13 +8,23 @@
 	<!-- Declare the Roboto font (place in ./fonts folder) -->
 	<Font File="fonts/Roboto-Medium.ttf" ux:Global="medium" />
 	<Font File="fonts/Roboto-Regular.ttf" ux:Global="regular" />
+	<!-- Declare font awesome  -->
+	<Font File="fonts/fontawesome-webfont.ttf" ux:Global="fa" />
+	<!-- <fa-upload FontSize="50" /> -->
+
 	<!-- Declare the modal(popUp) package -->
 	<ModalJS ux:Global="Modal" />
+	<!-- Declare the Toast package -->
+	<myToast ux:Global="myToast"/>
 	<!-- MAIN ROUTER NAVIGATION -->
 	<Router ux:Name="router" />
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
 		var Storage = require("FuseJS/Storage");
+		var myToast = require("myToast");
+
+		var msg = "Welcome to Curandus";
+		myToast.toastIt(msg) 
 
 		var User;
 		var name = Observable();
@@ -48,18 +58,27 @@
 			EdgeNavigator.open("Left");
 		}
 
+
+		function closeSideMenu() {
+		   EdgeNavigator.dismiss();
+		}
+
 		module.exports = {
 		    goToAbout: goToAbout,
 		    goToEdit: goToEdit,
 		    goToShare: goToShare,
 		    name: name,
 		    surname: surname,
-			OpenMenu: OpenMenu
+			OpenMenu: OpenMenu,
+			closeSideMenu: closeSideMenu
 			
 		   
 
 		};
 	</JavaScript>
+	<OnBackButton>
+  	<Callback Handler="{closeSideMenu}" />
+	</OnBackButton>
 	<EdgeNavigator ux:Name="EdgeNavigator" HitTestMode="LocalBoundsAndChildren">
 		<!-- Add a panel handled by the EdgeNavigator -->
 		<DockPanel EdgeNavigation.Edge="Left">
@@ -114,4 +133,5 @@
 		</DockPanel>
 		<!-- MAIN PANEL END -->
 	</EdgeNavigator>
+	<ux:Include File="Assets/icons/icons.ux" />
 </App>

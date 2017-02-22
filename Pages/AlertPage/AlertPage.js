@@ -342,7 +342,7 @@
 		            debug_log("Got callback with " + s);
 		            if (s == "Yes") {
 
-		                fetch("http://localhost:8080/curandusproject/webapi/api/EndTreatment/ActiveTreatmentId=" + activetreatmentid, {
+		                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/EndTreatment/ActiveTreatmentId=" + activetreatmentid, {
 		                    method: 'POST',
 		                    headers: {
 		                        "Content-type": "application/json"

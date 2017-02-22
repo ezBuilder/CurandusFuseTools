@@ -65,7 +65,7 @@
 				<StackPanel Orientation="Horizontal" Alignment="Right" >
 					<WhileTrue Value="{ReadProperty this.HasSearchButton}">
 						<Rectangle Width="56" Height="56" Clicked="{toogleSearch}" HitTestMode="LocalBounds">
-							<Icon FontSize="24" Alignment="Center">&#xE8B6;</Icon>
+							<!-- <Icon FontSize="24"  Alignment="Center">&#xE8B6;</Icon> -->
 						</Rectangle>
 					</WhileTrue>
 				</StackPanel>

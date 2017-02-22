@@ -25,7 +25,7 @@
 
 
                             <DockPanel Dock="Top">
-                                <FloatingLabel PlaceholderText="Treatment name" Value="{stname}" Alignment="CenterLeft">
+                                <FloatingLabel PlaceholderText="Treatment" Value="{stname}" Alignment="CenterLeft">
                                 </FloatingLabel>
                                 <RaisedButton ux:Name="sendsave"  Dock="Right" BtnText="Send" BtnTextColor="icons" BtnColor="primary" Margin="0,0,-6,0" Clicked="{Insert_Treatment}">
                                 </RaisedButton>
