@@ -3,6 +3,7 @@ var Storage = require("FuseJS/Storage");
 var Modal = require('Modal');
 
 	var lista = Observable();
+	var WarningInfo = Observable();
     var	P_ActiveTreatmentID;
     var	P_SubTreatmentID;
     var api_call;
@@ -125,6 +126,20 @@ function NewItem(data){
         }).then(function(data) {
         	user_patient.value=data;
 
+
+
+        	if (NVL(user_patient.value.allergies)!="" || NVL(user_patient.value.chronicDiseases)!="" || NVL(user_patient.value.medicationsThatRecieves)!="")
+        	{
+        		WarningInfo.value="Warning";
+
+        		console.log("warning "+ WarningInfo.value);
+        	}
+        	else
+        	{
+        		WarningInfo.value="";
+        		console.log("nema warning "+WarningInfo.value);
+        	}
+
         }).catch(function(err) { 
             console.log("Fetch data error"); 
             console.log(err.message); 
@@ -199,30 +214,31 @@ function NewItem(data){
  				 	lista.getAt(i).name.value!="Activity"&&lista.getAt(i).name.value!="OtherInstructions")
  				 	// lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
  				 	// ||lista.getAt(0).name.value=="BloodPressuerCheck")  
- 				   {    console.log("Duration "+lista.getAt(i).duration.value);
- 				   		console.log("Duration "+NVL(lista.getAt(i).duration.value));
+ 				   {   
 		 				if (NVL(lista.getAt(i).interval.value)==""||NVL(lista.getAt(i).duration.value)=="") {
 		 					console.log("Interval "+lista.getAt(i).interval.value);
 		 					ret=ret+1;
 		 				}
 		 			}
  				 else if (lista.getAt(i).name.value=="Diet")  {
-		 				if (NVL(lista.getAt(i).diet.value)=="") {
+		 				if (NVL(lista.getAt(i).diet.value)==""|| NVL(lista.getAt(i).duration.value)=="") {
+
+		 					console.log("diet");console.log("Interval "+NVL(lista.getAt(i).duration.value));
 		 					ret=ret+1;
 		 				}		 				
 		 			}	
  				 else if (lista.getAt(0).name.value=="Hygiene")  {
-		 				if (NVL(lista.getAt(i).hygiene.value)=="") {
+		 				if (NVL(lista.getAt(i).hygiene.value)=="" || NVL(lista.getAt(i).duration.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}			 				 					 			
  				 else if (lista.getAt(i).name.value=="Other Instructions")  {
-		 				if (NVL(lista.getAt(i).otherinstructions.value)=="") {
+		 				if (NVL(lista.getAt(i).otherinstructions.value)=="" || NVL(lista.getAt(i).duration.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}
  				 else if (lista.getAt(i).name.value=="Activity")  {
-		 				if (NVL(lista.getAt(i).activity.value)=="") {
+		 				if (NVL(lista.getAt(i).activity.value)=="" || NVL(lista.getAt(i).duration.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}
@@ -239,7 +255,7 @@ function NewItem(data){
 		 				}
 		 			}
  				  else if (lista.getAt(i).name.value=="Comparison With Picture")  {
-		 				if (NVL(lista.getAt(i).EnterQuestion.value)==""||NVL(lista.getAt(i).comparisionurl.value)=="") {
+		 				if (NVL(lista.getAt(i).comparisionquestion.value)==""||NVL(lista.getAt(i).comparisionurl.value)=="") {
 		 					ret=ret+1;
 		 				}		 				
 		 			}	
@@ -613,5 +629,6 @@ function GetParameter(){
 	    goToSavedTreatments: goToSavedTreatments,
 	    NVL: NVL,
 	    user_patient:user_patient,
+	    WarningInfo: WarningInfo,
 	    ShowAlergies: ShowAlergies,
 	    RemoveItem: RemoveItem	};
