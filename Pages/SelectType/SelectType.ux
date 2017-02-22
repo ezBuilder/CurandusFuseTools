@@ -318,11 +318,13 @@
 <Rectangle ux:Class="TabName1" Color="primary_dark" Width="100%" > 
     <string ux:Property="Label"/>
     <Selectable Value="{ReadProperty this.Label}"/>
-    <Text Alignment="CenterRight" Color="White" Margin="0,0,35,0"  Value="{ReadProperty this.Label}" />
-    <Text Alignment="CenterRight" Font="fa" Margin="0,0,15,0" TextColor="White">&#xf0f6;</Text>
-    <WhilePressed>
-        <Scale Factor="1.1" Duration="0.2"/>
-    </WhilePressed>
+    <DockPanel>
+        <Icon FontSize="24" Color="White" Dock="Right" Alignment="Center" Margin="0,0,8,0">&#xE873;</Icon>
+        <Text Alignment="CenterRight" Color="White"  Dock="Right"   Font="regular"  Value="{ReadProperty this.Label}" />
+        <WhilePressed>
+            <Scale Factor="1.1" Duration="0.2"/>
+        </WhilePressed>
+    </DockPanel>
     
 </Rectangle>
 

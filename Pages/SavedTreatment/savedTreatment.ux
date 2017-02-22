@@ -37,18 +37,26 @@
     <DockPanel>
         <Toolbar Color="primary" Title="{name}" HasBackButton="True" router="router">
         </Toolbar>
-        <Rectangle Alignment="Top" Height="45" Width="100%">
+        <Rectangle Dock="Top" Height="45" Width="100%">
             <Grid>
                 <Selection Value="Select Types"/>
                 <TabFullSize Label="Saved Treatment Templates"></TabFullSize>
             </Grid>
             <DropShadow/> 
         </Rectangle> 
-        
+        <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,10,0,0" >
+            <Stroke Width="1" Color="primary_light"/>
+        <DockPanel >
+                 <TextInput  Value="{searchString2}" PlaceholderText="Search" PlaceholderColor="primary" />
+                 <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
+        </DockPanel>
+        </Rectangle>
         <Rectangle Color="background_color"> 
+     
             <ScrollView Margin="0,60,0,0">
+               
                 <StackPanel>
-                    <Each Items="{savedTreatments}"> 
+                    <Each Items="{filteredItems}"> 
                             <DockPanel> 
                                 <RemoveIcon></RemoveIcon> 
                                 <SavedItem Label="{nameTreatment}" Value="sku-04" /> 
