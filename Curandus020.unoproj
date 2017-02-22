@@ -12,6 +12,9 @@
     "*",
     "Pages/ContactsView/ContactsView.js:Bundle"
   ],
+  "Mobile": {
+    "Orientations": "Portrait"
+  },    
   "Projects": [
     "fuse_modules\\bolav\\fuse-contacts\\contacts_include.unoproj",
     "fuse_modules\\bolav\\fuse-modalview\\modal_include.unoproj",

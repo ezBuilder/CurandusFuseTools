@@ -14,11 +14,17 @@
 
 	<!-- Declare the modal(popUp) package -->
 	<ModalJS ux:Global="Modal" />
+	<!-- Declare the Toast package -->
+	<myToast ux:Global="myToast"/>
 	<!-- MAIN ROUTER NAVIGATION -->
 	<Router ux:Name="router" />
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
 		var Storage = require("FuseJS/Storage");
+		var myToast = require("myToast");
+
+		var msg = "Welcome to Curandus";
+		myToast.toastIt(msg) 
 
 		var User;
 		var name = Observable();
