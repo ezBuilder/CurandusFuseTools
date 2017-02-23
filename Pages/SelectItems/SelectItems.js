@@ -635,5 +635,6 @@ module.exports = {
     NVL: NVL,
     user_patient: user_patient,
     ShowAlergies: ShowAlergies,
+    WarningInfo: WarningInfo,
     RemoveItem: RemoveItem
 };
