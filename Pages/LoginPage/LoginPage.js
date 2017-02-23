@@ -1,4 +1,5 @@
 		var Observable = require("FuseJS/Observable");
+		var activeUrl = require("Constants/SERVICE_URL.js");
 		var Device = require('Device');
 
 		var register = Observable();
@@ -20,7 +21,7 @@
 		        "status": 0
 		    }
 
-		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/insertprovider", {
+		    fetch(activeUrl.URL + "/curandusproject/webapi/api/insertprovider", {
 		        method: 'POST',
 		        headers: {
 		            "Content-type": "application/json"

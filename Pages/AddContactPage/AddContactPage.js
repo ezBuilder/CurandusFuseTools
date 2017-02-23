@@ -1,4 +1,5 @@
 var Observable = require('FuseJS/Observable');
+var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 
 var UserInfo = JSON.parse(Storage.readSync("userInfo"));
@@ -13,7 +14,7 @@ function addContact() {
 
     if (phoneNumber.value != "" && name.value != "" && surname.value != "") {
 
-        fetch("http://192.168.1.165:8081/curandusproject/webapi/api/addcontactpatient/providerId=" + UserInfo.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value, {
+        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactpatient/providerId=" + UserInfo.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value, {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"

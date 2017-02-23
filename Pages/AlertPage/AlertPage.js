@@ -1,4 +1,5 @@
 		var Observable = require("FuseJS/Observable");
+		var activeUrl = require("Constants/SERVICE_URL.js");
 		var Modal = require('Modal');
 		var Storage = require("FuseJS/Storage");
 		var user = Observable();
@@ -34,7 +35,7 @@
 
 		    initload();
 
-		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId=" + patientId, {
+		    fetch(activeUrl.URL + "/curandusproject/webapi/api/getPatientsData/patientId=" + patientId, {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
@@ -73,7 +74,7 @@
 		function loadMore() {
 
 		    console.log("LOAD");
-		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + lastID + "&updown=D&range=10", {
+		    fetch(activeUrl.URL + "/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + lastID + "&updown=D&range=10", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
@@ -118,7 +119,7 @@
 		function loadMore1() {
 
 		    console.log("LOAD111111");
-		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + firstID + "&updown=U&range=10", {
+		    fetch(activeUrl.URL + "/curandusproject/webapi/api/treatmentitemlistscroll/treatmentitemlistid=" + firstID + "&updown=U&range=10", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
@@ -162,7 +163,7 @@
 		function initload() {
 
 		    console.log("LOAD");
-		    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/treatmentitemlis/activetreatmentid=" + activetreatmentid, {
+		    fetch(activeUrl.URL + "/curandusproject/webapi/api/treatmentitemlis/activetreatmentid=" + activetreatmentid, {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
@@ -240,7 +241,7 @@
 		            debug_log("Got callback with " + s);
 		            if (s == "Yes") {
 
-		                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmenitemlist/TreatmentItemListId=" + treatmentItemListId, {
+		                fetch(activeUrl.URL + "/curandusproject/webapi/api/updatetreatmenitemlist/TreatmentItemListId=" + treatmentItemListId, {
 		                    method: 'POST',
 		                    headers: {
 		                        "Content-type": "application/json"
@@ -342,7 +343,7 @@
 		            debug_log("Got callback with " + s);
 		            if (s == "Yes") {
 
-		                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/EndTreatment/ActiveTreatmentId=" + activetreatmentid, {
+		                fetch(activeUrl.URL + "/curandusproject/webapi/api/EndTreatment/ActiveTreatmentId=" + activetreatmentid, {
 		                    method: 'POST',
 		                    headers: {
 		                        "Content-type": "application/json"

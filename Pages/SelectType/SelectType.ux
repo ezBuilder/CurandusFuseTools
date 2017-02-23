@@ -4,7 +4,8 @@
 
 
 <JavaScript> 
-    var Observable = require("FuseJS/Observable"); 
+    var Observable = require("FuseJS/Observable");
+    var activeUrl = require("Constants/SERVICE_URL.js"); 
     var Types = require("Constants/Types.js"); 
     console.log("TIPOVI", JSON.stringify(Types.types.value)); 
     var allTypes = Types.types.value; 
@@ -169,7 +170,7 @@
         lista=[]; 
 
 
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId 
+        var url = activeUrl.URL + "/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId 
         console.log(url); 
         fetch(url, { 
             method: 'GET', 

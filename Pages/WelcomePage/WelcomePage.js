@@ -1,4 +1,5 @@
 var Storage = require("FuseJS/Storage");
+var activeUrl = require("Constants/SERVICE_URL.js");
 
 function isLogged() {
 

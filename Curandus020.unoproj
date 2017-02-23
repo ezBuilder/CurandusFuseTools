@@ -11,7 +11,8 @@
   "Includes": [
     "*",
     "Pages/ContactsView/ContactsView.js:Bundle",
-    "Constants/Types.js:Bundle"
+    "Constants/Types.js:Bundle",
+    "Constants/SERVICE_URL.js:Bundle"
   ],
   "Mobile": {
     "Orientations": "Portrait"

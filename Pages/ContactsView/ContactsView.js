@@ -1,7 +1,9 @@
 var Observable = require("FuseJS/Observable");
+var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 var Modal = require("Modal");
 var myToast = require("myToast");
+
 
 var UserInfo = JSON.parse(Storage.readSync("userInfo"));
 
@@ -65,7 +67,7 @@ function setPatients() {
 function fetchDataDoctors() {
     finalDoctors = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/ProviderProviderId=" + UserInfo.providerId
+    var urlProvider = activeUrl.URL + "/curandusproject/webapi/api/getprovidersdatabyprovider/ProviderProviderId=" + UserInfo.providerId
     console.log(urlProvider);
     fetch(urlProvider, {
         method: 'GET',
@@ -123,7 +125,7 @@ function fetchData() {
     console.log("gggggggggggggggggggggggggggggggggg");
     final = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlPatient = "http://192.168.1.165:8081/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
+    var urlPatient = activeUrl.URL + "/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
     console.log(urlPatient);
     fetch(urlPatient, {
         method: 'GET',
@@ -194,7 +196,7 @@ function deleteContact(e) {
             "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
             function(s) {
                 if (s == "Yes") {
-                    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/deleteProviderPatient/" + UserInfo.providerId + "&&" + patientId, {
+                    fetch(activeUrl.URL + "/curandusproject/webapi/api/deleteProviderPatient/" + UserInfo.providerId + "&&" + patientId, {
                         method: 'GET',
                         headers: {
                             "Content-type": "application/json"
@@ -220,7 +222,7 @@ function deleteDoctor(e) {
         "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
         function(s) {
             if (s == "Yes") {
-                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/deleteProviderProvider/" + UserInfo.providerId + "&&" + providerContactId, {
+                fetch(activeUrl.URL + "/curandusproject/webapi/api/deleteProviderProvider/" + UserInfo.providerId + "&&" + providerContactId, {
                     method: 'GET',
                     headers: {
                         "Content-type": "application/json"
