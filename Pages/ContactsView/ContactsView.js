@@ -184,7 +184,8 @@ function goToSelectType(e) {
 }
 
 function deleteContact(e) {
-    console.log("MHMMMMMMMMMM", JSON.stringify(e.data.activetreatmenId));
+    var patientId = e.data.patientId;
+    // var tmp = UserInfo.providerId;
     if (e.data.activetreatmenId != 0) {
         myToast.toastIt("You cannot delete this contact because it has active treatment!");
         // Modal.showModal(
@@ -192,13 +193,26 @@ function deleteContact(e) {
         //     "You cannot delete this contact because it has active treatment!", ["Ok"],
         //     function(s) {});
     } else {
+        console.log(JSON.stringify(e.data.patientId));
         Modal.showModal(
             "Delete Contact",
             "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
             function(s) {
                 if (s == "Yes") {
-                    console.log(JSON.stringify(e.data.fullName));
-                    reloadHandler();
+                    return null;
+                    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmenitemlist/TreatmentItemListId=" + treatmentItemListId, {
+                        method: 'POST',
+                        headers: {
+                            "Content-type": "application/json"
+                        }
+                    }).then(function(response) {
+                        return response.json(); // This returns a promise
+                    }).then(function(responseObject) {
+                        console.log("Success Delete Contact");
+                        reloadHandler();
+                    }).catch(function(err) {
+                        console.log("Error", err.message);
+                    });
                 }
             });
     }
@@ -206,14 +220,27 @@ function deleteContact(e) {
 }
 
 function deleteDoctor(e) {
+    var providerContactId = e.data.ProviderDetail2l;
+    // var tmp = UserInfo.providerId;
     Modal.showModal(
         "Delete Contact",
         "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
         function(s) {
             if (s == "Yes") {
-                console.log(JSON.stringify(e.data.fullName));
-                // CALL PUT API TO MAKE CONTACT INACTIVE
-                reloadHandlerDoctors();
+                return null;
+                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmenitemlist/TreatmentItemListId=" + treatmentItemListId, {
+                    method: 'POST',
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                }).then(function(response) {
+                    return response.json(); // This returns a promise
+                }).then(function(responseObject) {
+                    console.log("Success Delete Contact");
+                    reloadHandlerDoctors();
+                }).catch(function(err) {
+                    console.log("Error", err.message);
+                });
             }
         });
 }
