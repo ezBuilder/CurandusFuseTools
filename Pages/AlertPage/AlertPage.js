@@ -15,6 +15,7 @@
 		var patientId = "";
 		var activetreatmentid = "";
 		var subtrementID = "";
+		var WarningInfo = Observable();
 
 		function NVL(x) {
 		    if (x == null) {
@@ -50,6 +51,15 @@
 		        console.log(JSON.stringify(responseObject));
 
 		        patientInfo.value = responseObject;
+
+		        if (NVL(patientInfo.value.allergies) != "" || NVL(patientInfo.value.chronicDiseases) != "" || NVL(patientInfo.value.medicationsThatRecieves) != "") {
+		            WarningInfo.value = "Warning";
+
+		            console.log("warning " + WarningInfo.value);
+		        } else {
+		            WarningInfo.value = "";
+		            console.log("nema warning " + WarningInfo.value);
+		        }
 
 		        console.log(patientInfo.value.StreetAddress);
 		        console.log(patientInfo.value.city);
@@ -387,4 +397,5 @@
 		    loadMore: loadMore,
 		    loadMore1: loadMore1,
 		    ShowAlergies: ShowAlergies,
+		    WarningInfo: WarningInfo,
 		};

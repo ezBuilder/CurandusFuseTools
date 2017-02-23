@@ -324,10 +324,11 @@
 <!-- **************** Tabs1   **************** -->
 <Rectangle ux:Class="TabName1" Color="primary_dark" Width="100%" > 
     <string ux:Property="Label"/>
+    <float4 ux:Property="TextColor"/>
     <Selectable Value="{ReadProperty this.Label}"/>
     <DockPanel>
-        <Icon FontSize="24" Color="White" Dock="Right" Alignment="Center" Margin="0,0,8,0">&#xE873;</Icon>
-        <Text Alignment="CenterRight" Color="White"  Dock="Right"   Font="regular"  Value="{ReadProperty this.Label}" />
+        <Icon FontSize="24" Color="{ReadProperty this.TextColor}" Dock="Right" Alignment="Center" Margin="0,0,8,0">&#xE873;</Icon>
+        <Text Alignment="CenterRight" Color="{ReadProperty this.TextColor}"  Dock="Right"   Font="regular"  Value="{ReadProperty this.Label}" />
         <WhilePressed>
             <Scale Factor="1.1" Duration="0.2"/>
         </WhilePressed>
@@ -350,10 +351,10 @@
                 <TabName Label="Types"></TabName>
                 <Match Value="{active}">
                     <Case String="true">
-                        <TabName1 Clicked="{goToSavedTreatments}" Label="Load"></TabName1>
+                        <TabName1 TextColor="White" Clicked="{goToSavedTreatments}" Label="Load"></TabName1>
                     </Case>
                     <Case String="false">
-                        <TabName1  Label="Load"></TabName1>
+                        <TabName1  Label="Load" TextColor="primary_light"></TabName1>
                     </Case>
                 </Match>   
             </Grid>
