@@ -16,6 +16,7 @@
                     <Text Font="medium" Value="{user_patient.firstName} {user_patient.lastName}" FontSize="18" TextColor="primary" />
                     <Rectangle Width="100%" Height="1" Color="divider"/>
                     <StackPanel Orientation="Horizontal" Alignment="Left">
+                        <!-- <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon> -->
                         <Text Font="medium" Value="{WarningInfo}" FontSize="12" TextColor="offline" />
                     </StackPanel>
                 </StackPanel>
@@ -135,7 +136,7 @@
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
-                        <Diet Advice="{diet}" />
+                        <Diet Advice="{diet}" Repeat="{duration}" />
                        <RemovingAnimation>
                             <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
                         </RemovingAnimation>
@@ -150,7 +151,7 @@
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
-                        <Hygiene Question="{hygiene}" />
+                        <Hygiene Question="{hygiene}" Repeat="{duration}" />
                        <RemovingAnimation>
                             <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
                         </RemovingAnimation>
@@ -165,7 +166,7 @@
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
-                        <OtherInstruction Instruction="{otherinstruction}" />
+                        <OtherInstruction Instruction="{otherinstruction}" Repeat="{duration}"/>
 
                        <RemovingAnimation>
                             <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
@@ -181,7 +182,7 @@
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
-                        <Activity AdviceForActivity="{activity}" />
+                        <Activity AdviceForActivity="{activity}" Repeat="{duration}"/>
                        <RemovingAnimation>
                             <Move RelativeTo="Size" X="-1" Duration="0.4" Easing="CircularOut" />
                         </RemovingAnimation>
