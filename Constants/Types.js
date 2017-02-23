@@ -11,10 +11,10 @@ var types = Observable([{
     "label": "Heart rate",
 }, {
     "id": "4",
-    "label": "Pain",
+    "label": "Pain Level",
 }, {
     "id": "5",
-    "label": "RX Percription",
+    "label": "RX Perscriptions",
 }, {
     "id": "6",
     "label": "Send Image",
