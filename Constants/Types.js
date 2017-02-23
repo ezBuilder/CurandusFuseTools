@@ -47,8 +47,6 @@ function GetTypeLabel(idType) {
     }
 }
 
-
-
 module.exports = {
     types: types,
     GetTypeLabel: GetTypeLabel
