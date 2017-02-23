@@ -303,7 +303,7 @@
 
 		function edit() {
 
-		    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + subtrementID + "&typetreatment=R", {
+		    fetch(activeUrl.URL + "/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + subtrementID + "&typetreatment=R", {
 		        method: 'GET',
 		        headers: {
 		            "Content-type": "application/json"
