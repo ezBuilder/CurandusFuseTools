@@ -47,8 +47,23 @@ var types = Observable([
      },
 ])
 
+function GetTypeLabel(idType) {
+     var ret="None";
+     var allTypes = types.value;
+
+     for (var i = 0; i < allTypes.length; i++) {
+        //  console.log(i+" "+allTypes[i].label);
+          if (allTypes[i].id==idType)
+          {
+               ret=allTypes[i].label.toUpperCase();
+          }
+       }  
+       return ret; 
+}
+
 
 
 module.exports = {
-     types: types
+     types: types,
+     GetTypeLabel:GetTypeLabel
 };

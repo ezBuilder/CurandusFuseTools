@@ -1,14 +1,144 @@
+
+
 <Panel ux:Class="ComparisonWithPicture" Margin="0,0,0,16">
 	<string ux:Property="AditionalComment" />
 	<string ux:Property="EnterQuestion" />
 	<string ux:Property="IntervalOn" />
 	<string ux:Property="RepeatOn" />
 <StackPanel>
-	<Rectangle Color="White">
+
+<JavaScript>
+	
+		var Observable = require('FuseJS/Observable');
+		var CameraRoll = require("FuseJS/CameraRoll");
+		var Camera = require("FuseJS/Camera");
+		var ImageTools = require("FuseJS/ImageTools");
+		var Storage = require("FuseJS/Storage");
+		var imagePath = Observable();
+		var imageName = Observable();
+		var imageSize = Observable();
+		var name = Observable();
+		var surname = Observable();
+		var User;
+
+		Storage.read("userInfo").then(function(content) {
+		    debug_log(content);
+		    User = JSON.parse(content);
+		    name.value = User.firstName;
+		    surname.value = User.lastName;
+		}, function(error) {
+
+		});
+
+		// get this from the user
+		imagePath.value = "Assets/placeholder.png";
+
+		var displayImage = function(image) {
+		    imagePath.value = image.path;
+		    imageName.value = image.name;
+		    imageSize.value = image.width + "x" + image.height;
+		}
+
+		
+		
+
+		function selectImage() {
+			console.log("Vleguva vo image: ");
+		    CameraRoll.getImage().then(
+		        function(image) {
+		            var args = {
+		                desiredWidth: 480,
+		                desiredHeight: 480,
+		                mode: ImageTools.SCALE_AND_CROP,
+		                performInPlace: true
+		            };
+		            ImageTools.resize(image, args).then(
+		                function(image) {
+		                    console.log("Vleguva vo image: ");
+		                    
+		                    ImageTools.getBase64FromImage(image)
+    							.then(function(image) { 
+    								console.log("The base64 encoded image is \"" + image + "\"");
+
+    								var tmp = {
+											 "name":"Pulse Check Novo",
+											 "duration":"3",
+											 "status":"1",
+											 "createdBy":0,
+											 "modifiedBy":0,
+											 "created":null,
+											 "modified":null,
+											 "typeT":"ACK",
+											 "renderingInfo":"{\"code\":\"tukaslika\"}",
+											 "repeatT":"5",
+											 "subtreatmentid":18
+											 
+											}
+
+    								fetch("http://192.168.1.165:8081/curandusproject/webapi/api/inserttreatmentitemimage", {
+								            method: 'POST',
+								            headers: {
+								                "Content-type": "application/json"
+								            },
+								              dataType: 'json',
+            									body: JSON.stringify(lista_post)
+								        }).then(function(response) {
+								            status = response.status; // Get the HTTP status code
+								            response_ok = response.ok; // Is response.status in the 200-range?
+								            return response.json(); // This returns a promise
+								        }).then(function(responseObject) {
+								            console.log("Success");
+								            
+
+								        }).catch(function(err) {
+								            console.log("Error", err.message);
+								        });
+    							});
+                    
+	                    // displayImage(image);
+		                }
+		            ).catch(
+		                function(reason) {
+		                    console.log("Couldn't resize image: " + reason);
+		                }
+		            );
+		        }
+		    ).catch(
+		        function(reason) {
+		            console.log("Couldn't get image: " + reason);
+		        }
+		    );
+		};
+
+		removePicture = function() {
+		    var tmp = {
+		        path: "Assets/placeholder.png"
+		    };
+
+		    displayImage(tmp);
+		}
+
+
+
+		module.exports = {
+		    selectImage: selectImage,
+		    imagePath: imagePath,
+		    imageName: imageName,
+		    imageSize: imageSize,
+		    removePicture: removePicture,
+		    name: name,
+		    surname: surname,
+
+		};
+
+</JavaScript>
+
+
+	<Rectangle >
 		<StackPanel>
 				<DockPanel Margin="0,30,0,0">
 						<Text Value="Comparison with picture:" Width="100" TextWrapping="Wrap" FontSize="17" Color="primary"  Alignment="Left"  Margin="30,0,0,0" ></Text>
-						<Rectangle Color="White" ux:Name="btnSendImage" Width="170" Height="100" Dock="Right" Margin="0,0,30,0" >
+						<Rectangle Color="White" ux:Name="btnSendImage" Clicked="{selectImage}" Width="170" Height="100" Dock="Right" Margin="0,0,30,0" >
 							<Clicked>
 								<Scale Factor="0.95" Duration=".1" Easing="QuadraticInOut" />
 							</Clicked>
@@ -20,7 +150,7 @@
             <!-- <Image File="Assets/background1.png" StretchMode="Scale9" /> -->
         	
 			<FloatingLabelArea Value="{Property this.AditionalComment}" PlaceholderText="Aditional comment:" Margin="32, 8, 32, 0" />
-			<FloatingLabelArea Value="{Property this.EnterQuestion}" PlaceholderText="Enter question:" InputHint="Default" Margin="32, 8, 32, 0" />
+			<FloatingLabelArea Value="{Property this.EnterQuestion}" PlaceholderText="Enter question:" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.IntervalOn}" PlaceholderText="interval on:" InputHint="Number" Margin="32, 8, 32, 0" />
 			<FloatingLabel Value="{Property this.RepeatOn}" PlaceholderText="repeat on:" InputHint="Number" Margin="32, 8, 32, 0" />
 		

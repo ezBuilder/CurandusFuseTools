@@ -16,8 +16,7 @@
                     <Text Font="medium" Value="{user_patient.firstName} {user_patient.lastName}" FontSize="18" TextColor="primary" />
                     <Rectangle Width="100%" Height="1" Color="divider"/>
                     <StackPanel Orientation="Horizontal" Alignment="Left">
-                        <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>
-                        <Text Font="medium" Value="Warning" FontSize="12" TextColor="offline" />
+                        <Text Font="medium" Value="{WarningInfo}" FontSize="12" TextColor="offline" />
                     </StackPanel>
                 </StackPanel>
             </DockPanel>
@@ -42,12 +41,11 @@
                       
             <Each Items="{lista}">
                 <Match Value="{name}">
-                    <Case String="Pain Level">
-
+                    <Case String="4">
                         <DockPanel>
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="PAIN LEVEL" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
                         </DockPanel>
@@ -63,11 +61,11 @@
                     </DockPanel>
                     </Case>
 
-                    <Case String="Temperature Check">
+                    <Case String="1">
                         <DockPanel>   
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="TEMPERATURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
@@ -78,11 +76,11 @@
                     </DockPanel>    
                     </Case>
 
-                    <Case String="Blood Pressure Check">
+                    <Case String="2">
                         <DockPanel>  
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="BLOOD PRESSURE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                     </Rectangle>                        
@@ -94,11 +92,11 @@
                     </Case> 
 
 
-                      <Case String="Pulse Check">
+                      <Case String="3">
                         <DockPanel>  
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="PULSE CHECK" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                     </Rectangle>                        
@@ -109,11 +107,11 @@
                     </DockPanel>                          
                     </Case>  
 
-                    <Case String="Send Image">
+                    <Case String="6">
                          <DockPanel>  
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="SEND IMAGE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
                         </DockPanel>
@@ -129,11 +127,11 @@
                     </DockPanel>  
                     </Case>
 
-                    <Case String="Diet">
+                    <Case String="8">
                         <DockPanel> 
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="DIET" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
@@ -144,11 +142,11 @@
                     </DockPanel> 
 
                     </Case>  
-                    <Case String="Hygiene">
+                    <Case String="10">
                          <DockPanel>
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="HYGIENE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
@@ -159,11 +157,11 @@
                     </DockPanel> 
 
                     </Case>  
-                     <Case String="Other Instructions">
+                     <Case String="11">
                         <DockPanel>
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="OTHER INSTRUCTIONS" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
@@ -175,11 +173,11 @@
                     </DockPanel>                         
                     </Case> 
 
-                    <Case String="Activity">
+                    <Case String="9">
                          <DockPanel>
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="ACTIVITY" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                         </DockPanel>
                         </Rectangle>                        
@@ -190,11 +188,11 @@
                     </DockPanel>                        
                     </Case>  
 
-                     <Case String="Comparison With Picture">
+                     <Case String="7">
                          <DockPanel>
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="COMPARISION WITH PICTURE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
                         </DockPanel>
@@ -210,11 +208,11 @@
                     </DockPanel> 
                     </Case>                     
 
-                    <Case String="Medicines">
+                    <Case String="5">
                          <DockPanel>
                         <Rectangle Color="primary_dark" Height="32" Dock="Top">
                         <DockPanel>
-                            <Text Value="MEDICINE" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
+                            <Text Value="{label}" FontSize="16" Color="icons" Dock="Left" Alignment="CenterLeft" Margin="16,0,0,0" Font="medium"/>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{RemoveItem}">&#xE92B;</Icon>
                             <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
                         </DockPanel>
