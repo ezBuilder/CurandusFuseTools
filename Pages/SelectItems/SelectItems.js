@@ -10,8 +10,10 @@ var api_call;
 var P_PatientID;
 var p_enabled = Observable(true);
 var user_patient = Observable();
+var WarningInfo = Observable();
 var praznoime = "";
 var show_string = "";
+var Types = require("Constants/Types.js"); 
 
 var lista_send = [];
 
@@ -40,6 +42,7 @@ function NewItem(data) {
     this.treatmentitemid = Observable(data.treatmentItemId);
     this.subtreatmentdetail = Observable(data.subtreatmentid);
     this.name = Observable(data.name);
+    this.label = Observable(data.label);
     this.typet = Observable(data.typeT);
     this.interval = Observable(data.repeatT);
     this.duration = Observable(data.duration);
@@ -74,7 +77,13 @@ this.onParameterChanged(function(param) {
     for (var i = 0; i < param.sendData.length - 3; i++) {
         //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
         //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
+      //  console.log("Ime Tip  "+ Types.GetTypeLabel("1"));
+        console.log("ID  "+ param.sendData[i].name);
 
+        param.sendData[i].label=Types.GetTypeLabel(param.sendData[i].name);
+
+        console.log("Ime Tip  "+ param.sendData[i].label);
+        //console.log("TIPOVI", JSON.stringify(Types.types.value)); 
         if (param.sendData[i].renderingInfo == null || param.sendData[i].renderingInfo == "null") {
             param.sendData[i].render = "";
         } else {
@@ -120,6 +129,15 @@ this.onParameterChanged(function(param) {
         return response.json(); // This returns a promise 
     }).then(function(data) {
         user_patient.value = data;
+
+     if (NVL(user_patient.value.allergies) != "" || NVL(user_patient.value.chronicDiseases) != "" || NVL(user_patient.value.medicationsThatRecieves) != "") {
+        WarningInfo.value = "Warning";
+
+        console.log("warning " + WarningInfo.value);
+    } else {
+        WarningInfo.value = "";
+        console.log("nema warning " + WarningInfo.value);
+    }       
 
     }).catch(function(err) {
         console.log("Fetch data error");
@@ -186,68 +204,68 @@ function goToSavedTreatments() {
 }
 
 
-function CheckFields() {
-    var ret = 0;
-    for (var i = 0; i < lista.length; i++) {
-        if (lista.getAt(i).name.value != "Diet" && lista.getAt(i).name.value != "Hygiene" &&
-            lista.getAt(i).name.value != "Activity" && lista.getAt(i).name.value != "OtherInstructions")
-        // lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
-        // ||lista.getAt(0).name.value=="BloodPressuerCheck")  
-        {
-            console.log("Duration " + lista.getAt(i).duration.value);
-            console.log("Duration " + NVL(lista.getAt(i).duration.value));
-            if (NVL(lista.getAt(i).interval.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
-                console.log("Interval " + lista.getAt(i).interval.value);
-                ret = ret + 1;
-            }
-        } else if (lista.getAt(i).name.value == "Diet") {
-            if (NVL(lista.getAt(i).diet.value) == "") {
-                ret = ret + 1;
-            }
-        } else if (lista.getAt(0).name.value == "Hygiene") {
-            if (NVL(lista.getAt(i).hygiene.value) == "") {
-                ret = ret + 1;
-            }
-        } else if (lista.getAt(i).name.value == "Other Instructions") {
-            if (NVL(lista.getAt(i).otherinstructions.value) == "") {
-                ret = ret + 1;
-            }
-        } else if (lista.getAt(i).name.value == "Activity") {
-            if (NVL(lista.getAt(i).activity.value) == "") {
-                ret = ret + 1;
-            }
-        }
+         function CheckFields() {
+                var ret = 0;
+                for (var i = 0; i < lista.length; i++) {
+                    if (lista.getAt(i).name.value != "8" && lista.getAt(i).name.value != "9" &&
+                        lista.getAt(i).name.value != "10" && lista.getAt(i).name.value != "11")
+                    // lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
+                    // ||lista.getAt(0).name.value=="BloodPressuerCheck")  
+                    {
+                        if (NVL(lista.getAt(i).interval.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            console.log("Interval " + lista.getAt(i).interval.value);
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "8") {
+                        if (NVL(lista.getAt(i).diet.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+
+                            console.log("diet");
+                            console.log("Interval " + NVL(lista.getAt(i).duration.value));
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(0).name.value == "10") {
+                        if (NVL(lista.getAt(i).hygiene.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "11") {
+                        if (NVL(lista.getAt(i).otherinstructions.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "9") {
+                        if (NVL(lista.getAt(i).activity.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                            ret = ret + 1;
+                        }
+                    }
 
 
-        if (lista.getAt(i).name.value == "PainLevel") {
-            if (NVL(lista.getAt(i).painlevelof.value) == "") {
-                ret = ret + 1;
-            }
-        } else if (lista.getAt(i).name.value == "Send Image") {
-            if (NVL(lista.getAt(i).sendimageof.value) == "") {
-                ret = ret + 1;
-            }
-        } else if (lista.getAt(i).name.value == "Comparison With Picture") {
-            if (NVL(lista.getAt(i).EnterQuestion.value) == "" || NVL(lista.getAt(i).comparisionurl.value) == "") {
-                ret = ret + 1;
-            }
-        } else if (lista.getAt(i).name.value == "Medicines") {
-            if (NVL(lista.getAt(i).medicinename.value) == "" || NVL(lista.getAt(i).medicinecomment.value) == "") {
-                ret = ret + 1;
-            }
-        }
-    }
+                    if (lista.getAt(i).name.value == "4") {
+                        if (NVL(lista.getAt(i).painlevelof.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "6") {
+                        if (NVL(lista.getAt(i).sendimageof.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "7") {
+                        if (NVL(lista.getAt(i).comparisionquestion.value) == "" || NVL(lista.getAt(i).comparisionurl.value) == "") {
+                            ret = ret + 1;
+                        }
+                    } else if (lista.getAt(i).name.value == "5") {
+                        if (NVL(lista.getAt(i).medicinename.value) == "" || NVL(lista.getAt(i).medicinecomment.value) == "") {
+                            ret = ret + 1;
+                        }
+                    }
+                }
 
-    console.log("ret " + ret);
-    if (ret == 0) {
-        p_enabled.value = true;
-        return true;
-    } else {
-        p_enabled.value = false;
-        return false;
-    }
-
-}
+                console.log("ret " + ret);
+                if (ret == 0) {
+                    p_enabled.value = true;
+                    return true;
+                } else {
+                    p_enabled.value = false;
+                    return false;
+                }
+            }
 
 function ChekNameTreatment() {
     console.log("klik");
@@ -344,36 +362,36 @@ function Insert_Treatment() {
         var rendering;
         for (var i = 0; i < lista.length; i++) {
             rendering = {};
-            if (lista.getAt(i).name.value == "Pain Level") {
+            if (lista.getAt(i).name.value == "4") {
                 rendering = {
                     "painlevelof": lista.getAt(i).painlevelof.value
                 };
-            } else if (lista.getAt(i).name.value == "Medicines") {
+            } else if (lista.getAt(i).name.value == "5") {
                 rendering = {
                     "medicinename": lista.getAt(i).medicinename.value,
                     "medicinecomment": lista.getAt(i).medicinecomment.value
                 };
-            } else if (lista.getAt(i).name.value == "Send Image") {
+            } else if (lista.getAt(i).name.value == "6") {
                 rendering = {
                     "sendimageof": lista.getAt(i).sendimageof.value
                 };
-            } else if (lista.getAt(i).name.value == "Diet") {
+            } else if (lista.getAt(i).name.value == "8") {
                 rendering = {
                     "diet": lista.getAt(i).diet.value
                 };
-            } else if (lista.getAt(i).name.value == "Hygiene") {
+            } else if (lista.getAt(i).name.value == "10") {
                 rendering = {
                     "hygiene": lista.getAt(i).hygiene.value
                 };
-            } else if (lista.getAt(i).name.value == "Activity") {
+            } else if (lista.getAt(i).name.value == "9") {
                 rendering = {
                     "activity": lista.getAt(i).activity.value
                 };
-            } else if (lista.getAt(i).name.value == "Other Instruction") {
+            } else if (lista.getAt(i).name.value == "11") {
                 rendering = {
                     "otherinstruction": lista.getAt(i).otherinstruction.value
                 };
-            } else if (lista.getAt(i).name.value == "Comparison With Picture") {
+            } else if (lista.getAt(i).name.value == "7") {
                 rendering = {
                     "comparisionquestion": lista.getAt(i).comparisionquestion.value,
                     "comparisionurl": lista.getAt(i).comparisionurl.value
@@ -465,36 +483,36 @@ function Insert_Saved_Treatment() {
         var rendering;
         for (var i = 0; i < lista.length; i++) {
             rendering = {};
-            if (lista.getAt(i).name.value == "Pain Level") {
+            if (lista.getAt(i).name.value == "4") {
                 rendering = {
                     "painlevelof": lista.getAt(i).painlevelof.value
                 };
-            } else if (lista.getAt(i).name.value == "Medicines") {
+            } else if (lista.getAt(i).name.value == "5") {
                 rendering = {
                     "medicinename": lista.getAt(i).medicinename.value,
                     "medicinecomment": lista.getAt(i).medicinecomment.value
                 };
-            } else if (lista.getAt(i).name.value == "Send Image") {
+            } else if (lista.getAt(i).name.value == "6") {
                 rendering = {
                     "sendimageof": lista.getAt(i).sendimageof.value
                 };
-            } else if (lista.getAt(i).name.value == "Diet") {
+            } else if (lista.getAt(i).name.value == "8") {
                 rendering = {
                     "diet": lista.getAt(i).diet.value
                 };
-            } else if (lista.getAt(i).name.value == "Hygiene") {
+            } else if (lista.getAt(i).name.value == "10") {
                 rendering = {
                     "hygiene": lista.getAt(i).hygiene.value
                 };
-            } else if (lista.getAt(i).name.value == "Activity") {
+            } else if (lista.getAt(i).name.value == "9") {
                 rendering = {
                     "activity": lista.getAt(i).activity.value
                 };
-            } else if (lista.getAt(i).name.value == "Other Instruction") {
+            } else if (lista.getAt(i).name.value == "11") {
                 rendering = {
                     "otherinstruction": lista.getAt(i).otherinstruction.value
                 };
-            } else if (lista.getAt(i).name.value == "Comparison With Picture") {
+            } else if (lista.getAt(i).name.value == "7") {
                 rendering = {
                     "comparisionquestion": lista.getAt(i).comparisionquestion.value,
                     "comparisionurl": lista.getAt(i).comparisionurl.value
