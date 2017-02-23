@@ -1,5 +1,4 @@
 var Observable = require('FuseJS/Observable');
-
 var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 var Modal = require('Modal');
@@ -293,7 +292,7 @@ function ChekNameTreatment() {
 function GetParameter() {
     console.log("GetParameter");
     lista.clear();
-    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=10&typetreatment=7", {
+    fetch(activeUrl.URL + "/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=10&typetreatment=7", {
         method: 'GET',
         headers: {
             "Content-type": "application/json"
@@ -414,10 +413,10 @@ function Insert_Treatment() {
 
         }
         if (P_SubTreatmentID == 0 || prazno_ime != "") {
-            api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=" + providerId + "&patientid=" + p_patient_id + "&nametreatment=Prv&namesubtreatment=PrvS";
+            api_call = activeUrl.URL + "/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=" + providerId + "&patientid=" + p_patient_id + "&nametreatment=Prv&namesubtreatment=PrvS";
             show_string = "Treatment assigned to patient";
         } else {
-            api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=" + P_SubTreatmentID;
+            api_call = activeUrl.URL + "/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=" + P_SubTreatmentID;
             show_string = "Treatmetnt updated";
         }
 
@@ -539,7 +538,7 @@ function Insert_Saved_Treatment() {
         // }
         var userInfo = Storage.readSync("userInfo");
 
-        var call_api = "http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment?providerid=" + providerId + "&nametreatment=" + encodeURIComponent(stname.value);
+        var call_api = activeUrl.URL + "/curandusproject/webapi/api/insertsavedtreatment?providerid=" + providerId + "&nametreatment=" + encodeURIComponent(stname.value);
 
         console.log("nametreatment " + stname.value);
 
@@ -583,7 +582,7 @@ function Insert_Saved_Treatment() {
                     function(s) {
                         debug_log("Got callback with " + s);
                         if (s == "Yes") {
-                            fetch("http://192.168.1.110:8080/curandusproject/webapi/api/updatesavedtreatment/savedtreatmentid=" + responseObject, {
+                            fetch(activeUrl.URL + "/curandusproject/webapi/api/updatesavedtreatment/savedtreatmentid=" + responseObject, {
                                 method: 'POST',
                                 headers: {
                                     "Content-type": "application/json"
