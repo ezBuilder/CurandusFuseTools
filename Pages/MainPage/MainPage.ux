@@ -183,7 +183,7 @@
                                                                     </Stroke>
                                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
                                                                 </Circle>
-                                                                <Rectangle Width="20" Height="50" Clicked="{deleteContact}">
+                                                                <Rectangle Width="20" Height="50" Clicked="{deleteContact}" HitTestMode="LocalBounds">
                                                                     <Icon Alignment="Top" FontSize="20" Color="primary" >&#xE14C;</Icon>
                                                                 </Rectangle>
                                                             </StackPanel>
