@@ -185,13 +185,8 @@ function goToSelectType(e) {
 
 function deleteContact(e) {
     var patientId = e.data.patientId;
-    // var tmp = UserInfo.providerId;
     if (e.data.activetreatmenId != 0) {
         myToast.toastIt("You cannot delete this contact because it has active treatment!");
-        // Modal.showModal(
-        //     "Delete Contact ",
-        //     "You cannot delete this contact because it has active treatment!", ["Ok"],
-        //     function(s) {});
     } else {
         console.log(JSON.stringify(e.data.patientId));
         Modal.showModal(
@@ -199,9 +194,8 @@ function deleteContact(e) {
             "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
             function(s) {
                 if (s == "Yes") {
-                    return null;
-                    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmenitemlist/TreatmentItemListId=" + treatmentItemListId, {
-                        method: 'POST',
+                    fetch("http://192.168.1.165:8081/curandusproject/webapi/api/deleteProviderPatient/" + UserInfo.providerId + "&&" + patientId, {
+                        method: 'GET',
                         headers: {
                             "Content-type": "application/json"
                         }
@@ -221,15 +215,13 @@ function deleteContact(e) {
 
 function deleteDoctor(e) {
     var providerContactId = e.data.ProviderDetail2l;
-    // var tmp = UserInfo.providerId;
     Modal.showModal(
         "Delete Contact",
         "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
         function(s) {
             if (s == "Yes") {
-                return null;
-                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/updatetreatmenitemlist/TreatmentItemListId=" + treatmentItemListId, {
-                    method: 'POST',
+                fetch("http://192.168.1.165:8081/curandusproject/webapi/api/deleteProviderProvider/" + UserInfo.providerId + "&&" + providerContactId, {
+                    method: 'GET',
                     headers: {
                         "Content-type": "application/json"
                     }
