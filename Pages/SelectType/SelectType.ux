@@ -346,7 +346,7 @@
         <Rectangle Alignment="Top" Height="45" Width="100%">
             <Grid Columns="1*,1*" >
                 <Selection Value="Types"/>
-                <TabName Label=""></TabName>
+                <TabName Label="Types"></TabName>
                 <Match Value="{active}">
                     <Case String="true">
                         <TabName1 Clicked="{goToSavedTreatments}" Label="Load"></TabName1>
