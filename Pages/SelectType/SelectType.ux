@@ -343,7 +343,7 @@
 
         <Rectangle Color="background_color">  
             
-            <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> 
+            <FloatingButton Alignment="BottomRight" Color="future" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> 
             
             <ScrollView Margin="0,60,0,0"> 
                 <StackPanel>
