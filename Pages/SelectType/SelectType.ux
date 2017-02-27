@@ -348,13 +348,13 @@
         <Rectangle Alignment="Top" Height="45" Width="100%">
             <Grid Columns="1*,1*" >
                 <Selection Value="Types"/>
-                <TabName Label="Types"></TabName>
+                <TabName Label="Types" ></TabName>
                 <Match Value="{active}">
                     <Case String="true">
                         <TabName1 TextColor="White" Clicked="{goToSavedTreatments}" Label="Load"></TabName1>
                     </Case>
                     <Case String="false">
-                        <TabName1  Label="Load" TextColor="primary_light"></TabName1>
+                        <TabName1  Label="LOAD" TextColor="future"></TabName1>
                     </Case>
                 </Match>   
             </Grid>
@@ -364,7 +364,7 @@
 
         <Rectangle Color="background_color">  
             
-            <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> 
+            <FloatingButton Alignment="BottomRight" BtnColor="#FF5722CC" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> 
             
             <ScrollView Margin="0,60,0,0"> 
                 <StackPanel>
