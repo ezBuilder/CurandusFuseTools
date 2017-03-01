@@ -17,6 +17,8 @@
 
 				<RaisedButton BtnText="SAVE" BtnColor="primary" BtnTextColor="icons" Clicked="{addContact}" Alignment="Center" Margin="0,32,0,0"/>
 
+				<FlatButton BtnText="IMPORT" BtnTextColor="#FF5722" Alignment="Center" Clicked="{goToLocal}" />
+
 			</StackPanel>
 		</DockPanel>
 

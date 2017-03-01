@@ -4,16 +4,25 @@ var Storage = require("FuseJS/Storage");
 
 var User;
 
+var phoneNumber = Observable("");
+var name = Observable("");
+var surname = Observable("");
+
 Storage.read("userInfo").then(function(content) {
     User = JSON.parse(content);
 }, function(error) {
 
 });
 
-var phoneNumber = Observable("");
-var name = Observable("");
-var surname = Observable("");
+this.onParameterChanged(function(param) {
+    if (param.localContact) {
 
+        phoneNumber.value = param.localContact.phoneNumber;
+        name.value = param.localContact.name;
+        surname.value = param.localContact.surname;
+
+    }
+});
 
 function addContact() {
 
@@ -48,8 +57,14 @@ function addContact() {
 
 }
 
+function goToLocal() {
+    router.push("LocalContacts");
+}
+
+
 module.exports = {
     addContact: addContact,
+    goToLocal: goToLocal,
     phoneNumber: phoneNumber,
     name: name,
     surname: surname

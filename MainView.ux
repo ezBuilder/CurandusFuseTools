@@ -128,6 +128,7 @@
 				<SharePage ux:Template="SharePage" router="router" />
 				<savedTreatment ux:Template="savedTreatment" router="router" />
 				<EditProfilePage ux:Template="EditProfile" router="router" />
+				<LocalContacts ux:Template="LocalContacts" router="router" />
 			</Navigator>
 			<!-- MAIN NAVIGATION END -->
 			<BottomBarBackground Dock="Bottom"/>
