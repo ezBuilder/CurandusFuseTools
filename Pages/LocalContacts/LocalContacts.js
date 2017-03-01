@@ -1,64 +1,49 @@
 var Observable = require('FuseJS/Observable');
+var contacts = require('Contacts');
 
 var searchString2 = Observable("");
 
-var lista= Observable ();
+var lista = Observable();
+var tmpLista = [];
 
-var tmp = [{
-    "id": 1,
-    "fname": "Kimberly",
-    "lname": "Breiter",
-    "tel": "(719)171-1820"
-}, {
-    "id": 2,
-    "fname": "Azra",
-    "lname": "Kraenzle",
-    "tel": "(801)570-8484"
-}, {
-    "id": 3,
-    "fname": "Rebecca",
-    "lname": "Nutter",
-    "tel": "(551)843-5069"
-}, {
-    "id": 4,
-    "fname": "Michelamone",
-    "lname": "Heppelmann",
-    "tel": "(648)188-0642"
-}, {
-    "id": 5,
-    "fname": "Katina",
-    "lname": "Ha",
-    "tel": "(455)418-0752"
-}, {
-    "id": 6,
-    "fname": "Marilynn",
-    "lname": "Fowler",
-    "tel": "(377)480-3941"
-}, {
-    "id": 7,
-    "fname": "Earl",
-    "lname": "Denard",
-    "tel": "(111)129-4832"
-}, {
-    "id": 8,
-    "fname": "Artina",
-    "lname": "Lewis",
-    "tel": "(761)252-5413"
-}, {
-    "id": 9,
-    "fname": "Clint",
-    "lname": "Chatham",
-    "tel": "(469)488-2168"
-}, {
-    "id": 10,
-    "fname": "Yiping",
-    "lname": "Loban",
-    "tel": "(605)221-5484"
-}];
+var isLoading = Observable(true);
 
+contacts.authorize().then(function(status) {
+    console.log(status);
+    if (status === 'AuthorizationAuthorized') {
+        // console.log(JSON.stringify(contacts.getAll()));
+        var tmp = contacts.getAll();
 
-for (var i = tmp.length - 1; i >= 0; i--) {
-	lista.add(tmp[i]);
+        tmpLista = [];
+
+        for (var i = 0; i < tmp.length; i++) {
+            if (tmp[i].phone != null) {
+                var obj = {};
+                obj.tel = tmp[i].phone[0].phone;
+                var names = tmp[i].name.split(" ");
+                obj.fname = names[0];
+                var lname = "";
+                obj.lname = names[1];
+                console.log(JSON.stringify(obj));
+                tmpLista.push(obj);
+            }
+        }
+        isLoading.value = false;
+        lista.replaceAll(tmpLista);
+    }
+});
+
+function importContact(e) {
+
+    var contact = {};
+    contact.name = e.data.fname;
+    contact.surname = e.data.lname;
+    contact.phoneNumber = e.data.tel;
+
+    router.push("addDoctor", {
+        localContact: contact
+    });
+
 }
 
 
@@ -75,7 +60,9 @@ var filteredItems = searchString2.flatMap(function(searchValue) {
 
 
 module.exports = {
-  
-   filteredItems: filteredItems,
-    searchString2: searchString2
+
+    filteredItems: filteredItems,
+    importContact: importContact,
+    searchString2: searchString2,
+    isLoading: isLoading
 };
