@@ -351,10 +351,10 @@
                 <TabName Label="Types" ></TabName>
                 <Match Value="{active}">
                     <Case String="true">
-                        <TabName1 TextColor="future" Clicked="{goToSavedTreatments}" Label="Load"></TabName1>
+                        <TabName1 TextColor="White" Clicked="{goToSavedTreatments}" Label="LOAD"></TabName1>
                     </Case>
                     <Case String="false">
-                        <TabName1  Label="LOAD" TextColor="future"></TabName1>
+                        <TabName1  Label="LOAD" TextColor="White"></TabName1>
                     </Case>
                 </Match>   
             </Grid>

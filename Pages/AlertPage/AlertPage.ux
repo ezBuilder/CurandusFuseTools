@@ -36,15 +36,15 @@
 			</StackPanel>
 		</DockPanel>
 		<DockPanel Color="primary_dark" Width="100%" Height="25" Dock="Top">
-			<Text Dock="Left" Font="medium" Value="Treatment Timeline"  Color="future" Margin="10,3,10,0" />
+			<Text Dock="Left" Font="medium" Value="Treatment Timeline"  Color="White" Margin="10,3,10,0" />
 
 			<Rectangle Height="25" Dock="Right" Clicked="{end}" HitTestMode="LocalBounds">
-			<Text  Font="medium" Value="END"  Color="future" Margin="10,3,10,0"/>
-			<Icon Alignment="Center" FontSize="22" Margin="40,0,10,0" Color="future">&#xE876;</Icon>
+			<Text  Font="medium" Value="END"  Color="White" Margin="10,3,10,0"/>
+			<Icon Alignment="Center" FontSize="22" Margin="40,0,10,0" Color="White">&#xE876;</Icon>
 			</Rectangle>
 			<Rectangle Height="25" Dock="Right" Clicked="{edit}" HitTestMode="LocalBounds">
-			<Text  Font="medium" Value="EDIT"  Color="future" Margin="10,3,10,0"/>
-			<Icon Alignment="Center" FontSize="18" Margin="45,0,10,0" Color="future">&#xE3C9;</Icon>
+			<Text  Font="medium" Value="EDIT"  Color="White" Margin="10,3,10,0"/>
+			<Icon Alignment="Center" FontSize="18" Margin="45,0,10,0" Color="White">&#xE3C9;</Icon>
 			</Rectangle>
 		</DockPanel>
 		<Rectangle Color="primary">
