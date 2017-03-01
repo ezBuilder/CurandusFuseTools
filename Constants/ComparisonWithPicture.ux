@@ -5,6 +5,8 @@
 	<string ux:Property="EnterQuestion" />
 	<string ux:Property="IntervalOn" />
 	<string ux:Property="RepeatOn" />
+	<string ux:Property="comparisionurl"/>
+	<DataBinding Target="this.comparisionurl" Key="ImageURL" />
 <StackPanel>
 
 <JavaScript>
@@ -19,7 +21,18 @@
 		var imageSize = Observable();
 		var name = Observable();
 		var surname = Observable();
+		var ImageURL = Observable();
+		var flag = Observable();
+		flag.value="nemaslika";
+		
+		// var slikaUrl = Observable(this.comparisionurl.value);
+		// ImageURL.value = "http://192.168.1.110:8080/curandusImages/im1.jpg";
 		var User;
+		var lastImage = Observable(); 
+
+		this.comparisionurl.value=Observable(ImageURL.value);
+		console.log("setiranje");
+
 
 		Storage.read("userInfo").then(function(content) {
 		    debug_log(content);
@@ -30,20 +43,46 @@
 
 		});
 
-		// get this from the user
-		imagePath.value = "Assets/placeholder.png";
-
-		var displayImage = function(image) {
-		    imagePath.value = image.path;
+		var displayImage = function(image) { 
+		    ImageURL.value = image.path;
 		    imageName.value = image.name;
 		    imageSize.value = image.width + "x" + image.height;
-		}
+		} 
 
-		
+		takePicture = function() {
+			flag.value="kamera";
+		    Camera.takePicture().then(
+		        function(image) {
+		            console.log("Vleze vo takepicture: "+image);
+		            var args = {
+		                desiredWidth: 480,
+		                desiredHeight: 480,
+		                mode: ImageTools.SCALE_AND_CROP,
+		                performInPlace: true
+		            };
+		            ImageTools.resize(image, args).then(
+		                function(image) {
+		                    CameraRoll.publishImage(image);
+		                    displayImage(image);
+		                }
+		            ).catch(
+		                function(reason) {
+		                    console.log("Couldn't resize image: " + reason);
+		                }
+		            );
+		        }
+		    ).catch(
+		        function(reason) {
+		            console.log("Couldn't take picture: " + reason);
+		        }
+		    );
+		};
 		
 
 		function selectImage() {
-			console.log("Vleguva vo image: ");
+			flag.value="load";
+			console.log("Vleguva vo selectimage: ");
+			//console.log("ova e patekata na slikata:"+ImageURL.value);			
 		    CameraRoll.getImage().then(
 		        function(image) {
 		            var args = {
@@ -54,14 +93,17 @@
 		            };
 		            ImageTools.resize(image, args).then(
 		                function(image) {
-		                    console.log("Vleguva vo image: ");
-		                    
+		                    //console.log("Vleguva vo image tukaa: "+lastImage);
+		                    console.log("Vleguva vo image tukaa ova e patekata: "+imagePath);
 		                    ImageTools.getBase64FromImage(image)
     							.then(function(image) { 
-    								console.log("The base64 encoded image is \"" + image + "\"");
+    								
+    								lastImage = image;
 
+    								var rendering = {"base64": image};
+    								//console.log("The base64 encoded image is "+rendering);
     								var tmp = {
-											 "name":"Pulse Check Novo",
+											 "name":"ComparisonWithPicture",
 											 "duration":"3",
 											 "status":"1",
 											 "createdBy":0,
@@ -69,27 +111,28 @@
 											 "created":null,
 											 "modified":null,
 											 "typeT":"ACK",
-											 "renderingInfo":"{\"code\":\"tukaslika\"}",
+											  "renderingInfo": JSON.stringify(rendering),
 											 "repeatT":"5",
 											 "subtreatmentid":18
-											 
-											}
+											};
+									console.log("The tmp is " +tmp);		
 
-    								fetch("http://192.168.1.165:8081/curandusproject/webapi/api/inserttreatmentitemimage", {
+    								fetch("http://192.168.1.110:8080/curandusproject/webapi/api/inserttreatmentitemimage", {
 								            method: 'POST',
 								            headers: {
 								                "Content-type": "application/json"
 								            },
 								              dataType: 'json',
-            									body: JSON.stringify(lista_post)
+            									body: JSON.stringify(tmp)
 								        }).then(function(response) {
 								            status = response.status; // Get the HTTP status code
 								            response_ok = response.ok; // Is response.status in the 200-range?
 								            return response.json(); // This returns a promise
 								        }).then(function(responseObject) {
 								            console.log("Success");
-								            
-
+								            console.log("broj na slika: "+responseObject);
+								            ImageURL.value = "http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
+								     
 								        }).catch(function(err) {
 								            console.log("Error", err.message);
 								        });
@@ -114,10 +157,11 @@
 		    var tmp = {
 		        path: "Assets/placeholder.png"
 		    };
-
+		    ImageURL.value="";
+		    flag.value="nemaslika";
 		    displayImage(tmp);
-		}
 
+		}
 
 
 		module.exports = {
@@ -128,7 +172,10 @@
 		    removePicture: removePicture,
 		    name: name,
 		    surname: surname,
-
+		    lastImage:lastImage,
+		    ImageURL:ImageURL,
+		    takePicture:takePicture,
+		    flag:flag
 		};
 
 </JavaScript>
@@ -139,15 +186,35 @@
 				<DockPanel Margin="0,30,0,0">
 						<Text Value="Comparison with picture:" Width="100" TextWrapping="Wrap" FontSize="17" Color="primary"  Alignment="Left"  Margin="30,0,0,0" ></Text>
 						<Rectangle Color="White" ux:Name="btnSendImage" Clicked="{selectImage}" Width="170" Height="100" Dock="Right" Margin="0,0,30,0" >
+						
+							<Match Value="{flag}">
+								<Case String="nemaslika">
+   									<Image  StretchMode="Scale9"  Width="170" Height="100" /> 
+   								</Case>
+
+    							<Case String="kamera">
+   									<Image File="{ImageURL}" StretchMode="Scale9"  Width="170" Height="100" /> 
+   								</Case>
+
+   								<Case String="load">
+   									<Image Url="{ImageURL}" StretchMode="Scale9"  Width="170" Height="100" /> 
+   								</Case>
+   							</Match>
+							<!-- <Image File="\\192.168.1.110\d$\68.jpg" -->
+							
 							<Clicked>
 								<Scale Factor="0.95" Duration=".1" Easing="QuadraticInOut" />
 							</Clicked>
 							<Text  Value="SELECT IMAGE"  FontSize="14"  Color="primary" Alignment="Center" Font="medium"> </Text>
 							<Stroke  Width="2" Color="done"> </Stroke>
 						</Rectangle>
+								
 				</DockPanel>
 				
-            <!-- <Image File="Assets/background1.png" StretchMode="Scale9" /> -->
+				<FlatButton BtnText="Load Picture" Alignment="Center" BtnTextColor="accent" Clicked="{selectImage}" Margin="-16"/>
+				<FlatButton BtnText="Take Picture" Alignment="Center" BtnTextColor="accent" Clicked="{takePicture}" Margin="-16"/>
+				<FlatButton BtnText="Remove Picture" Alignment="Center" BtnTextColor="accent" Clicked="{removePicture}" Margin="-16"/>				
+            
         	
 			<FloatingLabelArea Value="{Property this.AditionalComment}" PlaceholderText="Aditional comment:" Margin="32, 8, 32, 0" />
 			<FloatingLabelArea Value="{Property this.EnterQuestion}" PlaceholderText="Enter question:" Margin="32, 8, 32, 0" />
