@@ -10,7 +10,7 @@
         <Toolbar Color="primary" Title="Local Contacts" HasBackButton="True" router="router">
         </Toolbar>
        
-        <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,10,0,0" >
+        <Rectangle  Dock="Top" Color="divider"  CornerRadius="7" Width="90%"  Alignment="Center" Height="40" Margin="0,10,0,10" >
             <Stroke Width="1" Color="primary_light"/>
         <DockPanel >
                  <TextInput  Value="{searchString2}" PlaceholderText="Search" PlaceholderColor="primary" />
@@ -22,12 +22,14 @@
             <ScrollView >
                
                 <StackPanel>
-                        
+                  <WhileTrue Value="{isLoading}"> 
+                    <Text Value="Loading Contacts..." Alignment="Center" Margin="20"/>
+                  </WhileTrue>
                     <Each Items="{filteredItems}"> 
-                          <Rectangle Width="100%" Height="50" Color="#FAFAFA" CornerRadius="7"   Alignment="Center" Margin="0,0,0,0" ux:Name="localcontacts">
+                          <Rectangle Width="100%" Height="50" Color="#FAFAFA" CornerRadius="7" Clicked="{importContact}" Alignment="Center" Margin="0,0,0,0" ux:Name="localcontacts">
                             <WhileHovering>
-                                 <Change localcontacts.Color="divider" />
-                                </WhileHovering>
+                                <Change localcontacts.Color="divider" />
+                            </WhileHovering>
                             <StackPanel  Padding="8" >   
                                 <Text Value="{fname} {lname}" Font="medium" FontSize="15" Color="primary_text"> </Text>
                                 <Text Value="{tel}" Font="medium" FontSize="13" Color="primary_text"> </Text>
