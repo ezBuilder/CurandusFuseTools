@@ -74,10 +74,10 @@
                         <Rectangle Color="background_color">
                             <Match Value="{isDoctors}" >
                                 <Case Bool="true">
-                                    <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddDoctors}" BtnTextColor="icons" />
+                                    <FloatingButton Alignment="BottomRight" BtnColor="#FF5722" BtnIcon="&#xE145;" Clicked="{goToAddDoctors}" BtnTextColor="icons" />
                                 </Case>
                                 <Case Bool="false">
-                                    <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+                                    <FloatingButton Alignment="BottomRight" BtnColor="#FF5722" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
                                 </Case>
                             </Match>
                             <Match Value="{isDoctors}" >
