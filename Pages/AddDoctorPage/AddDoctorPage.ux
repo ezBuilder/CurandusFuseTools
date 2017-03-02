@@ -2,14 +2,43 @@
 <JavaScript File="AddDoctorPage.js" />
 	<Router ux:Dependency="router" />
 
-
+<!-- **************** Tabs1   **************** -->
+<Rectangle ux:Class="TabName2" Color="primary_dark" Width="100%" > 
+    <string ux:Property="Label"/>
+    <float4 ux:Property="TextColor"/>
+    <Selectable Value="{ReadProperty this.Label}"/>
+    <DockPanel>
+        <Icon FontSize="24" Color="{ReadProperty this.TextColor}" Dock="Right" Alignment="Center" Margin="0,0,8,0">&#xE0E0;</Icon>
+        <Text Alignment="CenterRight" Color="{ReadProperty this.TextColor}"  Dock="Right"   Font="regular"  Value="{ReadProperty this.Label}" />
+        <WhilePressed>
+            <Scale Factor="1.1" Duration="0.2"/>
+        </WhilePressed>
+    </DockPanel>
+    
+</Rectangle>
 		<DockPanel>
 			<Toolbar Color="primary" Title="Add doctor" HasBackButton="True" router="router">
+
 				<DropShadow />
 			</Toolbar>
-			<Rectangle Color="background_color" Layer="Background"/>
+
+
+        <Rectangle Alignment="Top" Height="45" Width="100%">
+            <Grid Columns="1*,1*" >
+                <Selection Value=""/>
+                <TabName Label="" ></TabName>
+                
+                    
+                        <TabName2  Label="IMPORT" TextColor="White" Clicked="{goToLocal}"></TabName2>
+                    
+                 
+            </Grid>
+            <DropShadow/> 
+        </Rectangle> 
+
+			<Rectangle Color="background_color" Layer="Background" />
 			
-			<StackPanel>
+			<StackPanel Margin="0,60,0,0">
 
 				<FloatingLabel Value="{phoneNumber}" InputHint="Number" PlaceholderText="Phone number" Margin="32, 16, 32, 0" />
 				<FloatingLabel Value="{name}" PlaceholderText="Name" Margin="32, 16, 32, 0" />
@@ -17,7 +46,7 @@
 
 				<RaisedButton BtnText="SAVE" BtnColor="primary" BtnTextColor="icons" Clicked="{addContact}" Alignment="Center" Margin="0,32,0,0"/>
 
-				<FlatButton BtnText="IMPORT" BtnTextColor="#FF5722" Alignment="Center" Clicked="{goToLocal}" />
+			
 
 			</StackPanel>
 		</DockPanel>

@@ -366,7 +366,10 @@
 		                }).then(function(responseObject) {
 		                    console.log("Success");
 
-		                    router.goto("main");
+		                    var tmp = Math.random();
+		                    router.goto("main", {
+		                        newContact: tmp
+		                    });
 
 		                }).catch(function(err) {
 		                    console.log("Error", err.message);
