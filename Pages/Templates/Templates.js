@@ -1,4 +1,5 @@
 var Observable = require("FuseJS/Observable");
+var activeUrl = require("Constants/SERVICE_URL.js");
 
 var user = Observable();
 

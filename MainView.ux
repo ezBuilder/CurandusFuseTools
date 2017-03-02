@@ -20,6 +20,7 @@
 	<Router ux:Name="router" />
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
+		var url = require("Constants/SERVICE_URL.js");
 		var Storage = require("FuseJS/Storage");
 		var myToast = require("myToast");
 

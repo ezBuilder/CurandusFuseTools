@@ -26,7 +26,7 @@
 
    //***************  GET SAVED TREATMENT ITEMS BY SAVED TREATMENT ITEM ID ********
    function fetchDataBySavedTreatment(id) {
-       var url = "http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + id + "&typetreatment=S"
+       var url = activeUrl.URL + "/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + id + "&typetreatment=S"
        console.log(url);
        fetch(url, {
            method: 'GET',

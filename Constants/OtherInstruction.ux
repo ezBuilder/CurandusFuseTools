@@ -1,11 +1,12 @@
 <Panel ux:Class="OtherInstruction" Margin="0,0,0,16">
 	<string ux:Property="Instruction" />
+	<string ux:Property="Repeat" />
 
 	<StackPanel>
 		<Rectangle Color="White">
 			<StackPanel>
 				<FloatingLabelArea Value="{Property this.Instruction}" PlaceholderText="Other instructions:"   Margin="32, 8, 32, 0" />
-				<!-- <FloatingLabelArea Value="{Property this.Repeat}" PlaceholderText="repeat on" Margin="32, 8, 32, 0" /> -->
+				<FloatingLabel Value="{Property this.Repeat}" PlaceholderText="Repeat on days" InputHint="Number" Margin="32, 8, 32, 0" />
 			</StackPanel>
 		</Rectangle>
 	</StackPanel>

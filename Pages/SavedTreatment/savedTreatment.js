@@ -1,15 +1,16 @@
 var Observable = require("FuseJS/Observable")
 
+var activeUrl = require("Constants/SERVICE_URL.js");
 var selektirani = Observable("");
 var Storage = require("FuseJS/Storage");
 var Modal = require("Modal");
 var lista = [];
 var savedTreatments = Observable();
-var userInfo = JSON.parse(Storage.readSync("userInfo"));//Storage.readSync("userInfo");
+var userInfo = JSON.parse(Storage.readSync("userInfo")); //Storage.readSync("userInfo");
 var name = Observable("");
 searchString2 = Observable("");
 //var providerId = JSON.parse(userInfo.providerId);
-function stringContainsString(main,filter) {
+function stringContainsString(main, filter) {
     return main.toLowerCase().indexOf(filter.toLowerCase()) != -1;
 }
 console.log("OVA E user info  yyyy: " + userInfo);
@@ -18,7 +19,7 @@ console.log("OVA E PROVIDER ID yyyy: " + providerId);
 
 //***************  GET NAME BY PATIENT 
 name.value = JSON.parse(Storage.readSync("nameLastname"));
-console.log("*VO SAVED TREATMENTS NAME"+name);
+console.log("*VO SAVED TREATMENTS NAME" + name);
 
 /////////////////////// REMOVE TREATMENT TEMPLATE ////////////////////////////////////
 function RemoveItem(sender) {
@@ -29,7 +30,7 @@ function RemoveItem(sender) {
         function(s) {
             if (s == "Yes") {
                 console.log("REMOVE TREATMENT TEMPLATE: " + sender.data.savedTreatmentTemplateId);
-                var url = "http://192.168.1.165:8081/curandusproject/webapi/api/DeleteSavedTemplate/" + sender.data.savedTreatmentTemplateId + "&&" + sender.data.savedTreatmentTemplateId
+                var url = activeUrl.URL + "/curandusproject/webapi/api/DeleteSavedTemplate/" + sender.data.savedTreatmentTemplateId + "&&" + sender.data.savedTreatmentTemplateId
                 fetch(url, {
                     method: 'GET',
                     headers: {
@@ -73,7 +74,7 @@ function Remove(sender) {
 function fetchDataBySavedTreatment(id, templateName) {
 
     lista = [];
-    var url = "http://192.168.1.165:8081/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + id + "&typetreatment=S"
+    var url = activeUrl.URL + "/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=" + id + "&typetreatment=S"
     console.log(url);
     fetch(url, {
         method: 'GET',
@@ -166,7 +167,7 @@ this.onParameterChanged(function(param) {
 
 var filteredItems = searchString2.flatMap(function(searchValue) {
     return savedTreatments.where(function(item) {
-    return stringContainsString(item.nameTreatment, searchValue);
+        return stringContainsString(item.nameTreatment, searchValue);
     });
 });
 

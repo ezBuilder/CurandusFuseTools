@@ -16,8 +16,8 @@
 				<Text Font="medium" Value="{nameLastname}" FontSize="18" TextColor="primary" />
 				<Rectangle Width="100%" Height="1" Color="divider"/>
 				<StackPanel Orientation="Horizontal">
-					<Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon>
-					<Text Font="medium" Value="Diabetes" FontSize="12" TextColor="offline" />
+					<!-- <Icon Alignment="Center" FontSize="12" Color="offline">&#xE001;</Icon> -->
+					<Text Font="medium" Value="{WarningInfo}" FontSize="12" TextColor="offline" />
 				</StackPanel>
 			</StackPanel>
 			<StackPanel Dock="Right" Orientation="Horizontal">
