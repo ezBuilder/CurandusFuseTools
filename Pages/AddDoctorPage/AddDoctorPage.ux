@@ -8,7 +8,7 @@
     <float4 ux:Property="TextColor"/>
     <Selectable Value="{ReadProperty this.Label}"/>
     <DockPanel>
-        <Icon FontSize="24" Color="{ReadProperty this.TextColor}" Dock="Right" Alignment="Center" Margin="0,0,8,0">&#xE0E0;</Icon>
+        <Icon FontSize="24" Color="{ReadProperty this.TextColor}" Dock="Right" Alignment="Center" Margin="8,0,8,0">&#xE853;</Icon>
         <Text Alignment="CenterRight" Color="{ReadProperty this.TextColor}"  Dock="Right"   Font="regular"  Value="{ReadProperty this.Label}" />
         <WhilePressed>
             <Scale Factor="1.1" Duration="0.2"/>
