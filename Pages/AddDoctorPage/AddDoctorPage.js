@@ -1,7 +1,12 @@
 var Observable = require('FuseJS/Observable');
+var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 
 var User;
+
+var phoneNumber = Observable("");
+var name = Observable("");
+var surname = Observable("");
 
 Storage.read("userInfo").then(function(content) {
     User = JSON.parse(content);
@@ -9,16 +14,21 @@ Storage.read("userInfo").then(function(content) {
 
 });
 
-var phoneNumber = Observable("");
-var name = Observable("");
-var surname = Observable("");
+this.onParameterChanged(function(param) {
+    if (param.localContact) {
 
+        phoneNumber.value = param.localContact.phoneNumber;
+        name.value = param.localContact.name;
+        surname.value = param.localContact.surname;
+
+    }
+});
 
 function addContact() {
 
     if (phoneNumber.value != "" && name.value != "" && surname.value != "") {
 
-        fetch("http://192.168.1.165:8081/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value, {
+        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value, {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"
@@ -47,8 +57,14 @@ function addContact() {
 
 }
 
+function goToLocal() {
+    router.push("LocalContacts");
+}
+
+
 module.exports = {
     addContact: addContact,
+    goToLocal: goToLocal,
     phoneNumber: phoneNumber,
     name: name,
     surname: surname

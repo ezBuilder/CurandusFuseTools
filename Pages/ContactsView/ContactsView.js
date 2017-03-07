@@ -1,6 +1,9 @@
 var Observable = require("FuseJS/Observable");
+var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 var Modal = require("Modal");
+var myToast = require("myToast");
+
 
 var UserInfo = JSON.parse(Storage.readSync("userInfo"));
 
@@ -11,6 +14,7 @@ this.onParameterChanged(function(param) {
         reloadHandlerDoctors();
     }
 });
+
 
 var isDoctors = Observable(false);
 var data = Observable();
@@ -63,7 +67,7 @@ function setPatients() {
 function fetchDataDoctors() {
     finalDoctors = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlProvider = "http://192.168.1.165:8081/curandusproject/webapi/api/getprovidersdatabyprovider/ProviderProviderId=" + UserInfo.providerId
+    var urlProvider = activeUrl.URL + "/curandusproject/webapi/api/getprovidersdatabyprovider/ProviderProviderId=" + UserInfo.providerId
     console.log(urlProvider);
     fetch(urlProvider, {
         method: 'GET',
@@ -121,7 +125,7 @@ function fetchData() {
     console.log("gggggggggggggggggggggggggggggggggg");
     final = [];
     // ТРЕБА ДА СЕ СМЕНИ
-    var urlPatient = "http://192.168.1.165:8081/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
+    var urlPatient = activeUrl.URL + "/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
     console.log(urlPatient);
     fetch(urlPatient, {
         method: 'GET',
@@ -181,6 +185,60 @@ function goToSelectType(e) {
     });
 }
 
+function deleteContact(e) {
+    var patientId = e.data.patientId;
+    if (e.data.activetreatmenId != 0) {
+        myToast.toastIt("You cannot delete this contact because it has active treatment!");
+    } else {
+        console.log(JSON.stringify(e.data.patientId));
+        Modal.showModal(
+            "Delete Contact",
+            "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
+            function(s) {
+                if (s == "Yes") {
+                    fetch(activeUrl.URL + "/curandusproject/webapi/api/deleteProviderPatient/" + UserInfo.providerId + "&&" + patientId, {
+                        method: 'GET',
+                        headers: {
+                            "Content-type": "application/json"
+                        }
+                    }).then(function(response) {
+                        return response.json(); // This returns a promise
+                    }).then(function(responseObject) {
+                        console.log("Success Delete Contact");
+                        reloadHandler();
+                    }).catch(function(err) {
+                        console.log("Error", err.message);
+                    });
+                }
+            });
+    }
+
+}
+
+function deleteDoctor(e) {
+    var providerContactId = e.data.ProviderDetail2l;
+    Modal.showModal(
+        "Delete Contact",
+        "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
+        function(s) {
+            if (s == "Yes") {
+                fetch(activeUrl.URL + "/curandusproject/webapi/api/deleteProviderProvider/" + UserInfo.providerId + "&&" + providerContactId, {
+                    method: 'GET',
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                }).then(function(response) {
+                    return response.json(); // This returns a promise
+                }).then(function(responseObject) {
+                    console.log("Success Delete Contact");
+                    reloadHandlerDoctors();
+                }).catch(function(err) {
+                    console.log("Error", err.message);
+                });
+            }
+        });
+}
+
 function goToTreatment(e) {
     router.push("alert", {
         user: e.data
@@ -201,45 +259,13 @@ function goToChat(e) {
     });
 }
 
-function deleteContact(e) {
-    console.log("MHMMMMMMMMMM", JSON.stringify(e.data.activetreatmenId));
-    if (e.data.activetreatmenId != 0) {
-        Modal.showModal(
-            "Delete Contact ",
-            "You cannot delete this contact because it has active treatment!", ["Ok"],
-            function(s) {});
-    } else {
-        Modal.showModal(
-            "Delete Contact",
-            "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
-            function(s) {
-                if (s == "Yes") {
-                    console.log(JSON.stringify(e.data.fullName));
-                    reloadHandler();
-                }
-            });
-    }
-
-}
-
-function deleteDoctor(e) {
-    Modal.showModal(
-        "Delete Contact",
-        "Are you sure you want to delete " + e.data.fullName + "?", ["Yes", "No"],
-        function(s) {
-            if (s == "Yes") {
-                console.log(JSON.stringify(e.data.fullName));
-                // CALL PUT API TO MAKE CONTACT INACTIVE
-                reloadHandlerDoctors();
-            }
-        });
-}
-
 var filteredItems = searchString.flatMap(function(searchValue) {
     return data.where(function(item) {
         return stringContainsString(item.firstName, searchValue);
     });
 });
+
+
 
 var filteredItems1 = searchString1.flatMap(function(searchValue) {
     return dataDoctors.where(function(item) {
@@ -267,7 +293,7 @@ module.exports = {
     filteredItems: filteredItems,
     searchString: searchString,
     searchString1: searchString1,
-    filteredItems1: filteredItems1,
-    deleteContact: deleteContact,
     deleteDoctor: deleteDoctor,
+    deleteContact: deleteContact,
+    filteredItems1: filteredItems1
 };

@@ -74,18 +74,25 @@
                         <Rectangle Color="background_color">
                             <Match Value="{isDoctors}" >
                                 <Case Bool="true">
-                                    <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddDoctors}" BtnTextColor="icons" />
+                                    <FloatingButton Alignment="BottomRight" BtnColor="#FF5722" BtnIcon="&#xE145;" Clicked="{goToAddDoctors}" BtnTextColor="icons" />
                                 </Case>
                                 <Case Bool="false">
-                                    <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
+                                    <FloatingButton Alignment="BottomRight" BtnColor="#FF5722" BtnIcon="&#xE145;" Clicked="{goToAddContact}" BtnTextColor="icons" />
                                 </Case>
                             </Match>
                             <Match Value="{isDoctors}" >
                                 <Case Bool="true">
                                     <ScrollView ClipToBounds="True">
                                         <StackPanel Orientation="Vertical">
+                                            <Rectangle Dock="Top" Color="divider" CornerRadius="7" Width="90%" Alignment="Center" Height="40" Margin="0,0,0,10" >
+                                                <Stroke Width="1" Color="primary_light"/>
+                                                <DockPanel>
+                                                    <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary" />
+                                                    <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
+                                                </DockPanel>
+                                            </Rectangle>
                                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
-                                            <Each Items="{dataDoctors}">
+                                            <Each Items="{filteredItems1}">
                                                 <Match Value="{isLetter}" >
                                                     <Case Number="0" >
                                                         <DockPanel Margin="7,1,1,0" ux:Name="contactItem">
@@ -133,8 +140,15 @@
                                 <Case Bool="false">
                                     <ScrollView ClipToBounds="true" >
                                         <StackPanel Orientation="Vertical">
+                                            <Rectangle Dock="Top" Color="divider" CornerRadius="7" Width="90%" Alignment="Center" Height="40" Margin="0,0,0,10" >
+                                                <Stroke Width="1" Color="primary_light"/>
+                                                <DockPanel>
+                                                    <TextInput Value="{searchString}" PlaceholderText="Search" PlaceholderColor="primary" />
+                                                    <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
+                                                </DockPanel>
+                                            </Rectangle>
                                             <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}"></PullToReload>
-                                            <Each Items="{data}">
+                                            <Each Items="{filteredItems}">
                                                 <Match Value="{isLetter}" >
                                                     <Case Number="0" >
                                                         <DockPanel Margin="7,1,1,0" ux:Name="contactItem">
@@ -169,7 +183,7 @@
                                                                     </Stroke>
                                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
                                                                 </Circle>
-                                                                <Rectangle Width="20" Height="50" Clicked="{deleteContact}">
+                                                                <Rectangle Width="20" Height="50" Clicked="{deleteContact}" HitTestMode="LocalBounds">
                                                                     <Icon Alignment="Top" FontSize="20" Color="primary" >&#xE14C;</Icon>
                                                                 </Rectangle>
                                                             </StackPanel>

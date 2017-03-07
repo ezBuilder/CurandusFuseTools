@@ -1,4 +1,5 @@
 var Observable = require('FuseJS/Observable');
+var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 var Modal = require('Modal');
 var myToast = require("myToast");
@@ -13,7 +14,7 @@ var user_patient = Observable();
 var WarningInfo = Observable();
 var praznoime = "";
 var show_string = "";
-var Types = require("Constants/Types.js"); 
+var Types = require("Constants/Types.js");
 
 var lista_send = [];
 
@@ -77,12 +78,12 @@ this.onParameterChanged(function(param) {
     for (var i = 0; i < param.sendData.length - 3; i++) {
         //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
         //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
-      //  console.log("Ime Tip  "+ Types.GetTypeLabel("1"));
-        console.log("ID  "+ param.sendData[i].name);
+        //  console.log("Ime Tip  "+ Types.GetTypeLabel("1"));
+        console.log("ID  " + param.sendData[i].name);
 
-        param.sendData[i].label=Types.GetTypeLabel(param.sendData[i].name);
+        param.sendData[i].label = Types.GetTypeLabel(param.sendData[i].name);
 
-        console.log("Ime Tip  "+ param.sendData[i].label);
+        console.log("Ime Tip  " + param.sendData[i].label);
         //console.log("TIPOVI", JSON.stringify(Types.types.value)); 
         if (param.sendData[i].renderingInfo == null || param.sendData[i].renderingInfo == "null") {
             param.sendData[i].render = "";
@@ -115,7 +116,7 @@ this.onParameterChanged(function(param) {
     console.log("Prametar " + p_patient_id + " P_SubTreatmentID " + P_SubTreatmentID + " Name " + stname.value);
     //   stname.value="";
 
-    var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getPatientsData/patientId=" + p_patient_id;
+    var url = activeUrl.URL + "/curandusproject/webapi/api/getPatientsData/patientId=" + p_patient_id;
     console.log(url);
     fetch(url, {
         method: 'GET',
@@ -130,14 +131,14 @@ this.onParameterChanged(function(param) {
     }).then(function(data) {
         user_patient.value = data;
 
-     if (NVL(user_patient.value.allergies) != "" || NVL(user_patient.value.chronicDiseases) != "" || NVL(user_patient.value.medicationsThatRecieves) != "") {
-        WarningInfo.value = "Warning";
+        if (NVL(user_patient.value.allergies) != "" || NVL(user_patient.value.chronicDiseases) != "" || NVL(user_patient.value.medicationsThatRecieves) != "") {
+            WarningInfo.value = "Warning";
 
-        console.log("warning " + WarningInfo.value);
-    } else {
-        WarningInfo.value = "";
-        console.log("nema warning " + WarningInfo.value);
-    }       
+            console.log("warning " + WarningInfo.value);
+        } else {
+            WarningInfo.value = "";
+            console.log("nema warning " + WarningInfo.value);
+        }
 
     }).catch(function(err) {
         console.log("Fetch data error");
@@ -161,7 +162,7 @@ function goToSavedTreatments() {
     lista_send = [];
 
     console.log("Redirekting");
-    var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/" + providerId
+    var url = activeUrl.URL + "/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/" + providerId
     console.log(url);
     fetch(url, {
         method: 'GET',
@@ -204,68 +205,68 @@ function goToSavedTreatments() {
 }
 
 
-         function CheckFields() {
-                var ret = 0;
-                for (var i = 0; i < lista.length; i++) {
-                    if (lista.getAt(i).name.value != "8" && lista.getAt(i).name.value != "9" &&
-                        lista.getAt(i).name.value != "10" && lista.getAt(i).name.value != "11")
-                    // lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
-                    // ||lista.getAt(0).name.value=="BloodPressuerCheck")  
-                    {
-                        if (NVL(lista.getAt(i).interval.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
-                            console.log("Interval " + lista.getAt(i).interval.value);
-                            ret = ret + 1;
-                        }
-                    } else if (lista.getAt(i).name.value == "8") {
-                        if (NVL(lista.getAt(i).diet.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
-
-                            console.log("diet");
-                            console.log("Interval " + NVL(lista.getAt(i).duration.value));
-                            ret = ret + 1;
-                        }
-                    } else if (lista.getAt(0).name.value == "10") {
-                        if (NVL(lista.getAt(i).hygiene.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
-                            ret = ret + 1;
-                        }
-                    } else if (lista.getAt(i).name.value == "11") {
-                        if (NVL(lista.getAt(i).otherinstructions.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
-                            ret = ret + 1;
-                        }
-                    } else if (lista.getAt(i).name.value == "9") {
-                        if (NVL(lista.getAt(i).activity.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
-                            ret = ret + 1;
-                        }
-                    }
-
-
-                    if (lista.getAt(i).name.value == "4") {
-                        if (NVL(lista.getAt(i).painlevelof.value) == "") {
-                            ret = ret + 1;
-                        }
-                    } else if (lista.getAt(i).name.value == "6") {
-                        if (NVL(lista.getAt(i).sendimageof.value) == "") {
-                            ret = ret + 1;
-                        }
-                    } else if (lista.getAt(i).name.value == "7") {
-                        if (NVL(lista.getAt(i).comparisionquestion.value) == "" || NVL(lista.getAt(i).comparisionurl.value) == "") {
-                            ret = ret + 1;
-                        }
-                    } else if (lista.getAt(i).name.value == "5") {
-                        if (NVL(lista.getAt(i).medicinename.value) == "" || NVL(lista.getAt(i).medicinecomment.value) == "") {
-                            ret = ret + 1;
-                        }
-                    }
-                }
-
-                console.log("ret " + ret);
-                if (ret == 0) {
-                    p_enabled.value = true;
-                    return true;
-                } else {
-                    p_enabled.value = false;
-                    return false;
-                }
+function CheckFields() {
+    var ret = 0;
+    for (var i = 0; i < lista.length; i++) {
+        if (lista.getAt(i).name.value != "8" && lista.getAt(i).name.value != "9" &&
+            lista.getAt(i).name.value != "10" && lista.getAt(i).name.value != "11")
+        // lista.getAt(0).name.value=="TemperatureCheck"||lista.getAt(0).name.value=="PulseCheck"
+        // ||lista.getAt(0).name.value=="BloodPressuerCheck")  
+        {
+            if (NVL(lista.getAt(i).interval.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                console.log("Interval " + lista.getAt(i).interval.value);
+                ret = ret + 1;
             }
+        } else if (lista.getAt(i).name.value == "8") {
+            if (NVL(lista.getAt(i).diet.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+
+                console.log("diet");
+                console.log("Interval " + NVL(lista.getAt(i).duration.value));
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(0).name.value == "10") {
+            if (NVL(lista.getAt(i).hygiene.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "11") {
+            if (NVL(lista.getAt(i).otherinstructions.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "9") {
+            if (NVL(lista.getAt(i).activity.value) == "" || NVL(lista.getAt(i).duration.value) == "") {
+                ret = ret + 1;
+            }
+        }
+
+
+        if (lista.getAt(i).name.value == "4") {
+            if (NVL(lista.getAt(i).painlevelof.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "6") {
+            if (NVL(lista.getAt(i).sendimageof.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "7") {
+            if (NVL(lista.getAt(i).comparisionquestion.value) == "" || NVL(lista.getAt(i).comparisionurl.value) == "") {
+                ret = ret + 1;
+            }
+        } else if (lista.getAt(i).name.value == "5") {
+            if (NVL(lista.getAt(i).medicinename.value) == "" || NVL(lista.getAt(i).medicinecomment.value) == "") {
+                ret = ret + 1;
+            }
+        }
+    }
+
+    console.log("ret " + ret);
+    if (ret == 0) {
+        p_enabled.value = true;
+        return true;
+    } else {
+        p_enabled.value = false;
+        return false;
+    }
+}
 
 function ChekNameTreatment() {
     console.log("klik");
@@ -291,7 +292,7 @@ function ChekNameTreatment() {
 function GetParameter() {
     console.log("GetParameter");
     lista.clear();
-    fetch("http://192.168.1.110:8080/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=10&typetreatment=7", {
+    fetch(activeUrl.URL + "/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=10&typetreatment=7", {
         method: 'GET',
         headers: {
             "Content-type": "application/json"
@@ -412,10 +413,10 @@ function Insert_Treatment() {
 
         }
         if (P_SubTreatmentID == 0 || prazno_ime != "") {
-            api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=" + providerId + "&patientid=" + p_patient_id + "&nametreatment=Prv&namesubtreatment=PrvS";
+            api_call = activeUrl.URL + "/curandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=" + providerId + "&patientid=" + p_patient_id + "&nametreatment=Prv&namesubtreatment=PrvS";
             show_string = "Treatment assigned to patient";
         } else {
-            api_call = "http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=" + P_SubTreatmentID;
+            api_call = activeUrl.URL + "/curandusproject/webapi/api/UpdateActiveSubTreatment/subtreatmentid=" + P_SubTreatmentID;
             show_string = "Treatmetnt updated";
         }
 
@@ -537,7 +538,7 @@ function Insert_Saved_Treatment() {
         // }
         var userInfo = Storage.readSync("userInfo");
 
-        var call_api = "http://192.168.1.110:8080/curandusproject/webapi/api/insertsavedtreatment?providerid=" + providerId + "&nametreatment=" + encodeURIComponent(stname.value);
+        var call_api = activeUrl.URL + "/curandusproject/webapi/api/insertsavedtreatment?providerid=" + providerId + "&nametreatment=" + encodeURIComponent(stname.value);
 
         console.log("nametreatment " + stname.value);
 
@@ -581,7 +582,7 @@ function Insert_Saved_Treatment() {
                     function(s) {
                         debug_log("Got callback with " + s);
                         if (s == "Yes") {
-                            fetch("http://192.168.1.110:8080/curandusproject/webapi/api/updatesavedtreatment/savedtreatmentid=" + responseObject, {
+                            fetch(activeUrl.URL + "/curandusproject/webapi/api/updatesavedtreatment/savedtreatmentid=" + responseObject, {
                                 method: 'POST',
                                 headers: {
                                     "Content-type": "application/json"
@@ -633,5 +634,6 @@ module.exports = {
     NVL: NVL,
     user_patient: user_patient,
     ShowAlergies: ShowAlergies,
+    WarningInfo: WarningInfo,
     RemoveItem: RemoveItem
 };

@@ -20,6 +20,7 @@
 	<Router ux:Name="router" />
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
+		var url = require("Constants/SERVICE_URL.js");
 		var Storage = require("FuseJS/Storage");
 		var myToast = require("myToast");
 
@@ -127,6 +128,7 @@
 				<SharePage ux:Template="SharePage" router="router" />
 				<savedTreatment ux:Template="savedTreatment" router="router" />
 				<EditProfilePage ux:Template="EditProfile" router="router" />
+				<LocalContacts ux:Template="LocalContacts" router="router" />
 			</Navigator>
 			<!-- MAIN NAVIGATION END -->
 			<BottomBarBackground Dock="Bottom"/>

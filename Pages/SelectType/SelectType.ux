@@ -4,7 +4,8 @@
 
 
 <JavaScript> 
-    var Observable = require("FuseJS/Observable"); 
+    var Observable = require("FuseJS/Observable");
+    var activeUrl = require("Constants/SERVICE_URL.js"); 
     var Types = require("Constants/Types.js"); 
     console.log("TIPOVI", JSON.stringify(Types.types.value)); 
     var allTypes = Types.types.value; 
@@ -169,7 +170,7 @@
         lista=[]; 
 
 
-        var url = "http://192.168.1.165:8081/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId 
+        var url = activeUrl.URL + "/curandusproject/webapi/api/getsavedtreatmenttemplatebyprovider/"+providerId 
         console.log(url); 
         fetch(url, { 
             method: 'GET', 
@@ -312,10 +313,10 @@
 
 <!-- **************** Tabs   **************** -->
 <Rectangle ux:Class="TabName" Color="primary_dark" Width="100%" > 
-    <string ux:Property="Label"/>
-    <string ux:Property="Value"/>
+    <string ux:Property="Label"/> 
+    <string ux:Property="Value"/> 
     <Selectable Value="{ReadProperty this.Label}"/>
-    <Text Alignment="BottomLeft"  Font="regular" Color="White" Margin="10,0,0,5" Value="{ReadProperty this.Label}" />
+    <Text Alignment="CenterLeft"  Font="regular" Color="White" Margin="10,0,0,0" Value="{ReadProperty this.Label}" />
     
 </Rectangle>
 
@@ -323,10 +324,11 @@
 <!-- **************** Tabs1   **************** -->
 <Rectangle ux:Class="TabName1" Color="primary_dark" Width="100%" > 
     <string ux:Property="Label"/>
+    <float4 ux:Property="TextColor"/>
     <Selectable Value="{ReadProperty this.Label}"/>
     <DockPanel>
-        <Icon FontSize="24" Color="White" Dock="Right" Alignment="Center" Margin="0,0,8,0">&#xE873;</Icon>
-        <Text Alignment="CenterRight" Color="White"  Dock="Right"   Font="regular"  Value="{ReadProperty this.Label}" />
+        <Icon FontSize="24" Color="{ReadProperty this.TextColor}" Dock="Right" Alignment="Center" Margin="0,0,8,0">&#xE873;</Icon>
+        <Text Alignment="CenterRight" Color="{ReadProperty this.TextColor}"  Dock="Right"   Font="regular"  Value="{ReadProperty this.Label}" />
         <WhilePressed>
             <Scale Factor="1.1" Duration="0.2"/>
         </WhilePressed>
@@ -346,13 +348,13 @@
         <Rectangle Alignment="Top" Height="45" Width="100%">
             <Grid Columns="1*,1*" >
                 <Selection Value="Types"/>
-                <TabName Label=""></TabName>
+                <TabName Label="Types" ></TabName>
                 <Match Value="{active}">
                     <Case String="true">
-                        <TabName1 Clicked="{goToSavedTreatments}" Label="Load"></TabName1>
+                        <TabName1 TextColor="White" Clicked="{goToSavedTreatments}" Label="LOAD"></TabName1>
                     </Case>
                     <Case String="false">
-                        <TabName1  Label="Load"></TabName1>
+                        <TabName1  Label="LOAD" TextColor="White"></TabName1>
                     </Case>
                 </Match>   
             </Grid>
@@ -362,7 +364,7 @@
 
         <Rectangle Color="background_color">  
             
-            <FloatingButton Alignment="BottomRight" BtnColor="accent" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> 
+            <FloatingButton Alignment="BottomRight" BtnColor="#FF5722CC" BtnIcon="&#xE409;" Clicked="{goToSelectItems}" BtnTextColor="icons" /> 
             
             <ScrollView Margin="0,60,0,0"> 
                 <StackPanel>
@@ -371,6 +373,7 @@
                     <Each Items="{allTypes}">
                         <MyItem Label="{label}" Value="{id}"/> 
                     </Each>
+
                 <!-- 
                     <MyItem Label="Blood Pressure Check" Value="2"/> 
                     <MyItem Label="Pulse Check" Value="3"/> 
