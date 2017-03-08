@@ -19,7 +19,7 @@ var praznoime = "";
 var show_string = "";
 var Types = require("Constants/Types.js");
 var flag = Observable();
- flag.value="nemaslika";
+flag.value = "nemaslika";
 
 var lista_send = [];
 
@@ -155,78 +155,80 @@ this.onParameterChanged(function(param) {
 
 });
 
-    function selectImage(sender) {
-     console.log("data" + sender.data.index.value);
-      lista.getAt(sender.data.index.value).flag.value="load";
-      console.log("Vleguva vo selectimage: ");
-      //console.log("ova e patekata na slikata:"+ImageURL.value);     
-        CameraRoll.getImage().then(
-            function(image) {
-                var args = {
-                    desiredWidth: 480,
-                    desiredHeight: 480,
-                    mode: ImageTools.SCALE_AND_CROP,
-                    performInPlace: true
-                };
-                ImageTools.resize(image, args).then(
-                    function(image) {
-                        ImageTools.getBase64FromImage(image)
-                  .then(function(image) { 
-                    
-                    var rendering = {"base64": image};
-                    //console.log("The base64 encoded image is "+rendering);
-                    var tmp = {
-                       "name":"ComparisonWithPicture",
-                       "duration":"3",
-                       "status":"1",
-                       "createdBy":0,
-                       "modifiedBy":0,
-                       "created":null,
-                       "modified":null,
-                       "typeT":"ACK",
-                        "renderingInfo": JSON.stringify(rendering),
-                       "repeatT":"5",
-                       "subtreatmentid":18
-                      };
-                  console.log("The tmp is " +tmp);    
+function selectImage(sender) {
+    console.log("data" + sender.data.index.value);
+    lista.getAt(sender.data.index.value).flag.value = "load";
+    console.log("Vleguva vo selectimage: ");
+    //console.log("ova e patekata na slikata:"+ImageURL.value);     
+    CameraRoll.getImage().then(
+        function(image) {
+            var args = {
+                desiredWidth: 480,
+                desiredHeight: 480,
+                mode: ImageTools.SCALE_AND_CROP,
+                performInPlace: true
+            };
+            ImageTools.resize(image, args).then(
+                function(image) {
+                    ImageTools.getBase64FromImage(image)
+                        .then(function(image) {
 
-                    fetch(activeUrl.URL + "/curandusproject/webapi/api/inserttreatmentitemimage", {
-                            method: 'POST',
-                            headers: {
-                                "Content-type": "application/json"
-                            },
-                              dataType: 'json',
-                              body: JSON.stringify(tmp)
-                        }).then(function(response) {
-                            status = response.status; // Get the HTTP status code
-                            response_ok = response.ok; // Is response.status in the 200-range?
-                            return response.json(); // This returns a promise
-                        }).then(function(responseObject) {
-                            console.log("Success");
-                            console.log("broj na slika: "+responseObject);
-                          //  ImageURL.value = "http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
-                            lista.getAt(sender.data.index.value).comparisionurl.value="http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
-                     
-                            console.log("URL "+lista.getAt(sender.data.index.value).comparisionurl.value);
-                        }).catch(function(err) {
-                            console.log("Error", err.message);
+                            var rendering = {
+                                "base64": image
+                            };
+                            //console.log("The base64 encoded image is "+rendering);
+                            var tmp = {
+                                "name": "ComparisonWithPicture",
+                                "duration": "3",
+                                "status": "1",
+                                "createdBy": 0,
+                                "modifiedBy": 0,
+                                "created": null,
+                                "modified": null,
+                                "typeT": "ACK",
+                                "renderingInfo": JSON.stringify(rendering),
+                                "repeatT": "5",
+                                "subtreatmentid": 18
+                            };
+                            console.log("The tmp is " + tmp);
+
+                            fetch(activeUrl.URL + "/curandusproject/webapi/api/inserttreatmentitemimage", {
+                                method: 'POST',
+                                headers: {
+                                    "Content-type": "application/json"
+                                },
+                                dataType: 'json',
+                                body: JSON.stringify(tmp)
+                            }).then(function(response) {
+                                status = response.status; // Get the HTTP status code
+                                response_ok = response.ok; // Is response.status in the 200-range?
+                                return response.json(); // This returns a promise
+                            }).then(function(responseObject) {
+                                console.log("Success");
+                                console.log("broj na slika: " + responseObject);
+                                //  ImageURL.value = "http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
+                                lista.getAt(sender.data.index.value).comparisionurl.value = activeUrl.URL + "/curandusImages/" + responseObject + ".jpg";
+
+                                console.log("URL " + lista.getAt(sender.data.index.value).comparisionurl.value);
+                            }).catch(function(err) {
+                                console.log("Error", err.message);
+                            });
                         });
-                  });
-                    
-                      // displayImage(image);
-                    }
-                ).catch(
-                    function(reason) {
-                        console.log("Couldn't resize image: " + reason);
-                    }
-                );
-            }
-        ).catch(
-            function(reason) {
-                console.log("Couldn't get image: " + reason);
-            }
-        );
-    };
+
+                    // displayImage(image);
+                }
+            ).catch(
+                function(reason) {
+                    console.log("Couldn't resize image: " + reason);
+                }
+            );
+        }
+    ).catch(
+        function(reason) {
+            console.log("Couldn't get image: " + reason);
+        }
+    );
+};
 
 
 
@@ -685,7 +687,7 @@ module.exports = {
     user_patient: user_patient,
     ShowAlergies: ShowAlergies,
     WarningInfo: WarningInfo,
-    flag:flag,
-    selectImage:selectImage,
+    flag: flag,
+    selectImage: selectImage,
     RemoveItem: RemoveItem
 };
