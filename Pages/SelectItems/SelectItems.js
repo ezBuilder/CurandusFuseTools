@@ -202,7 +202,7 @@ this.onParameterChanged(function(param) {
                             console.log("Success");
                             console.log("broj na slika: "+responseObject);
                           //  ImageURL.value = "http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
-                            lista.getAt(sender.data.index.value).comparisionurl.value="http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
+                            lista.getAt(sender.data.index.value).comparisionurl.value=activeUrl.URL + "/curandusImages/"+responseObject+".jpg";
                      
                             console.log("URL "+lista.getAt(sender.data.index.value).comparisionurl.value);
                         }).catch(function(err) {
@@ -277,7 +277,7 @@ this.onParameterChanged(function(param) {
                             console.log("Success");
                             console.log("broj na slika: "+responseObject);
                           //  ImageURL.value = "http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
-                            lista.getAt(sender.data.index.value).comparisionurl.value="http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
+                            lista.getAt(sender.data.index.value).comparisionurl.value=activeUrl.URL + "/curandusImages/"+responseObject+".jpg";
                      
                             console.log("URL "+lista.getAt(sender.data.index.value).comparisionurl.value);
                         }).catch(function(err) {
