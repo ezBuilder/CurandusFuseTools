@@ -1,47 +1,52 @@
 <DefaultPage ux:Class="ChatPage">
 	<JavaScript File="ChatPage.js" />
 	<Router ux:Dependency="router" />
-		<DockPanel>
-			<Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router">
-				<DropShadow />
-			</Toolbar>
-			<Rectangle Color="background_color" Layer="Background"/>
-			
-			<ScrollView>
-				<StackPanel Alignment="Bottom">
+	<DockPanel>
+		<Toolbar Color="primary" Title="{user.fullName}" HasBackButton="True" router="router">
+			<DropShadow />
+		</Toolbar>
+		<Rectangle Color="#EEE" Layer="Background"/>
+		<ScrollView>
+			<StackPanel Alignment="Bottom">
+				<Each Items="{messages}">
 					<DockPanel Margin="10">
-						<Circle Height="40" Width="40" Dock="Left" Margin="0,0,10,0" Clicked="{goToUser}">
-							<ImageFill File="../../Assets/placeholder.png" />
-						</Circle>
-						<Panel Padding="20" Margin="10,0,10,0">
-							<Rectangle Layer="Background" CornerRadius="10" Color="divider"/>
-							<Text Value="Test" TextWrapping="Wrap" Alignment="CenterLeft" />
+						<Text TextColor="#727272" Value="{info}" Alignment="Center" Dock="{dock}" FontSize="12" Opacity=".5" />
+						<Panel Padding="10" Margin="10,0,10,0">
+							<Match Value="{dock}">
+								<Case String="Right">
+									<Rectangle Layer="Background" CornerRadius="10" Color="#00BCD4"/>
+									<Text TextColor="White" Value="{text}" TextWrapping="Wrap" Alignment="CenterLeft" />
+								</Case>
+								<Case String="Left">
+									<Rectangle Layer="Background" CornerRadius="10" Color="White"/>
+									<Text TextColor="#212121" Value="{text}" TextWrapping="Wrap" Alignment="CenterLeft" />
+								</Case>
+								<Case String="Top">
+									<Rectangle Layer="Background" CornerRadius="10" Color="#018a9b"/>
+									<Text TextColor="White" Value="{text}" TextWrapping="Wrap" Alignment="CenterLeft" />
+								</Case>
+							</Match>
 						</Panel>
+						<AddingAnimation>
+							<Scale Factor="0" Duration=".5" Easing="QuinticIn" />
+						</AddingAnimation>
 					</DockPanel>
-					<DockPanel Margin="10">
-						<Circle Height="40" Width="40" Dock="Right" Margin="0,0,10,0">
-							<ImageFill File="../../Assets/placeholder.png" />
-						</Circle>
-						<Panel Padding="20" Margin="10,0,10,0">
-							<Rectangle Layer="Background" CornerRadius="10" Color="primary"/>
-							<Text Value="Test" TextWrapping="Wrap" Alignment="CenterLeft" />
-						</Panel>
-					</DockPanel>
-				</StackPanel>
-			</ScrollView>
-
+				</Each>
+				<LayoutAnimation>
+					<Move RelativeTo="PositionChange" Y="1" Duration=".5" Easing="QuinticInOut" />
+				</LayoutAnimation>
+			</StackPanel>
+		</ScrollView>
 		<DockPanel Dock="Bottom" MinHeight="60" Padding="10">
 			<Rectangle Layer="Background" Height="1" Alignment="Top" Color="primary_dark" Opacity=".1" />
 			<Rectangle Layer="Background" Height="1" Alignment="Bottom" Color="primary_dark" Opacity=".1" />
-
-			<Button Dock="Right" Margin="10,0,0,0" Clicked="{sendMessage}" IsEnabled="{canSendMessage}">
+			<Button Dock="Right" Margin="10,0,0,0" Clicked="{addMesageToChat}" IsEnabled="{canSendMessage}">
 				<Icon FontSize="24" Color="primary" Alignment="Center">&#xE163;</Icon>
 			</Button>
 			<Button Dock="Left" Margin="0,0,10,0" Clicked="{attach}" IsEnabled="{canSendMessage}">
 				<Icon FontSize="24" Color="primary" Alignment="Center">&#xE145;</Icon>
 			</Button>
-			<TextInput Value="{message}" PlaceholderText="Send a message!" PlaceholderColor="secondary_text" CaretColor="primary" TextColor="primary_text" ActionStyle="Send" ActionTriggered="{sendMessage}" />
+			<TextInput Value="{message}" PlaceholderText="Send a message!" PlaceholderColor="secondary_text" CaretColor="primary" TextColor="primary_text" ActionStyle="Send" ActionTriggered="{addMesageToChat}" />
 		</DockPanel>
-
-		</DockPanel>
+	</DockPanel>
 </DefaultPage>

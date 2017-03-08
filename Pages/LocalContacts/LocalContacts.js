@@ -30,6 +30,8 @@ contacts.authorize().then(function(status) {
         }
         isLoading.value = false;
         lista.replaceAll(tmpLista);
+    } else {
+        router.goBack();
     }
 });
 

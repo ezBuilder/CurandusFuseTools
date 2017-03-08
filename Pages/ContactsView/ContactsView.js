@@ -259,6 +259,15 @@ function goToChat(e) {
     });
 }
 
+function goToDoctorChat(e) {
+
+    router.push("chat", {
+        doctorChatRoomId: e.data
+    });
+
+    console.log(JSON.stringify(e));
+}
+
 var filteredItems = searchString.flatMap(function(searchValue) {
     return data.where(function(item) {
         return stringContainsString(item.firstName, searchValue);
@@ -293,6 +302,7 @@ module.exports = {
     filteredItems: filteredItems,
     searchString: searchString,
     searchString1: searchString1,
+    goToDoctorChat: goToDoctorChat,
     deleteDoctor: deleteDoctor,
     deleteContact: deleteContact,
     filteredItems1: filteredItems1

@@ -4,7 +4,7 @@
 <JavaScript File="LoginPage.js" />
 
 		<DockPanel >         
-		    <FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary" Clicked="{registerFunc}" BtnIcon="&#xE315;" BtnTextColor="icons" />
+		    <FloatingButton Alignment="Right" Dock="Bottom" BtnColor="primary" Clicked="{signUp}" BtnIcon="&#xE315;" BtnTextColor="icons" />
 
 		   	<StackPanel ux:Name="loginArea">
 
