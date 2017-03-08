@@ -42,7 +42,8 @@ function addContact() {
             console.log("Success");
             var tmp = phoneNumber.value;
             var text = "LINK TO APP";
-            sendsms(phoneNumber.value, text);
+
+            sendsms(tmp, text);
 
             phoneNumber.value = "";
             name.value = "";
