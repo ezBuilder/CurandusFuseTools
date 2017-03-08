@@ -41,6 +41,10 @@ function addContact() {
         }).then(function(responseObject) {
             console.log("Success");
             var tmp = phoneNumber.value;
+            var text = "LINK TO APP";
+
+            sendsms(tmp, text);
+
             phoneNumber.value = "";
             name.value = "";
             surname.value = "";
@@ -55,6 +59,22 @@ function addContact() {
 
     }
 
+}
+
+function sendSms(phone, text) {
+    fetch(activeUrl.URL + "/curandusproject/webapi/api/sendsms/sendsms/to=" + phone + "&body=" + text, {
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json"
+        },
+        dataType: 'json'
+    }).then(function(response) {
+        return response.json(); // This returns a promise
+    }).then(function(responseObject) {
+        console.log("Success");
+    }).catch(function(err) {
+        console.log("Error", err.message);
+    });
 }
 
 function goToLocal() {

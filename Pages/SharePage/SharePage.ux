@@ -1,8 +1,0 @@
-<DefaultPage ux:Class="SharePage">
-	<Router ux:Dependency="router" />
-	<DockPanel >
-		<Toolbar Color="primary" Title="Share" HasBackButton="True" router="router">
-			<DropShadow />
-		</Toolbar>
-	</DockPanel>
-</DefaultPage>
