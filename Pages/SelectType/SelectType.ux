@@ -354,7 +354,7 @@
                         <TabName1 TextColor="White" Clicked="{goToSavedTreatments}" Label="LOAD"></TabName1>
                     </Case>
                     <Case String="false">
-                        <TabName1  Label="LOAD" TextColor="White"></TabName1>
+                        <TabName1  Label="LOAD" TextColor="primary_light" ></TabName1>
                     </Case>
                 </Match>   
             </Grid>
