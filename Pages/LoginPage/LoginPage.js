@@ -77,9 +77,42 @@
 		            return resp.json();
 		        })
 		        .then(function(json) {
-		            chatUserId = json.user.id;
+		            console.log(JSON.stringify(json));
 
-		            registerFunc();
+		            if (json.user) {
+		                chatUserId = json.user.id;
+		                registerFunc();
+
+
+		            } else if (json.errors.login[0] == "has already been taken") {
+		                console.log("has already been taken");
+
+		                fetch('http://api.quickblox.com/users/by_login.json?login=' + phone.value, {
+		                        method: 'GET',
+		                        headers: {
+		                            'QuickBlox-REST-API-Version': "0.1.0",
+		                            'QB-Token': sessionObj.token
+		                        }
+		                    })
+		                    .then(function(resp) {
+		                        console.log("User Found!");
+		                        return resp.json();
+		                    })
+		                    .then(function(json) {
+		                        console.log('JSON POSTOI:' + JSON.stringify(json));
+
+		                        chatUserId = json.user.id;
+		                        registerFunc();
+
+
+		                    })
+		                    .catch(function(err) {
+		                        console.log('Error');
+		                        console.log(JSON.stringify(err));
+		                    });
+
+		            }
+
 
 
 		        })
@@ -88,8 +121,6 @@
 		            console.log(JSON.stringify(err));
 		        });
 		}
-
-
 
 		function registerFunc() {
 

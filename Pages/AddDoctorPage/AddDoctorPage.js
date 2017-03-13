@@ -119,7 +119,66 @@ function addChatContact() {
                         .then(function(json) {
                             userObj = json.user;
 
-                            createDialog(userObj.id, chatUserId)
+                            // createDialog(userObj.id, chatUserId)
+
+                            var data = {
+                                "type": 2,
+                                "name": "Chat with" + userObj.id + " & " + chatUserId,
+                                "occupants_ids": "23691179," + userObj.id + "," + chatUserId + ""
+                            }
+
+                            fetch('https://api.quickblox.com/chat/Dialog.json', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'QB-Token': sessionObj.token
+                                    },
+                                    body: JSON.stringify(data)
+                                })
+                                .then(function(resp) {
+                                    console.log("Dialog Created");
+                                    return resp.json();
+                                })
+                                .then(function(json) {
+                                    dialogObj = json;
+                                    console.log("DIALOG!" + dialogObj._id);
+                                    // addContact(chatUserId, dialogObj._id);
+
+                                    fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=" + chatUserId + "&roomid=" + dialogObj._id, {
+                                        method: 'POST',
+                                        headers: {
+                                            "Content-type": "application/json"
+                                        },
+                                        dataType: 'json'
+                                    }).then(function(response) {
+                                        status = response.status; // Get the HTTP status code
+                                        response_ok = response.ok; // Is response.status in the 200-range?
+                                        return response.json(); // This returns a promise
+                                    }).then(function(responseObject) {
+                                        console.log("Success");
+                                        var tmp = phoneNumber.value;
+                                        var text = "Link to App!";
+                                        // sendSms(tmp, text);
+
+                                        phoneNumber.value = "";
+                                        name.value = "";
+                                        surname.value = "";
+
+
+                                        router.goto("main", {
+                                            newDoctor: tmp
+                                        });
+
+                                    }).catch(function(err) {
+                                        console.log("Error add?", err.message);
+                                    });
+
+                                    console.log(JSON.stringify(dialogObj));
+                                })
+                                .catch(function(err) {
+                                    console.log('Error ovde?');
+                                    console.log(JSON.stringify(err));
+                                });
 
                             console.log(JSON.stringify(userObj));
 

@@ -1,11 +1,15 @@
 var Observable = require("FuseJS/Observable");
 var activeUrl = require("Constants/SERVICE_URL.js");
 var QConfig = require('Scripts/quickbloxConfig.js');
+var Storage = require("FuseJS/Storage");
 
+var User = JSON.parse(Storage.readSync("userInfo"));
 var user = Observable();
 var sessionObj;
 var userObj;
 
+var RoomId = "";
+var ChatId = "";
 this.onParameterChanged(function(param) {
 
     if (param.doctorChatRoomId) {
@@ -13,18 +17,17 @@ this.onParameterChanged(function(param) {
         console.log("CHAT SOBA - " + JSON.stringify(param.doctorChatRoomId));
         user.value = param.doctorChatRoomId;
         console.log(user.value.ChatId)
-        console.log(user.value.RoomId)
+        RoomId = user.value.RoomId;
+        ChatId = user.value.ChatId;
         createSession();
     }
 
     user.value = param.user;
-    console.log("da", JSON.stringify(user));
 })
 
 function getAllMesages() {
 
-    // fetch('https://api.quickblox.com/chat/Message.json?chat_dialog_id='+ user.value.RoomId +'&limit=10&sort_desc=date_sent', {
-    fetch('https://api.quickblox.com/chat/Message.json?chat_dialog_id=5898637ca0eb478bb7000015&limit=10&sort_desc=date_sent', {
+    fetch('https://api.quickblox.com/chat/Message.json?chat_dialog_id=' + RoomId + '&limit=10&sort_desc=date_sent', {
             method: 'GET',
             headers: {
                 'QB-Token': sessionObj.token
@@ -35,7 +38,7 @@ function getAllMesages() {
             return resp.json();
         })
         .then(function(json) {
-            console.log(JSON.stringify(json));
+            console.log("TUKA" + JSON.stringify(json));
 
             messages.replaceAll([]);
             for (var i = json.items.length - 1; i >= 0; i--) {
@@ -50,13 +53,13 @@ function getAllMesages() {
                 var fullDate = ('0' + tmpDate.getDate()).slice(-2) + '.' + ('0' + (tmpDate.getMonth() + 1)).slice(-2) + '.' + tmpDate.getFullYear();
                 var fulltime = ('0' + hours).slice(-2) + ':' + ('0' + min).slice(-2);
 
-                if (json.items[i].sender_id == user.value.ChatId) {
+                if (json.items[i].sender_id == ChatId) {
                     // if (json.items[i].sender_id == 23691187) {
-                    messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
+                    messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
                 } else if (json.items[i].sender_id == 23691179) {
                     messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
                 } else {
-                    messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
+                    messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
                 }
             }
 
@@ -78,12 +81,13 @@ var messages = Observable();
 
 var message = Observable("");
 
-function signIn(username, password) {
-
+function signIn() {
     var data = {
-        "login": username,
-        "password": password
+        "login": User.phone,
+        "password": QConfig.password
     }
+
+    console.log(JSON.stringify(data));
 
     fetch('http://api.quickblox.com/login.json', {
             method: 'POST',
@@ -95,13 +99,13 @@ function signIn(username, password) {
             body: JSON.stringify(data)
         })
         .then(function(resp) {
-            console.log("User LoggedIn");
             return resp.json();
+            console.log(JSON.stringify(resp));
         })
         .then(function(json) {
             userObj = json.user;
 
-            console.log(JSON.stringify(userObj));
+            console.log(JSON.stringify("USER", userObj));
             getAllMesages();
 
         })
@@ -137,14 +141,16 @@ function createSession() {
             return resp.json();
         })
         .then(function(json) {
+            console.log(JSON.stringify(json));
             sessionObj = json.session;
+            console.log(JSON.stringify(sessionObj));
 
-            signIn("testuser1", "testuser1");
+            signIn();
 
         })
         .catch(function(err) {
             console.log('Error');
-            console.log(JSON.stringify(err));
+            console.log(err);
         });
 }
 
@@ -153,8 +159,8 @@ function addMesageToChat() {
     if (message.value !== "") {
 
         var data = {
-            // "chat_dialog_id": user.value.RoomId,
-            "chat_dialog_id": "5898637ca0eb478bb7000015",
+            "chat_dialog_id": RoomId,
+            // "chat_dialog_id": "5898637ca0eb478bb7000015",
             "message": message.value,
             "send_to_chat": 1
         };
@@ -205,6 +211,8 @@ function goToUser(userId) {
 module.exports = {
     user: user,
     goToUser: goToUser,
+    signIn: signIn,
+    getAllMesages: getAllMesages,
     addMesageToChat: addMesageToChat,
     messages: messages.map(function(message) {
         return {

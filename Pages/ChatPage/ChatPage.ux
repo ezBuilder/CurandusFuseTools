@@ -37,6 +37,10 @@
 				</LayoutAnimation>
 			</StackPanel>
 		</ScrollView>
+<!-- 		<StackPanel Orientation="Horizontal" Dock="Bottom" MinHeight="60" Color="primary">
+			<RaisedButton BtnText="SignIn" BtnTextColor="White" Clicked="{signIn}" />
+			<RaisedButton BtnText="getAllMesages" BtnTextColor="White" Clicked="{getAllMesages}" />
+		</StackPanel> -->
 		<DockPanel Dock="Bottom" MinHeight="60" Padding="10">
 			<Rectangle Layer="Background" Height="1" Alignment="Top" Color="primary_dark" Opacity=".1" />
 			<Rectangle Layer="Background" Height="1" Alignment="Bottom" Color="primary_dark" Opacity=".1" />

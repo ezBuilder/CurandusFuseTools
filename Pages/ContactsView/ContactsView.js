@@ -60,10 +60,6 @@ function setPatients() {
     isDoctors.value = false;
 }
 
-
-// var providerId = 1;
-// var providerId = userInfo.providerId;
-
 function fetchDataDoctors() {
     finalDoctors = [];
     // ТРЕБА ДА СЕ СМЕНИ
