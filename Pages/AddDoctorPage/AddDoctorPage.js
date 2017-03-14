@@ -270,8 +270,13 @@ function createDialog(myUserId, contactId) {
     var data = {
         "type": 2,
         "name": "Chat with" + myUserId + " & " + contactId,
-        "occupants_ids": "23691179," + myUserId + "," + contactId + ""
+        "occupants_ids": "23691179," + myUserId + "," + contactId + "",
+        "data": {
+            "usersNames": ["" + name.value + " " + surname.value + "", "" + User.firstName + ' ' + User.lastName]
+        },
     }
+
+    console.log("    aAaaaaaaaaaaaaaaaaaaaaaa " + data);
 
     fetch('https://api.quickblox.com/chat/Dialog.json', {
             method: 'POST',

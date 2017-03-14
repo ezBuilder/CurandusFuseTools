@@ -17,8 +17,18 @@ this.onParameterChanged(function(param) {
         console.log("CHAT SOBA - " + JSON.stringify(param.doctorChatRoomId));
         user.value = param.doctorChatRoomId;
         console.log(user.value.ChatId)
+        console.log(user.value.RoomId)
         RoomId = user.value.RoomId;
         ChatId = user.value.ChatId;
+        createSession();
+    } else if (param.doctorChatRoomId2) {
+        console.log(JSON.stringify(param.doctorChatRoomId2));
+        messages.replaceAll([]);
+        console.log("CHAT SOBA - " + JSON.stringify(param.doctorChatRoomId2));
+        RoomId = param.doctorChatRoomId2._id;
+        ChatId = param.doctorChatRoomId2.user_id;
+        console.log(RoomId);
+        console.log(ChatId);
         createSession();
     }
 
