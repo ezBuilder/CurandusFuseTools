@@ -143,12 +143,17 @@
 
                     else{
                       //  console.log("VO IF elseeeeeeeeeeeee"+param.user[i].name);
-                        selektirani.add(param.user[i].name);
+                      if (!selektirani.contains(param.user[i].name)){
+                           selektirani.add(param.user[i].name);
+                        }
+                       
                         finalData[i] = param.user[i];
                     }
                     
                 }
             } 
+
+            //vadenje na duplikati od selektirani
         } // kraj 
 
         /// koga doagja od CONTACTS
