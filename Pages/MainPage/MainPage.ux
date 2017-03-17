@@ -100,7 +100,7 @@
                                                                 <Change contactItem.Color="divider" />
                                                             </WhileHovering>
                                                             <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                                                                <ImageFill File="../../Assets/placeholder.png" />
+                                                                <ImageFill Url="{ProfileUrl}" />
                                                             </Circle>
                                                             <Rectangle HitTestMode="LocalBounds" >
                                                                 <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
@@ -156,7 +156,7 @@
                                                                 <Change contactItem.Color="divider" />
                                                             </WhileHovering>
                                                             <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                                                                <ImageFill File="../../Assets/placeholder.png" />
+                                                                <ImageFill Url="{ProfileUrl}" />
                                                             </Circle>
                                                             <Match Value="{activetreatmenId}" >
                                                                 <Case Number="0">

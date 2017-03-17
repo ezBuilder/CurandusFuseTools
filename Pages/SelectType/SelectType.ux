@@ -282,7 +282,7 @@
                 } // end if               
             } // for J
              if(flag == 0){
-                console.log("VLEGUVAAA **************** dole vo if");
+                //console.log("VLEGUVAAA **************** dole vo if");
                     var tmp = {
                         "name": selektirani.getAt(i), 
                         "duration": null, 

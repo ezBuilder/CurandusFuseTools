@@ -177,23 +177,19 @@
                                     <Text Width="100" TextWrapping="Wrap" FontSize="17" Color="primary"  Alignment="Left"  Margin="30,0,0,0" ></Text>
                                 <DockPanel>
  
-                                    <Rectangle  ux:Name="btnSendImage" Clicked="{selectImage}" Width="170" Height="170" Dock="Left" Margin="30,0,0,0"  >
+                                    <Rectangle  ux:Name="btnSendImage" Clicked="{selectImageShow}" Width="170" Height="170" Dock="Left" Margin="30,0,0,0">
                                     
-<!--                                       <Match Value="{flag}">
-                                        <Case String="nemaslika">
-                                            <Image  StretchMode="Scale9"  Width="170" Height="170" /> 
-                                          </Case>
+                                  <Match Value="{comparisionflag}">
+                                        <Case Bool="false">
+                                            <Image Url="{comparisionurl}" Width="170" Height="170" /> 
+                                        </Case>
 
-                                          <Case String="kamera">
-                                            <Image File="{comparisionurl}" StretchMode="Scale9"  Width="170" Height="170" /> 
+                                          <Case Bool="true">
+                                             <Image File="{comparisionimagefile}" Width="170" Height="170" /> 
                                           </Case>
+                                        </Match> 
+                                        <!-- <Image Url="{comparisionurl}" Width="170" Height="170" />    -->
 
-                                          <Case String="load"> -->
-                                    <Image Url="{comparisionurl}" Width="170" Height="170" /> 
-<!--                                           </Case>
-                                        </Match> -->
-                                      <!-- <Image File="\\192.168.1.110\d$\68.jpg" -->
-                                      
                                       <Clicked>
                                         <Scale Factor="0.95" Duration=".1" Easing="QuadraticInOut" />
                                       </Clicked>
@@ -202,9 +198,9 @@
                                     </Rectangle>
                                     <StackPanel Margin="25,0,0,0" Alignment="VerticalCenter">
                                         
-                                        <Rectangle   Clicked="{selectImage}"> <Icon FontSize="32" Padding="10" Color="primary" >&#xE413;</Icon></Rectangle>
+                                        <Rectangle   Clicked="{selectImageShow}"> <Icon FontSize="32" Padding="10" Color="primary" >&#xE413;</Icon></Rectangle>
                                    
-                                        <Rectangle   Clicked="{takePicture}"> <Icon FontSize="32" Padding="10" Color="primary" >&#xE439;</Icon></Rectangle>
+                                        <Rectangle   Clicked="{takePictureShow}"> <Icon FontSize="32" Padding="10" Color="primary" >&#xE439;</Icon></Rectangle>
                                     </StackPanel>
                                 </DockPanel>
 
