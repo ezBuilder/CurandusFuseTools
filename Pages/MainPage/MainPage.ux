@@ -1,4 +1,5 @@
 <DefaultPage ux:Class="MainPage" >
+
     <Router ux:Dependency="router" />
     <DockPanel>
         <JavaScript File="MainPage.js" />
@@ -215,4 +216,5 @@
             </PageControl>
         </DockPanel>
     </DockPanel>
+
 </DefaultPage>

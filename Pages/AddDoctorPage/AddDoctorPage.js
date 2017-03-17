@@ -28,7 +28,7 @@ function addContact() {
 
     if (phoneNumber.value != "" && name.value != "" && surname.value != "") {
 
-        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value, {
+        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=321321&roomid=321312312", {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"
