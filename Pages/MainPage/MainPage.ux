@@ -95,7 +95,7 @@
                                             <Each Items="{filteredItems1}">
                                                 <Match Value="{isLetter}" >
                                                     <Case Number="0" >
-                                                        <DockPanel Margin="7,1,1,0" ux:Name="contactItem">
+                                                        <DockPanel Margin="7,1,1,0" ux:Name="contactItem" Clicked="{goToDoctorChat}">
                                                             <WhileHovering>
                                                                 <Change contactItem.Color="divider" />
                                                             </WhileHovering>
@@ -112,11 +112,11 @@
                                                                     </Stroke>
                                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                                 </Circle>
-                                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToDoctorChat}" Alignment="Center" Margin="15,0,4,0">
+                                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{deleteDoctor}" Alignment="Center" Margin="15,0,4,0">
                                                                     <Stroke Width="2">
                                                                         <SolidColor Color="primary" />
                                                                     </Stroke>
-                                                                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
+                                                                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE872;</Icon>
                                                                 </Circle>
                                                                 <Rectangle Width="20" Height="50" Clicked="{deleteDoctor}">
                                                                     <Icon Alignment="Top" FontSize="20" Color="primary" >&#xE14C;</Icon>

@@ -10,9 +10,13 @@ var userObj;
 
 var RoomId = "";
 var ChatId = "";
+
+var fromChat = false;
+
 this.onParameterChanged(function(param) {
 
     if (param.doctorChatRoomId) {
+        fromChat = false;
         messages.replaceAll([]);
         console.log("CHAT SOBA - " + JSON.stringify(param.doctorChatRoomId));
         user.value = param.doctorChatRoomId;
@@ -22,6 +26,7 @@ this.onParameterChanged(function(param) {
         ChatId = user.value.ChatId;
         createSession();
     } else if (param.doctorChatRoomId2) {
+        fromChat = true;
         console.log(JSON.stringify(param.doctorChatRoomId2));
         messages.replaceAll([]);
         console.log("CHAT SOBA - " + JSON.stringify(param.doctorChatRoomId2));
@@ -36,7 +41,6 @@ this.onParameterChanged(function(param) {
 })
 
 function getAllMesages() {
-
     fetch('https://api.quickblox.com/chat/Message.json?chat_dialog_id=' + RoomId + '&limit=10&sort_desc=date_sent', {
             method: 'GET',
             headers: {
@@ -63,14 +67,25 @@ function getAllMesages() {
                 var fullDate = ('0' + tmpDate.getDate()).slice(-2) + '.' + ('0' + (tmpDate.getMonth() + 1)).slice(-2) + '.' + tmpDate.getFullYear();
                 var fulltime = ('0' + hours).slice(-2) + ':' + ('0' + min).slice(-2);
 
-                if (json.items[i].sender_id == ChatId) {
-                    // if (json.items[i].sender_id == 23691187) {
-                    messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
-                } else if (json.items[i].sender_id == 23691179) {
-                    messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
+                if (fromChat) {
+                    if (json.items[i].sender_id == ChatId) {
+                        messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
+                    } else if (json.items[i].sender_id == 23691179) {
+                        messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
+                    } else {
+                        messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
+                    }
                 } else {
-                    messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
+                    if (json.items[i].sender_id == ChatId) {
+                        messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
+                    } else if (json.items[i].sender_id == 23691179) {
+                        messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
+                    } else {
+                        messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
+                    }
                 }
+
+
             }
 
         })
@@ -170,7 +185,6 @@ function addMesageToChat() {
 
         var data = {
             "chat_dialog_id": RoomId,
-            // "chat_dialog_id": "5898637ca0eb478bb7000015",
             "message": message.value,
             "send_to_chat": 1
         };

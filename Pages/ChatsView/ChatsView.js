@@ -97,15 +97,19 @@ function getDialogs() {
             }
         })
         .then(function(resp) {
-            console.log("GIALOGS");
             return resp.json();
         })
         .then(function(json) {
-            console.log(JSON.stringify(json.items));
+            console.log("DIALOGSSSSSSSSSSSS", JSON.stringify(json.items));
 
             for (var i = 0; i < json.items.length; i++) {
                 var d = new Date(json.items[i].last_message_date_sent * 1000);
                 json.items[i].minutes = timeSince(d);
+
+                console.log(json.items[i].occupants_ids[2]);
+                // console.log(getName(json.items[i].occupants_ids[2]));
+                // json.items[i].occupants_ids[3]
+
             }
 
             dialogs.replaceAll(json.items);
@@ -146,6 +150,31 @@ function goToChat(e) {
     router.push("chat", {
         user: e.data
     });
+}
+
+
+function getName(id) {
+    fetch('http://api.quickblox.com/users/25180821.json', {
+            method: 'GET',
+            headers: {
+                'QuickBlox-REST-API-Version': "0.1.0",
+                'QB-Token': sessionObj.token
+            },
+            body: JSON.stringify(signData)
+        })
+        .then(function(resp) {
+            console.log("userFound");
+            return resp.json();
+        })
+        .then(function(json) {
+            console.log(JSON.stringify(json));
+            // return json.user.full_name;
+
+        })
+        .catch(function(err) {
+            console.log('Error');
+            console.log(JSON.stringify(err));
+        });
 }
 
 function goToDoctorChat2(e) {

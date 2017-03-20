@@ -271,9 +271,11 @@ function createDialog(myUserId, contactId) {
         "type": 2,
         "name": "Chat with" + myUserId + " & " + contactId,
         "occupants_ids": "23691179," + myUserId + "," + contactId + "",
-        "data": {
-            "usersNames": ["" + name.value + " " + surname.value + "", "" + User.firstName + ' ' + User.lastName]
+        "UsersForChat": {
+            "user1": "" + name.value + " " + surname.value + "",
+            "user2": "" + User.firstName + ' ' + User.lastName + ""
         },
+
     }
 
     console.log("    aAaaaaaaaaaaaaaaaaaaaaaa " + data);
