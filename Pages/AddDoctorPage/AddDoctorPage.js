@@ -337,7 +337,6 @@ function createDialog(myUserId, contactId) {
 function addContact(chatID, roomID) {
     console.log(chatID + " - " + roomID);
     if (phoneNumber.value != "" && name.value != "" && surname.value != "") {
-
         fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=" + chatID + "&roomid=" + roomID, {
             method: 'POST',
             headers: {
@@ -353,6 +352,7 @@ function addContact(chatID, roomID) {
             var tmp = phoneNumber.value;
             var text = "Link to App!";
             sendSms(tmp, text);
+
 
             phoneNumber.value = "";
             name.value = "";
@@ -387,6 +387,22 @@ function addContact(chatID, roomID) {
         });
     }
 
+}
+
+function sendSms(phone, text) {
+    fetch(activeUrl.URL + "/curandusproject/webapi/api/sendsms/sendsms/to=" + phone + "&body=" + text, {
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json"
+        },
+        dataType: 'json'
+    }).then(function(response) {
+        return response.json(); // This returns a promise
+    }).then(function(responseObject) {
+        console.log("Success");
+    }).catch(function(err) {
+        console.log("Error", err.message);
+    });
 }
 
 function goToLocal() {

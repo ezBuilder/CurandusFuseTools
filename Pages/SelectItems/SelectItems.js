@@ -3,6 +3,9 @@ var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 var Modal = require('Modal');
 var myToast = require("myToast");
+var CameraRoll = require("FuseJS/CameraRoll");
+var Camera = require("FuseJS/Camera");
+var ImageTools = require("FuseJS/ImageTools");
 
 var lista = Observable();
 var P_ActiveTreatmentID;
@@ -15,6 +18,8 @@ var WarningInfo = Observable();
 var praznoime = "";
 var show_string = "";
 var Types = require("Constants/Types.js");
+var flag = Observable();
+flag.value = "nemaslika";
 
 var lista_send = [];
 
@@ -27,8 +32,13 @@ var providerId = JSON.stringify(userInfo.providerId);
 
 var stname = Observable();
 
-var lista_post =
-    [];
+var lista_post = [];
+
+var imagePath = Observable();
+var imageName = Observable();
+var imageSize = Observable();
+var base64Code;
+var rendering;
 
 function NVL(x) {
     if (x == null) {
@@ -57,7 +67,11 @@ function NewItem(data) {
     this.hygiene = Observable(data.render.hygiene);
     this.otherinstruction = Observable(data.render.otherinstruction);
     this.comparisionquestion = Observable(data.render.comparisionquestion);
+    //this.comparisioncomment = Observable(data.render.comparisioncomment);
     this.comparisionurl = Observable(data.render.comparisionurl);
+    this.comparisionflag = Observable(data.render.comparisionflag);
+    this.comparisionbase64 = Observable(data.render.comparisionbase64);
+    this.comparisionimagefile = Observable(data.render.comparisionimagefile);
 }
 
 this.onParameterChanged(function(param) {
@@ -66,18 +80,17 @@ this.onParameterChanged(function(param) {
     P_SubTreatmentID = 0;
     P_PatientID = 0;
     stname.value = "";
-    console.log("param senddata" + JSON.stringify(param.sendData));
-
-    console.log("P_SubTreatmentID" + param.sendData[param.sendData.length - 1].SubtreatmentIdOnEDIT);
-
-    console.log("Patientn " + param.sendData[param.sendData.length - 3].patientId);
+   // console.log("param senddata" + JSON.stringify(param.sendData));
+   // console.log("RENDERING INFO " +param.sendData[0].renderingInfo);
+   // console.log("P_SubTreatmentID" + param.sendData[param.sendData.length - 1].SubtreatmentIdOnEDIT);
+   // console.log("Patientn " + param.sendData[param.sendData.length - 3].patientId);
 
     lista.clear();
     var responseObject = JSON.stringify(param.sendData);
 
     for (var i = 0; i < param.sendData.length - 3; i++) {
-        //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
-        //	param.sendData[i].name=param.sendData[i].name.replace(" ","");
+        //  param.sendData[i].name=param.sendData[i].name.replace(" ","");
+        //  param.sendData[i].name=param.sendData[i].name.replace(" ","");
         //  console.log("Ime Tip  "+ Types.GetTypeLabel("1"));
         console.log("ID  " + param.sendData[i].name);
 
@@ -91,9 +104,12 @@ this.onParameterChanged(function(param) {
             param.sendData[i].render = JSON.parse(JSON.parse(param.sendData[i].renderingInfo));
         }
 
-        //	console.log("Render "+(JSON.parse(param.sendData[i].render)).diet);    
+        //  console.log("Render "+(JSON.parse(param.sendData[i].render)).diet);    
         param.sendData[i].index = i;
         lista.add(new NewItem(param.sendData[i]));
+        console.log("comparisionurl " + lista.getAt(0).comparisionurl);
+
+        console.log("comparisionflag " + lista.getAt(0).comparisionflag);
     }
 
     p_patient_id = param.sendData[param.sendData.length - 3].patientId;
@@ -148,6 +164,243 @@ this.onParameterChanged(function(param) {
 
 });
 
+// dodadeno od moki samo za prikaz na slika bez da zapishuva vo baza (LOAD)
+var displayImage = function(image) {
+    imagePath.value = image.path;
+    imageName.value = image.name;
+    imageSize.value = image.width + "x" + image.height;
+}
+
+// dodadeno od moki samo za prikaz na slika bez da zapishuva vo baza (LOAD)
+function selectImageShow(sender){
+    console.log("VLEZE VO selectImageShow");
+    CameraRoll.getImage().then(
+        function(image) {
+            var args = {
+                desiredWidth: 480,
+                desiredHeight: 480,
+                mode: ImageTools.SCALE_AND_CROP,
+                performInPlace: true
+            };
+            ImageTools.resize(image, args).then(
+                function(image) {
+                    ImageTools.getBase64FromImage(image)
+                        .then(function(image) {
+                            lista.getAt(sender.data.index.value).comparisionbase64.value=image;       
+                            // var base64Code = {
+                            //     "base64": image
+                            // };
+                            // console.log("vleze vo selectImageShow i ova e kodot: "+base64Code.base64.substr(1, 100));
+                        }
+                    ).then(function(err) {
+                        console.log(err);
+                    });
+                    lista.getAt(sender.data.index.value).comparisionimagefile.value=image.path;
+                    lista.getAt(sender.data.index.value).comparisionflag.value=true;
+
+                    console.log("image.path: "+image.path);
+                    //displayImage(image);
+                }
+            ).catch(
+                function(reason) {
+                    console.log("Couldn't resize image: " + reason);
+                }
+            );
+        }
+    ).catch(
+        function(reason) {
+            console.log("Couldn't get image: " + reason);
+        }
+    );
+
+};
+
+// dodadeno od moki samo za prikaz na slika bez da zapishuva vo baza (CAMERA)
+function takePictureShow(sender) {
+    Camera.takePicture().then(
+        function(image) {
+            console.log("Vleze vo takepictureShow: ");
+            var args = {
+                desiredWidth: 480,
+                desiredHeight: 480,
+                mode: ImageTools.SCALE_AND_CROP,
+                performInPlace: true
+            };
+            ImageTools.resize(image, args).then(
+                function(image) {
+                    ImageTools.getBase64FromImage(image)
+                        .then(function(image) {
+                             lista.getAt(sender.data.index.value).comparisionbase64.value=image;    
+                            // base64Code = {
+                            //     "base64": image
+                            // };
+                            // console.log("vleze vo takePictureShow i ova e kodot: "+base64Code.base64.substr(1, 100));
+                        });
+                    lista.getAt(sender.data.index.value).comparisionimagefile.value=image.path;
+                    lista.getAt(sender.data.index.value).comparisionflag.value=true;
+                    //displayImage(image);
+                }
+            ).catch(
+                function(reason) {
+                    console.log("Couldn't resize image: " + reason);
+                }
+            );
+        }
+    ).catch(
+        function(reason) {
+            console.log("Couldn't get image: " + reason);
+        }
+    );
+};
+
+
+
+function selectImage(sender) {
+    console.log("data" + sender.data.index.value);
+    lista.getAt(sender.data.index.value).flag.value = "load";
+    console.log("Vleguva vo selectimage: ");
+    //console.log("ova e patekata na slikata:"+ImageURL.value);     
+    CameraRoll.getImage().then(
+        function(image) {
+            var args = {
+                desiredWidth: 480,
+                desiredHeight: 480,
+                mode: ImageTools.SCALE_AND_CROP,
+                performInPlace: true
+            };
+            ImageTools.resize(image, args).then(
+                function(image) {
+                    ImageTools.getBase64FromImage(image)
+                        .then(function(image) {
+
+                            rendering = {
+                                "base64": image
+                            };
+                            //console.log("The base64 encoded image is "+rendering);
+                            var tmp = {
+                                "name": "ComparisonWithPicture",
+                                "duration": "3",
+                                "status": "1",
+                                "createdBy": 0,
+                                "modifiedBy": 0,
+                                "created": null,
+                                "modified": null,
+                                "typeT": "ACK",
+                                "renderingInfo": JSON.stringify(rendering),
+                                "repeatT": "5",
+                                "subtreatmentid": 18
+                            };
+                            console.log("The tmp is " + tmp);
+
+                            fetch(activeUrl.URL + "/curandusproject/webapi/api/inserttreatmentitemimage", {
+                                method: 'POST',
+                                headers: {
+                                    "Content-type": "application/json"
+                                },
+                                dataType: 'json',
+                                body: JSON.stringify(tmp)
+                            }).then(function(response) {
+                                status = response.status; // Get the HTTP status code
+                                response_ok = response.ok; // Is response.status in the 200-range?
+                                return response.json(); // This returns a promise
+                            }).then(function(responseObject) {
+                                console.log("Success");
+                                console.log("broj na slika: " + responseObject);
+                                //  ImageURL.value = "http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
+                                lista.getAt(sender.data.index.value).comparisionurl.value = activeUrl.URL + "/curandusImages/" + responseObject + ".jpg";
+
+                                console.log("URL " + lista.getAt(sender.data.index.value).comparisionurl.value);
+                            }).catch(function(err) {
+                                console.log("Error", err.message);
+                            });
+                        });
+
+                    // displayImage(image);
+                }
+            ).catch(
+                function(reason) {
+                    console.log("Couldn't resize image: " + reason);
+                }
+            );
+        }
+    ).catch(
+        function(reason) {
+            console.log("Couldn't get image: " + reason);
+        }
+    );
+};
+
+function takePicture(sender) {
+    Camera.takePicture().then(
+        function(image) {
+            console.log("Vleze vo takepicture: " + image);
+            var args = {
+                desiredWidth: 480,
+                desiredHeight: 480,
+                mode: ImageTools.SCALE_AND_CROP,
+                performInPlace: true
+            };
+            ImageTools.resize(image, args).then(
+                function(image) {
+                    ImageTools.getBase64FromImage(image)
+                        .then(function(image) {
+
+                            rendering = {
+                                "base64": image
+                            };
+                            //console.log("The base64 encoded image is "+rendering);
+                            var tmp = {
+                                "name": "ComparisonWithPicture",
+                                "duration": "3",
+                                "status": "1",
+                                "createdBy": 0,
+                                "modifiedBy": 0,
+                                "created": null,
+                                "modified": null,
+                                "typeT": "ACK",
+                                "renderingInfo": JSON.stringify(rendering),
+                                "repeatT": "5",
+                                "subtreatmentid": 18
+                            };
+                            console.log("The tmp is " + tmp);
+
+                            fetch(activeUrl.URL + "/curandusproject/webapi/api/inserttreatmentitemimage", {
+                                method: 'POST',
+                                headers: {
+                                    "Content-type": "application/json"
+                                },
+                                dataType: 'json',
+                                body: JSON.stringify(tmp)
+                            }).then(function(response) {
+                                status = response.status; // Get the HTTP status code
+                                response_ok = response.ok; // Is response.status in the 200-range?
+                                return response.json(); // This returns a promise
+                            }).then(function(responseObject) {
+                                console.log("Success");
+                                console.log("broj na slika: " + responseObject);
+                                //  ImageURL.value = "http://192.168.1.110:8080/curandusImages/"+responseObject+".jpg";
+                                lista.getAt(sender.data.index.value).comparisionurl.value = activeUrl.URL + "/curandusImages/" + responseObject + ".jpg";
+
+                                console.log("URL " + lista.getAt(sender.data.index.value).comparisionurl.value);
+                            }).catch(function(err) {
+                                console.log("Error", err.message);
+                            });
+                        });
+
+                    // displayImage(image);
+                }
+            ).catch(
+                function(reason) {
+                    console.log("Couldn't resize image: " + reason);
+                }
+            );
+        }
+    ).catch(
+        function(reason) {
+            console.log("Couldn't get image: " + reason);
+        }
+    );
+};
 
 function ShowAlergies() {
     Modal.showModal(
@@ -248,7 +501,8 @@ function CheckFields() {
                 ret = ret + 1;
             }
         } else if (lista.getAt(i).name.value == "7") {
-            if (NVL(lista.getAt(i).comparisionquestion.value) == "" || NVL(lista.getAt(i).comparisionurl.value) == "") {
+            if (NVL(lista.getAt(i).comparisionquestion.value) == "" || 
+                    (NVL(lista.getAt(i).comparisionimagefile.value) == "" &&NVL(lista.getAt(i).comparisionurl.value) == "")) {
                 ret = ret + 1;
             }
         } else if (lista.getAt(i).name.value == "5") {
@@ -284,42 +538,9 @@ function ChekNameTreatment() {
     //         }
     //         else
     //         {
-    //         	console.log("Clicked item - TEST");
+    //          console.log("Clicked item - TEST");
     //         }
     //     });
-}
-
-function GetParameter() {
-    console.log("GetParameter");
-    lista.clear();
-    fetch(activeUrl.URL + "/curandusproject/webapi/api/gettreatmentitemssbytreatment/treatmentId=10&typetreatment=7", {
-        method: 'GET',
-        headers: {
-            "Content-type": "application/json"
-        },
-        dataType: 'json'
-    }).then(function(response) {
-        //  status = response.status; // Get the HTTP status code
-        //response_ok = response.ok; // Is response.status in the 200-range?
-        return response.json(); // This returns a promise
-    }).then(function(responseObject) {
-        console.log("Success");
-        for (var i = 0; i < responseObject.length; i++) {
-            console.log("renderinginfo " + responseObject[i].renderingInfo);
-            if (responseObject[i].renderingInfo == null || responseObject[i].renderingInfo == "null") {
-                console.log("NULL " + responseObject[i].renderingInfo);
-                responseObject[i].render = "";
-            } else {
-                console.log("NOT NULL  " + responseObject[i].renderingInfo);
-                responseObject[i].render = //JSON.parse
-                    (JSON.parse(responseObject[i].renderingInfo));
-            }
-            responseObject[i].index = i;
-            lista.add(new NewItem(responseObject[i]));
-        }
-    }).catch(function(err) {
-        console.log("Error", err.message);
-    });
 }
 
 function AddNewItem(sender) {
@@ -328,6 +549,7 @@ function AddNewItem(sender) {
     console.log("index" + sender.data.index);
     var pom_item = {
         "name": sender.data.name.value,
+        "label": sender.data.label.value,
         "subtreatmentid": sender.data.subtreatmentdetail.value,
         "index": sender.data.index.value + 1,
         "render": ""
@@ -395,7 +617,10 @@ function Insert_Treatment() {
             } else if (lista.getAt(i).name.value == "7") {
                 rendering = {
                     "comparisionquestion": lista.getAt(i).comparisionquestion.value,
-                    "comparisionurl": lista.getAt(i).comparisionurl.value
+                    "comparisionurl": lista.getAt(i).comparisionurl.value,
+                    "comparisionbase64": lista.getAt(i).comparisionbase64.value,
+                    "comparisionflag": lista.getAt(i).comparisionflag.value,
+                    "pateka": activeUrl.URL + "/curandusImages/"
                 };
             }
 
@@ -409,7 +634,7 @@ function Insert_Treatment() {
             }
 
             lista_post.push(pom);
-            console.log(JSON.stringify(lista_post));
+         //   console.log(JSON.stringify(lista_post));
 
         }
         if (P_SubTreatmentID == 0 || prazno_ime != "") {
@@ -516,7 +741,10 @@ function Insert_Saved_Treatment() {
             } else if (lista.getAt(i).name.value == "7") {
                 rendering = {
                     "comparisionquestion": lista.getAt(i).comparisionquestion.value,
-                    "comparisionurl": lista.getAt(i).comparisionurl.value
+                    "comparisionurl": lista.getAt(i).comparisionurl.value,
+                    "comparisionbase64": lista.getAt(i).comparisionbase64.value,
+                    "comparisionflag": lista.getAt(i).comparisionflag.value,
+                    "pateka": activeUrl.URL + "/curandusImages/"
                 };
             }
 
@@ -531,22 +759,22 @@ function Insert_Saved_Treatment() {
             lista_post.push(pom);
         }
         // if (P_SubTreatmentID==0){
-        // 	api_call="http://192.168.1.110:8080/curobjectandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=2&patientid=1&nametreatment=Prv&namesubtreatment=PrvS";
+        //  api_call="http://192.168.1.110:8080/curobjectandusproject/webapi/api/InsertActiveSubTreatment/activetreatmentid=0&providerid=2&patientid=1&nametreatment=Prv&namesubtreatment=PrvS";
         // }
         // else{
-        // 	api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment";
+        //  api_call="http://192.168.1.110:8080/curandusproject/webapi/api/UpdateActiveSubTreatment";
         // }
         var userInfo = Storage.readSync("userInfo");
 
         var call_api = activeUrl.URL + "/curandusproject/webapi/api/insertsavedtreatment?providerid=" + providerId + "&nametreatment=" + encodeURIComponent(stname.value);
 
-        console.log("nametreatment " + stname.value);
+       // console.log("nametreatment " + stname.value);
 
-        console.log("nametreatment " + call_api);
+      //  console.log("nametreatment " + call_api);
 
-        console.log("lista " + lista_post);
+      //  console.log("lista " + lista_post);
 
-        console.log("lista " + JSON.stringify(lista_post));
+      //  console.log("lista " + JSON.stringify(lista_post));
 
 
         fetch(call_api, {
@@ -623,7 +851,6 @@ module.exports = {
     NewItem: NewItem,
     Insert_Treatment: Insert_Treatment,
     lista_post: lista_post,
-    GetParameter: GetParameter,
     AddNewItem: AddNewItem,
     ChekNameTreatment: ChekNameTreatment,
     stname: stname,
@@ -635,5 +862,14 @@ module.exports = {
     user_patient: user_patient,
     ShowAlergies: ShowAlergies,
     WarningInfo: WarningInfo,
-    RemoveItem: RemoveItem
+    flag: flag,
+    selectImage: selectImage,
+    takePicture: takePicture,
+    RemoveItem: RemoveItem,
+
+    imagePath:imagePath,
+    takePictureShow:takePictureShow,
+    selectImageShow:selectImageShow,
+    imageName:imageName,
+    imageSize:imageSize
 };

@@ -162,6 +162,7 @@
                                 </RemovingAnimation>
                             </DockPanel>
                         </Case>
+
                         <Case String="7">
                             <DockPanel>
                                 <Rectangle Color="primary_dark" Height="32" Dock="Top">
@@ -171,7 +172,41 @@
                                         <Icon Alignment="Center" FontSize="32" Color="icons" Dock="Right" Margin="0,0,16,0" Clicked="{AddNewItem}">&#xE145;</Icon>
                                     </DockPanel>
                                 </Rectangle>
-                                <ComparisonWithPicture IntervalOn="{interval}" RepeatOn="{duration}" EnterQuestion="{comparisionquestion}" AditionalComment="{comparisionurl}"/>
+                                
+                                 <StackPanel Margin="0,20,0,0">
+                                    <Text Width="100" TextWrapping="Wrap" FontSize="17" Color="primary"  Alignment="Left"  Margin="30,0,0,0" ></Text>
+                                <DockPanel>
+ 
+                                    <Rectangle  ux:Name="btnSendImage" Clicked="{selectImageShow}" Width="170" Height="170" Dock="Left" Margin="30,0,0,0">
+                                    
+                                  <Match Value="{comparisionflag}">
+                                        <Case Bool="false">
+                                            <Image Url="{comparisionurl}" Width="170" Height="170" /> 
+                                        </Case>
+
+                                          <Case Bool="true">
+                                             <Image File="{comparisionimagefile}" Width="170" Height="170" /> 
+                                          </Case>
+                                        </Match> 
+                                        <!-- <Image Url="{comparisionurl}" Width="170" Height="170" />    -->
+
+                                      <Clicked>
+                                        <Scale Factor="0.95" Duration=".1" Easing="QuadraticInOut" />
+                                      </Clicked>
+                                      <Text  Value="SELECT IMAGE"  FontSize="14"  Color="primary" Alignment="Center" Font="medium"> </Text>
+                                      <Stroke  Width="2" Color="done"> </Stroke>
+                                    </Rectangle>
+                                    <StackPanel Margin="25,0,0,0" Alignment="VerticalCenter">
+                                        
+                                        <Rectangle   Clicked="{selectImageShow}"> <Icon FontSize="32" Padding="10" Color="primary" >&#xE413;</Icon></Rectangle>
+                                   
+                                        <Rectangle   Clicked="{takePictureShow}"> <Icon FontSize="32" Padding="10" Color="primary" >&#xE439;</Icon></Rectangle>
+                                    </StackPanel>
+                                </DockPanel>
+
+                                <ComparisonWithPicture IntervalOn="{interval}" RepeatOn="{duration}" EnterQuestion="{comparisionquestion}"/>
+                                </StackPanel>                               
+                                
                                 <AddingAnimation>
                                     <Move RelativeTo="Size" X="8" Duration="0.6" Easing="CircularIn" />
                                 </AddingAnimation>
@@ -180,6 +215,7 @@
                                 </RemovingAnimation>
                             </DockPanel>
                         </Case>
+
                         <Case String="5">
                             <DockPanel>
                                 <Rectangle Color="primary_dark" Height="32" Dock="Top">

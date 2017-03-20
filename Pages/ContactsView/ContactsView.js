@@ -3,6 +3,8 @@ var activeUrl = require("Constants/SERVICE_URL.js");
 var Storage = require("FuseJS/Storage");
 var Modal = require("Modal");
 var myToast = require("myToast");
+var imagePath = Observable();
+
 
 
 var UserInfo = JSON.parse(Storage.readSync("userInfo"));
@@ -54,6 +56,9 @@ function endLoadingDoctors() {
 
 function setDoctors() {
     isDoctors.value = true;
+  //  console.log("povikana funkcijaaaaaa set doctors");
+    
+    console.log(imagePath.value);
 }
 
 function setPatients() {
@@ -77,13 +82,25 @@ function fetchDataDoctors() {
         var flag = false;
 
         for (var i = contacts.length - 1; i >= 0; i--) {
-            console.log("dsadasdasda", contacts[i].FirstName);
-            if (contacts[i].FirstName != null && contacts[i].FirstName != "undefined") {
+            //console.log("dsadasdasda", contacts[i].FirstName);
+            if (contacts[i].FirstName != null && contacts[i].FirstName != "undefined") { 
                 contacts[i].firstLetter = contacts[i].FirstName.charAt(0).toUpperCase();
                 contacts[i].fullName = contacts[i].FirstName + " " + contacts[i].LastName;
                 //// dodadeno od moki go zemam full name za da go prikazham vo selekttype koga se odi kon selekttype od contacts
                 fullName = contacts[i].fullName;
                 contacts[i].isLetter = 0;
+               // console.log("pred uslovi kontakti "+JSON.stringify(contacts[i].ProfileUrl));
+                if('ProfileUrl' in contacts[i]){ 
+                    var image_num = contacts[i].ProfileUrl;
+                    contacts[i].ProfileUrl = activeUrl.URL+"\/curandusImages"+"\/"+image_num+".jpg";
+                    //console.log("imaa profile url: "+JSON.stringify(contacts[i].ProfileUrl));
+                } 
+
+                else if(contacts[i].ProfileUrl == undefined){ 
+                    contacts[i].ProfileUrl = activeUrl.URL+"\/curandusImages\/Assets\/placeholder.png";
+                   // console.log("kontaktot nema profile url"+JSON.stringify(contacts[i]));
+                } 
+                
             }
         }
         for (var i = 0; i < letters.length; i++) {
@@ -118,7 +135,7 @@ function fetchDataDoctors() {
 }
 // kod kontakti
 function fetchData() {
-    console.log("gggggggggggggggggggggggggggggggggg");
+    //console.log("gggggggggggggggggggggggggggggggggg");
     final = [];
     // ТРЕБА ДА СЕ СМЕНИ
     var urlPatient = activeUrl.URL + "/curandusproject/webapi/api/patients/providerId=" + UserInfo.providerId
@@ -301,5 +318,6 @@ module.exports = {
     goToDoctorChat: goToDoctorChat,
     deleteDoctor: deleteDoctor,
     deleteContact: deleteContact,
-    filteredItems1: filteredItems1
+    filteredItems1: filteredItems1,
+    imagePath:imagePath
 };

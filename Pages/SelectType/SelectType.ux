@@ -31,7 +31,7 @@
     
     exports.values.onValueChanged( module, function() {        
         exports.list.value = exports.values.toArray().join(",") 
-        console.log("OVA "+exports.list.value);
+       // console.log("OVA "+exports.list.value);
         exports.values = selektirani;
      })
 
@@ -44,29 +44,34 @@
         SubtreatmentIdOnEDIT="0";
 
         //patientId = JSON.stringify(param.user.patientId);
-        console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
+       // console.log('On Parameter changed vo selectType:'+JSON.stringify(param)); 
         // KOGA DOAGJA OD SAVEDTREATMENTS
         if("savedTreatments" in param){
             active.value = "true"; 
-            console.log("TUKA OD SELEKT TYPE SHOW TEMPLATE:"+active);// dali da se pokazhuva kopche load template
+          //  console.log("TUKA OD SELEKT TYPE SHOW TEMPLATE:"+active);// dali da se pokazhuva kopche load template
             for(var i = 0 ; i < param.savedTreatments.length; i++){
 
                 if(!param.savedTreatments[i].num){
 
                     if(param.savedTreatments[i].id){
-                        console.log("VO IF if id"+param.savedTreatments[i].id);
+                    //    console.log("VO IF if id"+param.savedTreatments[i].id);
                     }
                     
                     else if(param.savedTreatments[i].name){
-                        selektirani.add(param.savedTreatments[i].name);
+                     //   console.log("za selekcija od savedTreatments"+JSON.stringify(param.savedTreatments[i]));
+                        if (!selektirani.contains(param.savedTreatments[i].name)){
+                           selektirani.add(param.savedTreatments[i].name);
+                        }
+                        
                         finalData[i] = param.savedTreatments[i];
                         SubtreatmentIdOnEDIT = param.savedTreatments[i].subtreatmentid;
+                      //  console.log("za selekcija od savedTreatments final data"+JSON.stringify(finalData[i]));
                     }
 
                     else if(param.savedTreatments[i].templateName){
-                       // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
+                        // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
                         templateName = param.savedTreatments[i].templateName;
-                       // console.log("VO ELSEIF nameTemplate**"+templateName);
+                        // console.log("VO ELSEIF nameTemplate**"+templateName);
                     }
                     else if(param.savedTreatments[i].num1){
                         
@@ -81,21 +86,21 @@
                     
                 }
             } 
-
+            console.log("posle for selektirani: "+JSON.stringify(selektirani));
         }
 
 
 ///// koga doagja od page ALERTPAGE
         else if(param.user.length > 1){
             active.value="false";// dali da se pokazhuva kopche load template
-             console.log("TUKA OD ALERT PAGE SHOW TEMPLATE:"+active);
-            console.log("doagja od page ALERTPAGE");
-            console.log(JSON.stringify(param));
+           //  console.log("TUKA OD ALERT PAGE SHOW TEMPLATE:"+active);
+           // console.log("doagja od page ALERTPAGE");
+           // console.log(JSON.stringify(param));
           //  console.log('If param length > 0:'+JSON.stringify(param)); 
             for(var i = 0 ; i < param.user.length; i++){
                 if(param.user[i].patientId){
                     patientId = param.user[i].patientId;
-                    console.log("tuka patientid:"+patientId);
+                 //   console.log("tuka patientid:"+patientId);
                     Storage.write("patientId", JSON.stringify(patientId));
                 }
                 else if(param.user[i].subtrementID){
@@ -108,53 +113,63 @@
 
             ///// kod za selekcija na tabovite vo select type
             for(var i = 0 ; i < param.user.length; i++){
-                console.log("VO FOOOOR"+JSON.stringify(param.user[i]));
+               // console.log("VO FOOOOR"+JSON.stringify(param.user[i]));
                 if(!param.user[i].num){
                     if(param.user[i].id){
-                        console.log("VO IF if id"+param.user[i].id);
+                       // console.log("VO IF if id"+param.user[i].id);
                     }
                     else if(param.user[i].templateName){
                        // console.log("VO ELSEIF nameTemplate"+param[i].templateName);
                         templateName = param.user[i].templateName;
                        // console.log("VO ELSEIF nameTemplate**"+templateName);
                     }
+
                     else if(param.user[i].num1){
+
                     }
+
                     else if(param.user[i].subtrementID){
                         //console.log(" vo else if select type subtreatmentid: "+param[i]);
                        SubtreatmentIdOnEDIT = param.user[i].subtrementID;
                     }
+
                     else if(param.user[i].patientId){
 
                     }
 
-                        else if (param.user[i].fullName){
-                            name.value = param.user[i].fullName
-                        }
+                    else if (param.user[i].fullName){
+                        name.value = param.user[i].fullName
+                    }
+
                     else{
-                        console.log("VO IF else"+param.user[i].name);
-                        selektirani.add(param.user[i].name);
+                      //  console.log("VO IF elseeeeeeeeeeeee"+param.user[i].name);
+                      if (!selektirani.contains(param.user[i].name)){
+                           selektirani.add(param.user[i].name);
+                        }
+                       
                         finalData[i] = param.user[i];
                     }
                     
                 }
             } 
+
+            //vadenje na duplikati od selektirani
         } // kraj 
 
         /// koga doagja od CONTACTS
         else if("user" in param){
             active.value="true";// dali da se pokazhuva kopche load template
-            console.log("TUKA OD CONTACT - :"+active);
+           // console.log("TUKA OD CONTACT - :"+active);
             patientId = JSON.stringify(param.user.patientId);
-            console.log(JSON.stringify(param.user.fullName));
+           // console.log(JSON.stringify(param.user.fullName));
             name.value = param.user.fullName;
             Storage.write("patientId", JSON.stringify(patientId));
             subtreatmentid = param.user.subtreatmentid;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
-            console.log("PRED FOR PATIENTID "+patientId);
-            console.log("POSLE FOR selektirani "+JSON.stringify(selektirani));
+          ///  console.log("PRED FOR PATIENTID "+patientId);
+           // console.log("POSLE FOR selektirani "+JSON.stringify(selektirani));
     });
 
     
@@ -208,66 +223,96 @@
 
     function goToSelectItems(){       
         var sendData = [{}];
+        var k = 0;
         var flag=0;
+
+        // selektirani = selektirani.filter(function(elem, index, self) {
+        // return index == self.indexOf(elem);
+        // })
+      //  console.log("finalData: "+JSON.stringify(finalData));
         console.log("SELEKTIRANI TUKAAAAAAAAA: "+JSON.stringify(selektirani))
-        //console.log("FINAL DATA TUKAAAAAAAAA: "+JSON.stringify(selektirani))
-        for(var i = 0 ; i < selektirani.length; i++){ //za nizata na tie shto gi doselektiral da se napravat objekti kako vratenite od templejtot vo finalData
+        console.log("FINAAALLLLL TUKAAAAAAAAA: "+JSON.stringify(finalData))
+
+        //celata logika za doselektiranite prazni tretmani i za zachuvanite da ostanat so data
+        for(var i = 0 ; i < selektirani.length;i++){ 
+           flag = 0;
+           
+           if(finalData.length == 0 && selektirani.length > 0){
+            console.log("VLEGUVAAA **************** gore vo if");
+                var tmp = {
+                        "name": selektirani.getAt(i), 
+                        "duration": null, 
+                        "createdBy": 0, 
+                        "treatmentItemId": 0, 
+                        "subtreatmentid": 0, 
+                        "created": null, 
+                        "modified": null, 
+                        "modifiedBy": 0, 
+                        "typeT": "", 
+                        "repeatT": "", 
+                        "renderingInfo": null 
+                    }
+                    sendData[k] = tmp;
+                    k++;
+                    flag = 2;
+           }
            for(var j = 0; j < finalData.length; j++){
-                //console.log("ELEMENT I VO FOR J: "+selektirani.getAt(i));
-                //console.log("ELEMENT I:"+selektirani.getAt(i)+"--ELEMENT J:"+finalData[j].name+'---');
-                
+
                 if(selektirani.getAt(i).localeCompare(finalData[j].name) == 0){
-                    if(flag == 0){
+                        console.log("vleze vo if flag == 0 i= "+i+" j="+j);
+                        console.log("vleze vo if flag == 0 finalData[j]: "+JSON.stringify(finalData[j]));
                             var tmp1 = {
-                            "name": finalData[j].name,
-                            "duration": finalData[j].duration,
-                            "createdBy": finalData[j].createdBy,
-                            "treatmentItemId": finalData[j].treatmentItemId,
-                            "subtreatmentid": finalData[j].subtreatmentid,
-                            "created": finalData[j].created,
-                            "modified": finalData[j].modified,
-                            "modifiedBy": finalData[j].modifiedBy,
-                            "typeT": finalData[j].typeT,
-                            "repeatT": finalData[j].repeatT,
+                            "name": finalData[j].name, 
+                            "duration": finalData[j].duration, 
+                            "createdBy": finalData[j].createdBy, 
+                            "treatmentItemId": finalData[j].treatmentItemId, 
+                            "subtreatmentid": finalData[j].subtreatmentid, 
+                            "created": finalData[j].created, 
+                            "modified": finalData[j].modified, 
+                            "modifiedBy": finalData[j].modifiedBy, 
+                            "typeT": finalData[j].typeT, 
+                            "repeatT": finalData[j].repeatT, 
                             "renderingInfo": finalData[j].renderingInfo
                             }
-                        sendData[i] = tmp1;
-                        flag = 1;
-                        //console.log(" IMA IST ELEMENT:  "+selektirani.getAt(i)+" SO:"+finalData[j].name);
-                        break;
-                    }
-                }
+                        sendData[k] = tmp1; 
+                       
+                        //if(j==finalData.length-1){ flag = 1;}
+                        k++;         
+                        flag = 1; //najden e selektiran element vo selektirani koj go ima kako zachuvan tretman so data
+                } // end if               
             } // for J
-               
-             //console.log("***********************************************");
-            if(flag == 0){
-                 //console.log("AKO SELEKTIRANO i flag=0:  "+selektirani.getAt(i));
-                var tmp = {
-                    "name": selektirani.getAt(i), 
-                    "duration": null, 
-                    "createdBy": 0, 
-                    "treatmentItemId": 0, 
-                    "subtreatmentid": 0, 
-                    "created": null, 
-                    "modified": null, 
-                    "modifiedBy": 0, 
-                    "typeT": "", 
-                    "repeatT": "", 
-                    "renderingInfo": null 
-                }
-                sendData[i] = tmp;
-            }
-            //console.log("NA KRAJ  "+selektirani.getAt(i)); 
-            flag = 0;
-
+             if(flag == 0){
+                //console.log("VLEGUVAAA **************** dole vo if");
+                    var tmp = {
+                        "name": selektirani.getAt(i), 
+                        "duration": null, 
+                        "createdBy": 0, 
+                        "treatmentItemId": 0, 
+                        "subtreatmentid": 0, 
+                        "created": null, 
+                        "modified": null, 
+                        "modifiedBy": 0, 
+                        "typeT": "", 
+                        "repeatT": "", 
+                        "renderingInfo": null 
+                    }
+                    sendData[k] = tmp;
+                    k++;
+                    flag = 0;
+            }// end if
         }// for i
-        //console.log("FINISH: "+JSON.stringify(sendData));
-        console.log("PRED DA SE PRATI DO SELECT ITEMS: "+patientId);
-        sendData[sendData.length] = {"patientId":patientId }
-        sendData[sendData.length] = {"templateName":templateName }
-        sendData[sendData.length] = {"SubtreatmentIdOnEDIT":SubtreatmentIdOnEDIT }
+        k=0; // bitno!
+ 
+        console.log("PRED DA SE PRATI DO SELECT ITEMS: "+patientId); 
+        sendData[sendData.length] = {"patientId":patientId } 
+        sendData[sendData.length] = {"templateName":templateName } 
+        sendData[sendData.length] = {"SubtreatmentIdOnEDIT":SubtreatmentIdOnEDIT } 
         
         //console.log("OVA E PATIENTID: "+Storage.readSync("patientId"));
+        
+        sendData = sendData.filter(function(n){ return n != null }); 
+        console.log("pred da se prati so null: "+JSON.stringify(sendData));
+        console.log("pred da se prati bez null: "+JSON.stringify(sendData));
         console.log("Data koja se prakja do SelectItems ( kartite ) "+JSON.stringify(sendData));
         console.log("Length na data koja se prakja do SelectItems ( kartite ) "+sendData.length);
         
@@ -354,7 +399,7 @@
                         <TabName1 TextColor="White" Clicked="{goToSavedTreatments}" Label="LOAD"></TabName1>
                     </Case>
                     <Case String="false">
-                        <TabName1  Label="LOAD" TextColor="White"></TabName1>
+                        <TabName1  Label="LOAD" TextColor="primary_light" ></TabName1>
                     </Case>
                 </Match>   
             </Grid>

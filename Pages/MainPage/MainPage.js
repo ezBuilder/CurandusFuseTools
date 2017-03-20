@@ -5,6 +5,7 @@ var Storage = require("FuseJS/Storage");
 var errorMessage = Observable();
 var isLoading = Observable(false);
 
+
 this.onParameterChanged(function(param) {
     if (param.user) {
         console.log("main " + param.user);
@@ -13,6 +14,8 @@ this.onParameterChanged(function(param) {
         });
         console.log("posle push " + param.user);
     }
+
+    console.log("zavrshenooooooooo");
 });
 
 function endLoading() {
