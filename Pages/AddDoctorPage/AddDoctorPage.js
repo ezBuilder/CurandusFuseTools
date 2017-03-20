@@ -123,8 +123,8 @@ function addChatContact() {
 
                             var data = {
                                 "type": 2,
-                                "name": "Chat with" + userObj.id + " & " + chatUserId,
-                                "occupants_ids": "23691179," + userObj.id + "," + chatUserId + ""
+                                "name": "Chat with " + userObj.id + " & " + chatUserId,
+                                "occupants_ids": "25381537," + userObj.id + "," + chatUserId + ""
                             }
 
                             fetch('https://api.quickblox.com/chat/Dialog.json', {
@@ -270,7 +270,7 @@ function createDialog(myUserId, contactId) {
     var data = {
         "type": 2,
         "name": "Chat with" + myUserId + " & " + contactId,
-        "occupants_ids": "23691179," + myUserId + "," + contactId + "",
+        "occupants_ids": "25381537," + myUserId + "," + contactId + "",
         "UsersForChat": {
             "user1": "" + name.value + " " + surname.value + "",
             "user2": "" + User.firstName + ' ' + User.lastName + ""

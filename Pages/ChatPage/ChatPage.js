@@ -70,7 +70,7 @@ function getAllMesages() {
                 if (fromChat) {
                     if (json.items[i].sender_id == ChatId) {
                         messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
-                    } else if (json.items[i].sender_id == 23691179) {
+                    } else if (json.items[i].sender_id == 25381537) {
                         messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
                     } else {
                         messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
@@ -78,7 +78,7 @@ function getAllMesages() {
                 } else {
                     if (json.items[i].sender_id == ChatId) {
                         messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
-                    } else if (json.items[i].sender_id == 23691179) {
+                    } else if (json.items[i].sender_id == 25381537) {
                         messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
                     } else {
                         messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
