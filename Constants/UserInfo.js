@@ -17,5 +17,6 @@
     "modified": null,
     "modifiedBy": null,
     "deviceId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-    "activationCode": 111111
+    "activationCode": 111111,
+    "chatId": "sdhafs8fsda9fas"
 }

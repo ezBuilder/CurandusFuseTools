@@ -12,7 +12,9 @@
     "*",
     "Pages/ContactsView/ContactsView.js:Bundle",
     "Constants/Types.js:Bundle",
-    "Constants/SERVICE_URL.js:Bundle"
+    "Constants/SERVICE_URL.js:Bundle",
+    "Scripts/sha.js:Bundle",
+    "Scripts/quickbloxConfig.js:Bundle",
   ],
   "Mobile": {
     "Orientations": "Portrait"

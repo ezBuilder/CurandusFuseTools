@@ -18,89 +18,9 @@
 	<myToast ux:Global="myToast"/>
 	<!-- MAIN ROUTER NAVIGATION -->
 	<Router ux:Name="router" />
-	<JavaScript>
-		var Observable = require("FuseJS/Observable");
-		var url = require("Constants/SERVICE_URL.js");
-		var Storage = require("FuseJS/Storage");
-		var myToast = require("myToast");
 
-		var msg = "Welcome to Curandus";
-		myToast.toastIt(msg) 
+	<JavaScript File="MainView.js" />
 
-		var User;
-		var name = Observable();
-		var surname = Observable();
-		var flag = Observable();
-		var imagePath=Observable();
-
-		Storage.read("userInfo").then(function(content) {
-		    debug_log("*****", content);
-		    User = JSON.parse(content);
-		    name.value = User.firstName;
-		    surname.value = User.lastName;
-		}, function(error) {
-			
-		});
-
-		Storage.read("userInfoBrojslika").then(function(content) { 
-	        flag.value="storage";
-	            console.log("On onParameterChanged vo Edit Profile page: "+content);
-	            imagePath.value=content;
-	        }, function(error) { 
-	        	flag.value="no_picture";
-	            console.log("nema slika vo storage!"); 
-	            imagePath.value = "Assets/placeholder.png";
-   		}); 
-
-		function goToAbout() {
-		    router.push("AboutPage", {});
-		    EdgeNavigator.dismiss();
-		}
-
-		function goToHelp() {
-		    router.push("HelpPage", {});
-		    EdgeNavigator.dismiss();
-		}
-
-		function goToEdit() {
-			var num = Math.random();
-		    router.push("EditProfile", {num});
-		    EdgeNavigator.dismiss();
-		}
-	
-    	function OpenMenu() {
-    		//da se povleche slika od storage za prikaz na krukcheto gore za profile image
-    		console.log("povikano open manu");
-    		Storage.read("userInfoBrojslika").then(function(content) { 
-	        flag.value="storage";
-	            console.log("On onParameterChanged vo Edit Profile page: "+content);
-	            imagePath.value=content;
-	        }, function(error) { 
-	        	flag.value="no_picture";
-	            console.log("nema slika vo storage!"); 
-	            imagePath.value = "Assets/placeholder.png";
-   			}); 
-
-			EdgeNavigator.open("Left");
-		}
-
-
-		function closeSideMenu() {
-		   EdgeNavigator.dismiss();
-		}
-
-		module.exports = {
-		    goToAbout: goToAbout,
-		    goToEdit: goToEdit,
-		    goToHelp: goToHelp,
-		    name: name,
-		    surname: surname,
-			OpenMenu: OpenMenu,
-			closeSideMenu: closeSideMenu,
-			flag:flag,
-			imagePath:imagePath
-		};
-	</JavaScript>
 	<OnBackButton>
   	<Callback Handler="{closeSideMenu}" />
 	</OnBackButton>
