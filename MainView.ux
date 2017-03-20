@@ -30,6 +30,8 @@
 		var User;
 		var name = Observable();
 		var surname = Observable();
+		var flag = Observable();
+		var imagePath=Observable();
 
 		Storage.read("userInfo").then(function(content) {
 		    debug_log("*****", content);
@@ -39,6 +41,16 @@
 		}, function(error) {
 			
 		});
+
+		Storage.read("userInfoBrojslika").then(function(content) { 
+	        flag.value="storage";
+	            console.log("On onParameterChanged vo Edit Profile page: "+content);
+	            imagePath.value=content;
+	        }, function(error) { 
+	        	flag.value="no_picture";
+	            console.log("nema slika vo storage!"); 
+	            imagePath.value = "Assets/placeholder.png";
+   		}); 
 
 		function goToAbout() {
 		    router.push("AboutPage", {});
@@ -51,11 +63,24 @@
 		}
 
 		function goToEdit() {
-		    router.push("EditProfile", {});
+			var num = Math.random();
+		    router.push("EditProfile", {num});
 		    EdgeNavigator.dismiss();
 		}
 	
     	function OpenMenu() {
+    		//da se povleche slika od storage za prikaz na krukcheto gore za profile image
+    		console.log("povikano open manu");
+    		Storage.read("userInfoBrojslika").then(function(content) { 
+	        flag.value="storage";
+	            console.log("On onParameterChanged vo Edit Profile page: "+content);
+	            imagePath.value=content;
+	        }, function(error) { 
+	        	flag.value="no_picture";
+	            console.log("nema slika vo storage!"); 
+	            imagePath.value = "Assets/placeholder.png";
+   			}); 
+
 			EdgeNavigator.open("Left");
 		}
 
@@ -71,10 +96,9 @@
 		    name: name,
 		    surname: surname,
 			OpenMenu: OpenMenu,
-			closeSideMenu: closeSideMenu
-			
-		   
-
+			closeSideMenu: closeSideMenu,
+			flag:flag,
+			imagePath:imagePath
 		};
 	</JavaScript>
 	<OnBackButton>
@@ -87,9 +111,20 @@
 				<DockPanel>
 					<Rectangle Color="#FAFAFA" Width="100%" Height="158" Dock="Top">
 						<StackPanel>
-							<Circle Height="80" Width="80" Dock="Left" Margin="12,26,0,12" Alignment="TopLeft">
-								<ImageFill File="Assets/placeholder.png" />
-							</Circle>
+							<Match Value="{flag}"> 
+		                      <Case String="storage"> 
+		                        <Circle Height="80" Width="80" Dock="Left" Margin="12,26,0,12" Alignment="TopLeft">
+									<ImageFill Url="{imagePath}" />
+								</Circle>
+		                      </Case> 
+
+		                      <Case String="no_picture"> 
+		               				<Circle Height="80" Width="80" Dock="Left" Margin="12,26,0,12" Alignment="TopLeft">
+										<ImageFill File="{imagePath}" />
+									</Circle>
+		                      </Case>
+		                    </Match>
+							
 							<Panel Height="48">
 								<Text Value="{name} {surname}" Color="White" FontSize="14" Margin="16,0,0,0" Alignment="CenterLeft" Font="medium"/>
 								<Text Value="EDIT" Color="White" Clicked="{goToEdit}" FontSize="14" Margin="0,0,16,0" Alignment="CenterRight" Font="medium"/>

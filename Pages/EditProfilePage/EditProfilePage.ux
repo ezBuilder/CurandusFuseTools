@@ -12,12 +12,28 @@
 			
 			<StackPanel>
 				<DockPanel>
-					<Image File="{imagePath}" Width="128" Height="128" Dock="Left" Margin="30, 16, 0, 0"/>
-				      
+				
+					<Match Value="{flag}"> 
+                       <Case String="camera"> 
+                        <Image File="{imagePath}" Width="128" Height="128" Dock="Left" Margin="30, 16, 0, 0"/>
+                      </Case> 
+                      <Case String="storage"> 
+                        <Image Url="{imagePath}" Width="128" Height="128" Dock="Left" Margin="30, 16, 0, 0"/>
+                      </Case> 
+
+                      <Case String="load"> 
+                       <Image File="{imagePath}" Width="128" Height="128" Dock="Left" Margin="30, 16, 0, 0"/>
+                      </Case> 
+
+                      <Case String="no_picture"> 
+               			<Image File="{imagePath}" Width="128" Height="128" Dock="Left" Margin="30, 16, 0, 0"/>
+                      </Case>
+                    </Match>
+                        
 				    <StackPanel>
-							<Rectangle  Margin="30, 16, 0, 0" Clicked="{selectImage}"> <Icon FontSize="32"  Color="primary" >&#xE413;</Icon></Rectangle>
+							<Rectangle  Margin="30, 16, 0, 0" Clicked="{selectImageShow}"> <Icon FontSize="32"  Color="primary" >&#xE413;</Icon></Rectangle>
 							
-							<Rectangle Margin="30, 16, 0, 0" Clicked="{takePicture}"> <Icon FontSize="32"   Color="primary" >&#xE439;</Icon></Rectangle>
+							<Rectangle Margin="30, 16, 0, 0" Clicked="{takePictureShow}"> <Icon FontSize="32"   Color="primary" >&#xE439;</Icon></Rectangle>
 							
 							<Rectangle Margin="30, 16, 0, 0" Clicked="{removePicture}"> <Icon FontSize="32"   Color="primary" >&#xE14C;</Icon></Rectangle>
 					</StackPanel>

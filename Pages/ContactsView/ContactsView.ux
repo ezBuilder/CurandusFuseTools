@@ -51,35 +51,42 @@
 
                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
                             <Each Items="{filteredItems1}">
+
                                 <Match Value="{isLetter}" >
                                     <Case Number="0" >
                                         <DockPanel Margin="7,1,7,0" ux:Name="contactItem">
                                             <WhileHovering>
-                                                <Change contactItem.Color="divider" />
-                                            </WhileHovering>
-                                            <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                                                <ImageFill File="../../Assets/placeholder.png" />
-                                            </Circle>
+                                                <Change contactItem.Color="divider" /> 
+                                            </WhileHovering> 
+
+                                           <!--  <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                                <ImageFill Url="http:\\192.168.1.110:8080\curandusImages\99.jpg" /> 
+                                            </Circle> -->
+
                                             <Rectangle HitTestMode="LocalBounds" >
                                                 <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
                                             </Rectangle>
                                             <StackPanel Dock="Right" Orientation="Horizontal">
+
                                                 <Circle Height="30" Width="30" Dock="Left" Alignment="Center" Margin="15,0,0,0">
                                                     <Stroke Width="2">
                                                         <SolidColor Color="primary" />
                                                     </Stroke>
                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                 </Circle>
+
                                                 <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
                                                     <Stroke Width="2">
                                                         <SolidColor Color="primary" />
                                                     </Stroke>
                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
                                                 </Circle>
+
                                             </StackPanel>
                                         </DockPanel>
                                     </Case>
                                 </Match>
+
                                 <Match Value="{isLetter}" >
                                     <Case Number="1" >
                                         <Rectangle Color="primary_dark" Height="32">
@@ -87,6 +94,7 @@
                                         </Rectangle>
                                     </Case>
                                 </Match>
+
                             </Each>
                             <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
                         </StackPanel>
@@ -113,9 +121,9 @@
                                             <WhileHovering>
                                                 <Change contactItem.Color="divider" />
                                             </WhileHovering>
-                                            <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                                                <ImageFill File="../../Assets/placeholder.png" />
-                                            </Circle>
+                                            <!-- <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                                <ImageFill Url="http:\\192.168.1.110:8080\curandusImages\99.jpg" />
+                                            </Circle> -->
                                             <Match Value="{activetreatmenId}" >
                                                 <Case Number="0">
                                                     <Rectangle HitTestMode="LocalBounds" Clicked="{goToSelectType}">
