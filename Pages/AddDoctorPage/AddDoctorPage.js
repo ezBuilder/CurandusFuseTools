@@ -289,15 +289,14 @@ function createDialog(myUserId, contactId) {
             body: JSON.stringify(data)
         })
         .then(function(resp) {
-            console.log("Dialog Created");
+            console.log("Dialog Created 2");
             return resp.json();
         })
         .then(function(json) {
             dialogObj = json;
-            console.log("DIALOG!" + dialogObj._id);
-            // addContact(chatUserId, dialogObj._id);
-
-            fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=" + chatUserId + "&roomid=" + dialogObj._id, {
+            console.log("DIALOG!" + dialogObj._id + contactId);
+            // addContact(contactId, dialogObj._id);
+            fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=" + contactId + "&roomid=" + dialogObj._id, {
                 method: 'POST',
                 headers: {
                     "Content-type": "application/json"
