@@ -6,6 +6,7 @@
 			<DropShadow />
 		</Toolbar>
 		<Rectangle Color="#EEE" Layer="Background"/>
+		<FloatingButton Alignment="BottomRight" BtnColor="#FF5722" BtnIcon="&#xE627;" Clicked="{getAllMesages}" BtnTextColor="icons" />           
 		<ScrollView>
 			<StackPanel Alignment="Bottom">
 				<Each Items="{messages}">

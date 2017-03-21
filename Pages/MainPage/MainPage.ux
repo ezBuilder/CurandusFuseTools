@@ -214,6 +214,7 @@
                     </WhileActive>
                     <!-- <ChatsView router="router" />-->
                     <JavaScript File="../ChatsView/ChatsView.js" />
+                    <FloatingButton Alignment="BottomRight" BtnColor="#FF5722" BtnIcon="&#xE627;" Clicked="{getDialogs}" BtnTextColor="icons" />
                     <ScrollView ClipToBounds="true">
                         <StackPanel Orientation="Vertical">
                             <!-- <Button Clicked="{signIn}" Text="signIn"></Button> -->
