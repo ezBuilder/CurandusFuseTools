@@ -217,6 +217,7 @@ function timeSince(date) {
 module.exports = {
     contacts: contacts,
     dialogs: dialogs,
+    getDialogs: getDialogs,
     signIn: signIn,
     errorMessage: errorMessage,
     goToChat: goToChat,
