@@ -93,7 +93,7 @@ function fetchDataDoctors() {
                 if('ProfileUrl' in contacts[i]){ 
                     var image_num = contacts[i].ProfileUrl;
                     contacts[i].ProfileUrl = activeUrl.URL+"\/curandusImages"+"\/"+image_num+".jpg";
-                    //console.log("imaa profile url: "+JSON.stringify(contacts[i].ProfileUrl));
+                    console.log("imaa profile url: "+JSON.stringify(contacts[i].ProfileUrl));
                 } 
 
                 else if(contacts[i].ProfileUrl == undefined){ 
