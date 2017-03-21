@@ -151,7 +151,7 @@ function updateProfile(brojSlika){
     console.log("User.providerId "+User.providerId);
     console.log("brojSlika "+brojSlika);
 
-    var url = "http://192.168.1.155:8080/curandusproject/webapi/api/updateProviderImageUrl/"+User.providerId+"&&"+brojSlika+"&&"+User.firstName+"&&"+User.lastName
+    var url = activeUrl.URL+"/curandusproject/webapi/api/updateProviderImageUrl/"+User.providerId+"&&"+brojSlika+"&&"+User.firstName+"&&"+User.lastName
     console.log("updateProvider se povika so broj slika: "+brojSlika+" i userid:"+User.providerId);
             fetch(url, {
                 method: 'POST',
@@ -176,7 +176,7 @@ save = function() {
         User.firstName = name.value;
         User.lastName = surname.value;
         if(flag.value == "no_picture"){
-            Storage.write("userInfoBrojslika", "http://192.168.1.110:8080"+"\/curandusImages"+"\/"+"Assets"+"\/"+"placeholder.png"); 
+            Storage.write("userInfoBrojslika", activeUrl.URL+"\/curandusImages"+"\/"+"Assets"+"\/"+"placeholder.png"); 
             updateProfile(""); 
 
         }
@@ -199,7 +199,7 @@ save = function() {
                         "subtreatmentid":18
                     };
                    // console.log("The tmp is created " + tmp);
-                    var url1 = "http://192.168.1.155:8080/curandusproject/webapi/api/inserttreatmentitemimage";
+                    var url1 = activeUrl.URL+"/curandusproject/webapi/api/inserttreatmentitemimage";
                     fetch( url1, {
                         method: 'POST',
                         headers: {
