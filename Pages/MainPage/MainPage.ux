@@ -157,7 +157,7 @@
                                                                 <Change contactItem.Color="divider" />
                                                             </WhileHovering>
                                                             <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                                                                <ImageFill Url="{ProfileUrl}" />
+                                                                <ImageFill File="../../Assets/placeholder.png" />
                                                             </Circle>
                                                             <Match Value="{activetreatmenId}" >
                                                                 <Case Number="0">

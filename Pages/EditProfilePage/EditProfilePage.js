@@ -49,7 +49,7 @@ var displayImage = function(image) {
 
 // dodadeno od moki samo za prikaz na slika bez da zapishuva vo baza (CAMERA)
 function takePictureShow() {
-    flag.value = "camera";
+    flag.value = "camera"; 
     Camera.takePicture().then(
         function(image) {
             console.log("Vleze vo takepictureShow: ");
@@ -133,6 +133,8 @@ function selectImageShow(){
 
 
 removePicture = function() {
+    Storage.write("userInfoBrojslika", "../../Assets/placeholder.png"); 
+
     flag.value="no_picture";
     var tmp = {
         path: "Assets/placeholder.png"
@@ -143,8 +145,13 @@ removePicture = function() {
 }
 
 
-function editProfile(brojSlika){
-    var url = activeUrl.URL+"/curandusproject/webapi/api/updateProviderImageUrl/"+User.providerId+"&&"+brojSlika
+function updateProfile(brojSlika){
+
+
+    console.log("User.providerId "+User.providerId);
+    console.log("brojSlika "+brojSlika);
+
+    var url = "http://192.168.1.155:8080/curandusproject/webapi/api/updateProviderImageUrl/"+User.providerId+"&&"+brojSlika+"&&"+User.firstName+"&&"+User.lastName
     console.log("updateProvider se povika so broj slika: "+brojSlika+" i userid:"+User.providerId);
             fetch(url, {
                 method: 'POST',
@@ -157,11 +164,10 @@ function editProfile(brojSlika){
                 response_ok = response.ok; // Is response.status in the 200-range? 
                 return response.json(); // This returns a promise 
             }).then(function(responseObject) {
-                console.log("odgovor od update na url: " + responseObject);
-                 
+                console.log("odgovor od update na url: " + responseObject);                 
 
             }).catch(function(err) {
-                console.log("Error pri update na pole vo baza za editprofileImage", err.message);
+               // console.log("Error pri update na pole vo baza za editprofileImage", err.message);
                 
             });
 }
@@ -169,68 +175,85 @@ function editProfile(brojSlika){
 save = function() {
         User.firstName = name.value;
         User.lastName = surname.value;
-       
-        console.log("THIS IS THE USER: "+JSON.stringify(User));
-       // console.log("ova e base64 na slikata: "+base64Code.base64.substr(1,100));
-        var tmp = {
-            "name": "editprofile",
-            "duration": "3",
-            "status": "1",
-            "createdBy": 0,
-            "modifiedBy": 0,
-            "created": null,
-            "modified": null,
-            "typeT": "ACK",
-            "renderingInfo": JSON.stringify(base64Code),
-            "repeatT": "5",
-            "subtreatmentid": 18
-        };
-        console.log("The tmp is created " + tmp);
-        var url1 = activeUrl.URL+ "/curandusproject/webapi/api/inserttreatmentitemimage";
-        fetch( url1, {
-            method: 'POST',
-            headers: {
-                "Content-type": "application/json"
-            },
-            dataType: 'json',
-            body: JSON.stringify(tmp) 
-        }).then(function(response) { 
-            status = response.status; // Get the HTTP status code
-            response_ok = response.ok; // Is response.status in the 200-range?
-            return response.json(); // This returns a promise
-        }).then(function(responseObject) {
-            flag.value="storage"; 
-            console.log("broj na slika: " + responseObject); 
-           
-            //zapishuvanje vo local storage broj na slika 
-            if(responseObject != 0){
-                 imagePath.value = activeUrl.URL+"\/curandusImages"+"\/"+responseObject+".jpg"; 
-                Storage.write("userInfoBrojslika", imagePath.value); 
-                console.log("napraveno save i imagepath.value= "+imagePath.value);
-                
-                Storage.read("userInfoBrojslika").then(function(content) { 
-                    console.log("pri save i povlekuvanje od storage imagevalue: "+content); 
-                    }, function(error) { 
-                    console.log("nema slika vo storage!"); 
-                    });
-                  editProfile(responseObject);  
-            }
-            else{
-                console.log("ne pominuva update:");
-            }
-           
+        if(flag.value == "no_picture"){
+            Storage.write("userInfoBrojslika", "http://192.168.1.110:8080"+"\/curandusImages"+"\/"+"Assets"+"\/"+"placeholder.png"); 
+            updateProfile(""); 
 
-        }).catch(function(err) {
-            
-            console.log("ova vo error", err.message); 
-                     
-        });
+        }
+        else{
 
 
+                    console.log("THIS IS THE USER: "+JSON.stringify(User));
+                   // console.log("ova e base64 na slikata: "+base64Code.base64.substr(1,100));
+                    var tmp = {
+                         "name":"edit profile",
+                        "duration":"3",
+                        "status":"1",
+                        "createdBy":0,
+                        "modifiedBy":0,
+                        "created":null,
+                        "modified":null,
+                        "typeT":"ACK",
+                        "renderingInfo":JSON.stringify(base64Code),
+                        "repeatT":"5",
+                        "subtreatmentid":18
+                    };
+                   // console.log("The tmp is created " + tmp);
+                    var url1 = "http://192.168.1.155:8080/curandusproject/webapi/api/inserttreatmentitemimage";
+                    fetch( url1, {
+                        method: 'POST',
+                        headers: {
+                            "Content-type": "application/json"
+                        },
+                        dataType: 'json',
+                        body: JSON.stringify(tmp) 
+                    }).then(function(response) { 
+                        status = response.status; // Get the HTTP status code
+                        console.log('status', status);
+                        response_ok = response.ok; // Is response.status in the 200-range?
+                        return response.json(); // This returns a promise
+                        
+                        
+                    }).then(function(responseObject) {
+                        flag.value="storage";
+                        console.log("broj na slika: " + responseObject); 
+                       
+                       // zapishuvanje vo local storage broj na slika 
+                        if(responseObject != 0){
+                             imagePath.value = activeUrl.URL+"\/curandusImages"+"\/"+responseObject+".jpg"; 
+                            Storage.write("userInfoBrojslika", imagePath.value); 
+                            console.log("napraveno save i imagepath.value= "+imagePath.value);
+                            
+                            Storage.read("userInfoBrojslika").then(function(content) { 
+                                console.log("pri save i povlekuvanje od storage imagevalue: "+content); 
+                                }, function(error) { 
+                                console.log("nema slika vo storage!"); 
+                                });
+                              updateProfile(responseObject);  
+                        }
+                        else{
+                            console.log("ne pominuva update:");
+                        }                   
+
+                }).catch(function(err) {                    
+                    console.log("ova vo error", err.message);                              
+                });
+
+            }//end else
     //
     Storage.write("userInfo", JSON.stringify(User));
     router.goBack();
 
+}
+
+
+function deleteStorage() {
+    var success = Storage.deleteSync("userInfo");
+    if (success) {
+        console.log("Deleted file");
+    } else {
+        console.log("An error occured!");
+    }
 }
 
 
@@ -244,5 +267,6 @@ module.exports = {
     name: name,
     surname: surname,
     save: save,
-    flag:flag
+    flag:flag,
+    deleteStorage
 };

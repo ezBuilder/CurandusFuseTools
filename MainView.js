@@ -3,6 +3,8 @@
 		var Storage = require("FuseJS/Storage");
 		var myToast = require("myToast");
 		var QConfig = require('Scripts/quickbloxConfig.js');
+		var imagePath = Observable();
+		var flag = Observable();
 
 		var msg = "Welcome to Curandus";
 		myToast.toastIt(msg)
@@ -19,6 +21,16 @@
 
 		});
 
+		Storage.read("userInfoBrojslika").then(function(content) { 
+        flag.value="storage";
+            console.log("On onParameterChanged vo Mainview page: "+content);
+            imagePath.value=content;
+        }, function(error) { 
+        	flag.value="no_picture";
+        	imagePath.value="../../Assets/placeholder.png";
+            console.log("nema slika vo storage!"); 
+    	}); 
+
 
 
 		function goToAbout() {
@@ -32,13 +44,24 @@
 		}
 
 		function goToEdit() {
-		    router.push("EditProfile", {});
+
+			var tmp = Math.random();
+		    router.push("EditProfile", {tmp});
 		    EdgeNavigator.dismiss();
 		}
 
 		function OpenMenu() {
-		    EdgeNavigator.open("Left");
-		}
+			Storage.read("userInfoBrojslika").then(function(content) { 
+	        flag.value="storage";
+	            console.log("On onParameterChanged vo Mainview page: "+content);
+	            imagePath.value=content;
+	        }, function(error) { 
+	        	flag.value="no_picture";
+	        	imagePath.value="../../Assets/placeholder.png";
+	            console.log("nema slika vo storage!"); 
+	    	}); 
+			    EdgeNavigator.open("Left");
+			}
 
 
 		function closeSideMenu() {
@@ -52,5 +75,7 @@
 		    name: name,
 		    surname: surname,
 		    OpenMenu: OpenMenu,
-		    closeSideMenu: closeSideMenu
+		    closeSideMenu: closeSideMenu,
+		    imagePath:imagePath,
+		    flag:flag
 		};
