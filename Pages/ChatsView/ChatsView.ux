@@ -1,9 +1,10 @@
 <DefaultPage ux:Class="ChatsView">
 	<JavaScript File="ChatsView.js" />
 	<Router ux:Dependency="router" />
+        <Button Clicked="{signIn}" Text="signIn"></Button>
 <ScrollView ClipToBounds="true">
     <StackPanel Orientation="Vertical">
-        <Each Items="{contacts}">
+        <Each Items="{contacts}" >
             <DockPanel Margin="7,1,7,0" Clicked="{goToChat}" ux:Name="alertitem">
                 <WhileHovering>
                     <Change alertitem.Color="divider" />

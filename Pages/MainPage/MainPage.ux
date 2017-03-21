@@ -96,7 +96,7 @@
                                             <Each Items="{filteredItems1}">
                                                 <Match Value="{isLetter}" >
                                                     <Case Number="0" >
-                                                        <DockPanel Margin="7,1,1,0" ux:Name="contactItem">
+                                                        <DockPanel Margin="7,1,1,0" ux:Name="contactItem" Clicked="{goToDoctorChat}">
                                                             <WhileHovering>
                                                                 <Change contactItem.Color="divider" />
                                                             </WhileHovering>
@@ -113,11 +113,11 @@
                                                                     </Stroke>
                                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                                 </Circle>
-                                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,4,0">
+                                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{deleteDoctor}" Alignment="Center" Margin="15,0,4,0">
                                                                     <Stroke Width="2">
                                                                         <SolidColor Color="primary" />
                                                                     </Stroke>
-                                                                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B7;</Icon>
+                                                                    <Icon Alignment="Center" FontSize="20" Color="primary">&#xE872;</Icon>
                                                                 </Circle>
                                                                 <Rectangle Width="20" Height="50" Clicked="{deleteDoctor}">
                                                                     <Icon Alignment="Top" FontSize="20" Color="primary" >&#xE14C;</Icon>
@@ -200,6 +200,7 @@
                                                 </Match>
                                             </Each>
                                             <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
+                                            <Button Clicked="{deleteStorage}" Text="Delete Storage"></Button>
                                         </StackPanel>
                                     </ScrollView>
                                 </Case>
@@ -211,7 +212,45 @@
                     <WhileActive Threshold="0.5">
                         <Set tabBar.LayoutElement="page2Tab" />
                     </WhileActive>
-                    <ChatsView router="router" />
+                    <!-- <ChatsView router="router" />-->
+                    <JavaScript File="../ChatsView/ChatsView.js" />
+                    <ScrollView ClipToBounds="true">
+                        <StackPanel Orientation="Vertical">
+                            <!-- <Button Clicked="{signIn}" Text="signIn"></Button> -->
+                            <Each Items="{dialogs}">
+                                <DockPanel Margin="7,1,7,0" Clicked="{goToDoctorChat2}" ux:Name="alertitem">
+                                    <WhileHovering>
+                                        <Change alertitem.Color="divider" />
+                                    </WhileHovering>
+                                    <Circle Height="60" Width="60" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                        <ImageFill File="../../Assets/placeholder.png" />
+                                        <Match Value="{unread_messages_count}">
+                                            <Case Number="0"></Case>
+                                            <Case Number="1" IsDefault="true">
+                                                <Circle Height="16" Width="16" Alignment="TopRight" Color="online">
+                                                    <Text Value="{unread_messages_count}" FontSize="12" Alignment="TopCenter" Margin="0,1,0,0"></Text>
+                                                </Circle>
+                                            </Case>
+                                        </Match>
+                                    </Circle>
+                                    <StackPanel Margin="12,12,7,7">
+                                        <Text Font="medium" Value="{name}" FontSize="17" TextColor="primary" />
+                                        <Text TextWrapping="Wrap" Font="medium" Value="{last_message}" FontSize="13" TextColor="#212121" />
+                                        <Text Font="medium" Value="{minutes}" FontSize="10" TextColor="secondary_text" />
+                                    </StackPanel>
+                                    <StackPanel Dock="Right" Alignment="Center">
+                                        <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                                            <Stroke Width="2">
+                                                <SolidColor Color="primary" />
+                                            </Stroke>
+                                            <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
+                                        </Circle>
+                                    </StackPanel>
+                                </DockPanel>
+                                <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0"/>
+                            </Each>
+                        </StackPanel>
+                    </ScrollView>
                 </Page>
             </PageControl>
         </DockPanel>
