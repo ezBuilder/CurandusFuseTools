@@ -200,7 +200,6 @@
                                                 </Match>
                                             </Each>
                                             <Rectangle Height="1" Alignment="Bottom" Color="divider" Margin="20,0" />
-                                            <Button Clicked="{deleteStorage}" Text="Delete Storage"></Button>
                                         </StackPanel>
                                     </ScrollView>
                                 </Case>

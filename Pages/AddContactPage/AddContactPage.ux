@@ -10,7 +10,7 @@
 			
 			<StackPanel>
 
-				<FloatingLabel Value="{phoneNumber}" InputHint="Number" PlaceholderText="Phone number" Margin="32, 16, 32, 0" />
+				<FloatingLabel Value="{phoneNumber}" InputHint="Phone" PlaceholderText="Phone number" Margin="32, 16, 32, 0" />
 				<FloatingLabel Value="{name}" PlaceholderText="Name" Margin="32, 16, 32, 0" />
 				<FloatingLabel Value="{surname}" PlaceholderText="Surname" Margin="32, 16, 32, 0" />
 

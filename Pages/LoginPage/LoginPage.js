@@ -79,13 +79,15 @@
 		        .then(function(json) {
 		            console.log(JSON.stringify(json));
 
+
 		            if (json.user) {
 		                chatUserId = json.user.id;
 		                registerFunc();
 
-
-		            } else if (json.errors.login[0] == "has already been taken") {
+		            } 
+		            else if (json.errors.email[0] == "has already been taken."||json.errors.login[0] == "has already been taken.") {
 		                console.log("has already been taken");
+
 
 		                fetch('http://api.quickblox.com/users/by_login.json?login=' + phone.value, {
 		                        method: 'GET',
@@ -96,6 +98,7 @@
 		                    })
 		                    .then(function(resp) {
 		                        console.log("User Found!");
+		                        console.log(JSON.stringify(resp));
 		                        return resp.json();
 		                    })
 		                    .then(function(json) {
@@ -107,17 +110,13 @@
 
 		                    })
 		                    .catch(function(err) {
-		                        console.log('Error');
+		                        console.log('Errorwwww');
 		                        console.log(JSON.stringify(err));
 		                    });
-
 		            }
-
-
-
 		        })
 		        .catch(function(err) {
-		            console.log('Error');
+		            console.log('Errorrrrr');
 		            console.log(JSON.stringify(err));
 		        });
 		}
