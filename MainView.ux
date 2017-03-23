@@ -54,11 +54,17 @@
 					</Rectangle>
 					<MenuItem Text="About" Dock="Top" Icon="&#xE853;"  Clicked="{goToAbout}"/>
 					<MenuItem Text="Help" Dock="Top" Icon="&#xE887;" Clicked="{goToHelp}" />
+					<MenuItem Text="Unregister" Dock="Top" Icon="&#xE88F;" Clicked="{deleteStorage}" >
+						<Clicked>
+							<HomeScreen Type="Finish" />
+						</Clicked>						
+					</MenuItem>
 					<MenuItem Text="Exit" Icon="&#xE879;" Dock="Top">
 						<Clicked>
 							<HomeScreen Type="Finish" />
 						</Clicked>
 					</MenuItem>
+
 				</DockPanel>
 				<DropShadow />
 			</Rectangle>
