@@ -70,6 +70,9 @@ function addChatContact() {
 
     if (phoneNumber.value != "" && name.value != "" && surname.value != "" && sessionObj) {
 
+        name.value=encodeURIComponent(name.value);
+        surname.value=encodeURIComponent(surname.value);
+
         var data = {
             "user": {
                 "login": phoneNumber.value,
@@ -189,7 +192,7 @@ function addChatContact() {
                         });
 
                 } else
-                if (json.errors.login[0] == "has already been taken") {
+                if (json.errors.email[0] == "has already been taken."||json.errors.login[0] == "has already been taken.") {
                     console.log(JSON.stringify(json.errors.login[0]));
 
                     fetch('http://api.quickblox.com/users/by_login.json?login=' + phoneNumber.value, {
