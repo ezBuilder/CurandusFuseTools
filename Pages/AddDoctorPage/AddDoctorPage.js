@@ -70,8 +70,8 @@ function addChatContact() {
 
     if (phoneNumber.value != "" && name.value != "" && surname.value != "" && sessionObj) {
 
-        name.value=encodeURIComponent(name.value);
-        surname.value=encodeURIComponent(surname.value);
+        //name.value=encodeURIComponent(name.value);
+        //surname.value=encodeURIComponent(surname.value);
 
         var data = {
             "user": {
@@ -147,7 +147,7 @@ function addChatContact() {
                                     console.log("DIALOG!" + dialogObj._id);
                                     // addContact(chatUserId, dialogObj._id);
 
-                                    fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=" + chatUserId + "&roomid=" + dialogObj._id, {
+                                    fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + encodeURIComponent(name.value) + "&lastName=" + encodeURIComponent(surname.value) + "&chatid=" + chatUserId + "&roomid=" + dialogObj._id, {
                                         method: 'POST',
                                         headers: {
                                             "Content-type": "application/json"
@@ -299,7 +299,7 @@ function createDialog(myUserId, contactId) {
             dialogObj = json;
             console.log("DIALOG!" + dialogObj._id + contactId);
             // addContact(contactId, dialogObj._id);
-            fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=" + contactId + "&roomid=" + dialogObj._id, {
+            fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + encodeURIComponent(name.value) + "&lastName=" + encodeURIComponent(surname.value) + "&chatid=" + contactId + "&roomid=" + dialogObj._id, {
                 method: 'POST',
                 headers: {
                     "Content-type": "application/json"
@@ -339,7 +339,7 @@ function createDialog(myUserId, contactId) {
 function addContact(chatID, roomID) {
     console.log(chatID + " - " + roomID);
     if (phoneNumber.value != "" && name.value != "" && surname.value != "") {
-        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=" + chatID + "&roomid=" + roomID, {
+        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactdoctor/providerId=" + User.providerId + "&phone=" + phoneNumber.value + "&firstName=" + encodeURIComponent(name.value) + "&lastName=" + encodeURIComponent(surname.value) + "&chatid=" + chatID + "&roomid=" + roomID, {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"

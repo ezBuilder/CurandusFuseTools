@@ -120,9 +120,9 @@
                                                                     </Stroke>
                                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE872;</Icon>
                                                                 </Circle>
-                                                                <Rectangle Width="20" Height="50" Clicked="{deleteDoctor}">
+<!--                                                                 <Rectangle Width="20" Height="50" Clicked="{deleteDoctor}">
                                                                     <Icon Alignment="Top" FontSize="20" Color="primary" >&#xE14C;</Icon>
-                                                                </Rectangle>
+                                                                </Rectangle> -->
                                                             </StackPanel>
                                                         </DockPanel>
                                                     </Case>

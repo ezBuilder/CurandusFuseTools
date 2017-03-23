@@ -13,10 +13,10 @@ var newContact = {};
 function addContact() {
 
     if (phoneNumber.value != "" && name.value != "" && surname.value != "") {
-        name.value=encodeURIComponent(name.value);
-        surname.value=encodeURIComponent(surname.value);
+        //name.value=encodeURIComponent(name.value);
+        //surname.value=encodeURIComponent(surname.value);
 
-        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactpatient/providerId=" + UserInfo.providerId + "&phone=" + phoneNumber.value + "&firstName=" + name.value + "&lastName=" + surname.value + "&chatid=321321&roomid=321312312", {
+        fetch(activeUrl.URL + "/curandusproject/webapi/api/addcontactpatient/providerId=" + UserInfo.providerId + "&phone=" + phoneNumber.value + "&firstName=" + encodeURIComponent(name.value) + "&lastName=" + encodeURIComponent(surname.value) + "&chatid=321321&roomid=321312312", {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"
