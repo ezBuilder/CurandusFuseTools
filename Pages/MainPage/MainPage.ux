@@ -1,5 +1,4 @@
 <DefaultPage ux:Class="MainPage" >
-
     <Router ux:Dependency="router" />
     <DockPanel>
         <JavaScript File="MainPage.js" />
@@ -96,16 +95,18 @@
                                             <Each Items="{filteredItems1}">
                                                 <Match Value="{isLetter}" >
                                                     <Case Number="0" >
-                                                        <DockPanel Margin="7,1,1,0" ux:Name="contactItem" Clicked="{goToDoctorChat}">
-                                                            <WhileHovering>
-                                                                <Change contactItem.Color="divider" />
-                                                            </WhileHovering>
-                                                            <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
-                                                                <ImageFill Url="{ProfileUrl}" />
-                                                            </Circle>
-                                                            <Rectangle HitTestMode="LocalBounds" >
-                                                                <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
-                                                            </Rectangle>
+                                                        <DockPanel Margin="7,1,1,0" ux:Name="contactItem" >
+                                                            <DockPanel Clicked="{goToDoctorChat}">
+                                                                <WhileHovering>
+                                                                    <Change contactItem.Color="divider" />
+                                                                </WhileHovering>
+                                                                <Circle Height="40" Width="40" Dock="Left" Margin="12,12,0,12" Alignment="TopLeft">
+                                                                    <ImageFill Url="{ProfileUrl}" />
+                                                                </Circle>
+                                                                <Rectangle HitTestMode="LocalBounds" >
+                                                                    <Text Font="medium" Alignment="CenterLeft"  Value="{fullName}" Margin="16,0,0,0" FontSize="15" TextColor="primary_text" />
+                                                                </Rectangle>
+                                                            </DockPanel>
                                                             <StackPanel Dock="Right" Orientation="Horizontal">
                                                                 <Circle Height="30" Width="30" Dock="Left" Alignment="Center" Margin="15,0,0,0">
                                                                     <Stroke Width="2">
@@ -255,5 +256,4 @@
             </PageControl>
         </DockPanel>
     </DockPanel>
-
 </DefaultPage>
