@@ -4,8 +4,9 @@
 		var myToast = require("myToast");
 		var QConfig = require('Scripts/quickbloxConfig.js');
 		var imagePath = Observable();
-		var flag = Observable();
-
+		var flag = Observable("no_picture"); 
+		var activeUrl = require("Constants/SERVICE_URL.js");
+		imagePath.value = activeUrl.URL+"\/curandusImages"+"\/"+"Assets"+"\/"+"placeholder.png";
 		var msg = "Welcome to Curandus";
 		myToast.toastIt(msg)
 
@@ -68,6 +69,21 @@
 		    EdgeNavigator.dismiss();
 		}
 
+
+function deleteStorage() {
+    console.log("delete storage povikana 1");
+    var success = Storage.deleteSync("userInfo");
+    console.log("delete storage povikana 2");
+    Storage.write("userInfoBrojslika", activeUrl.URL+"\/curandusImages"+"\/"+"Assets"+"\/"+"placeholder.png"); 
+    console.log("delete storage povikana 3");
+    if (success) {
+        console.log("Deleted file");
+    } else {
+        console.log("An error occured!");
+    }
+}
+
+
 		module.exports = {
 		    goToAbout: goToAbout,
 		    goToEdit: goToEdit,
@@ -77,5 +93,6 @@
 		    OpenMenu: OpenMenu,
 		    closeSideMenu: closeSideMenu,
 		    imagePath:imagePath,
-		    flag:flag
+		    flag:flag,
+		    deleteStorage:deleteStorage
 		};
