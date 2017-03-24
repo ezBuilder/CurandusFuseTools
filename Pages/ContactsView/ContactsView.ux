@@ -46,7 +46,7 @@
                             <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary" />
                             <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
                             </DockPanel>
-                             </Rectangle>
+                            </Rectangle>
 
 
                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
@@ -143,7 +143,7 @@
                                                     </Stroke>
                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                 </Circle>
-                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                                                <Circle Height="30" Width="30" Dock="Left" Alignment="Center" Margin="15,0,12,0">
                                                     <Stroke Width="2">
                                                         <SolidColor Color="primary" />
                                                     </Stroke>
