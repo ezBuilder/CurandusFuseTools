@@ -24,7 +24,7 @@ contacts.authorize().then(function(status) {
                 obj.fname = names[0];
                 var lname = "";
                 obj.lname = names[1];
-                console.log(JSON.stringify(obj));
+               // console.log(JSON.stringify(obj));
                 tmpLista.push(obj);
             }
         }
