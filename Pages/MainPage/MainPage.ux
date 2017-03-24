@@ -179,7 +179,10 @@
                                                                     </Stroke>
                                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                                 </Circle>
-                                                                <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,4,0">
+
+                                                                <!-- tuka gotochat na pacientot-->
+                                                                <!-- <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,4,0"> -->
+                                                                <Circle Height="30" Width="30" Dock="Left" Alignment="Center" Margin="15,0,4,0">
                                                                     <Stroke Width="2">
                                                                         <SolidColor Color="primary" />
                                                                     </Stroke>

@@ -25,13 +25,17 @@
 					<Stroke Width="2">
 						<SolidColor Color="primary" />
 					</Stroke>
-					<Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}">&#xE0B7;</Icon>
+					<!-- tuka go to chat na pacientot -->
+					<!-- <Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}">&#xE0B7;</Icon> -->
+					<Icon Alignment="Center" FontSize="27" Color="primary" >&#xE0B7;</Icon>
 				</Circle>
 				<Circle Height="45" Width="45" Dock="Left" Color="White" Alignment="Center" Margin="5,0,0,0">
 					<Stroke Width="2">
 						<SolidColor Color="primary" />
 					</Stroke>
-					<Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}" >&#xE0D8;</Icon>
+					<!-- tuka go to chat na pacientot -->
+					<!-- <Icon Alignment="Center" FontSize="27" Color="primary" Clicked="{goToChat}" >&#xE0D8;</Icon> -->
+					<Icon Alignment="Center" FontSize="27" Color="primary" >&#xE0D8;</Icon>
 				</Circle>
 			</StackPanel>
 		</DockPanel>
