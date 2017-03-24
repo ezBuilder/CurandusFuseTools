@@ -682,7 +682,7 @@ function Insert_Treatment() {
             myToast.toastIt(show_string);
             responseObject.num = Math.random();
             router.goto("main", {
-                user: responseObject
+                user: responseObject, newContact:responseObject
             });
         }).catch(function(err) {
             console.log("Error", err.message);
