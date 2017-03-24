@@ -179,7 +179,6 @@ function getName(id) {
 
 function goToDoctorChat2(e) {
     console.log(JSON.stringify(e));
-    // return null;
     router.push("chat", {
         doctorChatRoomId2: e.data
     });

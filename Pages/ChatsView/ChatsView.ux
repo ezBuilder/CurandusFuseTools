@@ -5,7 +5,7 @@
 <ScrollView ClipToBounds="true">
     <StackPanel Orientation="Vertical">
         <Each Items="{contacts}" >
-            <DockPanel Margin="7,1,7,0" Clicked="{goToChat}" ux:Name="alertitem">
+            <DockPanel Margin="7,1,7,0" Clicked="{goToDoctorChat2}" ux:Name="alertitem">
                 <WhileHovering>
                     <Change alertitem.Color="divider" />
                 </WhileHovering>
@@ -20,7 +20,7 @@
                 </StackPanel>
 
                 <StackPanel Dock="Right"  Alignment="Center">
-                    <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,12,0">
+                    <Circle Height="30" Width="30" Dock="Left" Clicked="{goToDoctorChat2}" Alignment="Center" Margin="15,0,12,0">
                         <Stroke Width="2">
                             <SolidColor Color="primary" />
                         </Stroke>
