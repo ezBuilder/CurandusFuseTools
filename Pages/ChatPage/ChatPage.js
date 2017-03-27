@@ -31,7 +31,9 @@ this.onParameterChanged(function(param) {
         messages.replaceAll([]);
         console.log("CHAT SOBA - " + JSON.stringify(param.doctorChatRoomId2));
         RoomId = param.doctorChatRoomId2._id;
+        //FromLogedUser
         ChatId = param.doctorChatRoomId2.user_id;
+        console.log("ChatId + " + ChatId);
         console.log(RoomId);
         console.log(ChatId);
         createSession();
@@ -69,15 +71,15 @@ function getAllMesages() {
 
                 if (fromChat) {
                     if (json.items[i].sender_id == ChatId) {
-                        messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
+                        messages.add(new Message("Doctor", fulltime, json.items[i].message, "Left"));
                     } else if (json.items[i].sender_id == 25381537) {
                         messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
                     } else {
-                        messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
+                        messages.add(new Message("You", fulltime, json.items[i].message, "Right"));
                     }
                 } else {
                     if (json.items[i].sender_id == ChatId) {
-                        messages.add(new Message("Patient", fulltime, json.items[i].message, "Left"));
+                        messages.add(new Message("Doctor", fulltime, json.items[i].message, "Left"));
                     } else if (json.items[i].sender_id == 25381537) {
                         messages.add(new Message("Curandus", fulltime, json.items[i].message, "Top"));
                     } else {

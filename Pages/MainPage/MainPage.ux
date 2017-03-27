@@ -71,6 +71,26 @@
                                 </Rectangle>
                             </DockPanel>
                         </Rectangle>
+                        <Match Value="{isDoctors}" >
+                            <Case Bool="true">
+                                <Rectangle Dock="Top" Color="divider" CornerRadius="7" Width="90%" Alignment="Center" Height="40" Margin="0,0,0,10" >
+                                    <Stroke Width="1" Color="primary_light"/>
+                                    <DockPanel>
+                                        <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary" />
+                                        <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
+                                    </DockPanel>
+                                </Rectangle>
+                            </Case>
+                            <Case Bool="false">
+                                <Rectangle Dock="Top" Color="divider" CornerRadius="7" Width="90%" Alignment="Center" Height="40" Margin="0,0,0,10" >
+                                    <Stroke Width="1" Color="primary_light"/>
+                                    <DockPanel>
+                                        <TextInput Value="{searchString}" PlaceholderText="Search" PlaceholderColor="primary" />
+                                        <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
+                                    </DockPanel>
+                                </Rectangle>
+                            </Case>
+                        </Match>
                         <Rectangle Color="background_color">
                             <Match Value="{isDoctors}" >
                                 <Case Bool="true">
@@ -84,13 +104,6 @@
                                 <Case Bool="true">
                                     <ScrollView ClipToBounds="True">
                                         <StackPanel Orientation="Vertical">
-                                            <Rectangle Dock="Top" Color="divider" CornerRadius="7" Width="90%" Alignment="Center" Height="40" Margin="0,0,0,10" >
-                                                <Stroke Width="1" Color="primary_light"/>
-                                                <DockPanel>
-                                                    <TextInput  Value="{searchString1}" PlaceholderText="Search" PlaceholderColor="primary" />
-                                                    <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
-                                                </DockPanel>
-                                            </Rectangle>
                                             <PullToReload IsLoading="{isLoadingDoctors}" ReloadHandler="{reloadHandlerDoctors}"></PullToReload>
                                             <Each Items="{filteredItems1}">
                                                 <Match Value="{isLetter}" >
@@ -142,13 +155,6 @@
                                 <Case Bool="false">
                                     <ScrollView ClipToBounds="true" >
                                         <StackPanel Orientation="Vertical">
-                                            <Rectangle Dock="Top" Color="divider" CornerRadius="7" Width="90%" Alignment="Center" Height="40" Margin="0,0,0,10" >
-                                                <Stroke Width="1" Color="primary_light"/>
-                                                <DockPanel>
-                                                    <TextInput Value="{searchString}" PlaceholderText="Search" PlaceholderColor="primary" />
-                                                    <Icon FontSize="24" Color="primary" Dock="Left" Alignment="Center">&#xE8B6;</Icon>
-                                                </DockPanel>
-                                            </Rectangle>
                                             <PullToReload IsLoading="{isLoadingContacts}" ReloadHandler="{reloadHandler}"></PullToReload>
                                             <Each Items="{filteredItems}">
                                                 <Match Value="{isLetter}" >
@@ -179,7 +185,6 @@
                                                                     </Stroke>
                                                                     <Icon Alignment="Center" FontSize="20" Color="primary">&#xE0B0;</Icon>
                                                                 </Circle>
-
                                                                 <!-- tuka gotochat na pacientot-->
                                                                 <!-- <Circle Height="30" Width="30" Dock="Left" Clicked="{goToChat}" Alignment="Center" Margin="15,0,4,0"> -->
                                                                 <Circle Height="30" Width="30" Dock="Left" Alignment="Center" Margin="15,0,4,0">
