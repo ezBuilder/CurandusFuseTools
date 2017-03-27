@@ -42,7 +42,9 @@ this.onParameterChanged(function(param) {
     user.value = param.user;
 })
 
+
 function getAllMesages() {
+    var currDate = "";
     fetch('https://api.quickblox.com/chat/Message.json?chat_dialog_id=' + RoomId + '&limit=10&sort_desc=date_sent', {
             method: 'GET',
             headers: {
@@ -67,7 +69,12 @@ function getAllMesages() {
                 var min = tmpDate.getMinutes();
 
                 var fullDate = ('0' + tmpDate.getDate()).slice(-2) + '.' + ('0' + (tmpDate.getMonth() + 1)).slice(-2) + '.' + tmpDate.getFullYear();
-                var fulltime = ('0' + hours).slice(-2) + ':' + ('0' + min).slice(-2);
+                var fulltime = " at " + ('0' + hours).slice(-2) + ':' + ('0' + min).slice(-2);
+
+                if (currDate != fullDate) {
+                    messages.add(new Message(fullDate, " ", " ", "Bottom"));
+                    currDate = fullDate;
+                }
 
                 if (fromChat) {
                     if (json.items[i].sender_id == ChatId) {
@@ -212,7 +219,7 @@ function addMesageToChat() {
                 var min = tmpDate.getMinutes();
 
                 var fullDate = ('0' + tmpDate.getDate()).slice(-2) + '.' + ('0' + (tmpDate.getMonth() + 1)).slice(-2) + '.' + tmpDate.getFullYear();
-                var fulltime = ('0' + hours).slice(-2) + ':' + ('0' + min).slice(-2);
+                var fulltime = " at " + ('0' + hours).slice(-2) + ':' + ('0' + min).slice(-2);
 
                 messages.add(new Message("You", fulltime, message.value, "Right"));
                 message.value = "";
@@ -242,7 +249,7 @@ module.exports = {
     addMesageToChat: addMesageToChat,
     messages: messages.map(function(message) {
         return {
-            info: message.from + " at " + message.time,
+            info: message.from + message.time,
             text: message.text,
             dock: message.dock
         };
